@@ -1,23 +1,33 @@
 'use strict';
 
-const APP_CERT = 'app.crt';
-const APP_PEM = 'app.crt.pub';
-
 const appConfig = require('../../app-config');
 const error = require('./errors/errors');
 
 var AppError = require('./errors/app-error');
 var errorUtil = require('./errors/error-util');
 
-var redis = require('redis');
-
 var exports = {};
 
-var path = require('path');
-
 exports.DATE_FORMAT = 'yyyy-mm-dd';
-exports.DATETIME_FORMAT = 'yyyy-mm-dd hh:MM:ss';
-exports.DATETIME_MS_FORMAT = "yyyy-mm-ss hh:MM:ss L";
+exports.DATETIME_FORMAT = 'yyyy-mm-dd HH:MM:ss';
+exports.DATETIME_MS_FORMAT = 'yyyy-mm-ss HH:MM:ss L';
+exports.TIME_FORMAT = 'HH:MM:ss';
+
+exports.getDateFormat = function () {
+    let dateFormat = appConfig.dateFormat; 
+
+    if ( dateFormat ) return dateFormat;
+
+    return {
+        datetime : exports.DATETIME_FORMAT,
+        date : exports.DATE_FORMAT,
+        time : exports.TIME_FORMAT
+    };
+}
+;
+exports.getTitle = function () {
+    return appConfig.title ? appConfig.title : ''; 
+};
 
 exports.getRedis = function () {
     var redisParams = {
@@ -74,14 +84,14 @@ exports.getRedis = function () {
     }
 
     return redisParams;
-}
+};
 
 exports.getTokenExpired = function () {
     return appConfig.tokenExpired;
-}
+};
 
 exports.getLogsFolder = function () {
     return appConfig.logs;
-}
+};
 
 module.exports = exports;

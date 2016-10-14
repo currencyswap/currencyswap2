@@ -1,4 +1,5 @@
 {
+  "title" : "Currency Swap",
   "redis": {
       "host" : "localhost",
       "port" : 6379,
@@ -6,7 +7,7 @@
       "pass" : "p@55w0rd",
       "ttl"  : 3600,
       "disableTTL": false,
-      "prefix" : "nodejs-app:"
+      "prefix" : "cs-app:"
   },
   "paging" : {
       "activityLogs": 4
