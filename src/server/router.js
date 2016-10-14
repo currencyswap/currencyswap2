@@ -6,9 +6,10 @@ var routes = require('./routes').routes;
 var checker = require('./security/permission-checker');
 module.exports = function (app) {
 
-    console.log('>>> %s', path.join(__dirname , '../client'));
+    console.log('>>> %s', path.join(__dirname , '../client/app'));
 
     app.use( routes.HOME, express.static(path.join(__dirname , '../client')));
+    // app.use( routes.CLIENT, express.static(path.join(__dirname , '../client/app')));
 
     app.use(routes.API_AUTHENTICATE, require('./controllers/authenticate')(app));
     app.use(routes.API_HELLO, require('./controllers/hello')(app));

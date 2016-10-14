@@ -6,6 +6,7 @@ var exports = module.exports;
 const Routes = {
     ROOT : '/',
     HOME : '/',
+    CLIENT: '/app/',
     API : '/api',
     API_HELLO : '/api/hello',
     API_AUTHENTICATE : '/api/authenticate',
