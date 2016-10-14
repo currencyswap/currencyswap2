@@ -1,0 +1,30 @@
+{
+  "name": "MemberGroup",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "indexes": {
+    "memberId_groupId_index": {
+      "keys": "memberId, groupId",
+      "options": {
+        "unique": true
+      }
+    }
+  },
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "memberId": {
+      "type": "number",
+      "required": true
+    },
+    "groupId": {
+      "type": "number",
+      "required": true
+    }
+  },
+  "validations": [],
+  "relations": {},
+  "acls": [],
+  "methods": {}
+}

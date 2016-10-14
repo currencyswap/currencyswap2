@@ -1,0 +1,39 @@
+{
+    "permissions": [
+        {
+            "route": "{API_MY_PROFILE}",
+            "requiredPermissions": [
+                "{EDIT_PROFILE}"
+            ],
+            "isAlive": true
+        },
+        {
+            "route": "{API_USERS}",
+            "requiredPermissions": [
+                "{USER_MANAGEMENT}"
+            ],
+            "isAlive": true
+        },
+        {
+            "route": "{API_USERS_ID}",
+            "requiredPermissions": [
+                "{USER_MANAGEMENT}"
+            ],
+            "isAlive": true
+        },
+        {
+            "route": "{API_ORDERS}",
+            "requiredPermissions": [
+                "{VIEW_OWN_ORDERS}", "{MAINTAIN_OWN_ORDERS}"
+            ],
+            "isAlive": true
+        },
+        {
+            "route": "{API_ORDERS_ID}",
+            "requiredPermissions": [
+                "{VIEW_OWN_ORDERS}", "{VIEW_ALL_ORDERS}", "{MAINTAIN_OWN_ORDERS}"
+            ],
+            "isAlive": true
+        }
+    ]
+}

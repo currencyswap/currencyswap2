@@ -1,0 +1,21 @@
+{
+    "ERR_SERVER_GETS_PROBLEM": "Server gets problem !!!",
+    "ERR_REDIS_PARAMS_IS_REQUIRED" : "Redis parameter is required !!!",
+    "ERR_NO_USERNAME" : "Username is required !!!",
+    "ERR_NO_PASSWORD" : "Password is required !!!",
+    "ERR_NO_EMAIL" : "Email is required !!!",
+    "ERR_MISSING_REDIS_KEY" : "Redis key '%s' is not set.",
+    "ERR_INVALID_USER" : "Invalid User !!!",
+    "ERR_INVALID_USERNAME" : "Invalid username '%s' !!!",
+    "ERR_INVALID_PASSWORD" : "Invalid password  !!!",
+    "ERR_REDIS_GETS_PROBLEM" : "Redis server gets problems !!!",
+    "ERR_INVALID_HTTP_HEADER" : "Invalid HTTP Headers  !!!",
+    "ERR_INVALID_AUTHORIZATION_HEADER" : "Invalid Autorization Header !!!",
+    "ERR_INVALID_TOKEN_API_KEY" : "Invalid token key !!!",
+    "ERR_INVALID_TOKEN_API_KEY_FOR_USER" : "Invalid token key for %s !!!",
+    "ERR_LOGS_PARAMS_IS_REQUIRED" : "Logs parameter is required !!!",
+    "ERR_PERMISSION_DENIED" : "Permission denied !!!",
+    "ERR_INVALID_USERID" : "Invalid user Id '%s' !!!",
+    "ERR_INVALID_REQUEST_PATH" : "Invalid path '%s' !!!",
+    "ERR_INVALID_PERMISSION" :  "Invalid permission '%s' !!!"
+}

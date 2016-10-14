@@ -1,0 +1,58 @@
+{
+  "name": "Member",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "username": {
+      "type": "string",
+      "required": true,
+      "index": {
+        "unique": true
+      }
+    },
+    "email": {
+      "type": "string",
+      "required": true,
+      "index": {
+        "unique": true
+      }
+    },
+    "password": {
+      "type": "string",
+      "required": true
+    },
+    "firstName": {
+      "type": "string"
+    },
+    "lastName": {
+      "type": "string"
+    },
+    "birthday": {
+      "type": "date",
+      "postgresql": {
+        "dataType": "date",
+        "nullable": "YES"
+      }
+    },
+    "isActivated": {
+      "type": "boolean",
+      "required": true,
+      "default": false
+    }
+  },
+  "validations": [],
+  "relations": {
+    "groups": {
+      "type": "hasMany",
+      "model": "Group",
+      "foreignKey": "memberId",
+      "keyThrough": "groupId",
+      "through": "MemberGroup"
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

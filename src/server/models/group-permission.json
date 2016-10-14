@@ -1,0 +1,41 @@
+{
+  "name": "GroupPermission",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "indexes": {
+    "groupId_permissionId_index": {
+      "keys": "groupId, permissionId",
+      "options": {
+        "unique": true
+      }
+    }
+  },
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "groupId": {
+      "type": "number",
+      "required": true
+    },
+    "permissionId": {
+      "type": "number",
+      "required": true
+    }
+  },
+  "validations": [],
+  "relations": {
+    "group": {
+      "type": "belongsTo",
+      "model": "Group",
+      "foreignKey": "groupId"
+    },
+    "permission": {
+      "type": "belongsTo",
+      "model": "Permission",
+      "foreignKey": "permissionId"
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

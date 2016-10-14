@@ -1,0 +1,42 @@
+{
+  "name": "Group",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "name": {
+      "type": "string",
+      "required": true,
+      "index": {
+        "unique": true
+      }
+    },
+    "description": {
+      "type": "string"
+    },
+    "created_on": {
+      "type": "date",
+      "required": true,
+      "defaultFn": "now"
+    },
+    "updated_on": {
+      "type": "date",
+      "required": true,
+      "defaultFn": "now"
+    }
+  },
+  "validations": [],
+  "relations": {
+    "permissions": {
+      "type": "hasMany",
+      "model": "Permission",
+      "foreignKey": "groupId",
+      "through": "GroupPermission",
+      "keyThrough": "permissionId"
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

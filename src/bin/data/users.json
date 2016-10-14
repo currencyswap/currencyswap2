@@ -1,0 +1,10 @@
+{
+    "superadmin": {
+        "username": "admin",
+        "firstName": "Administrator",
+        "email": "admin@example.com",
+        "password": "p@55word",
+        "isActivated" : true,
+        "groups" : ["{ADMIN}"]
+    }
+}
