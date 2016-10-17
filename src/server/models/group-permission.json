@@ -4,7 +4,7 @@
   "idInjection": true,
   "indexes": {
     "groupId_permissionId_index": {
-      "keys": "groupId, permissionId",
+      "columns": "groupId, permissionId",
       "options": {
         "unique": true
       }
