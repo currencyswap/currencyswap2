@@ -1,6 +1,5 @@
 'use strict';
 
-const stringUtil = require('../libs/utilities/string-util');
 const permissionMap = require('./permissions');
 const permissionGroup = require('./permissions-groups');
 const messages = require('../messages/messages');
@@ -45,7 +44,7 @@ var collectPermissionItemFromPath = function (path, callback) {
     }
 
     callback(null, reqPers);
-}
+};
 
 var collectRequiredPermission = function (reqPers, callback) {
     let permissions = [];
@@ -68,7 +67,7 @@ var collectRequiredPermission = function (reqPers, callback) {
 
     callback(null, permissions);
 
-}
+};
 
 var validatePermission = function (permissions, requiredPermissions, callback) {
 
@@ -84,7 +83,7 @@ var validatePermission = function (permissions, requiredPermissions, callback) {
 
     callback(err);
 
-}
+};
 
 var checkPermissionInRequestPath = function (path, permissions, callback) {
 
@@ -105,7 +104,7 @@ var checkPermissionInRequestPath = function (path, permissions, callback) {
             callback(err);
         });
 
-}
+};
 
 exports.collectUserPermissionFormRedis = function (username, callback) {
     redis.getUserInfo(username, function ( err, user ) {
@@ -119,11 +118,11 @@ exports.collectUserPermissionFormRedis = function (username, callback) {
 
         callback( null, user );
     });
-}
+};
 
 exports.collectUserPermissionFormDB = function (username, callback) {
     userService.getUserByUsernameWithPermissions( username, callback);
-}
+};
 
 exports.collectUserPermission = function (username, callback) {
 
@@ -155,7 +154,7 @@ exports.collectUserPermission = function (username, callback) {
         }], function (err, user, permissions) {
             callback( err, user, permissions );
         });
-}
+};
 
 exports.checkPermission = function (request, response, callback) {
 
@@ -194,4 +193,5 @@ exports.checkPermission = function (request, response, callback) {
                 return response.status(403).send({ message: messages.ERR_PERMISSION_DENIED });
             }
         });
-}
+};
+
