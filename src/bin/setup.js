@@ -7,7 +7,7 @@ var users = require('./data/users');
 var userService = require('../server/services/user-service');
 var permissionService = require('../server/services/permission-service');
 var groupService = require('../server/services/group-service');
-var token = require('../server/libs/token');
+
 var async = require('async');
 var exec = require('child_process').exec;
 const appConfig = require('../server/libs/app-config');
@@ -50,7 +50,7 @@ function setupPermissions(callback) {
 
     for (let key in persGroups.Permissions) {
 
-        console.log("[%s] : %s", key, persGroups.Permissions[key]);
+        console.log('[%s] : %s', key, persGroups.Permissions[key]);
 
         permissions.push({
             name: persGroups.Permissions[key]
