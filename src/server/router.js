@@ -5,7 +5,9 @@ var auth = require('./libs/authentication');
 var routes = require('./routes').routes;
 var checker = require('./security/permission-checker');
 module.exports = function (app) {
+
     app.use( routes.HOME, express.static(path.join(__dirname , '../client')));
+    // app.use( routes.CLIENT, express.static(path.join(__dirname , '../client/app')));
 
     app.use(routes.CONFIG, require('./controllers/config')(app));
     app.use(routes.API_AUTHENTICATE, require('./controllers/authenticate')(app));
