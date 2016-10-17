@@ -19,6 +19,7 @@
     "loopback": "^2.22.0",
     "loopback-boot": "^2.6.5",
     "loopback-component-explorer": "^2.4.0",
+    "loopback-connector-mysql": "2.3.0",
     "loopback-connector-postgresql": "2.6.3",
     "loopback-datasource-juggler": "^2.39.0",
     "ms": "0.7.1",
