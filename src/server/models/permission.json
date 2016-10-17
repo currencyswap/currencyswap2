@@ -13,6 +13,13 @@
         "unique": true
       }
     },
+    "key": {
+      "type": "string",
+      "required": true,
+      "index": {
+        "unique": true
+      }
+    },
     "description": {
       "type": "string"
     },

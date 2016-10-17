@@ -53,7 +53,8 @@ function setupPermissions(callback) {
         console.log('[%s] : %s', key, persGroups.Permissions[key]);
 
         permissions.push({
-            name: persGroups.Permissions[key]
+            name: persGroups.Permissions[key],
+            key : key
         });
 
     }

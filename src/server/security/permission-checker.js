@@ -14,7 +14,21 @@ var redis = require('../libs/redis');
 
 var permissionConverter = require('../converters/permission-converter');
 
-var collectPermissionItemFromPath = function (path, callback) {
+var collectPermissionFromRules = function ( request, permissionItem ) {
+
+    for ( let idx in permissionItem.rules ) {
+        let rule = permissionItem.rules[ idx ];
+
+        if ( rule.methods.indexOf( request.method ) >= 0 && rule.isAlive ) {
+            return rule.requiredPermissions;
+        }
+    }
+
+    return null;
+
+};
+
+var collectRequiredPermissions = function ( request, callback) {
 
     let invalidPath = true;
 
@@ -28,16 +42,22 @@ var collectPermissionItemFromPath = function (path, callback) {
 
         let pattern = new UrlPattern(route);
 
-        if (pattern.match(path) != null) {
-            invalidPath = false;
-            reqPers = per.requiredPermissions;
+        if (pattern.match( request.path) != null) {
+
+            let pers = collectPermissionFromRules( request, per );
+
+            if ( pers && pers.length > 0 ) {
+                invalidPath = false;
+                reqPers = pers;
+            }
+
             break;
         }
     }
 
     if (invalidPath || !reqPers || reqPers.length <= 0) {
         let err = errorUtil.createAppError(errors.INVALID_REQUEST_PATH);
-        err.message = util.format(err.message, path);
+        err.message = util.format(err.message, request.path);
         return callback(err);
     }
 
@@ -83,13 +103,14 @@ var validatePermission = function (permissions, requiredPermissions, callback) {
 
 };
 
-var checkPermissionInRequestPath = function (path, permissions, callback) {
+var checkPermissionInRequest = function (request, permissions, callback) {
 
-    console.log('PATH %s', path);
+    console.log('PATH %s', request.path);
+    console.log('METHOD %s', request.method);
 
     async.waterfall([
         function (next) {
-            collectPermissionItemFromPath(path, next);
+            collectRequiredPermissions( request, next);
         },
         function (reqPers, next) {
             collectRequiredPermission(reqPers, next);
@@ -166,7 +187,7 @@ exports.checkPermission = function (request, response, callback) {
             exports.collectUserPermission(request.currentUser.username, next);
         },
         function (user, permissions, next) {
-            checkPermissionInRequestPath(request.path, permissions, function (err) {
+            checkPermissionInRequest(request, permissions, function (err) {
                 next(err, user, permissions);
             });
         },

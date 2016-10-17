@@ -2,38 +2,70 @@
     "permissions": [
         {
             "route": "{API_MY_PROFILE}",
-            "requiredPermissions": [
-                "{EDIT_PROFILE}"
-            ],
-            "isAlive": true
+            "rules" : [
+                {
+                    "methods" : ["GET", "PATCH"],
+                    "requiredPermissions": [
+                        "{EDIT_PROFILE}"
+                    ],
+                    "isAlive": true
+                }
+            ]            
         },
         {
             "route": "{API_USERS}",
-            "requiredPermissions": [
-                "{USER_MANAGEMENT}"
-            ],
-            "isAlive": true
+            "rules" : [
+                {
+                    "methods" : ["GET", "PUT"],
+                    "requiredPermissions": [
+                        "{USER_MANAGEMENT}"
+                    ],
+                    "isAlive": true
+                }
+            ]
         },
         {
             "route": "{API_USERS_ID}",
-            "requiredPermissions": [
-                "{USER_MANAGEMENT}"
-            ],
-            "isAlive": true
+            "rules" : [
+                {
+                    "methods" : ["GET", "PATCH", "PUT", "DELETE"],
+                    "requiredPermissions": [
+                        "{USER_MANAGEMENT}"
+                    ],
+                    "isAlive": true
+                }
+            ]
         },
         {
             "route": "{API_ORDERS}",
-            "requiredPermissions": [
-                "{VIEW_OWN_ORDERS}", "{MAINTAIN_OWN_ORDERS}"
-            ],
-            "isAlive": true
+            "rules" : [
+                {
+                    "methods" : ["GET", "PUT"],
+                    "requiredPermissions": [
+                        "{VIEW_OWN_ORDERS}", "{MAINTAIN_OWN_ORDERS}"
+                    ],
+                    "isAlive": true
+                }
+            ]
         },
         {
             "route": "{API_ORDERS_ID}",
-            "requiredPermissions": [
-                "{VIEW_OWN_ORDERS}", "{VIEW_ALL_ORDERS}", "{MAINTAIN_OWN_ORDERS}"
-            ],
-            "isAlive": true
+            "rules" : [
+                {
+                    "methods" : ["GET"],
+                    "requiredPermissions": [
+                        "{VIEW_ALL_ORDERS}"
+                    ],
+                    "isAlive": true
+                },
+                {
+                    "methods" : ["GET", "PUT", "PATCH"],
+                    "requiredPermissions": [
+                        "{VIEW_OWN_ORDERS}", "{MAINTAIN_OWN_ORDERS}"
+                    ],
+                    "isAlive": true
+                }
+            ]
         }
     ]
 }
