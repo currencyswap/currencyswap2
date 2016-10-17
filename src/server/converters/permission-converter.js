@@ -1,11 +1,6 @@
 'use strict';
 
 var exports = module.exports;
-var errorUtil = require('../libs/errors/error-util');
-var errors = require('../libs/errors/errors');
-var async = require('async');
-var appConfig = require('../libs/app-config');
-var dateFormat = require('dateformat');
 
 exports.getPermissionsFormUser = function (user) {
 
@@ -31,4 +26,4 @@ exports.getPermissionsFormUser = function (user) {
     });
 
     return permissions;
-}
+};

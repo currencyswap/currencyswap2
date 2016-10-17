@@ -1,19 +1,14 @@
 'use strict';
 
 var exports = module.exports;
-
 var errors = require('./errors/errors');
-var AppError = require('./errors/app-error');
 var errorUtil = require('./errors/error-util');
 
 var redis = require('./redis');
-const dateFormat = require('dateformat');
 const util = require('util');
 const httpHeaderUtil = require('./utilities/http-header-util');
 const token = require('./token');
 var async = require('async');
-
-var exports = module.exports;
 
 exports.authenticateByToken = function (request, response, callback) {
 
@@ -72,7 +67,7 @@ exports.authenticateByToken = function (request, response, callback) {
         }
     ], function (err) {
         if (!err) return callback();
-        console.error("ERROR [%s]: %s", err.name, err.message);
-        response.status(403).send(err.message);
+        console.error('ERROR [%s]: %s', err.name, err.message);        
+        response.status(403).send( errorUtil.getResponseError( err ) );
     });
-}
+};

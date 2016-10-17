@@ -55,6 +55,10 @@
         "code": 25,
         "message": "{ERR_INVALID_USERID}"
     },
+    "MEMBER_NO_USERID": {
+        "code": 26,
+        "message": "{ERR_NO_USERID}"
+    },
     "INVALID_TOKEN_API_KEY": {
         "code": 40,
         "message": "{ERR_INVALID_TOKEN_API_KEY}"

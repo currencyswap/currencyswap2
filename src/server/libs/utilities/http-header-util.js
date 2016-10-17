@@ -1,9 +1,7 @@
 'use strict';
 
-const BASE64 = 'base64';
 var exports = module.exports;
 const errors = require('../errors/errors');
-var AppError = require('../errors/app-error');
 var errorUtil = require('../errors/error-util');
 var stringUtil = require('./string-util');
 var async = require('async');
@@ -17,7 +15,7 @@ var getHeaderContent = function ( headerStr, headerType, callback ) {
     if ( idx < 0 ) return callback( errorUtil.createAppError( errors.INVALID_AUTHORIZATION_HEADER ) );
 
     callback( null, headerStr.substring( headerType.length ).trim() );
-}
+};
 
 var getAuthHeaderContent = function ( request, type, callback ) {
     async.waterfall( [
@@ -29,9 +27,9 @@ var getAuthHeaderContent = function ( request, type, callback ) {
         },
         function ( headerStr, next ) {
             getHeaderContent( headerStr, type, next );
-        },
+        }
     ], callback );
-}
+};
 
 exports.getAuthorizationHeader = function ( request, callback ) {
 
@@ -44,7 +42,7 @@ exports.getAuthorizationHeader = function ( request, callback ) {
     }
 
     callback( null, request.headers.authorization );
-}
+};
 
 exports.getAuthBasicHeader = function ( request, callback ) {
 
@@ -69,11 +67,12 @@ exports.getAuthBasicHeader = function ( request, callback ) {
         });
     });
 
-}
+};
 
 exports.getAuthBearerHeader = function ( request, callback ) {
     getAuthHeaderContent( request, BEARER_HEADER, function ( err, headerStr ) {
         if ( err ) return callback( err );
         return callback( null, headerStr );
     });
-}
+};
+

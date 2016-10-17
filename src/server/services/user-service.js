@@ -35,6 +35,36 @@ exports.createUser = function (user, callback) {
 
 };
 
+exports.createUsers = function (users, callback) {
+
+    for ( let idx in users ) {
+        let user = users[ idx ];
+        if (user.username === undefined) {
+            return callback(errorUtil.createAppError(errors.MEMBER_NO_USERNAME));
+        }
+
+        if (user.password === undefined) {
+            return callback(errorUtil.createAppError(errors.MEMBER_NO_PASSWORD));
+        }
+
+        if (user.email === undefined) {
+            return callback(errorUtil.createAppError(errors.MEMBER_NO_EMAIL));
+        }
+
+        user.password = md5(user.password);
+    }
+
+    app.models.Member.create(users, function (err, userObjs) {
+
+        let error = err ? errorUtil.createAppError(errors.SERVER_GET_PROBLEM) : null;
+
+        callback(error, userObjs );
+
+    });
+
+};
+
+
 exports.getUserById = function (userId, callback) {
     app.models.Member.findByUserId(userId, function (err, userObj) {
         if (err) return callback(err);

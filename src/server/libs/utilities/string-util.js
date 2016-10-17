@@ -13,15 +13,15 @@ exports.getValue = function ( key, keyMap ) {
     }
 
     return key;
-}
+};
 
 exports.getMessage = function (val) {
     return exports.getValue( val, messages );
-}
+};
 
 exports.decodeBase64 = function (base64Str) {
 
     let buff = new Buffer( base64Str, BASE64 );
 
     return buff.toString();
-}
+};

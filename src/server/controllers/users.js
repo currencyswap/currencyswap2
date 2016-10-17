@@ -1,13 +1,9 @@
 'use strict';
 
-var AppError = require('../libs/errors/app-error');
 var errors = require('../libs/errors/errors');
-var stringUtil = require('../libs/utilities/string-util');
-var messages = require('../messages/messages');
+var errorUtil = require('../libs/errors/error-util');
 var userService = require('../services/user-service');
 var userConverter = require('../converters/user-converter');
-var appConfig = require('../libs/app-config');
-var util = require('util');
 
 module.exports = function (app) {
     var router = app.loopback.Router();
@@ -21,14 +17,17 @@ module.exports = function (app) {
         var userId = req.params.id;
 
         if ( !userId ) {
-            return res.status(403).send({ message: messages.ERR_INVALID_USER });
+
+            let err = errorUtil.createAppError( errors.MEMBER_NO_USERID );
+
+            return res.status(403).send( errorUtil.getResponseError( err ) );
         }
 
         userService.getUserById( userId, function (err, userObj) {
 
             if (err) {
                 let code = err.code == errors.SERVER_GET_PROBLEM ? 500 : 406;
-                return res.status(code).send({ message: err.message });
+                return res.status(code).send( errorUtil.getResponseError( err ) );
             }
 
             return res.status(200).send( userConverter.convertUserToUserJSON( userObj ));
@@ -37,4 +36,4 @@ module.exports = function (app) {
     });
 
     return router;
-}
+};

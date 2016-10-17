@@ -17,7 +17,7 @@ exports.createGroups = function ( groups, callback ) {
         callback( err, groups);
 
     });
-}
+};
 
 exports.setupGroupPermission = function ( pairs, callback ) {
     app.models.GroupPermission.create( pairs, function (err, pairs ) {
@@ -30,7 +30,7 @@ exports.setupGroupPermission = function ( pairs, callback ) {
         callback( err, pairs);
 
     });
-}
+};
 
 exports.setupMemberGroup = function ( pairs, callback ) {
     app.models.MemberGroup.create( pairs, function (err, pairs ) {
@@ -43,4 +43,4 @@ exports.setupMemberGroup = function ( pairs, callback ) {
         callback( err, pairs);
 
     });
-}
+};

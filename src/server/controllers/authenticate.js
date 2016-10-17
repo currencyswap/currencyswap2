@@ -1,12 +1,10 @@
 'use strict';
-
-var AppError = require('../libs/errors/app-error');
-
-var stringUtil = require('../libs/utilities/string-util');
+var errorUtil = require('../libs/errors/error-util');
 var httpHeaderUtil = require('../libs/utilities/http-header-util');
 var userValidation = require('../validation/user-validation');
 var userService = require('../services/user-service');
 var async = require( 'async' );
+
 module.exports = function (app) {
     var router = app.loopback.Router();
 
@@ -30,7 +28,7 @@ module.exports = function (app) {
         ], function ( err, tokenKey ) {
 
             if ( err ) {
-                return res.status( 401 ).send( err.message );
+                return res.status( 401 ).send( errorUtil.getResponseError( err ) );
             }
             
             return res.status( 200 ).send( { 
@@ -42,4 +40,4 @@ module.exports = function (app) {
     });
 
     return router;
-}
+};

@@ -1,9 +1,5 @@
 'use strict';
 
-var AppError = require('../libs/errors/app-error');
-
-var stringUtil = require('../libs/utilities/string-util');
-
 module.exports = function (app) {
     var router = app.loopback.Router();
     
@@ -12,4 +8,4 @@ module.exports = function (app) {
     });
 
     return router;
-}
+};

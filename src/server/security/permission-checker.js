@@ -2,8 +2,6 @@
 
 const permissionMap = require('./permissions');
 const permissionGroup = require('./permissions-groups');
-const messages = require('../messages/messages');
-
 var userService = require('../services/user-service');
 var errors = require('../libs/errors/errors');
 var async = require('async');
@@ -107,64 +105,65 @@ var checkPermissionInRequestPath = function (path, permissions, callback) {
 };
 
 exports.collectUserPermissionFormRedis = function (username, callback) {
-    redis.getUserInfo(username, function ( err, user ) {
-        if ( err ) {
-            if ( err.code && err.code == errors.MISSING_REDIS_KEY.code ) {
-                return callback( null, null );
+    redis.getUserInfo(username, function (err, user) {
+        if (err) {
+            if (err.code && err.code == errors.MISSING_REDIS_KEY.code) {
+                return callback(null, null);
             }
 
-            return callback( err );
+            return callback(err);
         }
 
-        callback( null, user );
+        callback(null, user);
     });
 };
 
 exports.collectUserPermissionFormDB = function (username, callback) {
-    userService.getUserByUsernameWithPermissions( username, callback);
+    userService.getUserByUsernameWithPermissions(username, callback);
 };
 
 exports.collectUserPermission = function (username, callback) {
 
     async.waterfall([
         function (next) {
-            exports.collectUserPermissionFormRedis( username, next );
+            exports.collectUserPermissionFormRedis(username, next);
         },
-        function ( user, next) {            
-            
-            if ( user ) return next( null, user );
+        function (user, next) {
 
-            exports.collectUserPermissionFormDB( username, function ( err, user ) {
-                if ( err ) return next( err );
+            if (user) return next(null, user);
+
+            exports.collectUserPermissionFormDB(username, function (err, user) {
+                if (err) return next(err);
 
                 console.log('collectUserPermissionFormDB Setup user');
-                if ( user ) {
-                    
-                    console.log('JSON %s', JSON.stringify( user.toJSON() ) );
-                    redis.setUserInfo( user.toJSON() );
+                if (user) {
+
+                    console.log('JSON %s', JSON.stringify(user.toJSON()));
+                    redis.setUserInfo(user.toJSON());
                 }
-                
-                next( null, user );
-            } );
-        }, 
-        function ( user, next ) {
+
+                next(null, user);
+            });
+        },
+        function (user, next) {
             let permissions = permissionConverter.getPermissionsFormUser(user);
 
             next(null, user, permissions);
         }], function (err, user, permissions) {
-            callback( err, user, permissions );
+            callback(err, user, permissions);
         });
 };
 
 exports.checkPermission = function (request, response, callback) {
 
     if (!request.currentUser || !request.currentUser.username) {
-        return response.status(403).send({ message: messages.ERR_PERMISSION_DENIED });
+        let err = errorUtil.createAppError(errors.PERMISSION_DENIDED);
+        return response.status(403).send(errorUtil.getResponseError(err));
     }
 
     async.waterfall([
         function (next) {
-            exports.collectUserPermission( request.currentUser.username, next );
+            exports.collectUserPermission(request.currentUser.username, next);
         },
         function (user, permissions, next) {
             checkPermissionInRequestPath(request.path, permissions, function (err) {
@@ -186,11 +185,12 @@ exports.checkPermission = function (request, response, callback) {
 
             if (err.code == errors.SERVER_GET_PROBLEM.code ||
                 err.code == errors.INVALID_PERMISSION.code) {
-                return response.status(500).send({ message: err.message });
+                return response.status(500).send(errorUtil.getResponseError(err));
             } else if (err.code == errors.INVALID_REQUEST_PATH.code) {
-                return response.status(400).send({ message: err.message });
+                return response.status(400).send(errorUtil.getResponseError(err));
             } else {
-                return response.status(403).send({ message: messages.ERR_PERMISSION_DENIED });
+                let error = errorUtil.createAppError(errors.PERMISSION_DENIDED);
+                return response.status(403).send(errorUtil.getResponseError(error));
             }
         });
 };

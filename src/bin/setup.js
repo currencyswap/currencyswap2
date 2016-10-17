@@ -85,6 +85,17 @@ function convertObjectsToMaps(objs) {
     return map;
 }
 
+function convertUserObjectsToMaps(users) {
+
+    let map = new Map();
+
+    users.forEach(function (user) {
+        map.set(user.username, user.id);
+    });
+
+    return map;
+}
+
 function setupGroupsWithPermissions(permissions, groups, callback) {
 
     let permissionMaps = convertObjectsToMaps(permissions);
@@ -119,27 +130,41 @@ function setupGroupsWithPermissions(permissions, groups, callback) {
 
 }
 
-function setupUserGroups(groups, user, callback) {
+function setupUsersGroups(groups, userObjs, callback) {
     let groupMaps = convertObjectsToMaps(groups);
+    let userMaps = convertUserObjectsToMaps(userObjs);
     let groupUserPairs = [];
 
-    users.superadmin.groups.forEach(function (group) {
-        let groupName = persGroups.getGroup(group);
-        let groupId = groupMaps.get(groupName);
+    for (let key in users) {
 
-        if (!groupId) return;
+        let user = users[key];
+        let userId = userMaps.get(user.username);
 
-        groupUserPairs.push({
-            memberId: user.id,
-            groupId: groupId
-        });
+        console.log( 'Username : %s %s', user.username, userId );
 
-    });
+        if (!userId) continue;
+
+        for (let groupIdx in user.groups) {
+
+            let groupName = persGroups.getGroup(user.groups[groupIdx]);
+            let groupId = groupMaps.get(groupName);
+
+            console.log( 'Group %s : [%s] %s', user.username, groupName, groupId  );
+
+            if (!groupId) continue;
+
+            groupUserPairs.push({
+                memberId: userId,
+                groupId: groupId
+            });
+
+        }
+
+    }
 
     groupService.setupMemberGroup(groupUserPairs, function (err) {
         callback(err);
     });
-
 }
 
 ds.automigrate(function (err) {
@@ -161,16 +186,24 @@ ds.automigrate(function (err) {
         },
         function (permissions, groups, next) {
             setupGroupsWithPermissions(permissions, groups, function (err) {
-                next(null, groups);
+                next(err, groups);
             });
         },
+
         function (groups, next) {
-            userService.createUser(users.superadmin, function (err, user) {
-                next(err, groups, user);
+
+            let userObjs = [];
+
+            for (let key in users) {
+                userObjs.push(users[key]);
+            }
+
+            userService.createUsers(userObjs, function (err, users) {
+                next(err, groups, users);
             });
         },
-        function (groups, user, next) {
-            setupUserGroups(groups, user, function (err) {
+        function (groups, users, next) {
+            setupUsersGroups(groups, users, function (err) {
                 next(err);
             });
         },

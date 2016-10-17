@@ -15,7 +15,6 @@
 var log4js = require('log4js');
 var appConfig = require('./app-config');
 const errors = require('./errors/errors');
-var AppError = require('./errors/app-error');
 var errorUtil = require('./errors/error-util');
 
 var exports = module.exports;

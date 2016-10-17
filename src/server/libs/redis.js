@@ -4,7 +4,7 @@ var exports = module.exports;
 const appConfig = require('./app-config');
 var redis = require('redis');
 const errors = require('./errors/errors');
-var AppError = require('./errors/app-error');
+
 var errorUtil = require('./errors/error-util');
 const util = require('util');
 var ms = require('ms');
@@ -16,7 +16,7 @@ const SECRET_KEYS = 'SECRET_KEYS:';
 const SIGNATURES = 'SIGNATURES:';
 const USERINFO = 'USERINFO:';
 
-exports.setupClient = function (app) {
+exports.setupClient = function () {
 
     let redisParam = appConfig.getRedis();
 
@@ -41,7 +41,7 @@ exports.setupClient = function (app) {
 
     redisOptions.client = redisClient;
     exports.redis = redisClient;
-}
+};
 
 exports.set = function (key, value, exp) {
 
@@ -55,7 +55,7 @@ exports.set = function (key, value, exp) {
         exports.redis.setex(key, exp, value);
     }
 
-}
+};
 
 exports.remove = function (key) {
     
@@ -65,7 +65,7 @@ exports.remove = function (key) {
 
     exports.redis.del(key);
 
-}
+};
 
 exports.get = function (key, callback) {
 
@@ -91,17 +91,17 @@ exports.get = function (key, callback) {
 
         callback(null, reply);
     });
-}
+};
 
 exports.getSecretKey = function (username, callback) {
     let key = SECRET_KEYS + username;
     exports.get(key, callback);
-}
+};
 
 exports.setSecretKey = function (username, value) {
     let key = SECRET_KEYS + username;
     exports.set(key, value);
-}
+};
 
 exports.setSecretKeyBySignature = function (sign, value) {
 
@@ -111,23 +111,23 @@ exports.setSecretKeyBySignature = function (sign, value) {
 
     console.log('milisec %s', milisec);
     exports.set(key, value, milisec);
-}
+};
 
 exports.getSecretKeyBySignature = function (sign, callback) {
 
     let key = SIGNATURES + sign;
     exports.get(key, callback);
-}
+};
 
 exports.setUserInfo = function (user) {
     let key = USERINFO + user.username;
     exports.set(key, JSON.stringify(user), DEF_EXPIRED);
-}
+};
 
 exports.removeUserInfo = function (username) {
     let key = USERINFO + username;
     exports.remove(key);
-}
+};
 
 exports.getUserInfo = function (username, callback) {
     let key = USERINFO + username;
@@ -140,4 +140,4 @@ exports.getUserInfo = function (username, callback) {
         callback(err, user);
 
     });
-}
+};

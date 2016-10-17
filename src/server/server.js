@@ -22,7 +22,7 @@ function startUp() {
 
   logger.setupLogs();
 
-  redis.setupClient(app);
+  redis.setupClient();
 
   require('./router')(app);
 

@@ -15,6 +15,7 @@
     "ERR_INVALID_TOKEN_API_KEY_FOR_USER" : "Invalid token key for %s !!!",
     "ERR_LOGS_PARAMS_IS_REQUIRED" : "Logs parameter is required !!!",
     "ERR_PERMISSION_DENIED" : "Permission denied !!!",
+    "ERR_NO_USERID" : "Invalid user Id !!!",
     "ERR_INVALID_USERID" : "Invalid user Id '%s' !!!",
     "ERR_INVALID_REQUEST_PATH" : "Invalid path '%s' !!!",
     "ERR_INVALID_PERMISSION" :  "Invalid permission '%s' !!!"
