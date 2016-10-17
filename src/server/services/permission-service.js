@@ -17,4 +17,4 @@ exports.createPermissions = function ( permissions, callback ) {
         callback( err, permissions);
 
     });
-}
+};

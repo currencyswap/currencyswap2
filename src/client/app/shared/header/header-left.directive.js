@@ -48,7 +48,7 @@ angular.module('appHeader').directive('headerLeft', function () {
             name: '@',
         },
         templateUrl: 'app/shared/header/header-left.template.html',
-        controller: function ($scope, $element, $document) {
+        controller: function ( $scope, $element ) {
             $scope.title = appConfig.title;
             initDirective();
         }

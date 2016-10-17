@@ -8,9 +8,6 @@ var app = require('../server');
 var redis = require('../libs/redis');
 var token = require('../libs/token');
 var async = require('async');
-var appConfig = require('../libs/app-config');
-
-const SEC = 1000;
 
 exports.createUser = function (user, callback) {
 
@@ -36,14 +33,14 @@ exports.createUser = function (user, callback) {
 
     });
 
-}
+};
 
 exports.getUserById = function (userId, callback) {
     app.models.Member.findByUserId(userId, function (err, userObj) {
-        if (err) return next(err);
-        next(null, userObj);
+        if (err) return callback(err);
+        callback(null, userObj);
     });
-}
+};
 
 exports.getUserByUsername = function (username, callback) {
 
@@ -51,7 +48,7 @@ exports.getUserByUsername = function (username, callback) {
         if (err) return callback(err);
         callback(null, userObj);
     });
-}
+};
 
 exports.getUserByUsernameWithPermissions = function (username, callback) {
 
@@ -60,7 +57,7 @@ exports.getUserByUsernameWithPermissions = function (username, callback) {
         callback(null, userObj);
     });
 
-}
+};
 
 exports.login = function (user, callback) {
 
@@ -91,8 +88,7 @@ exports.login = function (user, callback) {
 
                 // Generate Secret Key
                 let secret = token.generateSecretKey(user.username);
-                console.log('secret-key for %s: %s', user.username, secret);
-
+                
                 // Set to redis
                 redis.setSecretKey(user.username, secret);
 
@@ -104,14 +100,11 @@ exports.login = function (user, callback) {
             let tokenKey = token.generate({ username: user.username }, secret);
 
             token.getSignature(tokenKey, function (err, sign) {
-                console.log('sign-key for %s: %s', sign, tokenKey);
                 next(err, user, secret, tokenKey, sign);
             });
 
         },
         function (user, secret, tokenKey, sign, next) {
-
-            console.log("setSecretKeyBySignature %s", sign);
             redis.setSecretKeyBySignature(sign, JSON.stringify({ username: user.username, secret: secret }));
             next(null, tokenKey);
         }
