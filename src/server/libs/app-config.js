@@ -94,4 +94,9 @@ exports.getLogsFolder = function () {
     return appConfig.logs;
 };
 
+exports.getSMTP = function () {
+    return appConfig.smtp;
+};
+
+
 module.exports = exports;
