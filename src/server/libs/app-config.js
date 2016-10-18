@@ -96,21 +96,22 @@ exports.getLogsFolder = function () {
 
 exports.getSMTPOptions = function () {
 
-    if (!appConfig.smtp || !appConfig.smtp.host) {
+    if (!appConfig.smtp || (!appConfig.smtp.host && !appConfig.smtp.service)) {
         return null;
     }
 
-    let options = {
-        host: appConfig.smtp.host
-    };
+    let options = {};
+
+    if ( appConfig.smtp.host ) options.host = appConfig.smtp.host;
+    if ( appConfig.smtp.service ) options.service = appConfig.smtp.service;
 
     if (appConfig.smtp.port) options.port = appConfig.smtp.port;
 
     if (appConfig.smtp.auth) options.auth = appConfig.smtp.auth;
     else if (appConfig.smtp.username && appConfig.smtp.password) {
         options.auth = {
-            username: appConfig.smtp.username,
-            password: appConfig.smtp.password
+            user: appConfig.smtp.username,
+            pass: appConfig.smtp.password
         };
     }
 
