@@ -169,6 +169,8 @@ exports.collectUserPermission = function (username, callback) {
         function (user, next) {
             let permissions = permissionConverter.getPermissionsFormUser(user);
 
+            console.log( 'PERMISSION %s', JSON.stringify( permissions ) );
+
             next(null, user, permissions);
         }], function (err, user, permissions) {
             callback(err, user, permissions);

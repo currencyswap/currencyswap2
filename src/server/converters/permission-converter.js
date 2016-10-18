@@ -5,7 +5,7 @@ var exports = module.exports;
 exports.getPermissionsFormUser = function (user) {
 
     let userObj = null;
-    let permissions = [];
+    let permissions = {};
 
     if (typeof user.toJSON == 'function') {
         userObj = user.toJSON();
@@ -17,9 +17,11 @@ exports.getPermissionsFormUser = function (user) {
 
         group.permissions.forEach(function (permission) {
 
-            if (permissions.indexOf(permission.name) < 0) {
-                permissions.push(permission.name);
-            }
+            // if (permissions.indexOf(permission.name) < 0) {
+            //     permissions.push(permission.name);
+            // }
+
+            permissions[ permission.key ] = permission.name;
 
         });
 
