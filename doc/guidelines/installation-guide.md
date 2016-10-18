@@ -20,11 +20,15 @@ Edit __src/app-config.json__ to adapt with your environment
 ### For Ubuntu
 
 ```sh
-$ src/scripts/setup.sh
+$ cd src
+$ npm install
+$ scripts/setup.sh
 ```
 ### For Windows
 
 ```sh
+$ cd src
+$ npm install
 $ node ./bin/setup.js
 ```
 

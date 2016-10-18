@@ -9,6 +9,10 @@
       "disableTTL": false,
       "prefix" : "cs-app:"
   },
+  "smtp" : {
+      "host" : "72.249.191.25",
+      "port": 25
+  },
   "paging" : {
       "activityLogs": 4
   },
