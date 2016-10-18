@@ -9,7 +9,7 @@ module.exports = function (app) {
     var router = app.loopback.Router();
 
     router.get('/', function (req, res) {
-        res.status(200).send({ message : 'pong' });
+        res.status(200).send(req.currentUser.permissions);
     });
 
     return router;
