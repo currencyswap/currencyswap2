@@ -14,12 +14,12 @@ var redis = require('../libs/redis');
 
 var permissionConverter = require('../converters/permission-converter');
 
-var collectPermissionFromRules = function ( request, permissionItem ) {
+var collectPermissionFromRules = function (request, permissionItem) {
 
-    for ( let idx in permissionItem.rules ) {
-        let rule = permissionItem.rules[ idx ];
+    for (let idx in permissionItem.rules) {
+        let rule = permissionItem.rules[idx];
 
-        if ( rule.methods.indexOf( request.method ) >= 0 && rule.isAlive ) {
+        if (rule.methods.indexOf(request.method) >= 0 && rule.isAlive) {
             return rule.requiredPermissions;
         }
     }
@@ -28,7 +28,7 @@ var collectPermissionFromRules = function ( request, permissionItem ) {
 
 };
 
-var collectRequiredPermissions = function ( request, callback) {
+var collectRequiredPermissions = function (request, callback) {
 
     let invalidPath = true;
 
@@ -42,11 +42,11 @@ var collectRequiredPermissions = function ( request, callback) {
 
         let pattern = new UrlPattern(route);
 
-        if (pattern.match( request.path) != null) {
+        if (pattern.match(request.path) != null) {
 
-            let pers = collectPermissionFromRules( request, per );
+            let pers = collectPermissionFromRules(request, per);
 
-            if ( pers && pers.length > 0 ) {
+            if (pers && pers.length > 0) {
                 invalidPath = false;
                 reqPers = pers;
             }
@@ -110,7 +110,7 @@ var checkPermissionInRequest = function (request, permissions, callback) {
 
     async.waterfall([
         function (next) {
-            collectRequiredPermissions( request, next);
+            collectRequiredPermissions(request, next);
         },
         function (reqPers, next) {
             collectRequiredPermission(reqPers, next);
@@ -187,6 +187,13 @@ exports.checkPermission = function (request, response, callback) {
             exports.collectUserPermission(request.currentUser.username, next);
         },
         function (user, permissions, next) {
+
+            if (!user.isActivated) {
+                let err = errorUtil.createAppError(errors.USER_IS_NOT_AVAILABLE);
+                err.message = util.format(err.message, request.currentUser.username);
+                return next(err);
+            }
+
             checkPermissionInRequest(request, permissions, function (err) {
                 next(err, user, permissions);
             });
@@ -209,6 +216,8 @@ exports.checkPermission = function (request, response, callback) {
                 return response.status(500).send(errorUtil.getResponseError(err));
             } else if (err.code == errors.INVALID_REQUEST_PATH.code) {
                 return response.status(400).send(errorUtil.getResponseError(err));
+            } else if (err.code == errors.USER_IS_NOT_AVAILABLE.code) {
+                return response.status(403).send(errorUtil.getResponseError(err));
             } else {
                 let error = errorUtil.createAppError(errors.PERMISSION_DENIDED);
                 return response.status(403).send(errorUtil.getResponseError(error));
