@@ -66,6 +66,19 @@
                     "isAlive": true
                 }
             ]
+        },
+        {
+            "route": "{API_PERMISSIONS}",
+            "rules" : [
+                {
+                    "methods" : ["GET"],
+                    "requiredPermissions": [
+                        "{VIEW_OWN_PERMISSION}"
+                    ],
+                    "isAlive": true
+                }
+            ]
         }
+
     ]
 }

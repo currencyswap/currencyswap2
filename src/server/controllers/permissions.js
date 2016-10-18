@@ -9,8 +9,7 @@ module.exports = function (app) {
     var router = app.loopback.Router();
 
     router.get('/', function (req, res) {
-        // Step 1: Check if user is active or not
-        // Step 2:
+        res.status(200).send({ message : 'pong' });
     });
 
     return router;
