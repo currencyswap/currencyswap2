@@ -18,5 +18,6 @@
     "ERR_NO_USERID" : "Invalid user Id !!!",
     "ERR_INVALID_USERID" : "Invalid user Id '%s' !!!",
     "ERR_INVALID_REQUEST_PATH" : "Invalid path '%s' !!!",
-    "ERR_INVALID_PERMISSION" :  "Invalid permission '%s' !!!"
+    "ERR_INVALID_PERMISSION" :  "Invalid permission '%s' !!!",
+    "ERR_USER_IS_NOT_AVAILABLE" : "User '%s' is not available. Please contact with Admin."
 }

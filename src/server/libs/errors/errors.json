@@ -74,5 +74,9 @@
     "PERMISSION_DENIDED" : {
         "code": 61,
         "message": "{ERR_PERMISSION_DENIED}"        
+    },
+    "USER_IS_NOT_AVAILABLE" : {
+        "code": 62,
+        "message": "{ERR_USER_IS_NOT_AVAILABLE}"        
     }
 }
