@@ -24,10 +24,7 @@
       "type": "string",
       "required": true
     },
-    "firstName": {
-      "type": "string"
-    },
-    "lastName": {
+    "fullName": {
       "type": "string"
     },
     "birthday": {
@@ -37,7 +34,28 @@
         "nullable": "YES"
       }
     },
+    "nationalId": {
+      "type": "string"
+    },
+    "cellphone": {
+      "type": "string"
+    },
+    "profession": {
+      "type": "string"
+    },
+    "expiredDate": {
+      "type": "date",
+      "postgresql": {
+        "dataType": "date",
+        "nullable": "YES"
+      }
+    },
     "isActivated": {
+      "type": "boolean",
+      "required": true,
+      "default": false
+    },
+    "isBlocked": {
       "type": "boolean",
       "required": true,
       "default": false
@@ -51,6 +69,11 @@
       "foreignKey": "memberId",
       "keyThrough": "groupId",
       "through": "MemberGroup"
+    },
+    "addresses": {
+      "type": "hasMany",
+      "model": "Address",
+      "foreignKey": "memberId"
     }
   },
   "acls": [],

@@ -25,43 +25,71 @@ exports.createUser = function (user, callback) {
 
     user.password = md5(user.password);
 
-    app.models.Member.create(user, function (err, instance) {
+    async.waterfall([
+        function (next) {
+            app.models.Member.create(user, function (err, instance) {
+                next(err, instance);
+            });
+        },
+        function (instance, next) {
 
+            if (!user.addresses || user.addresses.lengh <= 0) {
+                return next(null, instance);
+            }
+
+            user.addresses.forEach(function (addr) {
+                addr.memberId = instance.id;
+            });
+
+            instance.addresses.create(user.addresses, function (err) {
+                next(err, instance);
+            });
+
+        },
+        function (instance, next) {
+            if (!user.groups || user.groups.lengh <= 0) {
+                return next(null, instance);
+            }
+
+            let userGrps = [];
+
+            user.groups.forEach(function (grp) {
+
+                if (!grp.id) return;
+
+                userGrps.push({
+                    memberId: instance.id,
+                    groupId: grp.id
+                });
+            });
+
+            app.models.MemberGroup.create(userGrps, function (err) {
+                next(err, instance);
+            });
+
+        }
+    ], function (err, instance) {
+        if (err) console.error('ERROR [%s]: %s', err.name, err.message);
         let error = err ? errorUtil.createAppError(errors.SERVER_GET_PROBLEM) : null;
-
         callback(error, instance);
-
     });
-
 };
 
 exports.createUsers = function (users, callback) {
 
-    for ( let idx in users ) {
-        let user = users[ idx ];
-        if (user.username === undefined) {
-            return callback(errorUtil.createAppError(errors.MEMBER_NO_USERNAME));
-        }
+    let userObjs = [];
 
-        if (user.password === undefined) {
-            return callback(errorUtil.createAppError(errors.MEMBER_NO_PASSWORD));
-        }
+    async.eachSeries(users, function (user, next) {
 
-        if (user.email === undefined) {
-            return callback(errorUtil.createAppError(errors.MEMBER_NO_EMAIL));
-        }
+        exports.createUser(user, function (err, instance) {
+            if (err || !instance) return next(err, instance);
+            userObjs.push(instance);
+            next(null, instance);
+        });
 
-        user.password = md5(user.password);
-    }
-
-    app.models.Member.create(users, function (err, userObjs) {
-
-        let error = err ? errorUtil.createAppError(errors.SERVER_GET_PROBLEM) : null;
-
-        callback(error, userObjs );
-
+    }, function (err) {
+        callback(err, userObjs);
     });
-
 };
 
 
@@ -118,7 +146,7 @@ exports.login = function (user, callback) {
 
                 // Generate Secret Key
                 let secret = token.generateSecretKey(user.username);
-                
+
                 // Set to redis
                 redis.setSecretKey(user.username, secret);
 

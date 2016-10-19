@@ -54,7 +54,7 @@ function setupPermissions(callback) {
 
         permissions.push({
             name: persGroups.Permissions[key],
-            key : key
+            key: key
         });
 
     }
@@ -81,17 +81,6 @@ function convertObjectsToMaps(objs) {
     let map = new Map();
     objs.forEach(function (obj) {
         map.set(obj.name, obj.id);
-    });
-
-    return map;
-}
-
-function convertUserObjectsToMaps(users) {
-
-    let map = new Map();
-
-    users.forEach(function (user) {
-        map.set(user.username, user.id);
     });
 
     return map;
@@ -131,41 +120,19 @@ function setupGroupsWithPermissions(permissions, groups, callback) {
 
 }
 
-function setupUsersGroups(groups, userObjs, callback) {
-    let groupMaps = convertObjectsToMaps(groups);
-    let userMaps = convertUserObjectsToMaps(userObjs);
-    let groupUserPairs = [];
+function getGroup(groupKey, groupMaps) {
+    let groupName = persGroups.getGroup(groupKey);
 
-    for (let key in users) {
+    if (!groupName) return null;
 
-        let user = users[key];
-        let userId = userMaps.get(user.username);
+    let groupId = groupMaps.get(groupName);
 
-        console.log( 'Username : %s %s', user.username, userId );
+    if (!groupId) return null;
 
-        if (!userId) continue;
-
-        for (let groupIdx in user.groups) {
-
-            let groupName = persGroups.getGroup(user.groups[groupIdx]);
-            let groupId = groupMaps.get(groupName);
-
-            console.log( 'Group %s : [%s] %s', user.username, groupName, groupId  );
-
-            if (!groupId) continue;
-
-            groupUserPairs.push({
-                memberId: userId,
-                groupId: groupId
-            });
-
-        }
-
-    }
-
-    groupService.setupMemberGroup(groupUserPairs, function (err) {
-        callback(err);
-    });
+    return {
+        id: groupId,
+        name: groupName
+    };
 }
 
 ds.automigrate(function (err) {
@@ -190,25 +157,39 @@ ds.automigrate(function (err) {
                 next(err, groups);
             });
         },
-
         function (groups, next) {
+            let groupMaps = convertObjectsToMaps(groups);
+
 
             let userObjs = [];
 
             for (let key in users) {
-                userObjs.push(users[key]);
+
+                let user = users[key];
+                let groupObjs = [];
+
+                for (let key in user.groups) {
+                    let grp = getGroup(user.groups[key], groupMaps);
+
+                    if (grp) groupObjs.push(grp);
+
+                }
+
+                user.groups = groupObjs;
+
+                console.log('USER %s', JSON.stringify(user));
+
+                userObjs.push(user);
             }
 
+            next(null, userObjs);
+        },
+        function (userObjs, next) {
             userService.createUsers(userObjs, function (err, users) {
-                next(err, groups, users);
+                next(err, users);
             });
         },
-        function (groups, users, next) {
-            setupUsersGroups(groups, users, function (err) {
-                next(err);
-            });
-        },
-        function (next) {
+        function ( users, next) {
             cleanUpCache(next);
         }
     ], function (err) {

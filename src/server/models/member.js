@@ -25,14 +25,23 @@ module.exports = function (Member) {
 
         let where = {
             id: userId
-        }
+        };
 
         if (isActivated !== undefined && isActivated !== null) {
             where.isActivated = isActivated;
         }
 
+        let includeGroups = {
+            relation: 'groups'
+        };
+
+        let includeAddresses = {
+            relation: 'addresses'
+        };
+
         let filter = {
-            where: where
+            where: where,
+            include: [includeGroups, includeAddresses]
         };
 
         Member.findOne(filter, function (err, user) {
@@ -49,7 +58,7 @@ module.exports = function (Member) {
 
             callback(null, user);
         });
-    }
+    };
 
     Member.findByUsername = function (username, isActivated, callback) {
 
@@ -60,14 +69,23 @@ module.exports = function (Member) {
 
         let where = {
             username: username
-        }
+        };
 
         if (isActivated !== undefined && isActivated !== null) {
             where.isActivated = isActivated;
         }
 
+        let includeGroups = {
+            relation: 'groups'
+        };
+
+        let includeAddresses = {
+            relation: 'addresses'
+        };
+
         let filter = {
-            where: where
+            where: where,
+            include: [includeGroups, includeAddresses]
         };
 
         Member.findOne(filter, function (err, user) {
@@ -84,12 +102,12 @@ module.exports = function (Member) {
 
             callback(null, user);
         });
-    }
+    };
 
     Member.findByUsernameWithPermissions = function (username, callback) {
         let where = {
             username: username,
-            isActivated : true
+            isActivated: true
         };
 
         let includeGroups = {
@@ -100,9 +118,9 @@ module.exports = function (Member) {
         };
 
         let filter = {
-            where : where,
-            include : includeGroups
-        } 
+            where: where,
+            include: includeGroups
+        };
 
         Member.findOne(filter, function (err, user) {
 
@@ -118,6 +136,6 @@ module.exports = function (Member) {
 
             callback(null, user);
         });
-    }
+    };
 
 };
