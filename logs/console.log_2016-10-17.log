@@ -1,0 +1,73 @@
+[2016-10-17 13:08:13.364] [INFO] console - Web server listening at: http://0.0.0.0:3000
+[2016-10-17 13:08:13.366] [INFO] console - Browse your REST API at http://0.0.0.0:3000/explorer
+[2016-10-17 13:08:13.398] [ERROR] console - Connection fails: Error: ER_BAD_DB_ERROR: Unknown database 'NodeJSAppDB'
+It will be retried for the next request.
+[2016-10-17 13:18:45.592] [INFO] console - Web server listening at: http://0.0.0.0:3000
+[2016-10-17 13:18:45.594] [INFO] console - Browse your REST API at http://0.0.0.0:3000/explorer
+[2016-10-17 13:22:52.940] [ERROR] console - { [Error: ER_KEY_COLUMN_DOES_NOT_EXITS: Key column 'undefined' doesn't exist in table]
+  code: 'ER_KEY_COLUMN_DOES_NOT_EXITS',
+  errno: 1072,
+  sqlState: '42000',
+  index: 0 }
+Error: ER_KEY_COLUMN_DOES_NOT_EXITS: Key column 'undefined' doesn't exist in table
+    at Query.Sequence._packetToError (/home/dqlgnoleht/Working/Projects/Thanh-CurrencySwap/src/node_modules/mysql/lib/protocol/sequences/Sequence.js:51:14)
+    at Query.ErrorPacket (/home/dqlgnoleht/Working/Projects/Thanh-CurrencySwap/src/node_modules/mysql/lib/protocol/sequences/Query.js:83:18)
+    at Protocol._parsePacket (/home/dqlgnoleht/Working/Projects/Thanh-CurrencySwap/src/node_modules/mysql/lib/protocol/Protocol.js:280:23)
+    at Parser.write (/home/dqlgnoleht/Working/Projects/Thanh-CurrencySwap/src/node_modules/mysql/lib/protocol/Parser.js:74:12)
+    at Protocol.write (/home/dqlgnoleht/Working/Projects/Thanh-CurrencySwap/src/node_modules/mysql/lib/protocol/Protocol.js:39:16)
+    at Socket.<anonymous> (/home/dqlgnoleht/Working/Projects/Thanh-CurrencySwap/src/node_modules/mysql/lib/Connection.js:109:28)
+    at emitOne (events.js:77:13)
+    at Socket.emit (events.js:169:7)
+    at readableAddChunk (_stream_readable.js:153:18)
+    at Socket.Readable.push (_stream_readable.js:111:10)
+    --------------------
+    at Protocol._enqueue (/home/dqlgnoleht/Working/Projects/Thanh-CurrencySwap/src/node_modules/mysql/lib/protocol/Protocol.js:141:48)
+    at PoolConnection.query (/home/dqlgnoleht/Working/Projects/Thanh-CurrencySwap/src/node_modules/mysql/lib/Connection.js:214:25)
+    at runQuery (/home/dqlgnoleht/Working/Projects/Thanh-CurrencySwap/src/node_modules/loopback-connector-mysql/lib/mysql.js:183:16)
+    at executeWithConnection (/home/dqlgnoleht/Working/Projects/Thanh-CurrencySwap/src/node_modules/loopback-connector-mysql/lib/mysql.js:225:7)
+    at Ping.onOperationComplete [as _callback] (/home/dqlgnoleht/Working/Projects/Thanh-CurrencySwap/src/node_modules/mysql/lib/Pool.js:108:5)
+    at Ping.Sequence.end (/home/dqlgnoleht/Working/Projects/Thanh-CurrencySwap/src/node_modules/mysql/lib/protocol/sequences/Sequence.js:85:24)
+    at Ping.Sequence.OkPacket (/home/dqlgnoleht/Working/Projects/Thanh-CurrencySwap/src/node_modules/mysql/lib/protocol/sequences/Sequence.js:94:8)
+    at Protocol._parsePacket (/home/dqlgnoleht/Working/Projects/Thanh-CurrencySwap/src/node_modules/mysql/lib/protocol/Protocol.js:280:23)
+    at Parser.write (/home/dqlgnoleht/Working/Projects/Thanh-CurrencySwap/src/node_modules/mysql/lib/protocol/Parser.js:74:12)
+    at Protocol.write (/home/dqlgnoleht/Working/Projects/Thanh-CurrencySwap/src/node_modules/mysql/lib/protocol/Protocol.js:39:16)
+[2016-10-17 13:26:40.133] [ERROR] console - { [Error: ER_KEY_COLUMN_DOES_NOT_EXITS: Key column 'undefined' doesn't exist in table]
+  code: 'ER_KEY_COLUMN_DOES_NOT_EXITS',
+  errno: 1072,
+  sqlState: '42000',
+  index: 0 }
+Error: ER_KEY_COLUMN_DOES_NOT_EXITS: Key column 'undefined' doesn't exist in table
+    at Query.Sequence._packetToError (/home/dqlgnoleht/Working/Projects/Thanh-CurrencySwap/src/node_modules/mysql/lib/protocol/sequences/Sequence.js:51:14)
+    at Query.ErrorPacket (/home/dqlgnoleht/Working/Projects/Thanh-CurrencySwap/src/node_modules/mysql/lib/protocol/sequences/Query.js:83:18)
+    at Protocol._parsePacket (/home/dqlgnoleht/Working/Projects/Thanh-CurrencySwap/src/node_modules/mysql/lib/protocol/Protocol.js:280:23)
+    at Parser.write (/home/dqlgnoleht/Working/Projects/Thanh-CurrencySwap/src/node_modules/mysql/lib/protocol/Parser.js:74:12)
+    at Protocol.write (/home/dqlgnoleht/Working/Projects/Thanh-CurrencySwap/src/node_modules/mysql/lib/protocol/Protocol.js:39:16)
+    at Socket.<anonymous> (/home/dqlgnoleht/Working/Projects/Thanh-CurrencySwap/src/node_modules/mysql/lib/Connection.js:109:28)
+    at emitOne (events.js:77:13)
+    at Socket.emit (events.js:169:7)
+    at readableAddChunk (_stream_readable.js:153:18)
+    at Socket.Readable.push (_stream_readable.js:111:10)
+    --------------------
+    at Protocol._enqueue (/home/dqlgnoleht/Working/Projects/Thanh-CurrencySwap/src/node_modules/mysql/lib/protocol/Protocol.js:141:48)
+    at PoolConnection.query (/home/dqlgnoleht/Working/Projects/Thanh-CurrencySwap/src/node_modules/mysql/lib/Connection.js:214:25)
+    at runQuery (/home/dqlgnoleht/Working/Projects/Thanh-CurrencySwap/src/node_modules/loopback-connector-mysql/lib/mysql.js:183:16)
+    at executeWithConnection (/home/dqlgnoleht/Working/Projects/Thanh-CurrencySwap/src/node_modules/loopback-connector-mysql/lib/mysql.js:225:7)
+    at Ping.onOperationComplete [as _callback] (/home/dqlgnoleht/Working/Projects/Thanh-CurrencySwap/src/node_modules/mysql/lib/Pool.js:108:5)
+    at Ping.Sequence.end (/home/dqlgnoleht/Working/Projects/Thanh-CurrencySwap/src/node_modules/mysql/lib/protocol/sequences/Sequence.js:85:24)
+    at Ping.Sequence.OkPacket (/home/dqlgnoleht/Working/Projects/Thanh-CurrencySwap/src/node_modules/mysql/lib/protocol/sequences/Sequence.js:94:8)
+    at Protocol._parsePacket (/home/dqlgnoleht/Working/Projects/Thanh-CurrencySwap/src/node_modules/mysql/lib/protocol/Protocol.js:280:23)
+    at Parser.write (/home/dqlgnoleht/Working/Projects/Thanh-CurrencySwap/src/node_modules/mysql/lib/protocol/Parser.js:74:12)
+    at Protocol.write (/home/dqlgnoleht/Working/Projects/Thanh-CurrencySwap/src/node_modules/mysql/lib/protocol/Protocol.js:39:16)
+[2016-10-17 13:45:49.097] [INFO] console - Web server listening at: http://0.0.0.0:3000
+[2016-10-17 13:45:49.099] [INFO] console - Browse your REST API at http://0.0.0.0:3000/explorer
+[2016-10-17 14:18:43.637] [INFO] console - [VIEW_OWN_ORDERS] : View own orders
+[2016-10-17 14:18:43.640] [INFO] console - [MAINTAIN_OWN_ORDERS] : Maintain own orders
+[2016-10-17 14:18:43.641] [INFO] console - [VIEW_ALL_ORDERS] : View all orders
+[2016-10-17 14:18:43.641] [INFO] console - [EDIT_PROFILE] : Edit Profile
+[2016-10-17 14:18:43.642] [INFO] console - [USER_MANAGEMENT] : User Management
+[2016-10-17 14:18:43.642] [INFO] console - [VIEW_OWN_NOTIFICATIONS] : View own notifications
+[2016-10-17 14:18:44.257] [INFO] console - Clean Up Cache done.
+[2016-10-17 14:19:02.608] [INFO] console - Web server listening at: http://0.0.0.0:3000
+[2016-10-17 14:19:02.610] [INFO] console - Browse your REST API at http://0.0.0.0:3000/explorer
+[2016-10-17 15:08:59.622] [INFO] console - Web server listening at: http://0.0.0.0:3000
+[2016-10-17 15:08:59.624] [INFO] console - Browse your REST API at http://0.0.0.0:3000/explorer

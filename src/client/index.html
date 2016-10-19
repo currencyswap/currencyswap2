@@ -22,7 +22,14 @@
   <script src="app/shared/header/left-panel.directive.js"></script>
   <script src="app/shared/header/page-header.directive.js"></script>    
   <script src="app/app.module.js"></script>
-  <script src="config/setting.js"></script>  
+  <script src="app/app.routes.js"></script>
+  <script src="config/setting.js"></script>
+
+  <!--Long's code-->
+  <script src="app/components/login/login.module.js"></script>
+  <script src="app/components/login/login.component.js"></script>
+  <!--end-->
+
   <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
   <!--[if lt IE 9]>
   <script src="assets/js/html5shiv.js"></script>
@@ -33,23 +40,23 @@
 <body class="horizontal-menu">
 <section>
   
-  <left-panel></left-panel>
+  <left-panel ng-hide="loggedIn === true"></left-panel>
   
   <div class="mainpanel">
     
-    <div class="headerbar">
+    <div class="headerbar" ng-hide="loggedIn === true">
       <header-left></header-left>
       <header-right></header-right>
     </div><!-- headerbar -->
 
-    <page-header></page-header>
+    <page-header ng-hide="loggedIn === true"></page-header>
     
     <div class="contentpanel">
       <!-- content goes here... -->
       <div ng-view></div>
+
     </div>
-    
-  </div><!-- mainpanel -->  
+  </div><!-- mainpanel -->
 </section>
 
 <script src="assets/js/jquery-1.11.1.min.js"></script>
