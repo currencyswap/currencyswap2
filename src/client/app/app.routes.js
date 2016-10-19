@@ -6,9 +6,9 @@ angular.
     function config($locationProvider, $routeProvider) {
       $locationProvider.hashPrefix('!');
       $routeProvider.
-        when('/login', {
+        when( routes.LOGIN, {
           template: '<login-form></login-form>'
         }).
-        otherwise('/login');
+        otherwise('');
     }
   ]);

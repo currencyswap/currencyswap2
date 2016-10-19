@@ -1,6 +1,7 @@
 'use strict';
 
 var appConfig = require('../libs/app-config');
+var routes = require('../routes').routes;
 var util = require('util');
 
 module.exports = function (app) {
@@ -17,8 +18,24 @@ module.exports = function (app) {
         var jsContent = util.format('window.appConfig = %s;', JSON.stringify(config));
 
         res.setHeader('Content-Type', 'application/javascript');
-        res.end(new Buffer( jsContent, 'binary'));
+        res.end(new Buffer(jsContent, 'binary'));
 
+    });
+
+    router.get('/api-routes.js', function (req, res) {
+
+        let apiRoutes = {};
+
+        for (let key in routes) {
+            if (routes[key] !== routes.API && routes[key].indexOf(routes.API) == 0) {
+                apiRoutes[key] = routes[key];
+            }
+        }
+
+        var jsContent = util.format('window.apiRoutes = %s;', JSON.stringify(apiRoutes));
+
+        res.setHeader('Content-Type', 'application/javascript');
+        res.end(new Buffer(jsContent, 'binary'));
     });
 
     return router;
