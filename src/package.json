@@ -23,6 +23,8 @@
     "loopback-connector-postgresql": "2.6.3",
     "loopback-datasource-juggler": "^2.39.0",
     "ms": "0.7.1",
+    "nodemailer": "2.6.4",
+    "nodemailer-smtp-transport": "2.7.2",
     "redis": "2.6.2",
     "serve-favicon": "^2.0.1",
     "url-pattern": "1.0.1",

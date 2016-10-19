@@ -10,7 +10,7 @@
                     ],
                     "isAlive": true
                 }
-            ]            
+            ]
         },
         {
             "route": "{API_USERS}",

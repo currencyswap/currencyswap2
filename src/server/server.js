@@ -1,6 +1,7 @@
 var loopback = require('loopback');
 var boot = require('loopback-boot');
 var redis = require('./libs/redis');
+var mailSender = require('./libs/mail-sender');
 var logger = require('./libs/logger');
 
 var app = module.exports = loopback();
@@ -23,6 +24,10 @@ function startUp() {
   logger.setupLogs();
 
   redis.setupClient();
+
+  mailSender.initMailSender(function (err) {
+    if (err) console.error(err.message);
+  });
 
   require('./router')(app);
 
