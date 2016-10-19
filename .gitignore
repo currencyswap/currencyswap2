@@ -6,3 +6,6 @@
 *.DS_Store
 *.editorconfig
 *.vscode
+*logs
+*logs*
+*swp
