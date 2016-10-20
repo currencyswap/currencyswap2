@@ -4,15 +4,18 @@ var appConfig = require('../libs/app-config');
 var routes = require('../routes').routes;
 var util = require('util');
 var errors = require('../libs/errors/errors');
+var ms = require('ms');
 module.exports = function (app) {
     var router = app.loopback.Router();
 
     router.get('/setting.js', function (req, res) {
 
+        let miliseconds = ms( appConfig.getTokenExpired() );
+
         let config = {
             title: appConfig.getTitle(),
             dateFormat: appConfig.getDateFormat(),
-            cookieExpried: appConfig.getTokenExpired()
+            cookieExpried: miliseconds
         };
 
         var jsContent = util.format('window.appConfig = %s;', JSON.stringify(config));

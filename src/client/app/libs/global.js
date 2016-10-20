@@ -2,6 +2,7 @@
 
 var global = {
     TOKEN : 'token-api',
+    CURRENT_USER : 'currentUser',
     DELIMITER: ':',
     MENUBAR : 'Menu-Bar',
     TOOLSBAR : 'Tools-Bar',
