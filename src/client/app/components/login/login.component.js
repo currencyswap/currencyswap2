@@ -3,9 +3,19 @@
 angular.module('loginForm')
     .component('loginForm', {
         templateUrl: 'app/components/login/login.template.html',
-        controller: ['$scope', '$rootScope', '$http', 'LoginService', '$location', '$cookies', 'ERROR_MSG', function loginController($scope, $rootScope, $http, LoginService, $location, $cookies, ERROR_MSG) {
+        controller: [   '$scope', 
+                        '$rootScope', 
+                        '$http', 
+                        'LoginService', 
+                        '$location', 
+                        '$cookies', 
+                        'ERROR_MSG', function loginController($scope, $rootScope, $http, LoginService, $location, $cookies, ERROR_MSG) {
             $scope.title = appConfig.title;
             $scope.errors = [];
+
+            checkAuthentication( $cookies, function ( token ) {
+                if ( token ) return $location.path(routes.HOME);
+            });
 
             $scope.onSubmit = function () {
 

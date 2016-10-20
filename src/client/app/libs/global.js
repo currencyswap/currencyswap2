@@ -2,8 +2,20 @@
 
 var global = {
     TOKEN : 'token-api',
-    DELIMITER: ':'
+    DELIMITER: ':',
+    MENUBAR : 'Menu-Bar',
+    TOOLSBAR : 'Tools-Bar',
 };
+
+var permissions = {
+    VIEW_OWN_ORDERS: 'VIEW_OWN_ORDERS',
+    MAINTAIN_OWN_ORDERS: 'MAINTAIN_OWN_ORDERS',
+    VIEW_ALL_ORDERS: 'VIEW_ALL_ORDERS',
+    EDIT_PROFILE: 'EDIT_PROFILE',
+    USER_MANAGEMENT: 'USER_MANAGEMENT',
+    VIEW_OWN_NOTIFICATIONS: 'VIEW_OWN_NOTIFICATIONS',
+    VIEW_OWN_PERMISSION: 'VIEW_OWN_PERMISSION'
+}
 
 var httpHeader = {
     AUTHORIZARION : 'Authorization',

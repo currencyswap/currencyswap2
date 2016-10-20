@@ -7,16 +7,20 @@ angular.module('currencySwapApp', [
     'appHeader'
 ]).run(function ($rootScope, $cookies, $location) {
 
-    $rootScope.loggedIn = true;
+    checkAuthentication( $cookies, function ( token ) {
+        $rootScope.loggedIn = true;
 
-    var token = $cookies.get(global.TOKEN);
+        if ( token && $location.path() == routes.LOGIN ) {
+            return $location.path(routes.HOME);          
+        } else if ( token ) {
+            return;
+        }
 
-    if (!token) {
         $rootScope.loggedIn = false;
-        $location.path(routes.LOGIN);
-    } else if ( $location.path() == routes.LOGIN ) {
-        $location.path(routes.HOME);        
-    }
+
+        if ( $location.path() != routes.LOGIN ) $location.path(routes.LOGIN);
+
+    });
 
 }).controller('CurrencySwapController', [
     '$rootScope',
