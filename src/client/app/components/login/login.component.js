@@ -3,8 +3,8 @@
 angular.module('loginForm')
     .component('loginForm', {
         templateUrl: 'app/components/login/login.template.html',
-        controller: ['$scope', '$http', 'LoginService', '$location', 'GLOBAL_CONSTANT', function loginController($scope, $http, LoginService, $location, GLOBAL_CONSTANT) {
-            $scope.title = GLOBAL_CONSTANT.APP_TITLE;
+        controller: ['$scope', '$http', 'LoginService', '$location', 'ERROR_MSG', 'GLOBAL_CONSTANT', function loginController($scope, $http, LoginService, $location, ERROR_MSG, GLOBAL_CONSTANT) {
+            $scope.title = appConfig.title;
             $scope.errors = [];
 
             $scope.onSubmit = function () {
@@ -14,10 +14,11 @@ angular.module('loginForm')
                         $location.path(routes.HOME);
                     }, function (error) {
                         if (!error.data) {
-                            return $scope.errors.push(error.message);
+                            $scope.loginErrMsg = ERROR_MSG.EMPTY_USR_OR_PWD_MSG;
+                        } else {
+                            $scope.loginErrMsg = ERROR_MSG.INVALID_USR_OR_PWD_MSG;
                         }
-                        return $scope.errors.push(error.data.message);
-                    });
+                    })
             };
         }]
     });

@@ -5,8 +5,7 @@ angular.module('currencySwapApp', [
     'ngRoute',
     'ngCookies',
     'appHeader'
-]).constant('ERRORS', {
-}).run(function ($rootScope, $cookies, $location) {
+]).run(function ($rootScope, $cookies, $location) {
 
     $rootScope.loggedIn = false;
 
@@ -26,5 +25,7 @@ angular.module('currencySwapApp', [
         }
     ]
 ).constant('GLOBAL_CONSTANT', {
-    APP_TITLE: appConfig.title
+}).constant('ERROR_MSG', {
+    INVALID_USR_OR_PWD_MSG: 'Invalid username or password !',
+    EMPTY_USR_OR_PWD_MSG: 'Empty username or password !'
 });

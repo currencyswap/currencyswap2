@@ -5,7 +5,7 @@ angular.module('loginForm').factory('LoginService', ['$http', '$q', 'GLOBAL_CONS
         authenticate: function (user) {
             if (!user || !user.username || !user.password) {
                 return $q.reject({
-                    message: GLOBAL_CONSTANT.EMPTY_UNAME_OR_PWD_MSG
+                    message: 'Empty username or password !'
                 });
             } else {
                 var headers = {};

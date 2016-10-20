@@ -3,7 +3,7 @@
 var appConfig = require('../libs/app-config');
 var routes = require('../routes').routes;
 var util = require('util');
-var errors = require('../libs/errors/errors.js');
+var errors = require('../libs/errors/errors');
 module.exports = function (app) {
     var router = app.loopback.Router();
 
