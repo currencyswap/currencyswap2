@@ -28,7 +28,8 @@
     "redis": "2.6.2",
     "serve-favicon": "^2.0.1",
     "url-pattern": "1.0.1",
-    "util": "0.10.3"
+    "util": "0.10.3",
+    "validator": "^6.1.0"
   },
   "devDependencies": {
     "eslint": "^2.5.3",

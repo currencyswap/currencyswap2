@@ -1,7 +1,8 @@
 'use strict';
 
 var global = {
-    TOKEN : 'token-api'
+    TOKEN : 'token-api',
+    DELIMITER: ':'
 };
 
 var httpHeader = {

@@ -14,18 +14,18 @@
         </div><!-- col-sm-7 -->
 
         <div class="col-md-5">
-
-            <form method="post" action="index.html">
+            <form>
+                <label class="error" ng-model="invalidUsername" ng-show="invalidUsername === true">Invalid username !</label>
+                <label class="error" ng-model="invalidPassword" ng-show="invalidPassword === true">Invalid password !</label>
+                <label class="error" ng-model="isEmptyField" ng-show="isEmptyField === true">Empty username or password !</label>
                 <h4 class="nomargin">Sign In</h4>
                 <p class="mt5 mb20">Login to access your account.</p>
-
-                <input type="text" class="form-control uname" placeholder="Username"/>
-                <input type="password" class="form-control pword" placeholder="Password"/>
+                <input type="text" class="form-control uname" placeholder="Username" ng-model="user.username"/>
+                <input type="password" class="form-control pword" placeholder="Password" ng-model="user.password"/>
                 <a href="">
                     <small>Forgot Your Password?</small>
                 </a>
-                <button class="btn btn-success btn-block">Sign In</button>
-
+                <button class="btn btn-success btn-block" ng-click="onSubmit()">Sign In</button>
             </form>
         </div><!-- col-sm-5 -->
 
