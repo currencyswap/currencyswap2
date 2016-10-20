@@ -3,7 +3,7 @@
 angular.module('loginForm')
     .component('loginForm', {
         templateUrl: 'app/components/login/login.template.html',
-        controller: ['$scope', '$http', 'LoginService', '$location', 'ERROR_MSG', 'GLOBAL_CONSTANT', function loginController($scope, $http, LoginService, $location, ERROR_MSG, GLOBAL_CONSTANT) {
+        controller: ['$scope', '$rootScope', '$http', 'LoginService', '$location', '$cookies', 'ERROR_MSG', function loginController($scope, $rootScope, $http, LoginService, $location, $cookies, ERROR_MSG) {
             $scope.title = appConfig.title;
             $scope.errors = [];
 
@@ -12,6 +12,8 @@ angular.module('loginForm')
                 LoginService.authenticate($scope.user)
                     .then(function (response) {
                         $location.path(routes.HOME);
+                        $cookies.put(global.TOKEN, response.data.token);
+                        $rootScope.loggedIn = true;
                     }, function (error) {
                         if (!error.data) {
                             $scope.loginErrMsg = ERROR_MSG.EMPTY_USR_OR_PWD_MSG;

@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('loginForm').factory('LoginService', ['$http', '$q', 'GLOBAL_CONSTANT',function ($http, $q, GLOBAL_CONSTANT) {
+angular.module('loginForm').factory('LoginService', ['$http', '$q', 'GLOBAL_CONSTANT',function ($http, $q) {
     return {
         authenticate: function (user) {
             if (!user || !user.username || !user.password) {

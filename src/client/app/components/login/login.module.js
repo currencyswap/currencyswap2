@@ -1,3 +1,3 @@
 'use-strict';
 
-angular.module('loginForm', ['ngRoute']);
+angular.module('loginForm', ['ngRoute', 'ngCookies']);
