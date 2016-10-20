@@ -14,19 +14,19 @@ exports.DATETIME_MS_FORMAT = 'yyyy-mm-ss HH:MM:ss L';
 exports.TIME_FORMAT = 'HH:MM:ss';
 
 exports.getDateFormat = function () {
-    let dateFormat = appConfig.dateFormat; 
+    let dateFormat = appConfig.dateFormat;
 
-    if ( dateFormat ) return dateFormat;
+    if (dateFormat) return dateFormat;
 
     return {
-        datetime : exports.DATETIME_FORMAT,
-        date : exports.DATE_FORMAT,
-        time : exports.TIME_FORMAT
+        datetime: exports.DATETIME_FORMAT,
+        date: exports.DATE_FORMAT,
+        time: exports.TIME_FORMAT
     };
 }
-;
+    ;
 exports.getTitle = function () {
-    return appConfig.title ? appConfig.title : ''; 
+    return appConfig.title ? appConfig.title : '';
 };
 
 exports.getRedis = function () {
@@ -41,8 +41,8 @@ exports.getRedis = function () {
     };
 
     if (appConfig.redis === undefined) {
-        let message = errorUtil.getMessage( error.INVALID_REDIS_PARAMS.message );        
-        throw new AppError( message , error.INVALID_REDIS_PARAMS.code );
+        let message = errorUtil.getMessage(error.INVALID_REDIS_PARAMS.message);
+        throw new AppError(message, error.INVALID_REDIS_PARAMS.code);
     }
 
     if (appConfig.redis.host !== undefined &&
@@ -93,5 +93,39 @@ exports.getTokenExpired = function () {
 exports.getLogsFolder = function () {
     return appConfig.logs;
 };
+
+exports.getSMTPOptions = function () {
+
+    if (!appConfig.smtp || (!appConfig.smtp.host && !appConfig.smtp.service)) {
+        return null;
+    }
+
+    let options = {};
+
+    if ( appConfig.smtp.host ) options.host = appConfig.smtp.host;
+    if ( appConfig.smtp.service ) options.service = appConfig.smtp.service;
+
+    if (appConfig.smtp.port) options.port = appConfig.smtp.port;
+
+    if (appConfig.smtp.auth) options.auth = appConfig.smtp.auth;
+    else if (appConfig.smtp.username && appConfig.smtp.password) {
+        options.auth = {
+            user: appConfig.smtp.username,
+            pass: appConfig.smtp.password
+        };
+    }
+
+    options.secure = appConfig.smtp.ssl ? true : false;
+
+    if (appConfig.smtp.connectionTimeout) options.connectionTimeout = appConfig.smtp.connectionTimeout;
+    if (appConfig.smtp.greetingTimeout) options.greetingTimeout = appConfig.smtp.greetingTimeout;
+    if (appConfig.smtp.socketTimeout) options.socketTimeout = appConfig.smtp.socketTimeout;
+    if (appConfig.smtp.authMethod) options.authMethod = appConfig.smtp.authMethod;
+    if (appConfig.smtp.tls) options.tls = appConfig.smtp.tls;
+    if (appConfig.smtp.ignoreTLS) options.ignoreTLS = appConfig.smtp.ignoreTLS;
+    
+    return options;
+};
+
 
 module.exports = exports;

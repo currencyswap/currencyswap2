@@ -36,7 +36,7 @@ exports.setupClient = function () {
 
     redisClient.on('error', function (err) {
         console.error('REDIS ERROR : ' + err);
-        exports.redis = null;
+        // exports.redis = null;
     });
 
     redisOptions.client = redisClient;

@@ -2,7 +2,6 @@
 
 var exports = module.exports;
 const errors = require('./errors/errors');
-var AppError = require('./errors/app-error');
 var errorUtil = require('./errors/error-util');
 
 var appConfig = require('./app-config');
@@ -10,7 +9,6 @@ var jwt = require('jsonwebtoken');
 var md5 = require('js-md5');
 const dateFormat = require('dateformat');
 const util = require('util');
-const RS256 = 'RS256';
 const HS256 = 'HS256';
 const TOKEN_PARTS_AMT = 3;
 
@@ -22,11 +20,11 @@ exports.generateSecretKey = function (prefix) {
     } else {
         return md5(util.format('%s %s', prefix, dateStr));
     }
-}
+};
 
 exports.generate = function (obj, secret) {
     return jwt.sign(obj, secret, { algorithm: HS256, expiresIn: appConfig.getTokenExpired() });
-}
+};
 
 exports.verify = function (tokenKey, secret, callback) {
     try {
@@ -34,7 +32,7 @@ exports.verify = function (tokenKey, secret, callback) {
     } catch (err) {
         return callback(err);
     }
-}
+};
 
 exports.getSignature = function (tokenKey, callback) {
     let parts = tokenKey.split('.');
@@ -44,4 +42,4 @@ exports.getSignature = function (tokenKey, callback) {
     }
 
     return callback( null, parts[parts.length - 1] );
-}
+};

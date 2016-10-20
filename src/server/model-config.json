@@ -32,5 +32,9 @@
   "MemberGroup": {
     "dataSource": "NodeJSApp",
     "public": false
+  },
+  "Address": {
+    "dataSource": "NodeJSApp",
+    "public": false
   }
 }

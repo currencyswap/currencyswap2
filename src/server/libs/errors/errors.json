@@ -31,6 +31,18 @@
         "code": 8,
         "message": "{ERR_INVALID_REQUEST_PATH}"
     },
+    "INVALID_SMTP_OPTIONS": {
+        "code": 9,
+        "message": "{ERR_INVALID_SMTP_OPTIONS}"
+    },
+    "MAIL_SENDER_NOT_VAILABLE": {
+        "code": 10,
+        "message": "{ERR_MAIL_SENDER_NOT_VAILABLE}"
+    },
+    "COULD_NOT_SEND_MAIL": {
+        "code": 11,
+        "message": "{ERR_COULD_NOT_SEND_MAIL}"
+    },
     "MEMBER_NO_USERNAME": {
         "code": 20,
         "message": "{ERR_NO_USERNAME}"

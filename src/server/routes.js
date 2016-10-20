@@ -21,6 +21,6 @@ const Routes = {
 
 exports.getRoute = function ( val ) {
     return stringUtil.getValue( val, Routes );
-}
+};
 
 exports.routes = Routes;

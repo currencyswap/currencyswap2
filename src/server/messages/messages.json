@@ -19,5 +19,8 @@
     "ERR_INVALID_USERID" : "Invalid user Id '%s' !!!",
     "ERR_INVALID_REQUEST_PATH" : "Invalid path '%s' !!!",
     "ERR_INVALID_PERMISSION" :  "Invalid permission '%s' !!!",
-    "ERR_USER_IS_NOT_AVAILABLE" : "User '%s' is not available. Please contact with Admin."
+    "ERR_USER_IS_NOT_AVAILABLE" : "User '%s' is not available. Please contact with Admin.",
+    "ERR_INVALID_SMTP_OPTIONS" : "Invalid SMTP Options",
+    "ERR_MAIL_SENDER_NOT_VAILABLE" : "Mail Sender is not available.",
+    "ERR_COULD_NOT_SEND_MAIL": "Could not send mail."
 }
