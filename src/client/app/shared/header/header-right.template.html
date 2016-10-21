@@ -1,13 +1,13 @@
 <div class="header-right">
-        <ul class="headermenu">
-          <li ng-repeat="item in toolbarItems">
-            <div class="btn-group">
-              <button class="btn btn-default dropdown-toggle tp-icon" data-toggle="dropdown">
-                <a href="{{item.route}}">
-                  <i class="{{item.icon}}"></i>
-                </a>
-              </button>
-            </div>
-          </li>
-        </ul>
+    <ul class="headermenu">
+      <li ng-repeat="item in toolbarItems" {{item.isActivated ? 'class="active"' : ''}} >
+        <div class="btn-group">
+          <a href="#!{{item.route}}">
+          <button class="btn btn-default dropdown-toggle tp-icon">
+              <i class="{{item.icon}}"></i>
+          </button>
+          </a>
+        </div>
+      </li>
+    </ul>
 </div><!-- header-right -->

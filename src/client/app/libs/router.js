@@ -28,18 +28,18 @@ var navigation = [
         icon : 'fa fa-users'
     },
     {
+        route: routes.SUPPORT,
+        name: 'Support',
+        requiredPermissions: [permissions.VIEW_OWN_ORDERS],
+        position: global.MENUBAR,
+        icon : 'fa fa-support'
+    },
+    {
         route: routes.ADD,
         name: 'Create Request',
         requiredPermissions: [permissions.MAINTAIN_OWN_ORDERS],
         position: global.TOOLSBAR,
         icon : 'fa fa-plus'
-    },
-    {
-        route: routes.SUPPORT,
-        name: 'Support',
-        requiredPermissions: [permissions.VIEW_OWN_ORDERS],
-        position: global.TOOLSBAR,
-        icon : 'fa fa-support'
     },
     {
         route: routes.HELP,
