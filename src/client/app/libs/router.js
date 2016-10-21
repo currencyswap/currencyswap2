@@ -32,7 +32,7 @@ var navigation = [
         name: 'Create Request',
         requiredPermissions: [permissions.MAINTAIN_OWN_ORDERS],
         position: global.TOOLSBAR,
-        icon : 'fa fa-users'
+        icon : 'fa fa-plus'
     },
     {
         route: routes.SUPPORT,
@@ -58,7 +58,7 @@ var navigation = [
     {
         route: routes.LOGOUT,
         name: 'Logout',
-        requiredPermissions: [permissions.LOGOUT],
+        requiredPermissions: [permissions.EDIT_PROFILE],
         position: global.TOOLSBAR,
         icon : 'fa fa-sign-out'
     }

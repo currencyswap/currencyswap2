@@ -1,13 +1,15 @@
 <div class="header-right">
         <ul class="headermenu">
-          <li>
+          <li ng-repeat="item in toolbarItems">
             <div class="btn-group">
               <button class="btn btn-default dropdown-toggle tp-icon">
-                <i class="fa fa-plus"></i>
+                <a href="{{item.route}}">
+                  <i class="{{item.icon}}"></i>
+                </a>
               </button>
             </div>
           </li>
-          <li>
+          <!--<li>
             <div class="btn-group">
               <button class="btn btn-default dropdown-toggle tp-icon">
                 <i class="fa fa-support"></i>
@@ -24,7 +26,7 @@
           <li>
             <div class="btn-group">
               <button class="btn btn-default dropdown-toggle tp-icon" data-toggle="dropdown">
-                <i class="glyphicon glyphicon-globe"></i>
+                <i class="glyphicon glyphicon-envelope"></i>
                 <span class="badge">5</span>
               </button>
               <div class="dropdown-menu dropdown-menu-head pull-right">
@@ -52,13 +54,13 @@
                 <span class="caret"></span></a>
               </button>
             </div>
+          </li>
           <li>
             <div class="btn-group">
               <button class="btn btn-default dropdown-toggle tp-icon">
                 <i class="fa fa-sign-out"></i>
               </button>
             </div>
-          </li>
-          </li>
+          </li>-->
         </ul>
-      </div><!-- header-right -->
+</div><!-- header-right -->
