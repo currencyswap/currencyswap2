@@ -2,40 +2,42 @@
 
 angular.module('currencySwapApp', [
     'ngRoute',
-    'ngCookies',
+    'cookieManager',
     'appHeader',
     'permission',
     'loginForm',
     'homePage',
-]).run(function ($rootScope, $cookies, $location, $timeout, PermissionService) {
+]).run(function ($rootScope, $location, CookieService, PermissionService) {
 
-    checkAuthentication($cookies, function (token) {
-        $rootScope.loggedIn = false;
+    var token = CookieService.getToken();
+    $rootScope.loggedIn = false;
+    $rootScope.isLoading = true;
 
-        if (!token) {
-            if ($location.path() != routes.LOGIN) return $location.path(routes.LOGIN);
-            else return;
-        }
+    if (!token) {
+        $rootScope.isLoading = false;
 
-        PermissionService.getCurrentPermission(token).then(
-            function (response) {
-                $rootScope.permissions = response.data;
+        if ($location.path() != routes.LOGIN) return $location.path(routes.LOGIN);
+        else return;
+    }
 
-                $rootScope.loggedIn = true;
-                if ($location.path() == routes.LOGIN) return $location.path(routes.HOME);
+    PermissionService.getCurrentPermission(token).then(
+        function (response) {
+            $rootScope.permissions = response.data;
 
-            }, function (error) {
-                let err = error.data;
-                console.error('ERROR [%s] : %s.', err.code, err.message);
+            $rootScope.loggedIn = true;
+            $rootScope.isLoading = false;
+            if ($location.path() == routes.LOGIN) return $location.path(routes.HOME);
 
-                if (err.code == serverErrors.INVALID_TOKEN_API_KEY ||
-                    err.code == serverErrors.INVALID_TOKEN_API_KEY_FOR_USER) {
-                    $cookies.remove(global.TOKEN);
-                    $cookies.remove(global.CURRENT_USER);
-                }
+        }, function (error) {
+            let err = error.data;
+            console.error('ERROR [%s] : %s.', err.code, err.message);
+
+            if (err.code == serverErrors.INVALID_TOKEN_API_KEY ||
+                err.code == serverErrors.INVALID_TOKEN_API_KEY_FOR_USER) {
+                CookieService.cleanUpCookies();
             }
-        );
-    });
+        }
+    );
 
 }).controller('CurrencySwapController', [
     '$rootScope',

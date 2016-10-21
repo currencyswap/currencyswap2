@@ -32,6 +32,8 @@
   <script src="config/setting.js"></script>
   <script src="config/error-codes.js"></script>
 
+  
+  <script src="app/components/cookie-manager/cookies-manager.module.js"></script>
   <script src="app/components/home/home.module.js"></script>
   <!--Long's code-->
   <script src="app/components/login/login.module.js"></script>
@@ -47,6 +49,9 @@
 </head>
 
 <body class="horizontal-menu">
+<div ng-if="isLoading">
+    <div id="status"><i class="fa fa-spinner fa-spin"></i></div>
+</div>
 <section>
   
   <left-panel ng-if="loggedIn"></left-panel>
@@ -62,7 +67,7 @@
     
     <div class="contentpanel">
       <!-- content goes here... -->
-      <div ng-view></div>
+      <div ng-view ng-if="!isLoading"></div>
 
     </div>
   </div><!-- mainpanel -->

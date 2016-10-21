@@ -64,10 +64,3 @@ var navigation = [
     }
     
 ];
-
-var checkAuthentication = function ($cookies, callback) {
-
-    var token = $cookies.get(global.TOKEN);
-
-    callback(token);
-};
