@@ -41,6 +41,38 @@ function initDirective() {
     });
 }
 
+var checkValidPermission = function (permissions, requiredPermissions) {
+
+    for (var key in permissions) {
+
+        if (requiredPermissions.indexOf(key) >= 0) {
+            return true;
+        }
+
+    }
+
+    return false;
+
+}
+
+var initMenuItem = function (menuItems, user) {
+    navigation.forEach(function (navItem) {
+
+        if (navItem.position != global.MENUBAR) return;
+        if (!checkValidPermission(user.permissions, navItem.requiredPermissions)) return;
+
+        var pattern = new UrlPattern( navItem.route );
+
+        menuItems.push({
+            route: pattern.stringify(),
+            name: navItem.name,
+            icon: navItem.icon,
+            isActivated: false
+        });
+
+    });
+}
+
 angular.module('appHeader').directive('headerLeft', function () {
     return {
         restrict: 'EA',
@@ -48,9 +80,21 @@ angular.module('appHeader').directive('headerLeft', function () {
             name: '@',
         },
         templateUrl: 'app/shared/header/header-left.template.html',
-        controller: function ( $scope, $element ) {
+        controller: function ($rootScope, $cookies, $location, $scope, $element) {
             $scope.title = appConfig.title;
             initDirective();
+
+            $scope.user = {
+                permissions: $rootScope.permissions
+            };
+
+            // Init Menu Item
+            $scope.menuItems = [];
+
+            initMenuItem($scope.menuItems, $scope.user);
+
+            console.log('PATH %s', $location.path());
+            console.log('permissions %s', JSON.stringify($scope.user.permissions));
         }
     };
 })

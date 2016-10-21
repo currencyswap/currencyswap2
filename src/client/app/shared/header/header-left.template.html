@@ -7,9 +7,8 @@
         <div class="topnav">
             <a class="menutoggle" ng-click='onClick()'><i class="fa fa-bars"></i></a>
             
-            <ul class="nav nav-horizontal">
-                <li class="active"><a href="index.html"><i class="fa fa-th-list"></i> <span>Orders</span></a></li>
-                <li ><a href="index.html"><i class="fa fa-users"></i> <span>Users</span></a></li>
+            <ul class="nav nav-horizontal">                
+                <li ng-repeat="item in menuItems" {{item.isActivated ? 'class="active"' : ''}} ><a href="#!{{item.route}}"><i class="{{item.icon}}"></i> <span>{{item.name}}</span></a></li>
                 <li ></li>
             </ul>
         </div><!-- topnav -->

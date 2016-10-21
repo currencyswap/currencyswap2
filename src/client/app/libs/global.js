@@ -15,7 +15,7 @@ var permissions = {
     USER_MANAGEMENT: 'USER_MANAGEMENT',
     VIEW_OWN_NOTIFICATIONS: 'VIEW_OWN_NOTIFICATIONS',
     VIEW_OWN_PERMISSION: 'VIEW_OWN_PERMISSION'
-}
+};
 
 var httpHeader = {
     AUTHORIZARION : 'Authorization',

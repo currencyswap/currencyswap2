@@ -1,7 +1,7 @@
 'use strict';
 
 var routes = {
-    HOME: '',
+    HOME: '/',
     ORDERS: '/orders/(:id)',  
     USERS: '/users/(:id)',
     ADD: '/request',
@@ -70,4 +70,4 @@ var checkAuthentication = function ($cookies, callback) {
     var token = $cookies.get(global.TOKEN);
 
     callback(token);
-}
+};
