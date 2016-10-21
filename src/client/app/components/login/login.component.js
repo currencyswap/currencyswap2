@@ -5,11 +5,13 @@ angular.module('loginForm')
         templateUrl: 'app/components/login/login.template.html',
         controller: ['$scope',
             '$rootScope',
-            '$http',
-            'LoginService',
+            '$http',            
             '$location',
             '$cookies',
-            'ERROR_MSG', function loginController($scope, $rootScope, $http, LoginService, $location, $cookies, ERROR_MSG) {
+            'ERROR_MSG',
+            'LoginService', 
+            'PermissionService', 
+            function loginController($scope, $rootScope, $http, $location, $cookies, ERROR_MSG, LoginService, PermissionService) {
                 $scope.title = appConfig.title;
                 $scope.errors = [];
 
@@ -26,17 +28,26 @@ angular.module('loginForm')
                             };
 
                             var token = response.data.token;
-
                             var obj = getInfoFormToken(token);
-
+                            
                             $cookies.put(global.TOKEN, token, options);
                             $cookies.put(global.CURRENT_USER, JSON.stringify({
                                 username: obj.username,
                                 fullName: obj.fullName
                             }), options);
 
-                            $location.path(routes.HOME);
-                            $rootScope.loggedIn = true;
+                            PermissionService.getCurrentPermission( token ).then(
+                                function ( response) {
+                                    $rootScope.permissions = response.data;
+                                    $location.path(routes.HOME);
+                                    $rootScope.loggedIn = true;                                 
+                                },
+                                function ( error ) {
+                                    $cookies.remove(global.TOKEN);
+                                    $cookies.remove(global.CURRENT_USER);
+                                }
+                            );
+
                         }, function (error) {
                             if (error.data) $scope.loginErrMsg = error.data.message;
                         })

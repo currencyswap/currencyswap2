@@ -7,12 +7,12 @@ angular.module('currencySwapApp', [
     'permission',
     'loginForm',
     'homePage',
-]).run(function ($rootScope, $cookies, $location, PermissionService) {
+]).run(function ($rootScope, $cookies, $location, $timeout, PermissionService) {
 
     checkAuthentication($cookies, function (token) {
         $rootScope.loggedIn = false;
 
-        if (!token) {            
+        if (!token) {
             if ($location.path() != routes.LOGIN) return $location.path(routes.LOGIN);
             else return;
         }
@@ -20,17 +20,18 @@ angular.module('currencySwapApp', [
         PermissionService.getCurrentPermission(token).then(
             function (response) {
                 $rootScope.permissions = response.data;
+
                 $rootScope.loggedIn = true;
                 if ($location.path() == routes.LOGIN) return $location.path(routes.HOME);
+
             }, function (error) {
                 let err = error.data;
-                console.error('ERROR [%s] : %s.', err.code, err.message );
+                console.error('ERROR [%s] : %s.', err.code, err.message);
 
-                if ( err.code == serverErrors.INVALID_TOKEN_API_KEY || 
-                     err.code == serverErrors.INVALID_TOKEN_API_KEY_FOR_USER ) {
-                    
-                    $cookies.remove( global.TOKEN );
-                    $location.path(routes.LOGIN);
+                if (err.code == serverErrors.INVALID_TOKEN_API_KEY ||
+                    err.code == serverErrors.INVALID_TOKEN_API_KEY_FOR_USER) {
+                    $cookies.remove(global.TOKEN);
+                    $cookies.remove(global.CURRENT_USER);
                 }
             }
         );
