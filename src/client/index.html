@@ -60,9 +60,9 @@
 
     <page-header ng-if="loggedIn"></page-header>
     
-    <div class="contentpanel" ng-if="loggedIn">
+    <div class="contentpanel">
       <!-- content goes here... -->
-      <div ng-view></div>
+      <div ng-view ng-if="loggedIn"></div>
 
     </div>
   </div><!-- mainpanel -->
