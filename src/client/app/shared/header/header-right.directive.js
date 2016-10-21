@@ -52,6 +52,5 @@ var initToolBarItems = function (toolbarItems, user) {
             icon: navItem.icon,
             isActivated: false
         });
-
     });
 };

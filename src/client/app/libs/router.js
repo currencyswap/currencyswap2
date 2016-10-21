@@ -49,6 +49,13 @@ var navigation = [
         icon : 'fa fa-question-circle'
     },
     {
+        route: routes.HOME,
+        name: 'Notification',
+        requiredPermissions: [permissions.EDIT_PROFILE],
+        position: global.TOOLSBAR,
+        icon : 'glyphicon glyphicon-envelope'
+    },
+    {
         route: routes.MYPROFILE,
         name: 'Profile',
         requiredPermissions: [permissions.EDIT_PROFILE],
