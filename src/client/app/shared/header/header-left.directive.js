@@ -54,19 +54,26 @@ var checkValidPermission = function (permissions, requiredPermissions) {
 
 };
 
-var initMenuItem = function (menuItems, user) {
+var initMenuItem = function (menuItems, user, currentPage, path) {
     navigation.forEach(function (navItem) {
 
         if (navItem.position != global.MENUBAR) return;
         if (!checkValidPermission(user.permissions, navItem.requiredPermissions)) return;
 
-        var pattern = new UrlPattern( navItem.route );
+        var pattern = new UrlPattern(navItem.route);
+
+        var isActivated = pattern.match(path);
+
+        if ( isActivated ) {
+            currentPage.name = navItem.name;
+            currentPage.icon = navItem.icon;
+        }
 
         menuItems.push({
             route: pattern.stringify(),
             name: navItem.name,
             icon: navItem.icon,
-            isActivated: false
+            isActivated: isActivated
         });
 
     });
@@ -88,12 +95,23 @@ angular.module('appHeader').directive('headerLeft', function () {
             };
 
             // Init Menu Item
-            $scope.menuItems = [];
+            $scope.menuItems = $rootScope.menuItems;
+            initMenuItem($scope.menuItems, $scope.user, $rootScope.currentPage, $location.path());
 
-            initMenuItem($scope.menuItems, $scope.user);
+            $scope.onChangeItem = function (path) {
+                $scope.menuItems.forEach(function (item) {
+                    item.isActivated = (item.route == path);
+                    if ( item.isActivated ) {
+                        $rootScope.currentPage.name = item.name;
+                        $rootScope.currentPage.icon = item.icon;
+                    }
+                });
 
-            console.log('PATH %s', $location.path());
-            console.log('permissions %s', JSON.stringify($scope.user.permissions));
+                $rootScope.toolbarItems.forEach(function (item) {
+                    item.isActivated = false;
+                });
+            };
+
         }
     };
 });

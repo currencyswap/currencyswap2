@@ -3,10 +3,10 @@
         <h1><span>[</span> {{title}} <span>]</span></h1>
     </div><!-- logopanel -->
     <div class="topnav">
-        <a class="menutoggle" ng-click='onClick()'><i class="fa fa-bars"></i></a>
+        <a class="menutoggle"><i class="fa fa-bars"></i></a>
 
         <ul class="nav nav-horizontal">
-            <li ng-repeat="item in menuItems" {{item.isActivated ? 'class="active"' : ''}} ><a href="#!{{item.route}}"><i class="{{item.icon}}"></i> <span>{{item.name}}</span></a></li>
+            <li ng-repeat="item in menuItems" class="{{item.isActivated ? 'active' : ''}}" ><a href="#!{{item.route}}" ng-click="onChangeItem( item.route )"><i class="{{item.icon}}"></i> <span>{{item.name}}</span></a></li>
             <li ></li>
         </ul>
     </div><!-- topnav -->

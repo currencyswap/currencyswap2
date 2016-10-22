@@ -1,0 +1,5 @@
+button.tb-active {
+    box-shadow: 0 3px 0 #1CAF9A;
+    color: #1CAF9A !important;
+    background: none;
+}

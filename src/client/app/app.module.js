@@ -14,6 +14,9 @@ angular.module('currencySwapApp', [
     $rootScope.loggedIn = false;
     $rootScope.isLoading = true;
     $rootScope.error = null;
+    $rootScope.currentPage = {};
+    $rootScope.menuItems = [];
+    $rootScope.toolbarItems = [];
 
     if (!token) {
         $rootScope.isLoading = false;

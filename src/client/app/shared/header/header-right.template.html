@@ -1,9 +1,9 @@
 <div class="header-right">
     <ul class="headermenu">
-      <li ng-repeat="item in toolbarItems" {{item.isActivated ? 'class="active"' : ''}} >
+      <li ng-repeat="item in toolbarItems">
         <div class="btn-group">
           <a href="#!{{item.route}}">
-          <button class="btn btn-default dropdown-toggle tp-icon">
+          <button class="btn btn-default dropdown-toggle tp-icon {{item.isActivated ? 'tb-active' : ''}}" ng-click="onChangeItem( item.route )">
               <i class="{{item.icon}}"></i>
           </button>
           </a>
