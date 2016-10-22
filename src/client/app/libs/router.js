@@ -28,13 +28,6 @@ var navigation = [
         icon : 'fa fa-users'
     },
     {
-        route: routes.SUPPORT,
-        name: 'Support',
-        requiredPermissions: [permissions.VIEW_OWN_ORDERS],
-        position: global.MENUBAR,
-        icon : 'fa fa-support'
-    },
-    {
         route: routes.ADD,
         name: 'Create Request',
         requiredPermissions: [permissions.MAINTAIN_OWN_ORDERS],
@@ -47,6 +40,13 @@ var navigation = [
         requiredPermissions: [permissions.EDIT_PROFILE],
         position: global.TOOLSBAR,
         icon : 'fa fa-question-circle'
+    },
+    {
+        route: routes.SUPPORT,
+        name: 'Support',
+        requiredPermissions: [permissions.VIEW_OWN_ORDERS],
+        position: global.TOOLSBAR,
+        icon : 'fa fa-support'
     },
     {
         route: routes.HOME,
