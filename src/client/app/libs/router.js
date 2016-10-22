@@ -28,18 +28,18 @@ var navigation = [
         icon : 'fa fa-users'
     },
     {
+        route: routes.SUPPORT,
+        name: 'Support',
+        requiredPermissions: [permissions.VIEW_OWN_ORDERS],
+        position: global.MENUBAR,
+        icon : 'fa fa-support'
+    },
+    {
         route: routes.ADD,
         name: 'Create Request',
         requiredPermissions: [permissions.MAINTAIN_OWN_ORDERS],
         position: global.TOOLSBAR,
-        icon : 'fa fa-users'
-    },
-    {
-        route: routes.SUPPORT,
-        name: 'Support',
-        requiredPermissions: [permissions.VIEW_OWN_ORDERS],
-        position: global.TOOLSBAR,
-        icon : 'fa fa-support'
+        icon : 'fa fa-plus'
     },
     {
         route: routes.HELP,
@@ -47,6 +47,13 @@ var navigation = [
         requiredPermissions: [permissions.EDIT_PROFILE],
         position: global.TOOLSBAR,
         icon : 'fa fa-question-circle'
+    },
+    {
+        route: routes.HOME,
+        name: 'Notification',
+        requiredPermissions: [permissions.EDIT_PROFILE],
+        position: global.TOOLSBAR,
+        icon : 'glyphicon glyphicon-envelope'
     },
     {
         route: routes.MYPROFILE,
@@ -58,7 +65,7 @@ var navigation = [
     {
         route: routes.LOGOUT,
         name: 'Logout',
-        requiredPermissions: [permissions.LOGOUT],
+        requiredPermissions: [permissions.EDIT_PROFILE],
         position: global.TOOLSBAR,
         icon : 'fa fa-sign-out'
     }

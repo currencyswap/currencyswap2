@@ -42,7 +42,6 @@ function initDirective() {
 }
 
 var checkValidPermission = function (permissions, requiredPermissions) {
-
     for (var key in permissions) {
 
         if (requiredPermissions.indexOf(key) >= 0) {
@@ -53,7 +52,7 @@ var checkValidPermission = function (permissions, requiredPermissions) {
 
     return false;
 
-}
+};
 
 var initMenuItem = function (menuItems, user) {
     navigation.forEach(function (navItem) {
@@ -71,7 +70,7 @@ var initMenuItem = function (menuItems, user) {
         });
 
     });
-}
+};
 
 angular.module('appHeader').directive('headerLeft', function () {
     return {
@@ -97,4 +96,4 @@ angular.module('appHeader').directive('headerLeft', function () {
             console.log('permissions %s', JSON.stringify($scope.user.permissions));
         }
     };
-})
+});
