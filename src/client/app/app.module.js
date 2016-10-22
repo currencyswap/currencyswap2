@@ -4,14 +4,16 @@ angular.module('currencySwapApp', [
     'ngRoute',
     'cookieManager',
     'appHeader',
+    'errorPage',
     'permission',
     'loginForm',
-    'homePage',
+    'homePage'    
 ]).run(function ($rootScope, $location, CookieService, PermissionService) {
 
     var token = CookieService.getToken();
     $rootScope.loggedIn = false;
     $rootScope.isLoading = true;
+    $rootScope.error = null;
 
     if (!token) {
         $rootScope.isLoading = false;
@@ -31,10 +33,18 @@ angular.module('currencySwapApp', [
         }, function (error) {
             let err = error.data;
             console.error('ERROR [%s] : %s.', err.code, err.message);
-
+            $rootScope.isLoading = false;
+            
             if (err.code == serverErrors.INVALID_TOKEN_API_KEY ||
                 err.code == serverErrors.INVALID_TOKEN_API_KEY_FOR_USER) {
                 CookieService.cleanUpCookies();
+                if ($location.path() != routes.LOGIN) return $location.path(routes.LOGIN);
+            } else {            
+                $rootScope.error = {
+                    status : error.status,
+                    code : err.code,
+                    message : err.message
+                };               
             }
         }
     );
