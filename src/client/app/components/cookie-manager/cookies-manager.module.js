@@ -10,10 +10,15 @@ angular.module('cookieManager', ['ngCookies'])
 
                 var obj = getInfoFormToken(token);
 
+                if ( !obj.avatarUrl ) {
+                    obj.avatarUrl = global.DEF_AVATAR;
+                }
+
                 $cookies.put(global.TOKEN, token, options);
                 $cookies.put(global.CURRENT_USER, JSON.stringify({
                     username: obj.username,
-                    fullName: obj.fullName
+                    fullName: obj.fullName,
+                    avatarUrl : obj.avatarUrl
                 }), options);
             },
             cleanUpCookies: function () {
@@ -24,7 +29,7 @@ angular.module('cookieManager', ['ngCookies'])
                 return $cookies.get(global.TOKEN);
             },
             getCurrentUser: function () {
-                var userString = $cookies.get(global.TOKEN);
+                var userString = $cookies.get(global.CURRENT_USER);
                 return JSON.parse(userString);
             }
         }

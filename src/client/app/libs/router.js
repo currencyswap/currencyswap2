@@ -9,10 +9,22 @@ var routes = {
     SUPPORT: '/support',
     HELP: '/help',
     LOGIN: '/login',
-    LOGOUT: '/logout'
+    LOGOUT: '/logout',
+    REGISTER: '/register',
+    NOTIFICATIONS: '/notifications',
 };
 
 var navigation = [
+    {
+        route: routes.LOGIN,
+        name: 'Login',
+        requiredPermissions: []
+    },
+    {
+        route: routes.REGISTER,
+        name: 'Register',
+        requiredPermissions: []
+    },
     {
         route: routes.ORDERS,
         name: 'Orders',
@@ -35,13 +47,6 @@ var navigation = [
         icon : 'fa fa-plus'
     },
     {
-        route: routes.HELP,
-        name: 'Help',
-        requiredPermissions: [permissions.EDIT_PROFILE],
-        position: global.TOOLSBAR,
-        icon : 'fa fa-question-circle'
-    },
-    {
         route: routes.SUPPORT,
         name: 'Support',
         requiredPermissions: [permissions.VIEW_OWN_ORDERS],
@@ -49,7 +54,14 @@ var navigation = [
         icon : 'fa fa-support'
     },
     {
-        route: routes.HOME,
+        route: routes.HELP,
+        name: 'Help',
+        requiredPermissions: [permissions.EDIT_PROFILE],
+        position: global.TOOLSBAR,
+        icon : 'fa fa-question-circle'
+    },
+    {
+        route: routes.NOTIFICATIONS,
         name: 'Notification',
         requiredPermissions: [permissions.EDIT_PROFILE],
         position: global.TOOLSBAR,

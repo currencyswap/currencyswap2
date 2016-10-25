@@ -5,6 +5,8 @@ var routes = require('../routes').routes;
 var util = require('util');
 var errors = require('../libs/errors/errors');
 var ms = require('ms');
+var appRoot = require('app-root-path');
+
 module.exports = function (app) {
     var router = app.loopback.Router();
 
@@ -53,6 +55,12 @@ module.exports = function (app) {
 
         res.setHeader('Content-Type', 'application/javascript');
         res.end(new Buffer(jsContent, 'binary'));
+    });
+
+    router.get('/media/:filename', function (req, res) {
+        var imagePath = appRoot + '/server/libs/media/' + req.params.filename + '.png';
+        res.setHeader('Content-Type', 'image/png');
+        res.sendFile(imagePath);
     });
 
     return router;

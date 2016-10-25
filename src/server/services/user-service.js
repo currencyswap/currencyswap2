@@ -170,4 +170,4 @@ exports.login = function (user, callback) {
         callback(err, tokenKey);
     });
 
-}
+};

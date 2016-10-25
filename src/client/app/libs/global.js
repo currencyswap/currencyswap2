@@ -6,6 +6,8 @@ var global = {
     DELIMITER: ':',
     MENUBAR : 'Menu-Bar',
     TOOLSBAR : 'Tools-Bar',
+    NONE : '',
+    DEF_AVATAR: 'assets/images/photos/profile.png'
 };
 
 var permissions = {

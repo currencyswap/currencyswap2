@@ -30,6 +30,8 @@
   <script src="app/shared/error-page/error-page.directive.js"></script>
 
   <script src="app/components/permissions/permission.module.js"></script>
+  <script src="app/components/navigation/navigation.module.js"></script>
+  
   <script src="app/app.module.js"></script>
   <script src="app/app.routes.js"></script>
   <script src="config/api-routes.js"></script>
@@ -39,11 +41,11 @@
   
   <script src="app/components/cookie-manager/cookies-manager.module.js"></script>
   <script src="app/components/home/home.module.js"></script>
-  <!--Long's code-->
+
   <script src="app/components/login/login.module.js"></script>
   <script src="app/components/login/login.service.js"></script>
   <script src="app/components/login/login.component.js"></script>
-  <!--end-->
+
   
   <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
   <!--[if lt IE 9]>
@@ -64,7 +66,7 @@
   
   <left-panel ng-if="loggedIn"></left-panel>
   
-  <div class="mainpanel">
+  <div class="mainpanel" >
     
     <div class="headerbar" ng-if="loggedIn">
       <header-left></header-left>

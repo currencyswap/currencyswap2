@@ -41,44 +41,6 @@ function initDirective() {
     });
 }
 
-var checkValidPermission = function (permissions, requiredPermissions) {
-    for (var key in permissions) {
-
-        if (requiredPermissions.indexOf(key) >= 0) {
-            return true;
-        }
-
-    }
-
-    return false;
-
-};
-
-var initMenuItem = function (menuItems, user, currentPage, path) {
-    navigation.forEach(function (navItem) {
-
-        if (navItem.position != global.MENUBAR) return;
-        if (!checkValidPermission(user.permissions, navItem.requiredPermissions)) return;
-
-        var pattern = new UrlPattern(navItem.route);
-
-        var isActivated = pattern.match(path);
-
-        if ( isActivated ) {
-            currentPage.name = navItem.name;
-            currentPage.icon = navItem.icon;
-        }
-
-        menuItems.push({
-            route: pattern.stringify(),
-            name: navItem.name,
-            icon: navItem.icon,
-            isActivated: isActivated
-        });
-
-    });
-};
-
 angular.module('appHeader').directive('headerLeft', function () {
     return {
         restrict: 'EA',
@@ -90,28 +52,8 @@ angular.module('appHeader').directive('headerLeft', function () {
             $scope.title = appConfig.title;
             initDirective();
 
-            $scope.user = {
-                permissions: $rootScope.permissions
-            };
-
             // Init Menu Item
-            $scope.menuItems = $rootScope.menuItems;
-            initMenuItem($scope.menuItems, $scope.user, $rootScope.currentPage, $location.path());
-
-            $scope.onChangeItem = function (path) {
-                $scope.menuItems.forEach(function (item) {
-                    item.isActivated = (item.route == path);
-                    if ( item.isActivated ) {
-                        $rootScope.currentPage.name = item.name;
-                        $rootScope.currentPage.icon = item.icon;
-                    }
-                });
-
-                $rootScope.toolbarItems.forEach(function (item) {
-                    item.isActivated = false;
-                });
-            };
-
+            $scope.menuItems = $rootScope.menuBar;
         }
     };
 });

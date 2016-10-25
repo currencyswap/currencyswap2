@@ -36,5 +36,25 @@
   "Address": {
     "dataSource": "NodeJSApp",
     "public": false
+  },
+  "Notification": {
+    "dataSource": "NodeJSApp",
+    "public": false
+  },
+  "Order": {
+    "dataSource": "NodeJSApp",
+    "public": false
+  },
+  "Currency": {
+    "dataSource": "NodeJSApp",
+    "public": false
+  },
+  "Activity": {
+    "dataSource": "NodeJSApp",
+    "public": false
+  },
+  "OrderActivity": {
+    "dataSource": "NodeJSApp",
+    "public": false
   }
 }

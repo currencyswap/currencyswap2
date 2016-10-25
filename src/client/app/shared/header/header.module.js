@@ -1,2 +1,2 @@
 'use strict';
-angular.module('appHeader', ['ngResource']);
+angular.module('appHeader', ['ngResource', 'cookieManager']);

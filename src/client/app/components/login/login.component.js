@@ -9,7 +9,8 @@ angular.module('loginForm')
             'CookieService',
             'LoginService',
             'PermissionService',
-            function loginController($scope, $rootScope, $location, CookieService, LoginService, PermissionService) {
+            'NavigationHelper',
+            function loginController($scope, $rootScope, $location, CookieService, LoginService, PermissionService, NavigationHelper) {
                 $scope.title = appConfig.title;
                 $scope.errors = [];
 
@@ -28,7 +29,8 @@ angular.module('loginForm')
                                 function (response) {
                                     $rootScope.permissions = response.data;
                                     $rootScope.loggedIn = true;
-                                    $location.path(routes.HOME);                                    
+                                    NavigationHelper.initNavigationBar();    
+                                    $location.path(routes.HOME);                                                                  
                                 },
                                 function (error) {
                                     CookieService.cleanUpCookies();
