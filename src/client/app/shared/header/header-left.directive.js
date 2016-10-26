@@ -48,9 +48,12 @@ angular.module('appHeader').directive('headerLeft', function () {
             name: '@',
         },
         templateUrl: 'app/shared/header/header-left.template.html',
-        controller: function ( $scope, $element ) {
+        controller: function ($rootScope, $cookies, $location, $scope, $element) {
             $scope.title = appConfig.title;
             initDirective();
+
+            // Init Menu Item
+            $scope.menuItems = $rootScope.menuBar;
         }
     };
-})
+});

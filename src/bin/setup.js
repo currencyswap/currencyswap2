@@ -135,70 +135,80 @@ function getGroup(groupKey, groupMaps) {
     };
 }
 
-ds.automigrate(function (err) {
-    if (err) {
-        console.error('ERROR : %s', err.message);
-        process.exit(0);
-    }
-
-    async.waterfall([
-        function (next) {
-            setupPermissions(function (err, permissions) {
-                next(err, permissions);
-            });
-        },
-        function (permissions, next) {
-            setupGroups(function (err, groups) {
-                next(err, permissions, groups);
-            });
-        },
-        function (permissions, groups, next) {
-            setupGroupsWithPermissions(permissions, groups, function (err) {
-                next(err, groups);
-            });
-        },
-        function (groups, next) {
-            let groupMaps = convertObjectsToMaps(groups);
-
-
-            let userObjs = [];
-
-            for (let key in users) {
-
-                let user = users[key];
-                let groupObjs = [];
-
-                for (let key in user.groups) {
-                    let grp = getGroup(user.groups[key], groupMaps);
-
-                    if (grp) groupObjs.push(grp);
-
-                }
-
-                user.groups = groupObjs;
-
-                console.log('USER %s', JSON.stringify(user));
-
-                userObjs.push(user);
-            }
-
-            next(null, userObjs);
-        },
-        function (userObjs, next) {
-            userService.createUsers(userObjs, function (err, users) {
-                next(err, users);
-            });
-        },
-        function ( users, next) {
-            cleanUpCache(next);
-        }
-    ], function (err) {
-
+var migrateDb = function () {
+    ds.automigrate(function (err) {
         if (err) {
             console.error('ERROR : %s', err.message);
+            process.exit(0);
         }
 
-        process.exit(0);
-    });
+        async.waterfall([
+            function (next) {
+                setupPermissions(function (err, permissions) {
+                    next(err, permissions);
+                });
+            },
+            function (permissions, next) {
+                setupGroups(function (err, groups) {
+                    next(err, permissions, groups);
+                });
+            },
+            function (permissions, groups, next) {
+                setupGroupsWithPermissions(permissions, groups, function (err) {
+                    next(err, groups);
+                });
+            },
+            function (groups, next) {
+                let groupMaps = convertObjectsToMaps(groups);
 
-});
+
+                let userObjs = [];
+
+                for (let key in users) {
+
+                    let user = users[key];
+                    let groupObjs = [];
+
+                    for (let key in user.groups) {
+                        let grp = getGroup(user.groups[key], groupMaps);
+
+                        if (grp) groupObjs.push(grp);
+
+                    }
+
+                    user.groups = groupObjs;
+
+                    console.log('USER %s', JSON.stringify(user));
+
+                    userObjs.push(user);
+                }
+
+                next(null, userObjs);
+            },
+            function (userObjs, next) {
+                userService.createUsers(userObjs, function (err, users) {
+                    next(err, users);
+                });
+            },
+            function ( users, next) {
+                cleanUpCache(next);
+            }
+        ], function (err) {
+
+            if (err) {
+                console.error('ERROR : %s', err.message);
+            }
+
+            process.exit(0);
+        });
+
+    });
+};
+
+if(ds.connected) {
+    migrateDb()
+} else {
+    ds.once('connected', function() {
+        migrateDb();
+    });
+}

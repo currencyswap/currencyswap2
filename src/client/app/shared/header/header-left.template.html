@@ -1,17 +1,13 @@
-      <div class="header-left">
-        
-        <div class="logopanel">
-            <h1><span>[</span> {{title}} <span>]</span></h1>
-        </div><!-- logopanel -->
-        
-        <div class="topnav">
-            <a class="menutoggle" ng-click='onClick()'><i class="fa fa-bars"></i></a>
-            
-            <ul class="nav nav-horizontal">
-                <li class="active"><a href="index.html"><i class="fa fa-th-list"></i> <span>Orders</span></a></li>
-                <li ><a href="index.html"><i class="fa fa-users"></i> <span>Users</span></a></li>
-                <li ></li>
-            </ul>
-        </div><!-- topnav -->
-          
-      </div><!-- header-left -->
+<div class="header-left">
+    <div class="logopanel">
+        <h1><span>[</span> {{title}} <span>]</span></h1>
+    </div><!-- logopanel -->
+    <div class="topnav">
+        <a class="menutoggle"><i class="fa fa-bars"></i></a>
+
+        <ul class="nav nav-horizontal">
+            <li ng-repeat="item in menuItems" class="{{item.isActivated ? 'active' : ''}}" ><a href="#!{{item.route}}" ><i class="{{item.icon}}"></i> <span>{{item.name}}</span></a></li>
+            <li ></li>
+        </ul>
+    </div><!-- topnav -->
+</div><!-- header-left -->
