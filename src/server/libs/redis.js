@@ -108,8 +108,7 @@ exports.setSecretKeyBySignature = function (sign, value) {
     let exp = appConfig.getTokenExpired();
     let milisec = ms(exp) / SEC + 1;
     let key = SIGNATURES + sign;
-
-    console.log('milisec %s', milisec);
+    
     exports.set(key, value, milisec);
 };
 

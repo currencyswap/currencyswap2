@@ -7,11 +7,9 @@ angular.module('appHeader').directive('pageHeader', function () {
             name: '@',
         },
         templateUrl: 'app/shared/header/page-header.template.html',
-        controller: function ($scope, $element ) {
-
+        controller: function ($scope, $rootScope, $element) {
             $scope.title = appConfig.title;
-
+            $scope.currentPage = $rootScope.currentPage;
         }
     };
 })
-

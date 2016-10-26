@@ -1,0 +1,41 @@
+{
+  "name": "OrderActivity",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "indexes": {
+    "orderId_activityId_index": {
+      "columns": "orderId, activityId",
+      "options": {
+        "unique": true
+      }
+    }
+  },
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "orderId": {
+      "type": "number",
+      "required": true
+    },
+    "activityId": {
+      "type": "number",
+      "required": true
+    }
+  },
+  "validations": [],
+  "relations": {
+    "order": {
+      "type": "belongsTo",
+      "model": "Order",
+      "foreignKey": "orderId"
+    },
+    "activity": {
+      "type": "belongsTo",
+      "model": "Activity",
+      "foreignKey": "activityId"
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

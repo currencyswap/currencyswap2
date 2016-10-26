@@ -155,7 +155,7 @@ exports.login = function (user, callback) {
             });
         },
         function (user, secret, next) {
-            let tokenKey = token.generate({ username: user.username }, secret);
+            let tokenKey = token.generate({ username: user.username, fullName : user.fullName }, secret);
 
             token.getSignature(tokenKey, function (err, sign) {
                 next(err, user, secret, tokenKey, sign);
@@ -170,4 +170,4 @@ exports.login = function (user, callback) {
         callback(err, tokenKey);
     });
 
-}
+};

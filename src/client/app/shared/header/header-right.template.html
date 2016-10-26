@@ -1,64 +1,28 @@
 <div class="header-right">
-        <ul class="headermenu">
-          <li>
+    <ul class="headermenu">
+        <li ng-repeat="item in toolbarItems">
             <div class="btn-group">
-              <button class="btn btn-default dropdown-toggle tp-icon">
-                <i class="fa fa-plus"></i>
-              </button>
+                <a href="#!{{item.route}}" ng-if="!item.isMyProfile && !item.isLogout">
+                    <button class="btn btn-default tp-icon {{item.isActivated ? 'tb-active' : ''}}" data-toggle="tooltip" data-placement="bottom" title="{{item.name}}">
+                        <i class="{{item.icon}}"></i>
+                    </button>
+                </a>
+                <!-- My Profile -->
+                <a href="#!{{item.route}}" ng-if="item.isMyProfile">
+                    <button type="button" class="btn btn-default dropdown-toggle {{item.isActivated ? 'tb-active' : ''}}" data-toggle="dropdown" data-placement="bottom" title="{{item.name}}">
+                        <img ng-src="{{currUser.avatarUrl}}" alt=""/>
+                        {{currUser.fullName}}
+                    </button>
+                </a>
+                <!-- My Logout -->
+                <a href="" ng-if="item.isLogout">
+                    <button class="btn btn-default dropdown-toggle tp-icon {{item.isActivated ? 'tb-active' : ''}}"
+                            ng-click="onLogout();" data-placement="bottom" title="{{item.name}}">
+                        <i class="{{item.icon}}"></i>
+                    </button>
+                </a>
             </div>
-          </li>
-          <li>
-            <div class="btn-group">
-              <button class="btn btn-default dropdown-toggle tp-icon">
-                <i class="fa fa-support"></i>
-              </button>
-            </div>
-          </li>
-          <li>
-            <div class="btn-group">
-              <button class="btn btn-default dropdown-toggle tp-icon">
-                <i class="fa fa-question-circle"></i>
-              </button>
-            </div>
-          </li>
-          <li>
-            <div class="btn-group">
-              <button class="btn btn-default dropdown-toggle tp-icon" data-toggle="dropdown">
-                <i class="glyphicon glyphicon-globe"></i>
-                <span class="badge">5</span>
-              </button>
-              <div class="dropdown-menu dropdown-menu-head pull-right">
-                <h5 class="title">You Have 5 New Notifications</h5>
-                <ul class="dropdown-list gen-list">
-                  <li class="new">
-                    <a href="">
-                    <span class="thumb"><img src="assets/images/photos/user4.png" alt="" /></span>
-                    <span class="desc">
-                      <span class="name">Zaham Sindilmaca <span class="badge badge-success">new</span></span>
-                      <span class="msg">is now following you</span>
-                    </span>
-                    </a>
-                  </li>
-                  <li class="new"><a href="">See All Notifications</a></li>
-                </ul>
-              </div>
-            </div>
-          </li>
-          <li>
-            <div class="btn-group">
-              <button type="button" class="btn btn-default dropdown-toggle">
-                <a href=""><img src="assets/images/photos/loggeduser.png" alt="" />
-                John Doe
-                <span class="caret"></span></a>
-              </button>
-            </div>
-          <li>
-            <div class="btn-group">
-              <button class="btn btn-default dropdown-toggle tp-icon">
-                <i class="fa fa-sign-out"></i>
-              </button>
-            </div>
-          </li>
-          </li>
-        </ul>
-      </div><!-- header-right -->
+        </li>
+    </ul>
+</div>
+<!-- header-right -->

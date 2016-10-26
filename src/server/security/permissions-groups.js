@@ -15,7 +15,8 @@ const Permissions = {
 
 const Groups = {
     ADMIN: 'Admin',
-    USER: 'User'
+    USER: 'User',
+    BLOCKED: 'Blocked User'
 };
 
 exports.Permissions = Permissions;

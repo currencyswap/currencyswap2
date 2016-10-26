@@ -7,7 +7,32 @@ angular.module('appHeader').directive('headerRight', function () {
             name: '@',
         },
         templateUrl: 'app/shared/header/header-right.template.html',
-        controller: function ($scope, $element ) {
+        controller: function ($rootScope, $window, $location, $scope, $element, CookieService) {
+
+            $scope.user = {
+                permissions: $rootScope.permissions
+            };
+
+            // Init Menu Item
+            $scope.toolbarItems = $rootScope.toolsBar;
+
+            var currUser = CookieService.getCurrentUser();
+
+            $scope.currUser = {
+                username: currUser.username,
+                fullName: currUser.fullName,
+                avatarUrl: currUser.avatarUrl ? currUser.avatarUrl : global.DEF_AVATAR
+            };
+
+            console.log('current user: ', $scope.currUser);
+
+            $scope.onLogout = function () {
+                $rootScope.loggedIn = false;
+                $rootScope.isLoading = true;
+                CookieService.cleanUpCookies();
+                $location.path(routes.LOGIN);
+                $window.location.reload();
+            };
         }
     };
-})
+});
