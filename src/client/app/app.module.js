@@ -7,6 +7,7 @@ angular.module('currencySwapApp', [
     'errorPage',
     'permission',
     'loginForm',
+    'forgotPassword',
     'homePage',
     'navigation'
 ]).run(function ($rootScope, $location, CookieService, PermissionService, NavigationHelper ) {

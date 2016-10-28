@@ -70,4 +70,4 @@ exports.setupLogs = function () {
     var logConsole = logjs.getLogger('console');
 
     logConsole.setLevel(logLevel)
-} 
+};

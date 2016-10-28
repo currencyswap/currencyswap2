@@ -16,7 +16,8 @@ const Routes = {
     API_ORDERS : '/api/orders',
     API_ORDERS_ID : '/api/orders/:id',
     API_MY_PROFILE: '/api/profile',
-    API_PERMISSIONS: '/api/permissions'
+    API_PERMISSIONS: '/api/permissions',
+    API_FORGOT_PASSWORD: '/api/forgotpassword'
 };
 
 exports.getRoute = function ( val ) {

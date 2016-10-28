@@ -9,6 +9,9 @@ angular.
         when( routes.LOGIN, {
           template: '<login-form></login-form>'
         }).
+        when(routes.FORGOT_PASSWORD, {
+          template: '<forgot-password></forgot-password>'
+        }).
         otherwise('');
     }
   ]);

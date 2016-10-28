@@ -35,7 +35,8 @@ var httpMethods = {
 
 var contentTypes = {
     JSON: 'application/json',
-    JSONP : 'application/javascript'
+    JSONP : 'application/javascript',
+    FORM_URL_ENCODED: 'application/x-www-form-urlencoded'
 };
 
 var autheticateType = {
