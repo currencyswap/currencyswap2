@@ -11,6 +11,7 @@ var async = require('async');
 var userConverter = require('../converters/user-converter');
 var mailSender = require('../libs/mail-sender');
 var constant = require('../libs/constants/constants');
+var appConfig = require('../libs/app-config');
 
 exports.createUser = function (user, callback) {
 
@@ -201,11 +202,12 @@ exports.resetPassword = function (email, callback) {
         },
         function (updatedUser, plainPassword, next) {
             // send notification email to client
+            var senderInfo = appConfig.getMailSenderInfo();
             var mailOptions = {
-                from: constant.FORGOT_PWD_EMAIL.SENDER,
+                from: senderInfo.sender,
                 to: updatedUser.email,
-                subject: constant.FORGOT_PWD_EMAIL.SUBJECT,
-                text: constant.FORGOT_PWD_EMAIL.TEXT + plainPassword
+                subject: senderInfo.subject,
+                text: senderInfo.text + plainPassword
             };
 
             mailSender.sendMail(mailOptions, function (err, info) {
