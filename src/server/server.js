@@ -3,8 +3,12 @@ var boot = require('loopback-boot');
 var redis = require('./libs/redis');
 var mailSender = require('./libs/mail-sender');
 var logger = require('./libs/logger');
+var bodyParser = require('body-parser');
 
 var app = module.exports = loopback();
+
+// body-parser middleware
+app.use(bodyParser.json());
 
 app.start = function () {
   // start the web server

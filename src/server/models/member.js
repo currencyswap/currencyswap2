@@ -3,6 +3,7 @@
 var errorUtil = require('../libs/errors/error-util');
 var errors = require('../libs/errors/errors');
 var util = require('util');
+var constants = require('../libs/constants/constants');
 
 module.exports = function (Member) {
     Member.observe('after save', function (ctx, next) {
@@ -138,4 +139,46 @@ module.exports = function (Member) {
         });
     };
 
+    Member.findByEmail = function (email, callback) {
+        let where = {
+            email: email
+        };
+
+        let filter = {
+            where: where
+        };
+        Member.findOne(filter, function (err, user) {
+
+            if (err) {
+                return callback(errorUtil.createAppError(errors.SERVER_GET_PROBLEM));
+            }
+
+            if (!user) {
+                let appError = errorUtil.createAppError(errors.MEMBER_EMAIL_NOT_FOUND);
+                appError.message = util.format(appError.message, email);
+                return callback(appError);
+            }
+
+            callback(null, user);
+        });
+    };
+
+    Member.updatePassword = function (newPassword, callback) {
+        var updatedField = constants.PASSWORD_FIELD;
+        Member.updateUserInfo(updatedField, newPassword, function (err, updatedUser) {
+            if (err) {
+                return callback(err);
+            }
+            return callback(null, updatedUser);
+        })
+    };
+
+    Member.updateUserInfo = function (attrName, newAttrValue, callback) {
+        Member.updateAttribute(attrName, newAttrValue, function (err, updatedUser) {
+            if (err) {
+                return callback(err);
+            }
+            return callback(null, updatedUser);
+        })
+    };
 };

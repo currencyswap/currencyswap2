@@ -30,7 +30,7 @@ angular.module('loginForm')
                                     $rootScope.permissions = response.data;
                                     $rootScope.loggedIn = true;
                                     NavigationHelper.initNavigationBar();    
-                                    $location.path(routes.HOME);                                                                  
+                                    $location.path(routes.HOME);
                                 },
                                 function (error) {
                                     CookieService.cleanUpCookies();
@@ -41,5 +41,9 @@ angular.module('loginForm')
                             if (error.data) $scope.loginErrMsg = error.data.message;
                         })
                 };
+
+                $scope.onForgotPassword = function () {
+                    $location.path(routes.FORGOT_PASSWORD);
+                }
             }]
     });

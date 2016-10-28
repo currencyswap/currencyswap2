@@ -15,7 +15,11 @@ module.exports = function (app) {
         };
 
         mailSender.sendMail( mailOptions, function ( err, info ) {
-            console.log('AAAAAAAAAAAa');            
+            if (err) {
+
+            } else {
+
+            }
         });
 
         res.status(200).send({ message: 'pong' });

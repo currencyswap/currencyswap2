@@ -20,7 +20,7 @@ exports.validateUsernamePass = function( user, callback ) {
 
     callback( null );
 
-}
+};
 
 exports.validateUserPass = function( user, callback ) {
 
@@ -38,4 +38,4 @@ exports.validateUserPass = function( user, callback ) {
 
     callback( null );
 
-}
+};
