@@ -12,6 +12,7 @@ var routes = {
     LOGOUT: '/logout',
     REGISTER: '/register',
     NOTIFICATIONS: '/notifications',
+    FORGOT_PASSWORD: '/forgotpassword'
 };
 
 var navigation = [

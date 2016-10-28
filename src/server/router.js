@@ -11,6 +11,7 @@ module.exports = function (app) {
 
     app.use(routes.CONFIG, require('./controllers/config')(app));
     app.use(routes.API_AUTHENTICATE, require('./controllers/authenticate')(app));
+    app.use(routes.API_FORGOT_PASSWORD, require('./controllers/forgotpassword')(app));
     app.use(routes.API_HELLO, require('./controllers/hello')(app));
     
 

@@ -8,6 +8,10 @@ var app = require('../server');
 var redis = require('../libs/redis');
 var token = require('../libs/token');
 var async = require('async');
+var userConverter = require('../converters/user-converter');
+var mailSender = require('../libs/mail-sender');
+var constant = require('../libs/constants/constants');
+var appConfig = require('../libs/app-config');
 
 exports.createUser = function (user, callback) {
 
@@ -155,7 +159,7 @@ exports.login = function (user, callback) {
             });
         },
         function (user, secret, next) {
-            let tokenKey = token.generate({ username: user.username, fullName : user.fullName }, secret);
+            let tokenKey = token.generate({username: user.username, fullName: user.fullName}, secret);
 
             token.getSignature(tokenKey, function (err, sign) {
                 next(err, user, secret, tokenKey, sign);
@@ -163,11 +167,55 @@ exports.login = function (user, callback) {
 
         },
         function (user, secret, tokenKey, sign, next) {
-            redis.setSecretKeyBySignature(sign, JSON.stringify({ username: user.username, secret: secret }));
+            redis.setSecretKeyBySignature(sign, JSON.stringify({username: user.username, secret: secret}));
             next(null, tokenKey);
         }
     ], function (err, tokenKey) {
         callback(err, tokenKey);
     });
 
+};
+
+exports.resetPassword = function (email, callback) {
+    async.waterfall([
+        function (next) {
+            // find user by email
+            app.models.Member.findByEmail(email, function (err, user) {
+                if (err) {
+                    return callback(errorUtil.createAppError(errors.MEMBER_EMAIL_NOT_FOUND));
+                }
+                return next(null, user);
+            });
+        },
+        function (user, next) {
+            // generate new random password
+            var plainPassword = userConverter.generateNewPassword();
+            user.password = md5(plainPassword);
+            return next(null, user, plainPassword);
+        },
+        function (user, plainPassword, next) {
+            // save password to DB
+            user.updateAttribute(constant.PASSWORD_FIELD, user.password, function (err, updatedUser) {
+                if (err) return callback(errorUtil.createAppError(errors.SERVER_GET_PROBLEM));
+                else return next(null, updatedUser, plainPassword);
+            })
+        },
+        function (updatedUser, plainPassword, next) {
+            // send notification email to client
+            var senderInfo = appConfig.getMailSenderInfo();
+            var mailOptions = {
+                from: senderInfo.sender,
+                to: updatedUser.email,
+                subject: senderInfo.subject,
+                text: senderInfo.text + plainPassword
+            };
+
+            mailSender.sendMail(mailOptions, function (err, info) {
+                if (err) return callback(err);
+                else return next(null, updatedUser);
+            });
+        }
+    ], function (err, updatedUser) {
+        callback(err, updatedUser);
+    });
 };
