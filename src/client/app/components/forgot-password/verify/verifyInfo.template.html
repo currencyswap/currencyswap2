@@ -2,16 +2,19 @@
 
     <div class="row">
 
-        <div class="col-md-7">
+        <div class="col-md-2">
 
+        </div>
+
+        <div class="col-md-8" ng-if="isSubmitEmailForm">
             <div class="signin-info">
                 <div class="logopanel">
                     <h1><span>[</span> {{title}} <span>]</span></h1>
+                    <br>
+                    <h5>Please fill your registered email to process your resetting password request</h5>
                 </div><!-- logopanel -->
             </div><!-- signin0-info -->
 
-        </div><!-- col-sm-7 -->
-        <div class="col-md-5" ng-if="isSubmitEmailForm">
             <form name="userForm" ng-submit="submitEmail()" novalidate>
                 <!-- EMAIL -->
                 <div class="form-group" ng-class="{ 'has-error' : (userForm.email.$invalid && !userForm.email.$pristine) || (isEmailNotFound && !userForm.email.$pristine)}">
@@ -26,16 +29,14 @@
 
             </form>
         </div>
-
-        <div class="col-md-5" class="col-md-5" ng-if="isMailCheckingNoti">
-            <!-- MAIL CHECKING NOTIFICATION -->
-            <p>Reset password instruction has been sent to your registered email. Please check it!</p>
-        </div>
-
     </div><!-- row -->
 
     <div class="signup-footer">
         <div class="pull-left">
+            &copy; 2014. All Rights Reserved.
+        </div>
+        <div class="pull-right">
+            Currency Swap
         </div>
     </div>
 

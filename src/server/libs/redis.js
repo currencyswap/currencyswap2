@@ -106,7 +106,7 @@ exports.getSecretKey = function (username, callback) {
 
 exports.setSecretKey = function (username, value, callback) {
     let key = SECRET_KEYS + username;
-    exports.set(key, value, function (err, response) {
+    exports.set(key, value, undefined, function (err, response) {
         if (err) return callback(errorUtil.createAppError(errors.REDIS_SERVER_GET_PROBLEM));
         else return callback(null);
     });
@@ -130,9 +130,12 @@ exports.getSecretKeyBySignature = function (sign, callback) {
     exports.get(key, callback);
 };
 
-exports.setUserInfo = function (user) {
+exports.setUserInfo = function (user, callback) {
     let key = USERINFO + user.username;
-    exports.set(key, JSON.stringify(user), DEF_EXPIRED);
+    exports.set(key, JSON.stringify(user), DEF_EXPIRED, function (err, response) {
+        if (err) return callback(err);
+        else return callback(null, response);
+    });
 };
 
 exports.removeUserInfo = function (username) {
@@ -158,7 +161,6 @@ exports.getResetPwdCode = function (userEmail, callback) {
         if (err) {
             return callback(errorUtil.createAppError(errors.REDIS_SERVER_GET_PROBLEM));
         } else {
-            console.log('response from redis: ', response);
             return callback (null, response);
         }
     })

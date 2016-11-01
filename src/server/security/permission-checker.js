@@ -11,7 +11,6 @@ var errorUtil = require('../libs/errors/error-util');
 var exports = module.exports;
 var util = require('util');
 var redis = require('../libs/redis');
-
 var permissionConverter = require('../converters/permission-converter');
 
 var collectPermissionFromRules = function (request, permissionItem) {
@@ -160,10 +159,11 @@ exports.collectUserPermission = function (username, callback) {
                 if (user) {
 
                     console.log('JSON %s', JSON.stringify(user.toJSON()));
-                    redis.setUserInfo(user.toJSON());
+                    redis.setUserInfo(user.toJSON(), function (err, user) {
+                        if (err) return next(err);
+                        else return next(null, user);
+                    });
                 }
-
-                next(null, user);
             });
         },
         function (user, next) {

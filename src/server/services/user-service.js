@@ -16,7 +16,7 @@ var crypto = require('crypto');
 var os = require('os');
 
 exports.createUser = function (user, callback) {
-
+    console.log('start create user ...');
     if (user.username === undefined) {
         return callback(errorUtil.createAppError(errors.MEMBER_NO_USERNAME));
     }
@@ -60,7 +60,6 @@ exports.createUser = function (user, callback) {
             let userGrps = [];
 
             user.groups.forEach(function (grp) {
-
                 if (!grp.id) return;
 
                 userGrps.push({
@@ -75,9 +74,12 @@ exports.createUser = function (user, callback) {
 
         }
     ], function (err, instance) {
-        if (err) console.error('ERROR [%s]: %s', err.name, err.message);
-        let error = err ? errorUtil.createAppError(errors.SERVER_GET_PROBLEM) : null;
-        callback(error, instance);
+        if (err) {
+            console.error('ERROR [%s]: %s', err.name, err.message);
+            return callback(err);
+        } else {
+            return callback(null, instance);
+        }
     });
 };
 
@@ -143,7 +145,6 @@ exports.login = function (user, callback) {
         function (user, next) {
             // get User Secret Key
             redis.getSecretKey(user.username, function (err, value) {
-
                 if (!err) return next(null, user, value);
 
                 if (err.code != errors.MISSING_REDIS_KEY.code) {
@@ -264,5 +265,14 @@ exports.updatePassword = function (newPwd, callback) {
         if (err) return callback(err);
         else return callback(null, updatedUser);
     })
+};
+
+exports.createUserTransaction = function (callback) {
+    app.models.Member.beginTransaction (function (err, tx) {
+        console.log('Creating transaction ...');
+        console.log('error on transaction creation, ' + err);
+        if (err) return callback(err);
+        else return callback(null, tx);
+    });
 };
 
