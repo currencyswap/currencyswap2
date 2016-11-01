@@ -52,13 +52,3 @@ exports.convertUserToUserJSON = function (user) {
     return userObj;
 
 };
-
-exports.generateNewPassword = function () {
-    var passwordOption = {
-        length: 10,
-        numbers: true
-    };
-    var newPassword = passwordGenerator.generate(passwordOption);
-    return newPassword;
-
-};

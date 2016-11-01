@@ -7,7 +7,8 @@ angular.module('currencySwapApp', [
     'errorPage',
     'permission',
     'loginForm',
-    'forgotPassword',
+    'verifyInfo',
+    'resetPassword',
     'homePage',
     'navigation'
 ]).run(function ($rootScope, $location, CookieService, PermissionService, NavigationHelper ) {
@@ -20,12 +21,21 @@ angular.module('currencySwapApp', [
 
     if (!token) {
         $rootScope.isLoading = false;
+        if ($location.path() === routes.FORGOT_PASSWORD_VERIFY) {
+            return $location.path(routes.FORGOT_PASSWORD_VERIFY);
+        }
 
-        if ($location.path() != routes.LOGIN) return $location.path(routes.LOGIN);
-        else return;
+        if ($location.path() === routes.FORGOT_PASSWORD_RESET) {
+            return $location.path(routes.FORGOT_PASSWORD_RESET);
+        }
+
+        if ($location.path() != routes.LOGIN) {
+            return $location.path(routes.LOGIN);
+        } else return;
     }
 
     $rootScope.$on("$routeChangeStart", function (event, next, current) {
+        console.log('come here ???');
         if ( !$rootScope.loggedIn || !$rootScope.permissions ) return;
 
         if ( ! NavigationHelper.checkPermission() ) {

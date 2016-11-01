@@ -7,7 +7,8 @@ var global = {
     MENUBAR : 'Menu-Bar',
     TOOLSBAR : 'Tools-Bar',
     NONE : '',
-    DEF_AVATAR: 'assets/images/photos/profile.png'
+    DEF_AVATAR: 'assets/images/photos/profile.png',
+    USER_EMAIL: 'userEmail'
 };
 
 var permissions = {

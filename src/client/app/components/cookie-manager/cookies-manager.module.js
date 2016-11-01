@@ -31,6 +31,16 @@ angular.module('cookieManager', ['ngCookies'])
             getCurrentUser: function () {
                 var userString = $cookies.get(global.CURRENT_USER);
                 return JSON.parse(userString);
+            },
+            getUserEmail: function () {
+                return $cookies.get(global.USER_EMAIL);
+            },
+            setUserEmail: function (userEmail) {
+                var resetPwdCodeExpired = {
+                    expires: new Date(Date.now() + 1)
+                };
+
+                $cookies.put(global.USER_EMAIL, userEmail, resetPwdCodeExpired);
             }
         }
-    }]);;
+    }]);

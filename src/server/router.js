@@ -11,7 +11,12 @@ module.exports = function (app) {
 
     app.use(routes.CONFIG, require('./controllers/config')(app));
     app.use(routes.API_AUTHENTICATE, require('./controllers/authenticate')(app));
-    app.use(routes.API_FORGOT_PASSWORD, require('./controllers/forgotpassword')(app));
+    app.use(routes.API_FORGOT_PASSWORD_VERIFY, require('./controllers/forgotpassword-verifyInfo')(app));
+    app.use(routes.API_FORGOT_PASSWORD_RESET, require('./controllers/forgotpassword-reset')(app));
+
+    /*router.post('/:resetCode', function (req, res) {
+        console.log('come here !!!');
+    });*/
     app.use(routes.API_HELLO, require('./controllers/hello')(app));
     
 
