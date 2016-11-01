@@ -9,6 +9,7 @@ angular.module('currencySwapApp', [
     'loginForm',
     'verifyInfo',
     'resetPassword',
+    'register',
     'homePage',
     'navigation'
 ]).run(function ($rootScope, $location, CookieService, PermissionService, NavigationHelper ) {

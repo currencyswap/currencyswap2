@@ -44,6 +44,10 @@ angular.module('loginForm')
 
                 $scope.onForgotPassword = function () {
                     $location.path(routes.FORGOT_PASSWORD_VERIFY);
+                };
+
+                $scope.onRegister = function () {
+                    $location.path(routes.REGISTER)
                 }
             }]
     });
