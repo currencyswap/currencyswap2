@@ -23,5 +23,7 @@
     "ERR_USER_IS_NOT_AVAILABLE" : "User '%s' is not available. Please contact with Admin.",
     "ERR_INVALID_SMTP_OPTIONS" : "Invalid SMTP Options",
     "ERR_MAIL_SENDER_NOT_VAILABLE" : "Mail Sender is not available.",
-    "ERR_COULD_NOT_SEND_MAIL": "Could not send mail."
+    "ERR_COULD_NOT_SEND_MAIL": "Could not send mail.",
+    "RESET_PWD_CODE_NOT_FOUND": "Reset password code is not found in redis.",
+    "RESET_PWD_CODE_DOES_NOT_MATCH": "Reset password code does not match in redis"
 }

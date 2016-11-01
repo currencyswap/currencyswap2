@@ -128,11 +128,11 @@ exports.getSMTPOptions = function () {
 };
 
 exports.getMailSenderInfo = function () {
-    try {
-        return appConfig.mailSender;
-    } catch (err) {
-        console.log(err.stack);
-        console.log('Server startup fail ! Try again');
-    }
+    return appConfig.mailSender;
 };
+
+exports.getResetPwdCodeExipired = function () {
+    return appConfig.resetPwdCodeExpired;
+};
+
 module.exports = exports;

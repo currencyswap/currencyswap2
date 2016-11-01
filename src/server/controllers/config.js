@@ -12,7 +12,7 @@ module.exports = function (app) {
 
     router.get('/setting.js', function (req, res) {
 
-        let miliseconds = ms( appConfig.getTokenExpired() );
+        let miliseconds = ms(appConfig.getTokenExpired());
 
         let config = {
             title: appConfig.getTitle(),

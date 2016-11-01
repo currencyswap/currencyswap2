@@ -12,6 +12,8 @@ var userConverter = require('../converters/user-converter');
 var mailSender = require('../libs/mail-sender');
 var constant = require('../libs/constants/constants');
 var appConfig = require('../libs/app-config');
+var crypto = require('crypto');
+var os = require('os');
 
 exports.createUser = function (user, callback) {
 
@@ -152,10 +154,11 @@ exports.login = function (user, callback) {
                 let secret = token.generateSecretKey(user.username);
 
                 // Set to redis
-                redis.setSecretKey(user.username, secret);
-
-                return next(null, user, secret);
-
+                redis.setSecretKey(user.username, secret, function (err, response) {
+                    if (err) return next (err);
+                    else return next(null, user, secret);
+                });
+                //return next(null, user, secret);
             });
         },
         function (user, secret, next) {
@@ -167,8 +170,10 @@ exports.login = function (user, callback) {
 
         },
         function (user, secret, tokenKey, sign, next) {
-            redis.setSecretKeyBySignature(sign, JSON.stringify({username: user.username, secret: secret}));
-            next(null, tokenKey);
+            redis.setSecretKeyBySignature(sign, JSON.stringify({username: user.username, secret: secret}), function (err, response) {
+                if (err) return next (err);
+                else return next(null, tokenKey);
+            });
         }
     ], function (err, tokenKey) {
         callback(err, tokenKey);
@@ -176,7 +181,7 @@ exports.login = function (user, callback) {
 
 };
 
-exports.resetPassword = function (email, callback) {
+exports.verifyResetPwdInfo = function (email, callback) {
     async.waterfall([
         function (next) {
             // find user by email
@@ -184,38 +189,80 @@ exports.resetPassword = function (email, callback) {
                 if (err) {
                     return callback(errorUtil.createAppError(errors.MEMBER_EMAIL_NOT_FOUND));
                 }
-                return next(null, user);
+                return next(null, email);
             });
         },
-        function (user, next) {
-            // generate new random password
-            var plainPassword = userConverter.generateNewPassword();
-            user.password = md5(plainPassword);
-            return next(null, user, plainPassword);
+        function (email, next) {
+            // generate reset password code
+            exports.generateResetPwdCode(function (err, resetCode) {
+                if (err) return next(err);
+                else return next(null, resetCode, email);
+            });
         },
-        function (user, plainPassword, next) {
-            // save password to DB
-            user.updateAttribute(constant.PASSWORD_FIELD, user.password, function (err, updatedUser) {
-                if (err) return callback(errorUtil.createAppError(errors.SERVER_GET_PROBLEM));
-                else return next(null, updatedUser, plainPassword);
+        function (resetCode, email, next) {
+            redis.set(email, resetCode, 24*60*60, function (err, savedKV) {
+                if (err) return next (err);
+                else return next(null, resetCode, email);
             })
         },
-        function (updatedUser, plainPassword, next) {
+        function (resetCode, email, next) {
             // send notification email to client
             var senderInfo = appConfig.getMailSenderInfo();
             var mailOptions = {
                 from: senderInfo.sender,
-                to: updatedUser.email,
+                to: email,
                 subject: senderInfo.subject,
-                text: senderInfo.text + plainPassword
+                text: 'Your reset password URL: ' + exports.constructResetUrl(resetCode, email) + '\n' + 'Code: ' + resetCode
             };
 
             mailSender.sendMail(mailOptions, function (err, info) {
                 if (err) return callback(err);
-                else return next(null, updatedUser);
+                else return next(null);
             });
         }
     ], function (err, updatedUser) {
         callback(err, updatedUser);
     });
 };
+
+exports.resetPassword = function (email, requestResetCode, callback) {
+    async.waterfall([
+        function (next) {
+            redis.checkResetCode(email, requestResetCode, function (err, response) {
+                if (err) return next(errorUtil.createAppError(errors.RESET_PWD_CODE_NOT_FOUND));
+                else return next(null, email, response);
+            });
+        },
+        function (email, response, next) {
+            var isValidResetCode = exports.validateResetCode(response, requestResetCode);
+            if (!isValidResetCode) return next(errorUtil.createAppError(errors.RESET_PWD_CODE_DOES_NOT_MATCH));
+            else return next(null);
+        }
+    ], function (err, updatedUser) {
+        callback(err, updatedUser);
+    });
+
+};
+
+exports.generateResetPwdCode = function (callback) {
+    crypto.randomBytes(16, function (err, buf) {
+        if (err) return callback(err);
+        else return callback(null, buf.toString('hex'));
+    });
+};
+
+exports.constructResetUrl = function (resetCode, email) {
+    return 'http://localhost:3000/#!/forgotpassword/reset/';
+};
+
+exports.validateResetCode = function (redisResetCode, requestResetCode) {
+    return (redisResetCode === requestResetCode);
+};
+
+exports.updatePassword = function (newPwd, callback) {
+    app.models.Member.updateUserInfo (constant.PASSWORD_FIELD, newPwd, function (err, updatedUser) {
+        if (err) return callback(err);
+        else return callback(null, updatedUser);
+    })
+};
+

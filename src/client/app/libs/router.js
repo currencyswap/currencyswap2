@@ -12,7 +12,8 @@ var routes = {
     LOGOUT: '/logout',
     REGISTER: '/register',
     NOTIFICATIONS: '/notifications',
-    FORGOT_PASSWORD: '/forgotpassword'
+    FORGOT_PASSWORD_VERIFY: '/forgotpassword/verify',
+    FORGOT_PASSWORD_RESET: '/forgotpassword/reset/'
 };
 
 var navigation = [

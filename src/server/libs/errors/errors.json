@@ -75,6 +75,14 @@
         "code": 27,
         "message": "{ERR_EMAIL_NOT_FOUND}"
     },
+    "RESET_PWD_CODE_NOT_FOUND": {
+        "code": 28,
+        "message": "{ERR_EMAIL_NOT_FOUND}"
+    },
+    "RESET_PWD_CODE_DOES_NOT_MATCH": {
+        "code": 29,
+        "message": "{ERR_EMAIL_NOT_FOUND}"
+    },
     "INVALID_TOKEN_API_KEY": {
         "code": 40,
         "message": "{ERR_INVALID_TOKEN_API_KEY}"
