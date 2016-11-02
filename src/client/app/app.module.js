@@ -36,7 +36,6 @@ angular.module('currencySwapApp', [
     }
 
     $rootScope.$on("$routeChangeStart", function (event, next, current) {
-        console.log('come here ???');
         if ( !$rootScope.loggedIn || !$rootScope.permissions ) return;
 
         if ( ! NavigationHelper.checkPermission() ) {
@@ -77,6 +76,8 @@ angular.module('currencySwapApp', [
     );
 
 }).constant('GLOBAL_CONSTANT', {
+    BLOCK_USER_GRP: "Blocked User",
+
 }).constant('ERROR_MSG', {
     INVALID_USR_OR_PWD_MSG: 'Invalid username or password !',
     EMPTY_USR_OR_PWD_MSG: 'Empty username or password !'

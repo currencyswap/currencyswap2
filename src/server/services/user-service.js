@@ -16,7 +16,6 @@ var crypto = require('crypto');
 var os = require('os');
 
 exports.createUser = function (user, callback) {
-    console.log('start create user ...');
     if (user.username === undefined) {
         return callback(errorUtil.createAppError(errors.MEMBER_NO_USERNAME));
     }
@@ -155,11 +154,8 @@ exports.login = function (user, callback) {
                 let secret = token.generateSecretKey(user.username);
 
                 // Set to redis
-                redis.setSecretKey(user.username, secret, function (err, response) {
-                    if (err) return next (err);
-                    else return next(null, user, secret);
-                });
-                //return next(null, user, secret);
+                redis.setSecretKey(user.username, secret);
+                return next(null, user, secret);
             });
         },
         function (user, secret, next) {
@@ -171,10 +167,8 @@ exports.login = function (user, callback) {
 
         },
         function (user, secret, tokenKey, sign, next) {
-            redis.setSecretKeyBySignature(sign, JSON.stringify({username: user.username, secret: secret}), function (err, response) {
-                if (err) return next (err);
-                else return next(null, tokenKey);
-            });
+            redis.setSecretKeyBySignature(sign, JSON.stringify({username: user.username, secret: secret}));
+            return next(null, tokenKey);
         }
     ], function (err, tokenKey) {
         callback(err, tokenKey);
@@ -269,10 +263,44 @@ exports.updatePassword = function (newPwd, callback) {
 
 exports.createUserTransaction = function (callback) {
     app.models.Member.beginTransaction (function (err, tx) {
-        console.log('Creating transaction ...');
-        console.log('error on transaction creation, ' + err);
         if (err) return callback(err);
         else return callback(null, tx);
+    });
+};
+
+exports.registerUser = function (newUser, callback) {
+    async.waterfall([
+        function (next) {
+            // step 1: check if user exists in DB or not
+            exports.getUserByUsername(newUser.username, function (err, user) {
+                if (err) return next(null);
+                else {
+                    if (!user) return next (null);
+                    else return next(errorUtil.createAppError(errors.USER_NAME_EXISTED));
+                }
+            })
+        },
+        function (next) {
+            // step 2: check if email exists in DB or not
+            app.models.Member.findByEmail(newUser.email, function (err, user) {
+                if (err) return next(null);
+                else {
+                    if (!user) return next (null);
+                    else return next(errorUtil.createAppError(errors.EMAIL_EXISTED));
+                }
+            })
+        },
+        function (next) {
+            //step 3: Save user to DB
+            exports.createUser(newUser, function (err, savedUser) {
+                if (err) {
+                    return next(errorUtil.createAppError(errors.SERVER_GET_PROBLEM));
+                }
+                else return next(null, savedUser);
+            })
+        }
+    ], function (err, savedUser) {
+        callback(err, savedUser);
     });
 };
 

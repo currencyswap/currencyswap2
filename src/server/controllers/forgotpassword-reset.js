@@ -17,7 +17,6 @@ module.exports = function (app) {
 
     router.post('/', function (req, res) {
         if (!req.body.password) {
-            console.log('received request to validate reset code');
             var userEmail = req.body.email;
             var resetCode = req.body.resetCode;
 
@@ -26,7 +25,6 @@ module.exports = function (app) {
                 else return res.status(200).send({});
             });
         } else {
-            console.log('received request to reset password');
             var newPassword = req.body.password;
             var userEmail = req.body.email;
 

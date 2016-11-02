@@ -47,7 +47,7 @@ angular.module('loginForm')
                 };
 
                 $scope.onRegister = function () {
-                    $location.path(routes.REGISTER)
+                    $location.path(routes.REGISTER);
                 }
             }]
     });

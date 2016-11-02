@@ -3,7 +3,6 @@
 var exports = module.exports;
 var appConfig = require('../libs/app-config');
 var dateFormat = require('dateformat');
-var passwordGenerator = require('generate-password');
 
 exports.convertUserToUserJSON = function (user) {
 
