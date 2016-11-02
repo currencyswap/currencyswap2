@@ -294,6 +294,7 @@ exports.registerUser = function (newUser, callback) {
             //step 3: Save user to DB
             exports.createUser(newUser, function (err, savedUser) {
                 if (err) {
+                    console.log(err);
                     return next(errorUtil.createAppError(errors.SERVER_GET_PROBLEM));
                 }
                 else return next(null, savedUser);

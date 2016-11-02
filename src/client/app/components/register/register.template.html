@@ -19,18 +19,15 @@
                 <h2 class="nomargin"><b><u>Register</u></b></h2>
                 <br>
 
-
                 <div class="form-group"
                      ng-class="{ 'has-error' : registerForm.username.$invalid && !registerForm.username.$pristine }">
                     <div class="mb10">
-                        <label class="control-label"><b>Username</b></label>
+                        <label class="control-label"><b>Username</b></label> <span class="asterisk">*</span>
                         <input type="text" name="username" class="form-control" ng-model="user.username"
                                ng-minlength="3" ng-maxlength="15" required>
                         <p ng-show="registerForm.username.$error.minlength" class="help-block">Username is too
                             short.</p>
                         <p ng-show="registerForm.username.$error.maxlength" class="help-block">Username is too long.</p>
-                        <p ng-show="registerForm.username.$invalid && !registerForm.username.$pristine"
-                           class="help-block">This is required.</p>
                     </div>
                 </div>
 
@@ -47,12 +44,12 @@
                 <div class="form-group"
                      ng-class="{ 'has-error' : registerForm.email.$invalid && !registerForm.email.$pristine }">
                     <div class="mb10">
-                        <label class="control-label"><b>Email</b></label>
+                        <label class="control-label"><b>Email</b></label> <span class="asterisk">*</span>
                         <input type="email" name="email" class="form-control" ng-model="user.email" required>
                         <p ng-show="registerForm.email.$invalid && !registerForm.email.$pristine" class="help-block">
                             Email is not valid.</p>
-                        <p ng-show="registerForm.email.$invalid && !registerForm.email.$pristine" class="help-block">
-                            Email is required.</p>
+                        <p ng-show="user.email === '' &&     !registerForm.email.$pristine" class="help-block">
+                            This is required.</p>
                     </div>
                 </div>
 
@@ -66,14 +63,12 @@
                     </div>
                 </div>
 
-                <div class="form-group" data-ng-class="{'has-error' : registerForm.password.$invalid && !registerForm.password.$pristine}"><label for="password"><b>Password</b></label>
+                <div class="form-group" data-ng-class="{'has-error' : registerForm.password.$invalid && !registerForm.password.$pristine}"><label for="password"><b>Password</b></label> <span class="asterisk">*</span>
                     <input class="form-control" type="password" name="password" required data-ng-model="user.password">
-                    <span class="help-block" data-ng-show="!registerForm.password.$pristine && registerForm.password.$error.required">This is required.</span>
                 </div>
 
-                <div class="form-group" data-ng-class="{'has-error' : registerForm.passwordCompare.$invalid && !registerForm.passwordCompare.$pristine}"><label for="passwordCompare"><b>Re-type Password</b></label>
+                <div class="form-group" data-ng-class="{'has-error' : registerForm.passwordCompare.$invalid && !registerForm.passwordCompare.$pristine}"><label for="passwordCompare"><b>Re-type Password</b></label> <span class="asterisk">*</span>
                     <input class="form-control" type="password" name="passwordCompare" required data-ng-model="user.passwordCompare" data-ng-match="user.password"/>
-                    <span class="help-block" data-ng-show="!registerForm.passwordCompare.$pristine && registerForm.passwordCompare.$error.required">This is required.</span>
                     <span class="help-block" data-ng-show="registerForm.passwordCompare.$error.match">Passwords do not match.</span>
                 </div>
 
@@ -245,6 +240,11 @@
                             <option value="1901">1901</option>
                             <option value="1900">1900</option>
                         </select>
+                    </div>
+
+                    <div class="mb10">
+                        <label class="control-label"><b>Address</b></label>
+                        <input class="form-control" type="text" ng-model="user.address">
                     </div>
 
                     <div class="mb10">
