@@ -51,3 +51,36 @@ exports.convertUserToUserJSON = function (user) {
     return userObj;
 
 };
+
+exports.convertUserData = function (requestUser) {
+    var resultUser = {};
+
+    resultUser.username = requestUser.username;
+    resultUser.password = requestUser.password;
+    resultUser.email = requestUser.email;
+    resultUser.group = requestUser.groups;
+
+    if (requestUser.fullname) {
+        resultUser.fullName = requestUser.fullName;
+    }
+
+    if (requestUser.birthday) {
+        resultUser.birthday = requestUser.birthday;
+    }
+
+    if (requestUser.cellphone) {
+        resultUser.cellphone = requestUser.cellphone;
+    }
+
+    if (requestUser.profession) {
+        resultUser.profession = requestUser.profession;
+    }
+
+    if (requestUser.addresses) {
+        requestUser.addresses.forEach(function (address) {
+            if (address.address && address.city && address.postcode && address.country) resultUser.addresses = requestUser.addresses;
+        });
+    }
+
+    return resultUser;
+};

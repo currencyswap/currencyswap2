@@ -11,11 +11,20 @@ angular.module('register')
             function registerController($scope, $rootScope, $location, $http, GLOBAL_CONSTANT) {
                 $scope.user = {};
                 $scope.registerSuccess = false;
+
+                if ($scope.user.dobYear && $scope.user.dobMonth && $scope.user.dobDay) {
+                    var birthday = $scope.user.dobYear + '-' + $scope.user.dobMonth + '-' + $scope.user.dobDay;
+                } else {
+                    birthday = null;
+                }
+
                 $scope.onSubmit = function () {
+
                     var newUser = {
                         username: $scope.user.username,
                         fullName: $scope.user.fullname,
-                        birthday: $scope.user.dobYear + '-' + $scope.user.dobMonth + '-' + $scope.user.dobDay,
+                        cellphone: $scope.user.cellphone,
+                        birthday: birthday,
                         expiredDate: "2017-06-30",
                         email: $scope.user.email,
                         password: $scope.user.password,
@@ -48,7 +57,11 @@ angular.module('register')
                         .then(function (response) {
                             $scope.registerSuccess = true;
                         }, function (error) {
-                            console.log(error);
+                            if (error.data.code === 30) {
+                                $rootScope.error = {};
+                                $rootScope.error.status = 400;
+                                $rootScope.error.message = error.data.message;
+                            }
                         });
                 }
             }]
