@@ -58,7 +58,6 @@ function setupPermissions(callback) {
             name: persGroups.Permissions[key],
             key: key
         });
-
     }
 
     permissionService.createPermissions(permissions, callback);
@@ -72,7 +71,6 @@ function setupGroups(callback) {
         groups.push({
             name: persGroups.Groups[key]
         });
-
     }
 
     groupService.createGroups(groups, callback);
@@ -161,7 +159,6 @@ var migrateDb = function () {
                 });
             },
             function (groups, next) {
-                console.log('groups: ', groups);
                 let groupMaps = convertObjectsToMaps(groups);
 
 
@@ -180,7 +177,6 @@ var migrateDb = function () {
                     }
 
                     user.groups = groupObjs;
-
                     console.log('USER %s', JSON.stringify(user));
 
                     userObjs.push(user);
@@ -189,7 +185,6 @@ var migrateDb = function () {
                 next(null, userObjs);
             },
             function (userObjs, next) {
-                console.log(util.inspect(userObjs[0], {showHidden: false, depth: null}));
                 userService.createUsers(userObjs, function (err, users) {
                     next(err, users);
                 });

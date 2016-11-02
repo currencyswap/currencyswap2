@@ -47,9 +47,7 @@ exports.authenticateByToken = function (request, response, callback) {
             });
         },
         function (decode, username, next) {
-
             console.log('secret : %s', JSON.stringify(decode));
-
             if (decode.username !== username) {
                 let err = errorUtil.createAppError(errors.INVALID_TOKEN_API_KEY);
                 err.message = util.format(err.message, decode.username);

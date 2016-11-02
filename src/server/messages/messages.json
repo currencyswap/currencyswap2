@@ -25,5 +25,7 @@
     "ERR_MAIL_SENDER_NOT_VAILABLE" : "Mail Sender is not available.",
     "ERR_COULD_NOT_SEND_MAIL": "Could not send mail.",
     "RESET_PWD_CODE_NOT_FOUND": "Reset password code is not found in redis.",
-    "RESET_PWD_CODE_DOES_NOT_MATCH": "Reset password code does not match in redis"
+    "RESET_PWD_CODE_DOES_NOT_MATCH": "Reset password code does not match in redis",
+    "USER_NAME_EXISTED" : "User name is existed",
+    "EMAIL_EXISTED" : "Email is existed"
 }

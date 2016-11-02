@@ -15,7 +15,6 @@ angular.module('resetPassword')
                 $scope.newPwdFormData = {};
 
                 $scope.submitResetCode = function () {
-                    console.log($scope.resetCodeFormData.code);
 
                     var headers = {};
 
@@ -42,7 +41,6 @@ angular.module('resetPassword')
                 };
 
                 $scope.submitNewPassword = function () {
-                    console.log($scope.newPwdFormData.Password);
 
                     var headers = {};
 

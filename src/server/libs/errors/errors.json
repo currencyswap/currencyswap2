@@ -83,6 +83,14 @@
         "code": 29,
         "message": "{ERR_EMAIL_NOT_FOUND}"
     },
+    "USER_NAME_EXISTED": {
+        "code": 30,
+        "message": "{USER_NAME_EXISTED}"
+    },
+    "EMAIL_EXISTED": {
+        "code": 30,
+        "message": "{EMAIL_EXISTED}"
+    },
     "INVALID_TOKEN_API_KEY": {
         "code": 40,
         "message": "{ERR_INVALID_TOKEN_API_KEY}"

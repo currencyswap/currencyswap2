@@ -7,9 +7,10 @@ angular.module('register')
             '$rootScope',
             '$location',
             '$http',
-            function registerController($scope, $rootScope, $location, $http) {
+            'GLOBAL_CONSTANT',
+            function registerController($scope, $rootScope, $location, $http, GLOBAL_CONSTANT) {
                 $scope.user = {};
-
+                $scope.registerSuccess = false;
                 $scope.onSubmit = function () {
                     var newUser = {
                         username: $scope.user.username,
@@ -18,15 +19,15 @@ angular.module('register')
                         expiredDate: "2017-06-30",
                         email: $scope.user.email,
                         password: $scope.user.password,
-                        isActivated: true,
+                        isActivated: false,
                         addresses: [
                             {
                                 address: $scope.user.address,
                                 country: $scope.user.country,
-                                city : 'Hanoi',
-                                postcode: 29111990
+                                city : $scope.user.city,
+                                postcode: $scope.user.postcode
                             }],
-                        groups: [{ id: 2, name: 'User' }]
+                        groups: GLOBAL_CONSTANT.BLOCK_USER_GRP
                     };
 
                     var headers = {};
@@ -45,7 +46,7 @@ angular.module('register')
 
                     return $http(req)
                         .then(function (response) {
-                            console.log(response);
+                            $scope.registerSuccess = true;
                         }, function (error) {
                             console.log(error);
                         });

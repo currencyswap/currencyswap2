@@ -43,28 +43,21 @@ exports.setupClient = function () {
     exports.redis = redisClient;
 };
 
-exports.set = function (key, value, exp, callback) {
+exports.set = function (key, value, exp) {
     if ( !exports.redis ) {
-        return callback(errorUtil.createAppError(errors.REDIS_SERVER_GET_PROBLEM));
+        return;
     }
 
     if (exp === undefined) {
-        exports.redis.set(key, value, function (err, status) {
-            if (err) return callback(errorUtil.createAppError(errors.REDIS_SERVER_GET_PROBLEM));
-            else return callback(null, status);
-        });
+        exports.redis.set(key, value);
     } else {
-        exports.redis.setex(key, exp, value, function (err, status) {
-            if (err) {
-                return callback(errorUtil.createAppError(errors.REDIS_SERVER_GET_PROBLEM));
-            }
-            else return callback(null, status);
-        });
+        exports.redis.setex(key, exp, value);
     }
+
 };
 
 exports.remove = function (key) {
-    
+
     if ( !exports.redis ) {
         return;
     }
@@ -104,24 +97,18 @@ exports.getSecretKey = function (username, callback) {
     exports.get(key, callback);
 };
 
-exports.setSecretKey = function (username, value, callback) {
+exports.setSecretKey = function (username, value) {
     let key = SECRET_KEYS + username;
-    exports.set(key, value, undefined, function (err, response) {
-        if (err) return callback(errorUtil.createAppError(errors.REDIS_SERVER_GET_PROBLEM));
-        else return callback(null);
-    });
+    exports.set(key, value);
 };
 
-exports.setSecretKeyBySignature = function (sign, value, callback) {
+exports.setSecretKeyBySignature = function (sign, value) {
 
     let exp = appConfig.getTokenExpired();
     let milisec = ms(exp) / SEC + 1;
     let key = SIGNATURES + sign;
-    
-    exports.set(key, value, milisec, function (err, response) {
-        if (err) return callback(errorUtil.createAppError(errors.REDIS_SERVER_GET_PROBLEM));
-        else return callback(null);
-    });
+
+    exports.set(key, value, milisec);
 };
 
 exports.getSecretKeyBySignature = function (sign, callback) {
@@ -130,12 +117,9 @@ exports.getSecretKeyBySignature = function (sign, callback) {
     exports.get(key, callback);
 };
 
-exports.setUserInfo = function (user, callback) {
+exports.setUserInfo = function (user) {
     let key = USERINFO + user.username;
-    exports.set(key, JSON.stringify(user), DEF_EXPIRED, function (err, response) {
-        if (err) return callback(err);
-        else return callback(null, response);
-    });
+    exports.set(key, JSON.stringify(user), DEF_EXPIRED);
 };
 
 exports.removeUserInfo = function (username) {
@@ -154,38 +138,4 @@ exports.getUserInfo = function (username, callback) {
         callback(err, user);
 
     });
-};
-
-exports.getResetPwdCode = function (userEmail, callback) {
-    exports.get(userEmail, function (err, response) {
-        if (err) {
-            return callback(errorUtil.createAppError(errors.REDIS_SERVER_GET_PROBLEM));
-        } else {
-            return callback (null, response);
-        }
-    })
-};
-
-exports.setResetPwdCode = function (code, value, callback) {
-    exports.set(code, value, function (err, status) {
-        if (err) return callback(errorUtil.createAppError(errors.REDIS_SERVER_GET_PROBLEM));
-        else {
-            return callback(null, status);
-        }
-    });
-};
-
-
-exports.findEmailExpByResetCode = function (resetCode, callback) {
-    redis.get(resetCode, function (err, response) {
-        if (err) return callback(err);
-        else return callback (null, response);
-    });
-};
-
-exports.checkResetCode = function (email, resetCode, callback) {
-    exports.get(email, function (err, response) {
-        if (err || !response) return callback(err);
-        else return callback(null, response);
-    })
 };

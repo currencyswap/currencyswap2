@@ -44,3 +44,22 @@ exports.setupMemberGroup = function ( pairs, callback ) {
 
     });
 };
+
+exports.findGroupByName = function (groupName, callback) {
+    let where = {
+        name: groupName
+    };
+
+    let filter = {
+        where: where,
+    };
+    app.models.Group.findOne(filter, function (err, groups ) {
+        if ( err ) {
+            console.error('ERROR : %s', err );
+            return callback(errorUtil.createAppError(errors.SERVER_GET_PROBLEM));
+        }
+
+        callback(null, groups);
+
+    });
+};

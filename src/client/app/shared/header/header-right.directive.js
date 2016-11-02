@@ -24,8 +24,6 @@ angular.module('appHeader').directive('headerRight', function () {
                 avatarUrl: currUser.avatarUrl ? currUser.avatarUrl : global.DEF_AVATAR
             };
 
-            console.log('current user: ', $scope.currUser);
-
             $scope.onLogout = function () {
                 $rootScope.loggedIn = false;
                 $rootScope.isLoading = true;

@@ -1,32 +1,41 @@
 'use strict';
 var userService = require('../services/user-service');
+var permissionService = require('../services/permission-service');
+var groupService = require('../services/group-service');
 var async = require('async');
+var userConverter = require('../converters/user-converter');
 
 module.exports = function (app) {
     var router = app.loopback.Router();
 
     router.post('/', function (req, res) {
-        console.log('received request');
         var newUser = req.body.newUser;
-        console.log('newUser: ', newUser);
 
         async.waterfall([
             function (next) {
-                userService.createUser(newUser, function (err, savedUser) {
+                groupService.findGroupByName('Blocked User', function (err, group) {
                     if (err) {
                         return next(err);
+                    } else {
+                        return next(null, group);
                     }
-                    else return next(null, savedUser);
+
+                })
+            },
+            function (group, next) {
+                newUser.groups = [{
+                    id: group.id,
+                    name: group.name
+                }];
+
+                userService.registerUser(newUser, function (err, savedUser) {
+                    if (err) return next(err);
+                    else return next(null);
                 })
             }
-        ], function (err, savedUser) {
-            if (err) {
-                console.log('ERROR----->: ', err);
-                return res.status(500).send({err});
-            } else {
-                console.log('Saved user done!');
-                return res.status(200).send({savedUser});
-            }
+        ], function (err) {
+            if (err) return res.status(500).send(err);
+            else return res.status(200).send({});
         });
     });
 
