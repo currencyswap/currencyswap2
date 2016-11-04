@@ -32,28 +32,51 @@ exports.createUser = function (user, callback) {
 
     async.waterfall([
         function (next) {
-            app.models.Member.create(user, function (err, instance) {
-                next(err, instance);
+            app.models.Member.beginTransaction({isolationLevel: app.models.Member.Transaction.READ_COMMITTED}, function (err, tx) {
+                if (err) {
+                    console.log('Error on transaction initialization');
+                    return next(errorUtil.createAppError(errors.TRANSACTION_INIT_FAIL));
+                } else {
+                    var txObject = {transaction: tx};
+                    return next(null, txObject)
+                }
+            })
+        },
+        function (txObject, next) {
+            app.models.Member.create(user, txObject, function (err, instance) {
+                if (err) {
+                    console.log('Error on saving User to DB');
+                    return next(errorUtil.createAppError(errors.COULD_NOT_SAVE_USER_TO_DB));
+                } else {
+                    return next(null, txObject, instance)
+                }
+                //next(err, txObject, instance);
             });
         },
-        function (instance, next) {
+        function (txObject, instance, next) {
 
             if (!user.addresses || user.addresses.lengh <= 0) {
-                return next(null, instance);
+                return next(null, txObject, instance);
             }
 
             user.addresses.forEach(function (addr) {
                 addr.memberId = instance.id;
             });
 
-            instance.addresses.create(user.addresses, function (err) {
-                next(err, instance);
+            instance.addresses.create(user.addresses, txObject, function (err) {
+                if (err) {
+                    console.log('Error on saving addresses for user');
+                    return next(errorUtil.createAppError(errors.COULD_NOT_SAVE_USER_ADDR_TO_DB));
+                } else {
+
+                }
+                next(err, txObject, instance);
             });
 
         },
-        function (instance, next) {
+        function (txObject, instance, next) {
             if (!user.groups || user.groups.lengh <= 0) {
-                return next(null, instance);
+                return next(null, txObject, instance);
             }
 
             let userGrps = [];
@@ -67,17 +90,36 @@ exports.createUser = function (user, callback) {
                 });
             });
 
-            app.models.MemberGroup.create(userGrps, function (err) {
-                next(err, instance);
+            app.models.MemberGroup.create(userGrps, txObject, function (err) {
+                if (err) {
+                    console.log('Error on saving User Groups to DB');
+                    return next(errorUtil.createAppError(errors.COULD_NOT_SAVE_USER_GR_TO_DB));
+                } else {
+                    return next(null, txObject, instance)
+                }
             });
 
         }
-    ], function (err, instance) {
+    ], function (err, txObject, instance) {
         if (err) {
-            console.error('ERROR [%s]: %s', err.name, err.message);
+            txObject.transaction.rollback(function (rollbackErr) {
+                if (rollbackErr) {
+                    console.log('Fail to rollback transaction');
+                    return callback(rollbackErr);
+                } else {
+                    return callback(err);
+                }
+            });
+            //console.error('ERROR [%s]: %s', err.name, err.message);
             return callback(err);
         } else {
-            return callback(null, instance);
+            txObject.transaction.commit(function (commitErr) {
+                if (commitErr) {
+                    console.log('Fail to commit transaction');
+                    return callback(commitErr);
+                }
+                else return callback(null, instance);
+            });
         }
     });
 };
@@ -271,7 +313,6 @@ exports.createUserTransaction = function (callback) {
 exports.registerUser = function (newUser, callback) {
     async.waterfall([
         function (next) {
-            // step 1: check if user exists in DB or not
             exports.getUserByUsername(newUser.username, function (err, user) {
                 if (err) return next(null);
                 else {
@@ -281,7 +322,6 @@ exports.registerUser = function (newUser, callback) {
             })
         },
         function (next) {
-            // step 2: check if email exists in DB or not
             app.models.Member.findByEmail(newUser.email, function (err, user) {
                 if (err) return next(null);
                 else {
@@ -291,11 +331,9 @@ exports.registerUser = function (newUser, callback) {
             })
         },
         function (next) {
-            //step 3: Save user to DB
             exports.createUser(newUser, function (err, savedUser) {
                 if (err) {
-                    console.log(err);
-                    return next(errorUtil.createAppError(errors.SERVER_GET_PROBLEM));
+                    return next(err);
                 }
                 else return next(null, savedUser);
             })

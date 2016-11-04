@@ -37,7 +37,7 @@
     },
     "MAIL_SENDER_NOT_VAILABLE": {
         "code": 10,
-        "message": "{ERR_MAIL_SENDER_NOT_VAILABLE}"
+        "message": "{ERR_MAIL_SENDER_NOT_AVAILABLE}"
     },
     "COULD_NOT_SEND_MAIL": {
         "code": 11,
@@ -77,19 +77,35 @@
     },
     "RESET_PWD_CODE_NOT_FOUND": {
         "code": 28,
-        "message": "{ERR_EMAIL_NOT_FOUND}"
+        "message": "{RESET_PWD_CODE_NOT_FOUND}"
     },
     "RESET_PWD_CODE_DOES_NOT_MATCH": {
         "code": 29,
-        "message": "{ERR_EMAIL_NOT_FOUND}"
+        "message": "{RESET_PWD_CODE_DOES_NOT_MATCH}"
     },
     "USER_NAME_EXISTED": {
         "code": 30,
         "message": "{USER_NAME_EXISTED}"
     },
     "EMAIL_EXISTED": {
-        "code": 30,
+        "code": 31,
         "message": "{EMAIL_EXISTED}"
+    },
+    "COULD_NOT_SAVE_USER_TO_DB": {
+        "code": 32,
+        "message": "{COULD_NOT_SAVE_USER_TO_DB}"
+    },
+    "COULD_NOT_SAVE_USER_GR_TO_DB": {
+        "code": 33,
+        "message": "{COULD_NOT_SAVE_USER_GR_TO_DB}"
+    },
+    "COULD_NOT_SAVE_USER_ADDR_TO_DB": {
+        "code": 34,
+        "message": "{COULD_NOT_SAVE_USER_ADDR_TO_DB}"
+    },
+    "COULD_NOT_FIND_GRP_BY_NAME": {
+        "code": 35,
+        "message": "{COULD_NOT_FIND_GRP_BY_NAME}"
     },
     "INVALID_TOKEN_API_KEY": {
         "code": 40,
@@ -110,5 +126,9 @@
     "USER_IS_NOT_AVAILABLE" : {
         "code": 62,
         "message": "{ERR_USER_IS_NOT_AVAILABLE}"        
+    },
+    "TRANSACTION_INIT_FAIL" : {
+        "code": 80,
+        "message": "{ERR_TX_INIT_FAILED}"
     }
 }
