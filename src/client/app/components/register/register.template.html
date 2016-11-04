@@ -2,7 +2,6 @@
 
     <div class="row">
 
-
         <div class="col-md-2"></div>
 
         <div class="col-md-8">
@@ -23,10 +22,8 @@
                      ng-class="{ 'has-error' : registerForm.username.$invalid && !registerForm.username.$pristine }">
                     <div class="mb10">
                         <label class="control-label"><b>Username</b></label> <span class="asterisk">*</span>
-                        <input type="text" name="username" class="form-control" ng-model="user.username"
-                               ng-minlength="3" ng-maxlength="15" required>
-                        <p ng-show="registerForm.username.$error.minlength" class="help-block">Username is too
-                            short.</p>
+                        <input type="text" name="username" class="form-control" ng-model="user.username" ng-minlength="3" ng-maxlength="15" required>
+                        <p ng-show="registerForm.username.$error.minlength" class="help-block">Username is too short.</p>
                         <p ng-show="registerForm.username.$error.maxlength" class="help-block">Username is too long.</p>
                     </div>
                 </div>
@@ -48,21 +45,19 @@
                         <input type="email" name="email" class="form-control" ng-model="user.email" required>
                         <p ng-show="registerForm.email.$invalid && !registerForm.email.$pristine" class="help-block">
                             Email is not valid.</p>
-                        <p ng-show="user.email === '' &&     !registerForm.email.$pristine" class="help-block">
-                            This is required.</p>
                     </div>
                 </div>
 
                 <div class="mb10">
                     <label class="control-label"><b>Profession</b></label>
-                    <input class="form-control" type="text" ng-model="user.profession">
+                    <input class="form-control" type="text" ng-model="user.address">
                 </div>
 
                 <div class="form-group"
                      ng-class="{ 'has-error' : registerForm.cellphone.$invalid && !registerForm.cellphone.$pristine }">
                     <div class="mb10">
                         <label class="control-label"><b>Cell phone</b></label>
-                        <input type="number" name="cellphone" class="form-control" ng-model="user.cellphone">
+                        <input type="text" name="cellphone" class="form-control" ng-model="user.cellphone">
                         <p ng-show="registerForm.cellphone.$invalid && !registerForm.cellphone.$pristine"
                            class="help-block">Phone number is not valid.</p>
                     </div>

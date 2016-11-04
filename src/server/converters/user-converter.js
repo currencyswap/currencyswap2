@@ -55,10 +55,17 @@ exports.convertUserToUserJSON = function (user) {
 exports.convertUserData = function (requestUser) {
     var resultUser = {};
 
+    // Required field, can not submit without it.
     resultUser.username = requestUser.username;
     resultUser.password = requestUser.password;
     resultUser.email = requestUser.email;
-    resultUser.group = requestUser.groups;
+    resultUser.addresses = [];
+
+    //Default for new registration user
+    resultUser.group = "Blocked User";
+    resultUser.isActived = false;
+    resultUser.isBlocked = true;
+    resultUser.expiredDate = "2017-06-30";
 
     if (requestUser.fullname) {
         resultUser.fullName = requestUser.fullName;
@@ -78,9 +85,11 @@ exports.convertUserData = function (requestUser) {
 
     if (requestUser.addresses) {
         requestUser.addresses.forEach(function (address) {
-            if (address.address && address.city && address.postcode && address.country) resultUser.addresses = requestUser.addresses;
+            if (address.address && address.city && address.postcode && address.country) resultUser.addresses.push(requestUser.addresses);
         });
     }
+
+    if (requestUser.profession) resultUser.profession = requestUser.profession;
 
     return resultUser;
 };

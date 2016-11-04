@@ -5,63 +5,23 @@ angular.module('register')
         templateUrl: 'app/components/register/register.template.html',
         controller: ['$scope',
             '$rootScope',
+            'RegisterService',
             '$location',
             '$http',
-            'GLOBAL_CONSTANT',
-            function registerController($scope, $rootScope, $location, $http, GLOBAL_CONSTANT) {
+            function registerController($scope, $rootScope, RegisterService) {
                 $scope.user = {};
                 $scope.registerSuccess = false;
 
-                if ($scope.user.dobYear && $scope.user.dobMonth && $scope.user.dobDay) {
-                    var birthday = $scope.user.dobYear + '-' + $scope.user.dobMonth + '-' + $scope.user.dobDay;
-                } else {
-                    birthday = null;
-                }
-
                 $scope.onSubmit = function () {
+                    var newUser = RegisterService.compressUserDataToObj($scope.user);
 
-                    var newUser = {
-                        username: $scope.user.username,
-                        fullName: $scope.user.fullname,
-                        cellphone: $scope.user.cellphone,
-                        birthday: birthday,
-                        expiredDate: "2017-06-30",
-                        email: $scope.user.email,
-                        password: $scope.user.password,
-                        isActivated: false,
-                        addresses: [
-                            {
-                                address: $scope.user.address,
-                                country: $scope.user.country,
-                                city : $scope.user.city,
-                                postcode: $scope.user.postcode
-                            }],
-                        groups: GLOBAL_CONSTANT.BLOCK_USER_GRP
-                    };
-
-                    var headers = {};
-
-                    headers[httpHeader.CONTENT_TYPE] = contentTypes.JSON;
-                    var postData = {
-                        newUser: newUser
-                    };
-
-                    var req = {
-                        method: httpMethods.POST,
-                        url: apiRoutes.API_REGISTER,
-                        headers: headers,
-                        data: postData
-                    };
-
-                    return $http(req)
+                    RegisterService.submitRequest(newUser)
                         .then(function (response) {
                             $scope.registerSuccess = true;
                         }, function (error) {
-                            if (error.data.code === 30) {
-                                $rootScope.error = {};
-                                $rootScope.error.status = 400;
-                                $rootScope.error.message = error.data.message;
-                            }
+                            $rootScope.error = {};
+                            $rootScope.error.status = 400;
+                            $rootScope.error.message = error.data.message;
                         });
                 }
             }]
