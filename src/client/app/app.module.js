@@ -12,7 +12,7 @@ angular.module('currencySwapApp', [
     'register',
     'homePage',
     'navigation'
-]).run(function ($rootScope, $location, CookieService, PermissionService, NavigationHelper ) {
+]).run(function ($rootScope, $location, CookieService, PermissionService, NavigationHelper) {
 
     var token = CookieService.getToken();
     $rootScope.loggedIn = false;
@@ -26,7 +26,7 @@ angular.module('currencySwapApp', [
             return $location.path(routes.FORGOT_PASSWORD_VERIFY);
         }
 
-        if ($location.path() === routes.FORGOT_PASSWORD_RESET) {
+        if ($location.search().resetCode) {
             return $location.path(routes.FORGOT_PASSWORD_RESET);
         }
 

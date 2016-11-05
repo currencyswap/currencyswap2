@@ -3,16 +3,17 @@
 var exports = module.exports;
 var md5 = require('js-md5');
 var errorUtil = require('../libs/errors/error-util');
+var stringUtil = require('../libs/utilities/string-util');
 var errors = require('../libs/errors/errors');
 var app = require('../server');
 var redis = require('../libs/redis');
 var token = require('../libs/token');
 var async = require('async');
-var userConverter = require('../converters/user-converter');
 var mailSender = require('../libs/mail-sender');
 var constant = require('../libs/constants/constants');
 var appConfig = require('../libs/app-config');
 var crypto = require('crypto');
+var routes = require('../routes').routes;
 var os = require('os');
 
 exports.createUser = function (user, callback) {
@@ -224,37 +225,43 @@ exports.verifyResetPwdInfo = function (email, callback) {
             // find user by email
             app.models.Member.findByEmail(email, function (err, user) {
                 if (err) {
-                    return callback(errorUtil.createAppError(errors.MEMBER_EMAIL_NOT_FOUND));
+                    return next(errorUtil.createAppError(errors.MEMBER_EMAIL_NOT_FOUND));
                 }
                 return next(null, email);
             });
         },
         function (email, next) {
             // generate reset password code
-            exports.generateResetPwdCode(function (err, resetCode) {
+            exports.generateRandomString(function (err, randomString) {
                 if (err) return next(err);
-                else return next(null, resetCode, email);
+                else {
+                    return next(null, randomString, email);
+                }
             });
         },
-        function (resetCode, email, next) {
-            redis.set(email, resetCode, 24*60*60, function (err, savedKV) {
-                if (err) return next (err);
-                else return next(null, resetCode, email);
-            })
+        function (randomString, email, next) {
+            redis.set(email, randomString, constant.ONE_DAY_IN_SECONDS);
+            return next(null, randomString, email);
         },
-        function (resetCode, email, next) {
+        function (randomString, email, next) {
             // send notification email to client
             var senderInfo = appConfig.getMailSenderInfo();
             var mailOptions = {
                 from: senderInfo.sender,
                 to: email,
                 subject: senderInfo.subject,
-                text: 'Your reset password URL: ' + exports.constructResetUrl(resetCode, email) + '\n' + 'Code: ' + resetCode
+                text: 'Please click to below link to reset your password'
+                        + '\n' + 'Your reset password URL: ' + exports.constructResetUrl(randomString, email)
+                        + '\n'
+                        + '\n' + 'Thanks and best regards'
+                        + '\n' + 'Currency Swap'
             };
 
             mailSender.sendMail(mailOptions, function (err, info) {
                 if (err) return callback(err);
-                else return next(null);
+                else {
+                    return next(null);
+                }
             });
         }
     ], function (err, updatedUser) {
@@ -262,45 +269,72 @@ exports.verifyResetPwdInfo = function (email, callback) {
     });
 };
 
-exports.resetPassword = function (email, requestResetCode, callback) {
+exports.resetPassword = function (newPassword, requestResetCode, callback) {
     async.waterfall([
         function (next) {
-            redis.checkResetCode(email, requestResetCode, function (err, response) {
-                if (err) return next(errorUtil.createAppError(errors.RESET_PWD_CODE_NOT_FOUND));
-                else return next(null, email, response);
+            var emailAndRandomString = exports.extractEmailAndRandomString(requestResetCode);
+            return next (null, newPassword, emailAndRandomString)
+        },
+        function (newPassword, emailAndRandomString, next) {
+            redis.checkResetCode(emailAndRandomString.email, emailAndRandomString.randomString, function (err, response) {
+                if (err) return next(err);
+                else return next(null, emailAndRandomString.email, newPassword);
             });
         },
-        function (email, response, next) {
-            var isValidResetCode = exports.validateResetCode(response, requestResetCode);
-            if (!isValidResetCode) return next(errorUtil.createAppError(errors.RESET_PWD_CODE_DOES_NOT_MATCH));
-            else return next(null);
+        function (email, newPassword, next) {
+            exports.updatePassword(email, newPassword, function (err) {
+                if (err) return next (err);
+                else return next (null);
+            })
         }
-    ], function (err, updatedUser) {
-        callback(err, updatedUser);
+    ], function (err) {
+        callback(err);
     });
-
 };
 
-exports.generateResetPwdCode = function (callback) {
+exports.generateRandomString = function (callback) {
     crypto.randomBytes(16, function (err, buf) {
         if (err) return callback(err);
         else return callback(null, buf.toString('hex'));
+
     });
 };
 
-exports.constructResetUrl = function (resetCode, email) {
-    return 'http://localhost:3000/#!/forgotpassword/reset/';
+exports.constructResetUrl = function (randomString, email) {
+    var plainResetCode = email + constant.RESET_CODE_DELIMITER + randomString;
+    var encryptedResetCode = stringUtil.encryptString(plainResetCode, constant.ENCRYPTION_ALGORITHM, constant.ENCRYPTION_PWD, 'utf8', 'hex');
+
+    return app.get('url').replace(/\/$/, '')
+        + constant.SLASH
+        + constant.HASHTAG_AND_EXCLAMATION
+        + constant.CLIENT_RESET_PWD_PATH
+        + constant.QUESTION_MARK + constant.RESET_CODE_PARAM
+        + '='
+        + encryptedResetCode;
 };
 
 exports.validateResetCode = function (redisResetCode, requestResetCode) {
     return (redisResetCode === requestResetCode);
 };
 
-exports.updatePassword = function (newPwd, callback) {
-    app.models.Member.updateUserInfo (constant.PASSWORD_FIELD, newPwd, function (err, updatedUser) {
-        if (err) return callback(err);
-        else return callback(null, updatedUser);
-    })
+exports.updatePassword = function (email, newPwd, callback) {
+    async.waterfall([
+        function (next) {
+            app.models.Member.findByEmail(email, function (err, user) {
+                if (err) return next(errorUtil.createAppError(errors.MEMBER_EMAIL_NOT_FOUND));
+                else return next (null, user, newPwd);
+            })
+        },
+        function (user, newPwd, next) {
+            var md5Password = md5(newPwd);
+            user.updateAttribute(constant.PASSWORD_FIELD, md5Password, function (err, updatedUser) {
+                if (err) return next(errorUtil.createAppError(errors.COULD_NOT_UPDATE_USER_PWD));
+                else return next(null);
+            })
+        }
+    ], function (err) {
+        callback(err)
+    });
 };
 
 exports.createUserTransaction = function (callback) {
@@ -343,3 +377,13 @@ exports.registerUser = function (newUser, callback) {
     });
 };
 
+exports.extractEmailAndRandomString = function (requestResetCode) {
+    var decryptedString = stringUtil.decryptString(requestResetCode, constant.ENCRYPTION_ALGORITHM, constant.ENCRYPTION_PWD, 'hex', 'utf8');
+    var email = decryptedString.split(constant.RESET_CODE_DELIMITER)[0];
+    var randomString = decryptedString.split(constant.RESET_CODE_DELIMITER)[1];
+
+    return {
+        email: email,
+        randomString: randomString
+    }
+};
