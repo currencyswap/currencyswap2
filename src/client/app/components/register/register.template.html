@@ -22,9 +22,9 @@
                      ng-class="{ 'has-error' : registerForm.username.$invalid && !registerForm.username.$pristine }">
                     <div class="mb10">
                         <label class="control-label"><b>Username</b></label> <span class="asterisk">*</span>
-                        <input type="text" name="username" class="form-control" ng-model="user.username" ng-minlength="3" ng-maxlength="15" required>
+                        <input type="text" name="username" class="form-control" ng-model="user.username" ng-change="inputChanged()" ng-pattern="/^[a-zA-Z0-9\-\.\_]+$/i" ng-minlength="3" required>
                         <p ng-show="registerForm.username.$error.minlength" class="help-block">Username is too short.</p>
-                        <p ng-show="registerForm.username.$error.maxlength" class="help-block">Username is too long.</p>
+                        <p ng-show="registerForm.username.$error.pattern" class="help-block ">Charracter invalid.</p>
                     </div>
                 </div>
 
