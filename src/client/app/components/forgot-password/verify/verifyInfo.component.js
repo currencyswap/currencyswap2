@@ -18,6 +18,8 @@ angular.module('verifyInfo')
                         email: $scope.verification.submittedEmail
                     };
 
+                    console.log(postData);
+
                     headers[httpHeader.CONTENT_TYPE] = contentTypes.JSON;
 
                     var req = {
@@ -30,7 +32,7 @@ angular.module('verifyInfo')
                     return $http(req)
                         .then(function (response) {
                             $scope.isSubmitEmailForm = false;
-                            $scope.isMailCheckingNoti = true;
+                            $scope.isSubmitSuccess = true;
                         }, function (error) {
                             console.log(error);
                         });
