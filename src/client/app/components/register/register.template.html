@@ -1,5 +1,4 @@
 <div class="signuppanel" ng-hide="registerSuccess">
-
     <div class="row">
 
         <div class="col-md-2"></div>
@@ -13,18 +12,17 @@
                 </div><!-- logopanel -->
             </div><!-- signin0-info -->
             <br>
-            <form name="registerForm" ng-submit="onSubmit()">
+            <form id="registerFormId" name="registerForm" ng-submit="onSubmit()">
 
                 <h2 class="nomargin"><b><u>Register</u></b></h2>
                 <br>
 
-                <div class="form-group"
-                     ng-class="{ 'has-error' : registerForm.username.$invalid && !registerForm.username.$pristine }">
+                <div class="form-group" ng-class="{ 'has-error' : registerForm.username.$invalid && !registerForm.username.$pristine}">
                     <div class="mb10">
                         <label class="control-label"><b>Username</b></label> <span class="asterisk">*</span>
-                        <input type="text" name="username" class="form-control" ng-model="user.username" ng-minlength="3" ng-maxlength="15" required>
+                        <input ng-change="onUsernameChange()" type="text" name="username" class="form-control" ng-pattern="/^[a-zA-Z0-9\-\.\_]+$/" ng-model="user.username" ng-minlength="8" required>
                         <p ng-show="registerForm.username.$error.minlength" class="help-block">Username is too short.</p>
-                        <p ng-show="registerForm.username.$error.maxlength" class="help-block">Username is too long.</p>
+                        <p ng-show="registerForm.username.$error.pattern" class="help-block ">User is invalid.</p>
                     </div>
                 </div>
 
@@ -39,7 +37,7 @@
                 </div>
 
                 <div class="form-group"
-                     ng-class="{ 'has-error' : registerForm.email.$invalid && !registerForm.email.$pristine }">
+                     ng-class="{ 'has-error' : registerForm.email.$invalid && !registerForm.email.$pristine}">
                     <div class="mb10">
                         <label class="control-label"><b>Email</b></label> <span class="asterisk">*</span>
                         <input type="email" name="email" class="form-control" ng-model="user.email" required>
@@ -63,11 +61,13 @@
                     </div>
                 </div>
 
-                <div class="form-group" data-ng-class="{'has-error' : registerForm.password.$invalid && !registerForm.password.$pristine}"><label for="password"><b>Password</b></label> <span class="asterisk">*</span>
+                <div class="form-group" data-ng-class="{'has-error' : registerForm.password.$invalid && !registerForm.password.$pristine}">
+                    <label for="password"><b>Password</b></label> <span class="asterisk">*</span>
                     <input class="form-control" type="password" name="password" required data-ng-model="user.password">
                 </div>
 
-                <div class="form-group" data-ng-class="{'has-error' : registerForm.passwordCompare.$invalid && !registerForm.passwordCompare.$pristine}"><label for="passwordCompare"><b>Re-type Password</b></label> <span class="asterisk">*</span>
+                <div class="form-group" data-ng-class="{'has-error' : registerForm.passwordCompare.$invalid && !registerForm.passwordCompare.$pristine}">
+                    <label for="passwordCompare"><b>Re-type Password</b></label> <span class="asterisk">*</span>
                     <input class="form-control" type="password" name="passwordCompare" required data-ng-model="user.passwordCompare" data-ng-match="user.password"/>
                     <span class="help-block" data-ng-show="registerForm.passwordCompare.$error.match">Passwords do not match.</span>
                 </div>
@@ -259,8 +259,20 @@
                 </div>
 
                 <div class="mb10">
-                    <label class="control-label"><b>Country</b></label>
-                    <select class="select2 form-control" data-placeholder="Choose a Country..."
+                    <label for="country" class="control-label"><b>Country</b></label>
+                    <select id="country" name="country" class="select2 form-control" data-placeholder="Choose a Country..."
+                            ng-model="user.country"></select>
+
+                    <label for="state" class="control-label"><b>State</b></label>
+                    <select name="state" id="state" class="select2 form-control" data-placeholder="Choose a Country..."
+                            ng-model="user.country"></select>
+                    <br/>
+                    <script type="text/javascript">
+                        populateCountries("country", "state");
+                    </script>
+
+
+                    <!--<select class="select2 form-control" data-placeholder="Choose a Country..."
                             ng-model="user.country">
                         <option value=""></option>
                         <option value="United States">United States</option>
@@ -525,10 +537,10 @@
                         <option value="Yemen">Yemen</option>
                         <option value="Zambia">Zambia</option>
                         <option value="Zimbabwe">Zimbabwe</option>
-                    </select>
+                    </select>-->
                 </div>
 
-                <button type="submit" class="btn btn-success btn-block" ng-disabled="registerForm.$invalid">Register
+                <button type="submit" class="btn btn-success btn-block" ng-disabled="registerForm.$invalid">REGISTER
                 </button>
             </form>
         </div><!-- col-sm-6 -->
@@ -559,6 +571,56 @@
     <script src="../../../assets/js/select2.min.js"></script>
 
     <script src="../../../assets/js/custom.js"></script>
+
+    <script>
+        jQuery(document).ready(function(){
+
+            "use strict";
+
+            // Select2
+            jQuery(".select2").select2({
+                width: '100%',
+                minimumResultsForSearch: -1
+            });
+
+            // Basic Form
+            jQuery("#registerFormId").validate({
+                highlight: function(element) {
+                    jQuery(element).closest('.form-group').removeClass('has-success').addClass('has-error');
+                },
+                success: function(element) {
+                    jQuery(element).closest('.form-group').removeClass('has-error');
+                }
+            });
+
+            // Error Message In One Container
+            jQuery("#basicForm2").validate({
+                errorLabelContainer: jQuery("#basicForm2 div.error")
+            });
+
+            // With Checkboxes and Radio Buttons
+            jQuery("#basicForm3").validate({
+                highlight: function(element) {
+                    jQuery(element).closest('.form-group').removeClass('has-success').addClass('has-error');
+                },
+                success: function(element) {
+                    jQuery(element).closest('.form-group').removeClass('has-error');
+                }
+            });
+
+            // Validation with select boxes
+            jQuery("#basicForm4").validate({
+                highlight: function(element) {
+                    jQuery(element).closest('.form-group').removeClass('has-success').addClass('has-error');
+                },
+                success: function(element) {
+                    jQuery(element).closest('.form-group').removeClass('has-error');
+                }
+            });
+
+
+        });
+    </script>
 </div>
 
 <div ng-show="registerSuccess">
