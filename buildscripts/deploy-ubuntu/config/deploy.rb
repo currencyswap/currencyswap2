@@ -2,7 +2,7 @@
 lock '3.6.0'
 
 set :application, 'cs'
-set :repo_url, 'git@git.vsii.com:SEPG/JRSS.git'
+set :repo_url, 'git@git.vsii.com:jpd/Thanh-CurrencySwap.git'
 
 # Default branch is :master
 set :branch, ->{ fetch( :git_branch ) }
@@ -16,7 +16,7 @@ set :scm, :git
 
 set :app_user, ->{ fetch( :app_user ) }
 set :app_folder, ->{ fetch( :app_folder ) }
-set :app_service, ->{ fetch( :app_service , 'jrsp') }
+set :app_service, ->{ fetch( :app_service , 'cs') }
 set :pty, true
 
 set :keep_releases, 3

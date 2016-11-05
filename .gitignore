@@ -10,3 +10,4 @@
 *~lock*
 *logs*
 *swp
+buildscripts/deploy-ubuntu/config/*
