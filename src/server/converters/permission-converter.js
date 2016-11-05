@@ -29,3 +29,13 @@ exports.getPermissionsFormUser = function (user) {
 
     return permissions;
 };
+
+exports.convertObjectsToMaps = function (objs) {
+
+    let map = new Map();
+    objs.forEach(function (obj) {
+        map.set(obj.name, obj.id);
+    });
+
+    return map;
+};

@@ -3,7 +3,6 @@
 var exports = module.exports;
 var appConfig = require('../libs/app-config');
 var dateFormat = require('dateformat');
-var passwordGenerator = require('generate-password');
 
 exports.convertUserToUserJSON = function (user) {
 
@@ -53,12 +52,44 @@ exports.convertUserToUserJSON = function (user) {
 
 };
 
-exports.generateNewPassword = function () {
-    var passwordOption = {
-        length: 10,
-        numbers: true
-    };
-    var newPassword = passwordGenerator.generate(passwordOption);
-    return newPassword;
+exports.convertUserData = function (requestUser) {
+    var resultUser = {};
 
+    // Required field, can not submit without it.
+    resultUser.username = requestUser.username;
+    resultUser.password = requestUser.password;
+    resultUser.email = requestUser.email;
+    resultUser.addresses = [];
+
+    //Default for new registration user
+    resultUser.group = "Blocked User";
+    resultUser.isActived = false;
+    resultUser.isBlocked = true;
+    resultUser.expiredDate = "2017-06-30";
+
+    if (requestUser.fullname) {
+        resultUser.fullName = requestUser.fullName;
+    }
+
+    if (requestUser.birthday) {
+        resultUser.birthday = requestUser.birthday;
+    }
+
+    if (requestUser.cellphone) {
+        resultUser.cellphone = requestUser.cellphone;
+    }
+
+    if (requestUser.profession) {
+        resultUser.profession = requestUser.profession;
+    }
+
+    if (requestUser.addresses) {
+        requestUser.addresses.forEach(function (address) {
+            if (address.address && address.city && address.postcode && address.country) resultUser.addresses.push(requestUser.addresses);
+        });
+    }
+
+    if (requestUser.profession) resultUser.profession = requestUser.profession;
+
+    return resultUser;
 };

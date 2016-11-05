@@ -16,6 +16,7 @@
     "angular-cookies": "^1.5.8",
     "validator-js": "^6.1.0",
     "async": "^2.1.2",
-    "url-pattern": "^1.0.1"
+    "url-pattern": "^1.0.1",
+    "angular-validation-match": "^1.9.0"
   }
 }

@@ -16,6 +16,8 @@ var nodeUtil = require('util');
 var persGroups = require('../server/security/permissions-groups');
 var groupsWithPermissions = require('./data/permissions');
 
+var util = require('util');
+
 function cleanUpCache(callback) {
     let redis = appConfig.getRedis();
     let host = redis.host ? nodeUtil.format('-h %s', redis.host) : '';
@@ -56,7 +58,6 @@ function setupPermissions(callback) {
             name: persGroups.Permissions[key],
             key: key
         });
-
     }
 
     permissionService.createPermissions(permissions, callback);
@@ -70,7 +71,6 @@ function setupGroups(callback) {
         groups.push({
             name: persGroups.Groups[key]
         });
-
     }
 
     groupService.createGroups(groups, callback);
@@ -177,7 +177,6 @@ var migrateDb = function () {
                     }
 
                     user.groups = groupObjs;
-
                     console.log('USER %s', JSON.stringify(user));
 
                     userObjs.push(user);

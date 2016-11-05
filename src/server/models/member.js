@@ -162,23 +162,4 @@ module.exports = function (Member) {
             callback(null, user);
         });
     };
-
-    Member.updatePassword = function (newPassword, callback) {
-        var updatedField = constants.PASSWORD_FIELD;
-        Member.updateUserInfo(updatedField, newPassword, function (err, updatedUser) {
-            if (err) {
-                return callback(err);
-            }
-            return callback(null, updatedUser);
-        })
-    };
-
-    Member.updateUserInfo = function (attrName, newAttrValue, callback) {
-        Member.updateAttribute(attrName, newAttrValue, function (err, updatedUser) {
-            if (err) {
-                return callback(err);
-            }
-            return callback(null, updatedUser);
-        })
-    };
 };
