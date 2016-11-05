@@ -8,6 +8,9 @@ angular.module('register').factory('RegisterService', ['$http', '$q', function (
             } else {
                 birthday = null;
             }
+
+            userData.username = userData.username.trim();
+
             var resultUser = {
                 username: userData.username,
                 fullName: userData.fullname,
