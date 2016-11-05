@@ -44,16 +44,18 @@ namespace :deploy do
 
 		sedAppFolder = fetch(:app_folder).gsub(/\//, "\\\/");
 		sedMediaFolder = fetch(:media_folder).gsub(/\//, "\\\/");
+		sedLogFolder = fetch(:log_folder).gsub(/\//, "\\\/");
 
 		if $rq_prjsetup			
-			print "Setup Project : #{sedAppFolder}\n"
-			execute "mkdir -p #{fetch(:media_folder)}"
+			print "Setup Project : #{sedAppFolder}\n";
+			execute "mkdir -p #{fetch(:media_folder)}";
+			execute "mkdir -p #{fetch(:log_folder)}";
 		end
 
-		execute "cat #{deploy_to}/current/src/app-config.json.template | sed 's/LDAP_HOST/#{fetch(:ldap_host)}/g;s/LDAP_PORT/#{fetch(:ldap_port)}/g;s/LDAP_PROTOCOL/#{fetch(:ldap_protocol)}/g;s/LDAP_USER/#{fetch(:ldap_user)}/g;s/LDAP_PASSWORD/#{fetch(:ldap_pass)}/g;s/REDIS_HOST/#{fetch(:redis_host)}/g;s/REDIS_PORT/#{fetch(:redis_port)}/g;s/REDIS_PASSWORD/#{fetch(:redis_pass)}/g;s/REDIS_DB/#{fetch(:redis_db)}/g;s/REDIS_TTL/#{fetch(:redis_ttl)}/g;s/REDIS_PREFIX/#{fetch(:redis_prefix)}/g;s/AVATAR_PATH/#{sedMediaFolder}/g;' > #{deploy_to}/current/src/app-config.json"
-		execute "cat #{deploy_to}/current/src/server/datasources.json.template | sed 's/DBHOST/#{fetch(:dbhost)}/g;s/DBNAME/#{fetch(:dbname)}/g;s/DBPASS/#{fetch(:dbpass)}/g;s/DBUSER/#{fetch(:dbuser)}/g;' > #{deploy_to}/current/src/server/datasources.json"
-		execute "ln -s #{deploy_to}/current/src/ #{ fetch(:app_folder) }"
-		execute "cd #{ fetch( :app_folder ) } && npm install"
+    execute "cat #{deploy_to}/current/src/app-config.json.template | sed 's/REDIS_HOST/#{fetch(:redis_host)}/g;s/REDIS_PORT/#{fetch(:redis_port)}/g;s/REDIS_PASSWORD/#{fetch(:redis_pass)}/g;s/REDIS_DB/#{fetch(:redis_db)}/g;s/REDIS_TTL/#{fetch(:redis_ttl)}/g;s/REDIS_PREFIX/#{fetch(:redis_prefix)}/g;s/STMP_HOST/#{fetch(:stmp_host)}/g;s/STMP_PORT/#{fetch(:stmp_port)}/g;s/STMP_USERNAME/#{fetch(:stmp_username)}/g;s/STMP_PASSWORD/#{fetch(:stmp_password)}/g;s/STMP_SECURE/#{fetch(:stmp_secure)}/g;s/MEDIA_FOLDER/#{sedMediaFolder}/g;s/LOG_FOLDER/#{sedLogFolder}/g;' > #{deploy_to}/current/src/app-config.json";
+		execute "cat #{deploy_to}/current/src/server/datasources.json.template | sed 's/DBHOST/#{fetch(:dbhost)}/g;s/DBNAME/#{fetch(:dbname)}/g;s/DBPASS/#{fetch(:dbpass)}/g;s/DBUSER/#{fetch(:dbuser)}/g;' > #{deploy_to}/current/src/server/datasources.json";
+		execute "ln -s #{deploy_to}/current/src/ #{ fetch(:app_folder) }";
+		execute "cd #{ fetch( :app_folder ) } && npm install";
 	end	
   end
 
@@ -61,10 +63,10 @@ namespace :deploy do
 	on roles :web do
 		if $rq_prjsetup
 			print "Migrate Data.\n"
-			execute "cd #{ fetch( :app_folder ) } && ./scripts/migrate.sh"
+			execute "cd #{ fetch( :app_folder ) } && ./scripts/setup.sh"
 		else 
 			print "Update Data.\n"
-			execute "cd #{ fetch( :app_folder ) } && ./scripts/updatedb.sh"
+			execute "cd #{ fetch( :app_folder ) } && ./scripts/update.sh"
 		end
 	end
   end
@@ -109,8 +111,8 @@ namespace :deploy do
 	on roles :web do		
 		if $rq_prjsetup
 			print "Generate cronjob file.\n"
-			execute "echo '0 0 * * * #{ fetch( :app_folder ) }/scripts/backupdb.sh #{ fetch( :backup_folder ) } #{fetch(:dbname)}' > #{ fetch( :deploy_to ) }/cronjob && crontab -u #{ fetch( :app_user ) } #{ fetch( :deploy_to ) }/cronjob"
-			execute "echo '0 0 * * * #{ fetch( :app_folder ) }/scripts/cleanupdb.sh #{ fetch( :backup_folder ) }' > #{ fetch( :deploy_to ) }/cleanup_cronjob && crontab -u #{ fetch( :app_user ) } #{ fetch( :deploy_to ) }/cleanup_cronjob"
+			# execute "echo '0 0 * * * #{ fetch( :app_folder ) }/scripts/backupdb.sh #{ fetch( :backup_folder ) } #{fetch(:dbname)}' > #{ fetch( :deploy_to ) }/cronjob && crontab -u #{ fetch( :app_user ) } #{ fetch( :deploy_to ) }/cronjob"
+			# execute "echo '0 0 * * * #{ fetch( :app_folder ) }/scripts/cleanupdb.sh #{ fetch( :backup_folder ) }' > #{ fetch( :deploy_to ) }/cleanup_cronjob && crontab -u #{ fetch( :app_user ) } #{ fetch( :deploy_to ) }/cleanup_cronjob"
 		end
 	end
   end

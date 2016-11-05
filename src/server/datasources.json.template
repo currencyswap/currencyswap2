@@ -1,12 +1,12 @@
 {
   "NodeJSApp": {
-    "host": "localhost",
-    "port": 5432,
+    "host": "DBHOST",
+    "port": 3306,
     "url": "",
-    "database": "NodeJSAppDB",
-    "password": "qwerty12",
+    "database": "DBNAME",
+    "password": "DBPASS",
     "name": "NodeJSApp",
-    "user": "vietvh",
-    "connector": "postgresql"
+    "user": "DBUSER",
+    "connector": "mysql"
   }
 }
