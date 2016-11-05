@@ -1,17 +1,17 @@
 {
   "title" : "Currency Swap",
   "redis": {
-      "host" : "localhost",
-      "port" : 6379,
-      "db"   : 10,
-      "pass" : "p@55w0rd",
-      "ttl"  : 3600,
+      "host" : "REDIS_HOST",
+      "port" : REDIS_PORT,
+      "db"   : REDIS_DB,
+      "pass" : "REDIS_PASSWORD",
+      "ttl"  : REDIS_TTL,
       "disableTTL": false,
-      "prefix" : "cs-app:"
+      "prefix" : "REDIS_PREFIX"
   },
   "smtp" : {
-      "host" : "72.249.191.25",
-      "port": 25
+      "host" : "STMP_HOST",
+      "port": STMP_PORT
   },
   "paging" : {
       "activityLogs": 4
@@ -21,8 +21,7 @@
       "date": "mmm dd,yyyy",
       "time": "HH:MM:ss"
   },
-  "media": {
-  },
-  "logs" : "/home/vietvh/Workspace/logs",
+  "mediaFolder": "MEDIA_FOLDER",
+  "logs" : "LOG_FOLDER",
   "tokenExpired" : "7 d"
 }
