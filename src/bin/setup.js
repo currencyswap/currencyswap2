@@ -205,7 +205,7 @@ var migrateDb = function () {
 };
 
 if(ds.connected) {
-    migrateDb()
+    migrateDb();
 } else {
     ds.once('connected', function() {
         migrateDb();
