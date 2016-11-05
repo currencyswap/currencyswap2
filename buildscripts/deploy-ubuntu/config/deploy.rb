@@ -27,7 +27,7 @@ namespace :deploy do
   task :checkinstalled do
 	on roles(:web) do
 	
-		val = capture("if [ -d #{fetch(:media_folder)} ]; then echo 'yes'; else echo 'no'; fi")
+		val = capture("if [ -d #{fetch(:log_folder)} ]; then echo 'yes'; else echo 'no'; fi")
 		
 		if val == "yes"
 			print "Project is installed already, update it now.\n"
