@@ -32,5 +32,6 @@
     "COULD_NOT_SAVE_USER_TO_DB": "Could not save user to DB",
     "COULD_NOT_SAVE_USER_GR_TO_DB": "Could not save user group to DB",
     "COULD_NOT_SAVE_USER_ADDR_TO_DB": "Could not save user addresses to DB",
-    "COULD_NOT_FIND_GRP_BY_NAME": "Could not find group by group name"
+    "COULD_NOT_FIND_GRP_BY_NAME": "Could not find group by group name",
+    "COULD_NOT_UPDATE_USER_PWD": "Could not update user password in DB"
 }
