@@ -28,4 +28,6 @@ angular.module('register', ['ngRoute', 'cookieManager', 'permission', 'navigatio
                 validator(ctrl.$viewValue);
             });
         }
+
+
     }]);
