@@ -9,36 +9,9 @@ angular.module('resetPassword')
             '$http',
             function resetPassword($scope, $rootScope, $location, $http) {
                 $scope.title = appConfig.title;
-                $scope.isSubmitCodeForm = true;
-                $scope.isNewPwdForm = false;
-                $scope.resetCodeFormData = {};
                 $scope.newPwdFormData = {};
-
-                $scope.submitResetCode = function () {
-
-                    var headers = {};
-
-                    headers[httpHeader.CONTENT_TYPE] = contentTypes.JSON;
-                    var postData = {
-                        resetCode: $scope.resetCodeFormData.code,
-                        email: $scope.resetCodeFormData.email
-                    };
-
-                    var req = {
-                        method: httpMethods.POST,
-                        url: apiRoutes.API_FORGOT_PASSWORD_RESET,
-                        headers: headers,
-                        data: postData
-                    };
-
-                    return $http(req)
-                        .then(function (response) {
-                            $scope.isSubmitCodeForm = false;
-                            $scope.isNewPwdForm = true;
-                        }, function (error) {
-                            
-                        });
-                };
+                var resetCode = $location.search().resetCode;
+                $scope.isResetSuccess = false;
 
                 $scope.submitNewPassword = function () {
 
@@ -46,8 +19,8 @@ angular.module('resetPassword')
 
                     headers[httpHeader.CONTENT_TYPE] = contentTypes.JSON;
                     var postData = {
-                        password: $scope.newPwdFormData.Password,
-                        email: $scope.resetCodeFormData.email
+                        newPassword: $scope.newPwdFormData.password,
+                        resetCode: resetCode
                     };
 
                     var req = {
@@ -59,9 +32,9 @@ angular.module('resetPassword')
 
                     return $http(req)
                         .then(function (response) {
-
+                            $scope.isResetSuccess = true;
                         }, function (error) {
-
+                            console.log(error.data);
                         });
                 }
             }]
