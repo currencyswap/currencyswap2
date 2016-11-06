@@ -134,5 +134,13 @@
     "TRANSACTION_INIT_FAIL" : {
         "code": 80,
         "message": "{ERR_TX_INIT_FAILED}"
+    },
+    "ERROR_TX_ROLLBACK" : {
+        "code": 81,
+        "message": "{ERROR_TX_ROLLBACK}"
+    },
+    "ERROR_TX_COMMIT" : {
+        "code": 82,
+        "message": "{ERROR_TX_COMMIT}"
     }
 }

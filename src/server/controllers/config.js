@@ -44,7 +44,6 @@ module.exports = function (app) {
     });
 
     router.get('/error-codes.js', function (req, res) {
-
         let errorForClients = {};
 
         for (let key in errors) {

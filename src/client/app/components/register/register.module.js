@@ -1,6 +1,6 @@
 'use-strict';
 
-angular.module('register', ['ngRoute', 'cookieManager', 'permission', 'navigation'])
+angular.module('register', ['ngRoute', 'cookieManager', 'permission', 'navigation', 'angularCountryState'])
     .directive('ngMatch', ['$parse', function ($parse) {
         var directive = {
             link: link,
@@ -28,4 +28,21 @@ angular.module('register', ['ngRoute', 'cookieManager', 'permission', 'navigatio
                 validator(ctrl.$viewValue);
             });
         }
+    }])
+    .directive('focusMe', ['$timeout', '$parse', function ($timeout, $parse) {
+        return {
+            link: function (scope, element, attrs) {
+                var model = $parse(attrs.focusMe);
+                scope.$watch(model, function (value) {
+                    if (value === true) {
+                        $timeout(function () {
+                            element[0].focus();
+                        });
+                    }
+                });
+                element.bind('blur', function () {
+                    scope.$apply(model.assign(scope, false));
+                });
+            }
+        };
     }]);

@@ -62,6 +62,7 @@ exports.convertUserData = function (requestUser) {
     resultUser.addresses = [];
 
     //Default for new registration user
+    //resultUser.group = "Blocked User";
     resultUser.group = "Blocked User";
     resultUser.isActived = false;
     resultUser.isBlocked = true;

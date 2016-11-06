@@ -15,20 +15,10 @@ var appConfig = require('../libs/app-config');
 var crypto = require('crypto');
 var routes = require('../routes').routes;
 var os = require('os');
+var userConverter = require('../converters/user-converter');
+var groupService = require('../services/group-service');
 
 exports.createUser = function (user, callback) {
-    if (user.username === undefined) {
-        return callback(errorUtil.createAppError(errors.MEMBER_NO_USERNAME));
-    }
-
-    if (user.password === undefined) {
-        return callback(errorUtil.createAppError(errors.MEMBER_NO_PASSWORD));
-    }
-
-    if (user.email === undefined) {
-        return callback(errorUtil.createAppError(errors.MEMBER_NO_EMAIL));
-    }
-
     user.password = md5(user.password);
 
     async.waterfall([
@@ -106,18 +96,16 @@ exports.createUser = function (user, callback) {
             txObject.transaction.rollback(function (rollbackErr) {
                 if (rollbackErr) {
                     console.log('Fail to rollback transaction');
-                    return callback(rollbackErr);
+                    return callback(errorUtil.createAppError(errors.ERROR_TX_ROLLBACK));
                 } else {
                     return callback(err);
                 }
             });
-            //console.error('ERROR [%s]: %s', err.name, err.message);
-            return callback(err);
         } else {
             txObject.transaction.commit(function (commitErr) {
                 if (commitErr) {
                     console.log('Fail to commit transaction');
-                    return callback(commitErr);
+                    return callback(errorUtil.createAppError(errors.ERROR_TX_COMMIT));
                 }
                 else return callback(null, instance);
             });
@@ -151,10 +139,11 @@ exports.getUserById = function (userId, callback) {
 };
 
 exports.getUserByUsername = function (username, callback) {
-
     app.models.Member.findByUsername(username, function (err, userObj) {
-        if (err) return callback(err);
-        callback(null, userObj);
+        if (err) {
+            return callback(err);
+        }
+        return callback(null, userObj);
     });
 };
 
@@ -347,25 +336,47 @@ exports.createUserTransaction = function (callback) {
 exports.registerUser = function (newUser, callback) {
     async.waterfall([
         function (next) {
+            groupService.findGroupByName(newUser.group, function (err, group) {
+                if (err) {
+                    return next(err);
+                } else {
+                    newUser.groups = [{
+                        id: group.id,
+                        name: group.name
+                    }];
+                    return next(null, newUser);
+                }
+
+            })
+        },
+        function (newUser, next) {
             exports.getUserByUsername(newUser.username, function (err, user) {
-                if (err) return next(null);
-                else {
-                    if (!user) return next (null);
-                    else return next(errorUtil.createAppError(errors.USER_NAME_EXISTED));
+                if (err) {
+                    if (err.code === errorUtil.createAppError(errors.MEMBER_INVALID_USERNAME).code) {
+                        return next(null, newUser);
+                    } else {
+                        return next(err);
+                    }
+                } else {
+                    return next(errorUtil.createAppError(errors.USER_NAME_EXISTED));
                 }
             })
         },
-        function (next) {
+        function (newUser, next) {
             app.models.Member.findByEmail(newUser.email, function (err, user) {
-                if (err) return next(null);
-                else {
-                    if (!user) return next (null);
-                    else return next(errorUtil.createAppError(errors.EMAIL_EXISTED));
+                if (err) {
+                    if (err.code === errorUtil.createAppError(errors.MEMBER_EMAIL_NOT_FOUND).code) {
+                        return next(null, newUser);
+                    } else {
+                        return next (err);
+                    }
+                } else {
+                    return next(errorUtil.createAppError(errors.EMAIL_EXISTED));
                 }
             })
         },
-        function (next) {
-            exports.createUser(newUser, function (err, savedUser) {
+        function (user, next) {
+            exports.createUser(user, function (err, savedUser) {
                 if (err) {
                     return next(err);
                 }

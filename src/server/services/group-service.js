@@ -53,13 +53,13 @@ exports.findGroupByName = function (groupName, callback) {
         where: where,
     };
     app.models.Group.findOne(filter, function (err, groups ) {
-        if ( err ) {
+        if (err) {
             console.log('Can not find group by name');
             console.error('ERROR : %s', err );
-            return callback(errorUtil.createAppError(errors.COULD_NOT_FIND_GRP_BY_NAME));
+            return callback(errorUtil.createAppError(errors.SERVER_GET_PROBLEM));
+        } else {
+            if (!groups) return callback(errorUtil.createAppError(errors.COULD_NOT_FIND_GRP_BY_NAME));
+            else return callback(null, groups);
         }
-
-        callback(null, groups);
-
     });
 };

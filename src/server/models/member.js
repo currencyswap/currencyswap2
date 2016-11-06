@@ -154,9 +154,9 @@ module.exports = function (Member) {
             }
 
             if (!user) {
-                let appError = errorUtil.createAppError(errors.MEMBER_EMAIL_NOT_FOUND);
-                appError.message = util.format(appError.message, email);
-                return callback(appError);
+                /*var appError = errorUtil.createAppError(errors.MEMBER_EMAIL_NOT_FOUND);
+                appError.message = util.format(appError.message, email);*/
+                return callback(errorUtil.createAppError(errors.MEMBER_EMAIL_NOT_FOUND));
             }
 
             callback(null, user);
