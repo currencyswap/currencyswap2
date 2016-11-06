@@ -12,17 +12,17 @@
                 </div><!-- logopanel -->
             </div><!-- signin0-info -->
             <br>
-            <form id="registerFormId" name="registerForm" ng-submit="onSubmit()">
-
+            <form id="registerFormId" name="registerForm" ng-submit="onSubmit()" novalidate="novalidate">
                 <h2 class="nomargin"><b><u>Register</u></b></h2>
                 <br>
 
-                <div class="form-group" ng-class="{ 'has-error' : registerForm.username.$invalid && !registerForm.username.$pristine}">
+                <div class="form-group" ng-class="{ 'has-error' : (registerForm.username.$invalid && !registerForm.username.$pristine) || userExisted}">
                     <div class="mb10">
                         <label class="control-label"><b>Username</b></label> <span class="asterisk">*</span>
-                        <input ng-change="onUsernameChange()" type="text" name="username" class="form-control" ng-pattern="/^[a-zA-Z0-9\-\.\_]+$/" ng-model="user.username" ng-minlength="8" required>
+                        <input ng-change="onUsernameChange()" type="text" name="username" class="form-control" ng-pattern="/^[a-zA-Z0-9\-\.\_]+$/" ng-model="user.username" ng-minlength="8" focus-me="focusUsername" required>
                         <p ng-show="registerForm.username.$error.minlength" class="help-block">Username is too short.</p>
                         <p ng-show="registerForm.username.$error.pattern" class="help-block ">User is invalid.</p>
+                        <p ng-show="userExisted" class="help-block ">Your chosen username is already in use</p>
                     </div>
                 </div>
 
@@ -37,12 +37,12 @@
                 </div>
 
                 <div class="form-group"
-                     ng-class="{ 'has-error' : registerForm.email.$invalid && !registerForm.email.$pristine}">
+                     ng-class="{ 'has-error' : (registerForm.email.$invalid && !registerForm.email.$pristine) || emailExisted}">
                     <div class="mb10">
                         <label class="control-label"><b>Email</b></label> <span class="asterisk">*</span>
-                        <input type="email" name="email" class="form-control" ng-model="user.email" required>
-                        <p ng-show="registerForm.email.$invalid && !registerForm.email.$pristine" class="help-block">
-                            Email is not valid.</p>
+                        <input id="idEmail" type="email" name="email" class="form-control" ng-model="user.email" focus-me="focusEmail" required>
+                        <p ng-show="registerForm.email.$invalid && !registerForm.email.$pristine" class="help-block">Email is not valid.</p>
+                        <p ng-show="emailExisted" class="help-block">Your email is already in use</p>
                     </div>
                 </div>
 
@@ -241,6 +241,12 @@
                             <option value="1900">1900</option>
                         </select>
                     </div>
+
+                    <!--<div class="input-group">
+                        <input class="form-control hasDatepicker" placeholder="mm/dd/yyyy" id="datepicker" type="text">
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                    </div>-->
+
                 </div>
 
                 <div class="mb10">
@@ -259,19 +265,7 @@
                 </div>
 
                 <div class="mb10">
-                    <label for="country" class="control-label"><b>Country</b></label>
-                    <select id="country" name="country" class="select2 form-control" data-placeholder="Choose a Country..."
-                            ng-model="user.country"></select>
-
-                    <label for="state" class="control-label"><b>State</b></label>
-                    <select name="state" id="state" class="select2 form-control" data-placeholder="Choose a Country..."
-                            ng-model="user.country"></select>
-                    <br/>
-                    <script type="text/javascript">
-                        populateCountries("country", "state");
-                    </script>
-
-
+                    <country-state-select country="user.country" state="user.state"></country-state-select>
                     <!--<select class="select2 form-control" data-placeholder="Choose a Country..."
                             ng-model="user.country">
                         <option value=""></option>
@@ -540,8 +534,11 @@
                     </select>-->
                 </div>
 
-                <button type="submit" class="btn btn-success btn-block" ng-disabled="registerForm.$invalid">REGISTER
-                </button>
+                <br>
+                <button type="submit" class="btn btn-success btn-block" ng-disabled="registerForm.$invalid">REGISTER</button>
+                <div class="loaders" align="center" ng-show="gifLoading">
+                    <img src="../../../assets/images/loaders/loader1.gif" alt="">
+                </div>
             </form>
         </div><!-- col-sm-6 -->
 
@@ -584,7 +581,7 @@
             });
 
             // Basic Form
-            jQuery("#registerFormId").validate({
+            jQuery("#testForm").validate({
                 highlight: function(element) {
                     jQuery(element).closest('.form-group').removeClass('has-success').addClass('has-error');
                 },
@@ -618,7 +615,15 @@
                 }
             });
 
+            // Date Picker
+/*            jQuery('#datepicker').datepicker();
 
+            jQuery('#datepicker-inline').datepicker();
+
+            jQuery('#datepicker-multiple').datepicker({
+                numberOfMonths: 3,
+                showButtonPanel: true
+            });*/
         });
     </script>
 </div>
@@ -653,4 +658,3 @@
 
     </div>
 </div>
-
