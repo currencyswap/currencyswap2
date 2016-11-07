@@ -35,12 +35,42 @@
                 <div class="form-group" ng-class="{ 'has-error' : (userForm.email.$invalid && !userForm.email.$pristine) || (isEmailNotFound && !userForm.email.$pristine)}">
                     <input placeholder="example@gmail.com" type="email" name="email" class="form-control" ng-model="verification.submittedEmail" ng-change="onTextBoxChange()">
                     <p ng-show="userForm.email.$invalid && !userForm.email.$pristine" class="help-block">Enter a valid email.</p>
-                    {{verification.submittedEmail}}
                     <p ng-show="(isEmailNotFound)" class="help-block">
                         Your email was not found.</p>
                 </div>
                 <button type="submit" class="btn btn-block btn-success" ng-disabled="userForm.$invalid">RESET</button>
-
+                <div class="loaders" align="center" ng-show="gifLoading">
+                    <img src="../../../../assets/images/loaders/loader1.gif" alt="">
+                    <!--<img src="images/loaders/loader2.gif" alt="">
+                    <img src="images/loaders/loader3.gif" alt="">
+                    <img src="images/loaders/loader4.gif" alt="">
+                    <img src="images/loaders/loader8.gif" alt="">
+                    <img src="images/loaders/loader9.gif" alt="">
+                    <img src="images/loaders/loader5.gif" alt="">
+                    <img src="images/loaders/loader6.gif" alt="">
+                    <img src="images/loaders/loader7.gif" alt="">
+                    <img src="images/loaders/loader10.gif" alt="">
+                    <img src="images/loaders/loader11.gif" alt="">
+                    <img src="images/loaders/loader12.gif" alt="">
+                    <img src="images/loaders/loader13.gif" alt="">
+                    <img src="images/loaders/loader14.gif" alt="">
+                    <img src="images/loaders/loader15.gif" alt="">
+                    <img src="images/loaders/loader16.gif" alt="">
+                    <img src="images/loaders/loader17.gif" alt="">
+                    <img src="images/loaders/loader18.gif" alt="">
+                    <img src="images/loaders/loader19.gif" alt="">
+                    <img src="images/loaders/loader20.gif" alt="">
+                    <img src="images/loaders/loader21.gif" alt="">
+                    <img src="images/loaders/loader22.gif" alt="">
+                    <img src="images/loaders/loader23.gif" alt="">
+                    <img src="images/loaders/loader24.gif" alt="">
+                    <img src="images/loaders/loader25.gif" alt="">
+                    <img src="images/loaders/loader26.gif" alt="">
+                    <img src="images/loaders/loader27.gif" alt="">
+                    <img src="images/loaders/loader28.gif" alt="">
+                    <img src="images/loaders/loader29.gif" alt="">
+                    <img src="images/loaders/loader30.gif" alt="">-->
+                </div>
             </form>
         </div>
     </div><!-- row -->

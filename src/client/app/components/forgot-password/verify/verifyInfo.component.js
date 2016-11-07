@@ -7,12 +7,16 @@ angular.module('verifyInfo')
             '$rootScope',
             '$location',
             '$http',
-            function verifyInfoController($scope, $rootScope, $location, $http) {
+            '$window',
+            function verifyInfoController($scope, $rootScope, $location, $http, $window) {
                 $scope.title = appConfig.title;
                 $scope.isSubmitEmailForm = true;
+                $scope.gifLoading = false;
                 $scope.verification = {};
 
                 $scope.submitEmail = function () {
+                    $scope.gifLoading = true;
+                    $scope.invalid = false;
                     var headers = {};
                     var postData = {
                         email: $scope.verification.submittedEmail
@@ -31,9 +35,12 @@ angular.module('verifyInfo')
 
                     return $http(req)
                         .then(function (response) {
+                            $scope.gifLoading = false;
                             $scope.isSubmitEmailForm = false;
                             $scope.isSubmitSuccess = true;
+                            $window.scrollTo(0, 0);
                         }, function (error) {
+                            $scope.gifLoading = false;
                             console.log(error);
                         });
                 }

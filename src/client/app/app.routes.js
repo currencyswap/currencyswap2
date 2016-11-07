@@ -3,7 +3,6 @@
 angular.module('currencySwapApp').config(['$locationProvider', '$routeProvider',
     function config($locationProvider, $routeProvider) {
         $locationProvider.hashPrefix('!');
-        console.log(routes.FORGOT_PASSWORD_RESET + ':resetCode');
         $routeProvider.when(routes.LOGIN, {
             template: '<login-form></login-form>'
         }).when(routes.FORGOT_PASSWORD_VERIFY, {
