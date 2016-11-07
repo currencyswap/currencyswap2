@@ -28,9 +28,7 @@ angular.module('register')
                                 $scope.registerSuccess = true;
                                 $window.scrollTo(0, 0);
                             } else { //handle error response
-                                if (response.data.code === serverErrors.USER_NAME_EXISTED
-                                    || response.data.code === serverErrors.EMAIL_EXISTED
-                                    || response.data.code === serverErrors.TRANSACTION_INIT_FAIL
+                                if (response.data.code === serverErrors.TRANSACTION_INIT_FAIL
                                     || response.data.code === serverErrors.COULD_NOT_SAVE_USER_TO_DB
                                     || response.data.code === serverErrors.COULD_NOT_SAVE_USER_ADDR_TO_DB
                                     || response.data.code === serverErrors.COULD_NOT_SAVE_USER_GR_TO_DB
