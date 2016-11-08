@@ -38,7 +38,7 @@ exports.getAuthorizationHeader = function ( request, callback ) {
     }
 
     if ( !request.headers.authorization ) {
-        return callback( errorUtil.createAppError( errors.INVALID_AUTHORIZATION_HEADER ) ); 
+        return callback( errorUtil.createAppError( errors.INVALID_AUTHORIZATION_HEADER ) );
     }
 
     callback( null, request.headers.authorization );

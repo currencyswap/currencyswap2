@@ -10,9 +10,11 @@ angular.module('currencySwapApp', [
     'verifyInfo',
     'resetPassword',
     'register',
+    'userList',
     'homePage',
     'navigation',
-    'angularCountryState'
+    'angularCountryState',
+    'ui.bootstrap',
 ]).run(function ($rootScope, $location, CookieService, PermissionService, NavigationHelper) {
 
     var token = CookieService.getToken();
@@ -23,13 +25,13 @@ angular.module('currencySwapApp', [
 
     if (!token) {
         $rootScope.isLoading = false;
-        if ($location.path() === routes.FORGOT_PASSWORD_VERIFY) {
+        /*if ($location.path() === routes.FORGOT_PASSWORD_VERIFY) {
             return $location.path(routes.FORGOT_PASSWORD_VERIFY);
         }
 
         if ($location.search().resetCode) {
             return $location.path(routes.FORGOT_PASSWORD_RESET);
-        }
+        }*/
 
         if ($location.path() != routes.LOGIN) {
             return $location.path(routes.LOGIN);
@@ -58,7 +60,7 @@ angular.module('currencySwapApp', [
             if ($location.path() == routes.LOGIN) return $location.path(routes.HOME);
 
         }, function (error) {
-            let err = error.data;
+            var err = error.data;
             console.error('ERROR [%s] : %s.', err.code, err.message);
             $rootScope.isLoading = false;
 
@@ -81,4 +83,7 @@ angular.module('currencySwapApp', [
     HTTP_ERROR_STATUS_CODE: 299,
     SERVER_GOT_PROBLEM_MSG: 'Server got problem',
     SERVER_GOT_PROBLEM_STATUS: 'ERROR',
+    PEDING_USER_STATUS: 'New',
+    ACTIVATED_USER_STATUS: 'Activated',
+    BLOCKED_USER_STATUS: 'Blocked',
 });

@@ -70,7 +70,7 @@ exports.createUser = function (user, callback) {
                 return next(null, txObject, instance);
             }
 
-            let userGrps = [];
+            var userGrps = [];
 
             user.groups.forEach(function (grp) {
                 if (!grp.id) return;
@@ -115,7 +115,7 @@ exports.createUser = function (user, callback) {
 
 exports.createUsers = function (users, callback) {
 
-    let userObjs = [];
+    var userObjs = [];
 
     async.eachSeries(users, function (user, next) {
 
@@ -160,11 +160,12 @@ exports.login = function (user, callback) {
 
     async.waterfall([
         function (next) {
+        console.log('4.1');
             app.models.Member.findByUsername(user.username, true, function (err, userObj) {
 
                 if (err) return next(err);
 
-                let password = md5(user.password);
+                var password = md5(user.password);
 
                 if (userObj.password != password) {
                     return next(errorUtil.createAppError(errors.MEMBER_INVALID_PASSWORD));
@@ -175,6 +176,7 @@ exports.login = function (user, callback) {
         },
         function (user, next) {
             // get User Secret Key
+            console.log('4.2');
             redis.getSecretKey(user.username, function (err, value) {
                 if (!err) return next(null, user, value);
 
@@ -183,7 +185,7 @@ exports.login = function (user, callback) {
                 }
 
                 // Generate Secret Key
-                let secret = token.generateSecretKey(user.username);
+                var secret = token.generateSecretKey(user.username);
 
                 // Set to redis
                 redis.setSecretKey(user.username, secret);
@@ -191,7 +193,8 @@ exports.login = function (user, callback) {
             });
         },
         function (user, secret, next) {
-            let tokenKey = token.generate({username: user.username, fullName: user.fullName}, secret);
+            console.log('4.3');
+            var tokenKey = token.generate({username: user.username, fullName: user.fullName}, secret);
 
             token.getSignature(tokenKey, function (err, sign) {
                 next(err, user, secret, tokenKey, sign);
@@ -199,10 +202,12 @@ exports.login = function (user, callback) {
 
         },
         function (user, secret, tokenKey, sign, next) {
+            console.log('4.4');
             redis.setSecretKeyBySignature(sign, JSON.stringify({username: user.username, secret: secret}));
             return next(null, tokenKey);
         }
     ], function (err, tokenKey) {
+        console.log('4.5');
         callback(err, tokenKey);
     });
 
@@ -386,6 +391,13 @@ exports.registerUser = function (newUser, callback) {
     ], function (err, savedUser) {
         callback(err, savedUser);
     });
+};
+
+exports.findAllUsers = function (callback) {
+    app.models.Member.findAll(function (err, users) {
+        if (err) return callback(err);
+        else return callback(null, users);
+    })
 };
 
 exports.extractEmailAndRandomString = function (requestResetCode) {

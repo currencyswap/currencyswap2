@@ -5,7 +5,7 @@
         "email": "admin@example.com",
         "birthday" : "2016-10-13",        
         "password": "p@55word",
-        "isActivated" : true,
+        "status" : "Activated",
         "groups" : ["{ADMIN}"]
     },
     "demouser": {
@@ -15,7 +15,7 @@
         "expiredDate" : "2017-06-30",
         "email": "demo.cs@example.com",
         "password": "qwerty12",
-        "isActivated" : true,
+        "status" : "Activated",
         "addresses" : [{
             "address" : "6th Floor, Building 15 Pham Hung Road, Tu Liem Dist",
             "city" : "Hanoi",

@@ -24,7 +24,7 @@ module.exports = function (Member) {
             isActivated = null;
         }
 
-        let where = {
+        var where = {
             id: userId
         };
 
@@ -32,15 +32,15 @@ module.exports = function (Member) {
             where.isActivated = isActivated;
         }
 
-        let includeGroups = {
+        var includeGroups = {
             relation: 'groups'
         };
 
-        let includeAddresses = {
+        var includeAddresses = {
             relation: 'addresses'
         };
 
-        let filter = {
+        var filter = {
             where: where,
             include: [includeGroups, includeAddresses]
         };
@@ -52,7 +52,7 @@ module.exports = function (Member) {
             }
 
             if (!user) {
-                let appError = errorUtil.createAppError(errors.MEMBER_INVALID_USERID);
+                var appError = errorUtil.createAppError(errors.MEMBER_INVALID_USERID);
                 appError.message = util.format(appError.message, userId);
                 return callback(appError);
             }
@@ -68,7 +68,7 @@ module.exports = function (Member) {
             isActivated = null;
         }
 
-        let where = {
+        var where = {
             username: username
         };
 
@@ -76,15 +76,15 @@ module.exports = function (Member) {
             where.isActivated = isActivated;
         }
 
-        let includeGroups = {
+        var includeGroups = {
             relation: 'groups'
         };
 
-        let includeAddresses = {
+        var includeAddresses = {
             relation: 'addresses'
         };
 
-        let filter = {
+        var filter = {
             where: where,
             include: [includeGroups, includeAddresses]
         };
@@ -96,7 +96,7 @@ module.exports = function (Member) {
             }
 
             if (!user) {
-                let appError = errorUtil.createAppError(errors.MEMBER_INVALID_USERNAME);
+                var appError = errorUtil.createAppError(errors.MEMBER_INVALID_USERNAME);
                 appError.message = util.format(appError.message, username);
                 return callback(appError);
             }
@@ -106,19 +106,19 @@ module.exports = function (Member) {
     };
 
     Member.findByUsernameWithPermissions = function (username, callback) {
-        let where = {
+        var where = {
             username: username,
             isActivated: true
         };
 
-        let includeGroups = {
+        var includeGroups = {
             relation: 'groups',
             scope: {
                 include: 'permissions'
             }
         };
 
-        let filter = {
+        var filter = {
             where: where,
             include: includeGroups
         };
@@ -130,7 +130,7 @@ module.exports = function (Member) {
             }
 
             if (!user) {
-                let appError = errorUtil.createAppError(errors.MEMBER_INVALID_USERNAME);
+                var appError = errorUtil.createAppError(errors.MEMBER_INVALID_USERNAME);
                 appError.message = util.format(appError.message, username);
                 return callback(appError);
             }
@@ -140,11 +140,11 @@ module.exports = function (Member) {
     };
 
     Member.findByEmail = function (email, callback) {
-        let where = {
+        var where = {
             email: email
         };
 
-        let filter = {
+        var filter = {
             where: where
         };
         Member.findOne(filter, function (err, user) {
@@ -154,12 +154,20 @@ module.exports = function (Member) {
             }
 
             if (!user) {
-                /*var appError = errorUtil.createAppError(errors.MEMBER_EMAIL_NOT_FOUND);
-                appError.message = util.format(appError.message, email);*/
                 return callback(errorUtil.createAppError(errors.MEMBER_EMAIL_NOT_FOUND));
             }
 
             callback(null, user);
         });
     };
+
+    Member.findAll = function (callback) {
+        Member.find(function (err, users) {
+            if (err) return callback(errorUtil.createAppError(errors.SERVER_GET_PROBLEM));
+            else {
+                if (!users || users.length < 0) return callback(errorUtil.createAppError(errors.NO_USER_FOUND_IN_DB));
+                else return callback(null, users);
+            }
+        });
+    }
 };

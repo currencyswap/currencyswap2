@@ -4,7 +4,7 @@ angular.module('appHeader').directive('headerRight', function () {
     return {
         restrict: 'EA',
         scope: {
-            name: '@',
+            name: '@'
         },
         templateUrl: 'app/shared/header/header-right.template.html',
         controller: function ($rootScope, $window, $location, $scope, $element, CookieService) {
