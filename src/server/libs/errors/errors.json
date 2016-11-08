@@ -131,6 +131,10 @@
         "code": 62,
         "message": "{ERR_USER_IS_NOT_AVAILABLE}"        
     },
+    "NO_USER_FOUND_IN_DB" : {
+        "code": 63,
+        "message": "{NO_USER_FOUND_IN_DB}"
+    },
     "TRANSACTION_INIT_FAIL" : {
         "code": 80,
         "message": "{ERR_TX_INIT_FAILED}"

@@ -4,7 +4,7 @@ angular.module('appHeader').directive('leftPanel', function () {
     return {
         restrict: 'EA',
         scope: {
-            name: '@',
+            name: '@'
         },
         templateUrl: 'app/shared/header/left-panel.template.html',
         controller: function ($scope, $element ) {
@@ -13,4 +13,4 @@ angular.module('appHeader').directive('leftPanel', function () {
 
         }
     };
-})
+});

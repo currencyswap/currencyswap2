@@ -64,8 +64,7 @@ exports.convertUserData = function (requestUser) {
     //Default for new registration user
     //resultUser.group = "Blocked User";
     resultUser.group = "Blocked User";
-    resultUser.isActived = false;
-    resultUser.isBlocked = true;
+    resultUser.status = 'Pending Approval';
     resultUser.expiredDate = "2017-06-30";
 
     if (requestUser.fullname) {

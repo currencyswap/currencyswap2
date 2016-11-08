@@ -80,6 +80,7 @@ exports.get = function (key, callback) {
         }
 
         if (!reply) {
+            console.log('MISSING_REDIS_KEY');
             let appError = errorUtil.createAppError(errors.MISSING_REDIS_KEY);
             appError.message = util.format(appError.message, key);
 
