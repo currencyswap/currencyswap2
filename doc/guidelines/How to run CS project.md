@@ -29,7 +29,7 @@ Step9: To confirm that Redis is installed and working properly, just type the 'p
 5. Run Project:
 - Create Database
 mysql -u root -p
-mysql>CREATE DATABASE CSSQL; (or any other name)
+mysql>CREATE DATABASE Currency_Swap; (or any other name)
 
 - Checkout Project
 
