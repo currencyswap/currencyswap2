@@ -87,7 +87,7 @@ Ex:
   }
 }
 
-- Run: npm install
+- Run: npm install (You must go to "src" folder)
 - Run: node .bin/setup.js
 - Run: node .
 
