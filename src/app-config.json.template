@@ -13,6 +13,10 @@
       "host" : "STMP_HOST",
       "port": STMP_PORT
   },
+  "mailSender": {
+      "sender": "EMAIL SENDER",
+      "subject": "MAIl SUBJECT",
+    },
   "paging" : {
       "activityLogs": 4
   },
