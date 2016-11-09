@@ -43,6 +43,9 @@
     "profession": {
       "type": "string"
     },
+    "registeredDate": {
+      "type": "date"
+    },
     "expiredDate": {
       "type": "date",
       "postgresql": {

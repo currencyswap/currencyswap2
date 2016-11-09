@@ -66,8 +66,9 @@ exports.convertUserData = function (requestUser) {
     resultUser.group = "Blocked User";
     resultUser.status = 'Pending Approval';
     resultUser.expiredDate = "2017-06-30";
+    resultUser.registeredDate = new Date(Date.now()).toISOString();
 
-    if (requestUser.fullname) {
+    if (requestUser.fullName) {
         resultUser.fullName = requestUser.fullName;
     }
 

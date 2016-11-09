@@ -3,7 +3,8 @@
         "username": "admin",
         "fullName": "Administrator",
         "email": "admin@example.com",
-        "birthday" : "2016-10-13",        
+        "birthday" : "2016-10-13",
+        "registeredDate" : "2016-11-29",
         "password": "p@55word",
         "status" : "Activated",
         "groups" : ["{ADMIN}"]
@@ -12,6 +13,7 @@
         "username": "demo",
         "fullName": "Demo CS",
         "birthday" : "2016-10-01",
+        "registeredDate" : "2016-11-29",
         "expiredDate" : "2017-06-30",
         "email": "demo.cs@example.com",
         "password": "qwerty12",

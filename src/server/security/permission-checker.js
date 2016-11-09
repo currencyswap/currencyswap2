@@ -103,7 +103,6 @@ var validatePermission = function (permissions, requiredPermissions, callback) {
 };
 
 var checkPermissionInRequest = function (request, permissions, callback) {
-
     console.log('PATH %s', request.path);
     console.log('METHOD %s', request.method);
 
