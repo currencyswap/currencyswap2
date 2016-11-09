@@ -160,7 +160,6 @@ exports.login = function (user, callback) {
 
     async.waterfall([
         function (next) {
-        console.log('4.1');
             app.models.Member.findByUsername(user.username, true, function (err, userObj) {
 
                 if (err) return next(err);
@@ -176,7 +175,6 @@ exports.login = function (user, callback) {
         },
         function (user, next) {
             // get User Secret Key
-            console.log('4.2');
             redis.getSecretKey(user.username, function (err, value) {
                 if (!err) return next(null, user, value);
 
@@ -193,7 +191,6 @@ exports.login = function (user, callback) {
             });
         },
         function (user, secret, next) {
-            console.log('4.3');
             var tokenKey = token.generate({username: user.username, fullName: user.fullName}, secret);
 
             token.getSignature(tokenKey, function (err, sign) {
@@ -202,12 +199,10 @@ exports.login = function (user, callback) {
 
         },
         function (user, secret, tokenKey, sign, next) {
-            console.log('4.4');
             redis.setSecretKeyBySignature(sign, JSON.stringify({username: user.username, secret: secret}));
             return next(null, tokenKey);
         }
     ], function (err, tokenKey) {
-        console.log('4.5');
         callback(err, tokenKey);
     });
 

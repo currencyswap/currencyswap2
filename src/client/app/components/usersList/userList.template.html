@@ -67,7 +67,7 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr ng-repeat="user in users | orderBy:sortType:sortReverse">
+                        <tr ng-repeat="user in users | orderBy:sortType:sortReverse | offset: (currentPage - 1) * itemsPerPage | limitTo:itemsPerPage">
                             <td class="center">{{user.fullName}}</td>
                             <td class="center">{{user.username}}</td>
                             <td class="center">{{user.email}}</td>
@@ -78,6 +78,11 @@
                         </tr>
                         </tbody>
                     </table>
+                    <ul uib-pagination
+                        total-items="totalItems"
+                        items-per-page= "itemsPerPage"
+                        ng-model="currentPage">
+                    </ul>
                 </div>
             </div>
         </div>

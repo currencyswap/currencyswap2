@@ -1,7 +1,11 @@
 'use strict';
 
 angular.module('userList')
-    .component('userList', {
+    .filter('offset', function() {
+    return function(input, start) {
+        return input.slice(start);
+    };
+}).component('userList', {
         templateUrl: 'app/components/usersList/userList.template.html',
         controller: ['$scope',
             '$rootScope',
@@ -17,10 +21,14 @@ angular.module('userList')
 
                 $scope.sortType     = 'fullName'; // set the default sort type
                 $scope.sortReverse  = false;  // set the default sort order
-                $scope.searchFish   = '';     // set the default search/filter
+                //$scope.searchFish   = '';     // set the default search/filter
 
                 $scope.users = [];
                 $scope.allUser = [];
+
+                $scope.currentPage = 1;
+                $scope.itemsPerPage = 5;
+                $scope.maxSize = 1;
 
                 $scope.onAllClick = function () {
                     $scope.users = [];
@@ -35,7 +43,7 @@ angular.module('userList')
                             if (response.status === GLOBAL_CONSTANT.HTTP_SUCCESS_STATUS_CODE) {
                                 $scope.allUsers = response.data;
                                 $scope.users = $scope.allUsers;
-                                //$scope.totalItems = $scope.users.length;
+                                $scope.totalItems = $scope.users.length;
                             } else {
                                 $rootScope.error = {};
                                 $rootScope.error.status = GLOBAL_CONSTANT.SERVER_GOT_PROBLEM_STATUS;
@@ -105,6 +113,6 @@ angular.module('userList')
                                 $window.scrollTo(0, 0);
                             }
                         });
-                }
+                };
             }]
     });

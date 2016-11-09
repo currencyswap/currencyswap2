@@ -13,7 +13,7 @@ angular.module('register').factory('RegisterService', ['$http', '$q', function (
 
             var resultUser = {
                 username: userData.username,
-                fullName: userData.fullname,
+                fullName: userData.fullName,
                 cellphone: userData.cellphone,
                 birthday: birthday,
                 profession: userData.profession,

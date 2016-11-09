@@ -25,13 +25,13 @@ angular.module('currencySwapApp', [
 
     if (!token) {
         $rootScope.isLoading = false;
-        /*if ($location.path() === routes.FORGOT_PASSWORD_VERIFY) {
+        if ($location.path() === routes.FORGOT_PASSWORD_VERIFY) {
             return $location.path(routes.FORGOT_PASSWORD_VERIFY);
         }
 
         if ($location.search().resetCode) {
             return $location.path(routes.FORGOT_PASSWORD_RESET);
-        }*/
+        }
 
         if ($location.path() != routes.LOGIN) {
             return $location.path(routes.LOGIN);
