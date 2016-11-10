@@ -26,11 +26,20 @@ angular.module('userList')
                 $scope.users = [];
                 $scope.allUser = [];
 
-                $scope.currentPage = 1;
+                $scope.current = 1;
                 $scope.itemsPerPage = 5;
                 $scope.maxSize = 1;
 
+                $scope.detailUserView = false;
+
+                $scope.userStatusesList = {};
+                $scope.userStatusesList.activated = GLOBAL_CONSTANT.ACTIVATED_USER_STATUS;
+                $scope.userStatusesList.blocked = GLOBAL_CONSTANT.BLOCKED_USER_STATUS;
+                $scope.userStatusesList.pending = GLOBAL_CONSTANT.PENDING_USER_STATUS;
+
                 $scope.onAllClick = function () {
+                    $scope.detailUserView = false;
+
                     $scope.users = [];
                     var token = CookieService.getToken();
                     var headers = {};
@@ -56,6 +65,8 @@ angular.module('userList')
                 $scope.onAllClick();
 
                 $scope.onActivatedClick = function () {
+                    $scope.detailUserView = false;
+
                     $scope.users = [];
                     $scope.allUser = [];
 
@@ -86,6 +97,8 @@ angular.module('userList')
                 };
 
                 $scope.onPendingClick = function () {
+                    $scope.detailUserView = false;
+
                     $scope.users = [];
                     $scope.allUser = [];
 
@@ -114,5 +127,20 @@ angular.module('userList')
                             }
                         });
                 };
+
+                $scope.showUserDetail = function (userId) {
+                    $scope.detailUserView = true;
+                    var token = CookieService.getToken();
+                    var headers = {};
+
+                    headers[httpHeader.CONTENT_TYPE] = contentTypes.JSON;
+                    headers[httpHeader.AUTHORIZARION] = autheticateType.BEARER + token;
+
+                    UserListService.getUserDetail(userId, headers)
+                        .then(function (response) {
+                            $scope.userDetail = response.data;
+                        })
+
+                }
             }]
     });

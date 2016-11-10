@@ -24,8 +24,17 @@ module.exports = function (app) {
 
             return res.status(403).send( errorUtil.getResponseError( err ) );
         }
-
-        userService.getUserById( userId, function (err, userObj) {
+        userService.getUserDetail(userId, function (err, user) {
+            if (err) {
+                if (err.code === errorUtil.createAppError(errors.SERVER_GET_PROBLEM).code
+                    || err.code === errorUtil.createAppError(errors.NO_USER_FOUND_IN_DB).code) {
+                    return res.status(299).send(err);
+                }
+            } else {
+                return res.status(200).send(user)
+            }
+        });
+/*        userService.getUserById( userId, function (err, userObj) {
 
             if (err) {
                 var code = err.code == errors.SERVER_GET_PROBLEM ? 500 : 406;
@@ -34,7 +43,7 @@ module.exports = function (app) {
 
             return res.status(200).send( userConverter.convertUserToUserJSON( userObj ));
 
-        });
+        });*/
     });
 
     return router;
