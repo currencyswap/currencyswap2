@@ -12,6 +12,15 @@ angular.module('userList').factory('UserListService', ['$http', function ($http,
             };
 
             return $http(req);
+        },
+        getUserDetail: function (userId, headers) {
+            var req = {
+                method: httpMethods.GET,
+                url: apiRoutes.API_USERS + '/' + userId,
+                headers: headers
+            };
+
+            return $http(req);
         }
     }
 }]);

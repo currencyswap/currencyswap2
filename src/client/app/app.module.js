@@ -86,4 +86,5 @@ angular.module('currencySwapApp', [
     PEDING_USER_STATUS: 'New',
     ACTIVATED_USER_STATUS: 'Activated',
     BLOCKED_USER_STATUS: 'Blocked',
+    PENDING_USER_STATUS: 'Pending Approval'
 });
