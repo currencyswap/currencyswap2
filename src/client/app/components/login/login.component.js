@@ -24,13 +24,17 @@ angular.module('loginForm')
                         .then(function (response) {
                             var newToken = response.data.token;
                             CookieService.setUpCookies(newToken);
-                            console.log("newToken",newToken);
+
                             PermissionService.getCurrentPermission(newToken).then(
                                 function (response) {
                                     $rootScope.permissions = response.data;
                                     $rootScope.loggedIn = true;
-                                    NavigationHelper.initNavigationBar();    
-                                    $location.path(routes.HOME);
+                                    if ($rootScope.permissions.hasOwnProperty("USER_MANAGEMENT")) {
+                                        $location.path(routes.USERS);
+                                    } else {
+                                        $location.path(routes.HOME);
+                                    }
+                                    NavigationHelper.initNavigationBar();
                                 },
                                 function (error) {
                                     CookieService.cleanUpCookies();
