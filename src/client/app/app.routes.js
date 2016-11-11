@@ -11,6 +11,10 @@ angular.module('currencySwapApp').config(['$locationProvider', '$routeProvider',
             template: '<reset-password></reset-password>'
         }).when(routes.REGISTER, {
             template: '<register></register>'
+        }).when(routes.USERS, {
+            template: '<user-list></user-list>'
+        }).when(routes.USER, {
+            template: '<user-detail></user-detail>'
         }).otherwise('');
     }
 ]);

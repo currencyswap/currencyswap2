@@ -66,6 +66,6 @@ exports.authenticateByToken = function (request, response, callback) {
     ], function (err) {
         if (!err) return callback();
         console.error('ERROR [%s]: %s', err.name, err.message);        
-        response.status(403).send( errorUtil.getResponseError( err ) );
+        return response.status(403).send( errorUtil.getResponseError( err ) );
     });
 };

@@ -9,7 +9,6 @@ module.exports = function (app) {
     var router = app.loopback.Router();
 
     router.post('/', function (req, res) {
-
         async.waterfall( [
             function ( next ) {
                 httpHeaderUtil.getAuthBasicHeader( req, next );
@@ -20,7 +19,6 @@ module.exports = function (app) {
                 });
             },
             function ( user, next ) {
-
                 userService.login( user, function ( err, tokenKey ) {
                     next( err, tokenKey );
                 });

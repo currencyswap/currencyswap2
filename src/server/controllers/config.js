@@ -12,9 +12,9 @@ module.exports = function (app) {
 
     router.get('/setting.js', function (req, res) {
 
-        let miliseconds = ms(appConfig.getTokenExpired());
+        var miliseconds = ms(appConfig.getTokenExpired());
 
-        let config = {
+        var config = {
             title: appConfig.getTitle(),
             dateFormat: appConfig.getDateFormat(),
             cookieExpried: miliseconds
@@ -29,9 +29,9 @@ module.exports = function (app) {
 
     router.get('/api-routes.js', function (req, res) {
 
-        let apiRoutes = {};
+        var apiRoutes = {};
 
-        for (let key in routes) {
+        for (var key in routes) {
             if (routes[key] !== routes.API && routes[key].indexOf(routes.API) == 0) {
                 apiRoutes[key] = routes[key];
             }
@@ -44,9 +44,9 @@ module.exports = function (app) {
     });
 
     router.get('/error-codes.js', function (req, res) {
-        let errorForClients = {};
+        var errorForClients = {};
 
-        for (let key in errors) {
+        for (var key in errors) {
             errorForClients[key] = errors[key].code;
         }
 

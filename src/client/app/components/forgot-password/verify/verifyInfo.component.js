@@ -22,8 +22,6 @@ angular.module('verifyInfo')
                         email: $scope.verification.submittedEmail
                     };
 
-                    console.log(postData);
-
                     headers[httpHeader.CONTENT_TYPE] = contentTypes.JSON;
 
                     var req = {
@@ -41,7 +39,6 @@ angular.module('verifyInfo')
                             $window.scrollTo(0, 0);
                         }, function (error) {
                             $scope.gifLoading = false;
-                            console.log(error);
                         });
                 }
             }]

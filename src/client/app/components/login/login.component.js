@@ -19,12 +19,12 @@ angular.module('loginForm')
                 if (token) return $location.path(routes.HOME);
 
                 $scope.onSubmit = function () {
-                    console.log("onSubmit");
+
                     LoginService.authenticate($scope.user)
                         .then(function (response) {
                             var newToken = response.data.token;
                             CookieService.setUpCookies(newToken);
-                            console.log("newToken",newToken);
+
                             PermissionService.getCurrentPermission(newToken).then(
                                 function (response) {
                                     $rootScope.permissions = response.data;

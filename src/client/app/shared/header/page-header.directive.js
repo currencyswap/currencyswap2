@@ -4,7 +4,7 @@ angular.module('appHeader').directive('pageHeader', function () {
     return {
         restrict: 'EA',
         scope: {
-            name: '@',
+            name: '@'
         },
         templateUrl: 'app/shared/header/page-header.template.html',
         controller: function ($scope, $rootScope, $element) {
@@ -12,4 +12,4 @@ angular.module('appHeader').directive('pageHeader', function () {
             $scope.currentPage = $rootScope.currentPage;
         }
     };
-})
+});

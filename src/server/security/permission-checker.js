@@ -103,7 +103,6 @@ var validatePermission = function (permissions, requiredPermissions, callback) {
 };
 
 var checkPermissionInRequest = function (request, permissions, callback) {
-
     console.log('PATH %s', request.path);
     console.log('METHOD %s', request.method);
 
@@ -193,7 +192,7 @@ exports.checkPermission = function (request, response, callback) {
             exports.collectUserPermission(request.currentUser.username, next);
         },
         function (user, permissions, next) {
-            if (!user.isActivated) {
+            if (user.status !== 'Activated') {
                 let err = errorUtil.createAppError(errors.USER_IS_NOT_AVAILABLE);
                 err.message = util.format(err.message, request.currentUser.username);
                 return next(err);
@@ -213,7 +212,9 @@ exports.checkPermission = function (request, response, callback) {
         }
     ],
         function (err) {
-            if (!err) return callback();
+            if (!err) {
+                return callback();
+            }
 
             if (err.code == errors.SERVER_GET_PROBLEM.code ||
                 err.code == errors.INVALID_PERMISSION.code) {

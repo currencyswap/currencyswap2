@@ -10,7 +10,6 @@ module.exports = function (app) {
     var router = app.loopback.Router();
 
     router.get('/', function (req, res) {
-
         if (!req.currentUser || !req.currentUser.username) {
             let err = errorUtil.createAppError( errors.MEMBER_NO_USERNAME );
             return res.status(403).send( errorUtil.getResponseError( err ) );

@@ -45,7 +45,7 @@ angular.module('appHeader').directive('headerLeft', function () {
     return {
         restrict: 'EA',
         scope: {
-            name: '@',
+            name: '@'
         },
         templateUrl: 'app/shared/header/header-left.template.html',
         controller: function ($rootScope, $cookies, $location, $scope, $element) {
@@ -54,6 +54,10 @@ angular.module('appHeader').directive('headerLeft', function () {
 
             // Init Menu Item
             $scope.menuItems = $rootScope.menuBar;
+
+            if ($location.path() === routes.USERS) {
+                $location.path(routes.USERS);
+            }
         }
     };
 });

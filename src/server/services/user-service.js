@@ -70,7 +70,7 @@ exports.createUser = function (user, callback) {
                 return next(null, txObject, instance);
             }
 
-            let userGrps = [];
+            var userGrps = [];
 
             user.groups.forEach(function (grp) {
                 if (!grp.id) return;
@@ -115,7 +115,7 @@ exports.createUser = function (user, callback) {
 
 exports.createUsers = function (users, callback) {
 
-    let userObjs = [];
+    var userObjs = [];
 
     async.eachSeries(users, function (user, next) {
 
@@ -164,7 +164,7 @@ exports.login = function (user, callback) {
 
                 if (err) return next(err);
 
-                let password = md5(user.password);
+                var password = md5(user.password);
 
                 if (userObj.password != password) {
                     return next(errorUtil.createAppError(errors.MEMBER_INVALID_PASSWORD));
@@ -183,7 +183,7 @@ exports.login = function (user, callback) {
                 }
 
                 // Generate Secret Key
-                let secret = token.generateSecretKey(user.username);
+                var secret = token.generateSecretKey(user.username);
 
                 // Set to redis
                 redis.setSecretKey(user.username, secret);
@@ -191,7 +191,7 @@ exports.login = function (user, callback) {
             });
         },
         function (user, secret, next) {
-            let tokenKey = token.generate({username: user.username, fullName: user.fullName}, secret);
+            var tokenKey = token.generate({username: user.username, fullName: user.fullName}, secret);
 
             token.getSignature(tokenKey, function (err, sign) {
                 next(err, user, secret, tokenKey, sign);
@@ -386,6 +386,13 @@ exports.registerUser = function (newUser, callback) {
     ], function (err, savedUser) {
         callback(err, savedUser);
     });
+};
+
+exports.findAllUsers = function (callback) {
+    app.models.Member.findAll(function (err, users) {
+        if (err) return callback(err);
+        else return callback(null, users);
+    })
 };
 
 exports.extractEmailAndRandomString = function (requestResetCode) {

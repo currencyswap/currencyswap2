@@ -43,6 +43,9 @@
     "profession": {
       "type": "string"
     },
+    "registeredDate": {
+      "type": "date"
+    },
     "expiredDate": {
       "type": "date",
       "postgresql": {
@@ -50,15 +53,9 @@
         "nullable": "YES"
       }
     },
-    "isActivated": {
-      "type": "boolean",
-      "required": true,
-      "default": false
-    },
-    "isBlocked": {
-      "type": "boolean",
-      "required": true,
-      "default": false
+    "status": {
+      "type": "string",
+      "required": true
     }
   },
   "validations": [],
