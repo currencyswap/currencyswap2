@@ -19,7 +19,7 @@ angular.module('loginForm')
                 if (token) return $location.path(routes.HOME);
 
                 $scope.onSubmit = function () {
-
+                    console.log("onSubmit");
                     LoginService.authenticate($scope.user)
                         .then(function (response) {
                             var newToken = response.data.token;
