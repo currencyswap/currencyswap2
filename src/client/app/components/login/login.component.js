@@ -24,7 +24,7 @@ angular.module('loginForm')
                         .then(function (response) {
                             var newToken = response.data.token;
                             CookieService.setUpCookies(newToken);
-
+                            console.log("newToken",newToken);
                             PermissionService.getCurrentPermission(newToken).then(
                                 function (response) {
                                     $rootScope.permissions = response.data;
