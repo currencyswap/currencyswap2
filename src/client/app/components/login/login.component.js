@@ -29,8 +29,12 @@ angular.module('loginForm')
                                 function (response) {
                                     $rootScope.permissions = response.data;
                                     $rootScope.loggedIn = true;
-                                    NavigationHelper.initNavigationBar();    
-                                    $location.path(routes.HOME);
+                                    if ($rootScope.permissions.hasOwnProperty("USER_MANAGEMENT")) {
+                                        $location.path(routes.USERS);
+                                    } else {
+                                        $location.path(routes.HOME);
+                                    }
+                                    NavigationHelper.initNavigationBar();
                                 },
                                 function (error) {
                                     CookieService.cleanUpCookies();
