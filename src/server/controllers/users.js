@@ -3,14 +3,9 @@
 var errors = require('../libs/errors/errors');
 var errorUtil = require('../libs/errors/error-util');
 var userService = require('../services/user-service');
-var userConverter = require('../converters/user-converter');
-
 var async = require('async');
-var exec = require('child_process').exec;
-const appConfig = require('../../server/libs/app-config');
-var nodeUtil = require('util');
-
 var util = require('util');
+var constant = require('../libs/constants/constants');
 
 module.exports = function (app) {
     var router = app.loopback.Router();
@@ -42,26 +37,56 @@ module.exports = function (app) {
                 return res.status(200).send(user)
             }
         });
-/*        userService.getUserById( userId, function (err, userObj) {
-
-            if (err) {
-                var code = err.code == errors.SERVER_GET_PROBLEM ? 500 : 406;
-                return res.status(code).send( errorUtil.getResponseError( err ) );
-            }
-
-            return res.status(200).send( userConverter.convertUserToUserJSON( userObj ));
-
-        });*/
     });
 
     router.post('/:id', function (req, res) {
 
-        var updatingUser = req.body;
+        /*var updatingUser = {
+            id: 2911,
+            username: "currentUserName",
+            fullName: "newFull",
+            cellphone: "9999999999",
+            birthday: new Date(Date.now()),
+            profession: "newProfession",
+            address: [
+                {
+                    address: "newAddress",
+                    country: "newCountry",
+                    city: "newCity",
+                    postcode: "newPostcode"
+                }
+            ],
+            status: "activated"
+        };*/
 
-        userService.getUserById(updatingUser.id, function (err, user) {
-            user.updateAttribute({status: updatingUser.status}, function (err, updatedUser) {
-                return res.status(200).send({});
-            })
+        async.waterfall([
+            function (next) {
+                userService.getUserByUsernameWithoutRelationModel(updatingUser.username, function (err, user) {
+                    if (err) return next (err);
+                    else {
+                        return next (null, user);
+                    }
+                });
+            },
+            function (user, next) {
+                var filter = {};
+
+                for (var prop in updatingUser) {
+                    if (prop === 'username' || prop === 'id' || prop === 'email') continue;
+                    filter[prop] = updatingUser[prop];
+                }
+
+                userService.updateUserInfo(user, filter, function (err, updatedUser) {
+                    if (err) return next(err);
+                    else {
+                        return next(null);
+                    }
+                });
+
+            }
+        ], function (err) {
+            if (err) res.status(constant.HTTP_FAILURE_CODE).send(err);
+            else res.status(constant.HTTP_SUCCESS_CODE).send({});
         });
     });
 

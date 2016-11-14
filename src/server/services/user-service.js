@@ -274,7 +274,7 @@ exports.resetPassword = function (newPassword, requestResetCode, callback) {
             } catch (err) {
                 return next(err);
             }
-            return next (null, newPassword, emailAndRandomString);
+            return next (null, newPassword, emailAndRandomString)
         },
         function (newPassword, emailAndRandomString, next) {
             redis.checkResetCode(emailAndRandomString.email, emailAndRandomString.randomString, function (err, response) {
@@ -533,4 +533,23 @@ exports.getUserDetail = function (userId, callback) {
         if (err) return callback(err);
         else return callback(null, user)
     })
+};
+
+exports.getUserByUsernameWithoutRelationModel = function (user, callback) {
+    app.models.Member.findUserByUserName(user.username, function (err, userObj) {
+        if (err) return (errorUtil.createAppError(errors.SERVER_GET_PROBLEM));
+        else {
+            if (!userObj) return (errorUtil.createAppError(errors.NO_USER_FOUND_IN_DB));
+            else return callback(null, userObj)
+        }
+    });
+};
+
+exports.updateUserInfo = function (user, filter, callback) {
+    user.updateAttributes(filter, function (err, updatedUser) {
+        if (err) return callback(errorUtil.createAppError(errors.SERVER_GET_PROBLEM));
+        else {
+            return callback(null, updatedUser);
+        }
+    });
 };
