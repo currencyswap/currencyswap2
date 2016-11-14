@@ -40,28 +40,11 @@ module.exports = function (app) {
     });
 
     router.post('/:id', function (req, res) {
-
-        /*var updatingUser = {
-            id: 2911,
-            username: "currentUserName",
-            fullName: "newFull",
-            cellphone: "9999999999",
-            birthday: new Date(Date.now()),
-            profession: "newProfession",
-            address: [
-                {
-                    address: "newAddress",
-                    country: "newCountry",
-                    city: "newCity",
-                    postcode: "newPostcode"
-                }
-            ],
-            status: "activated"
-        };*/
+         var updatingUser = req.body;
 
         async.waterfall([
             function (next) {
-                userService.getUserByUsernameWithoutRelationModel(updatingUser.username, function (err, user) {
+                userService.getUserDetail(updatingUser.id, function (err, user) {
                     if (err) return next (err);
                     else {
                         return next (null, user);
@@ -72,9 +55,15 @@ module.exports = function (app) {
                 var filter = {};
 
                 for (var prop in updatingUser) {
-                    if (prop === 'username' || prop === 'id' || prop === 'email') continue;
+                    if (prop === 'username' || prop === 'email' || prop === 'id' || !prop) continue;
                     filter[prop] = updatingUser[prop];
                 }
+
+                var includeAddress = {
+                    relation: 'addresses'
+                };
+
+                filter.include = includeAddress;
 
                 userService.updateUserInfo(user, filter, function (err, updatedUser) {
                     if (err) return next(err);
@@ -85,7 +74,10 @@ module.exports = function (app) {
 
             }
         ], function (err) {
-            if (err) res.status(constant.HTTP_FAILURE_CODE).send(err);
+            if (err) {
+                console.log(err);
+                res.status(constant.HTTP_FAILURE_CODE).send(err);
+            }
             else res.status(constant.HTTP_SUCCESS_CODE).send({});
         });
     });

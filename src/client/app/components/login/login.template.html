@@ -1,19 +1,17 @@
+
 <div class="signinpanel">
-
     <div class="row">
-
-        <div class="col-md-7">
-
+        <div class="col-sm-6 col-sm-offset-3">
             <div class="signin-info">
                 <div class="logopanel">
                     <h1><span>[</span> {{title}} <span>]</span></h1>
                 </div><!-- logopanel -->
                 <strong>Not a member? <a href="" ng-click="onRegister()">Register</a></strong>
             </div><!-- signin0-info -->
-
-        </div><!-- col-sm-7 -->
-
-        <div class="col-md-5">
+        </div>
+     </div>
+    <div class="row">
+        <div class="col-sm-6 col-sm-offset-3">
             <form>
                 <label class="error" ng-model="loginErrMsg">{{loginErrMsg}}</label>
                 <h4 class="nomargin">Sign In</h4>
@@ -25,10 +23,8 @@
                 </a>
                 <button class="btn btn-success btn-block" ng-click="onSubmit()">SIGN IN</button>
             </form>
-        </div><!-- col-sm-5 -->
-
-    </div><!-- row -->
-
+        </div>
+    </div>
     <div class="signup-footer">
         <div class="pull-left">
         </div>

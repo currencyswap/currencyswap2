@@ -171,7 +171,7 @@ module.exports = function (Member) {
         });
     };
 
-    Member.findUserDetailWithEmail = function (userId, callback) {
+    Member.findUserDetailWithAddress = function (userId, callback) {
         var where = {
             id: userId
         };

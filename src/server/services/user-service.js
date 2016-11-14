@@ -48,23 +48,20 @@ exports.createUser = function (user, callback) {
             if (!user.addresses || user.addresses.length <= 0) {
                 return next(null, txObject, instance);
             }
-            user.addresses.forEach(function (addr, index, addresses) {
-                addr.memberId = instance.id;
 
-                instance.addresses.create(addr, txObject, function (err) {
-                    if (err) {
-                        console.log('Error on saving addresses for user');
-                        return next(errorUtil.createAppError(errors.COULD_NOT_SAVE_USER_ADDR_TO_DB));
-                    } else {
-                         if (index === addresses.length - 1) {
-                             return next(null, txObject, instance);
-                         } else {
-                             //continue;
-                         }
-                    }
-                });
+            user.addresses.forEach(function (addr) {
+                addr.memberId = instance.id;
             });
 
+            instance.addresses.create(user.addresses, txObject, function (err) {
+                if (err) {
+                    console.log('Error on saving addresses for user');
+                    return next(errorUtil.createAppError(errors.COULD_NOT_SAVE_USER_ADDR_TO_DB));
+                } else {
+
+                }
+                next(err, txObject, instance);
+            });
         },
         function (txObject, instance, next) {
             if (!user.groups || user.groups.lengh <= 0) {
@@ -274,7 +271,7 @@ exports.resetPassword = function (newPassword, requestResetCode, callback) {
             } catch (err) {
                 return next(err);
             }
-            return next (null, newPassword, emailAndRandomString)
+            return next (null, newPassword, emailAndRandomString);
         },
         function (newPassword, emailAndRandomString, next) {
             redis.checkResetCode(emailAndRandomString.email, emailAndRandomString.randomString, function (err, response) {
@@ -529,14 +526,14 @@ exports.activeUserAccount = function (activeCode, callback) {
 };
 
 exports.getUserDetail = function (userId, callback) {
-    app.models.Member.findUserDetailWithEmail(userId, function (err, user) {
+    app.models.Member.findUserDetailWithAddress(userId, function (err, user) {
         if (err) return callback(err);
         else return callback(null, user)
     })
 };
 
-exports.getUserByUsernameWithoutRelationModel = function (user, callback) {
-    app.models.Member.findUserByUserName(user.username, function (err, userObj) {
+exports.getUserByUsernameWithoutRelationModel = function (username, callback) {
+    app.models.Member.findUserByUserName(username, function (err, userObj) {
         if (err) return (errorUtil.createAppError(errors.SERVER_GET_PROBLEM));
         else {
             if (!userObj) return (errorUtil.createAppError(errors.NO_USER_FOUND_IN_DB));
@@ -547,9 +544,14 @@ exports.getUserByUsernameWithoutRelationModel = function (user, callback) {
 
 exports.updateUserInfo = function (user, filter, callback) {
     user.updateAttributes(filter, function (err, updatedUser) {
-        if (err) return callback(errorUtil.createAppError(errors.SERVER_GET_PROBLEM));
+        if (err) {
+            console.log(err);
+            return callback(errorUtil.createAppError(errors.SERVER_GET_PROBLEM));
+        }
         else {
             return callback(null, updatedUser);
         }
     });
 };
+
+
