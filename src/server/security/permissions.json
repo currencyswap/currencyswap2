@@ -28,7 +28,7 @@
             "route": "{API_USERS_ID}",
             "rules" : [
                 {
-                    "methods" : ["GET", "PATCH", "PUT", "DELETE"],
+                    "methods" : ["GET", "PATCH", "PUT", "DELETE", "POST"],
                     "requiredPermissions": [
                         "{USER_MANAGEMENT}"
                     ],

@@ -43,6 +43,10 @@
         "code": 11,
         "message": "{ERR_COULD_NOT_SEND_MAIL}"
     },
+    "ACCOUNT_IS_NOT_ACTIVATED": {
+        "code": 12,
+        "message": "{ACCOUNT_IS_NOT_ACTIVATED}"
+    },
     "MEMBER_NO_USERNAME": {
         "code": 20,
         "message": "{ERR_NO_USERNAME}"
@@ -119,6 +123,14 @@
         "code": 41,
         "message": "{ERR_INVALID_TOKEN_API_KEY_FOR_USER}"
     },
+    "ACTIVE_ACC_CODE_NOT_FOUND": {
+        "code": 42,
+        "message": "{ACTIVE_ACC_CODE_NOT_FOUND}"
+    },
+    "ACTIVE_ACC_CODE_DOES_NOT_MATCH": {
+        "code": 43,
+        "message": "{ACTIVE_ACC_CODE_DOES_NOT_MATCH}"
+    },
     "INVALID_PERMISSION": {
         "code": 60,
         "message": "{ERR_INVALID_PERMISSION}"
@@ -134,6 +146,14 @@
     "NO_USER_FOUND_IN_DB" : {
         "code": 63,
         "message": "{NO_USER_FOUND_IN_DB}"
+    },
+    "COULD_NOT_DECRYPT_ACTIVE_ACC_CODE" : {
+        "code": 64,
+        "message": "{COULD_NOT_DECRYPT_ACTIVE_ACC_CODE}"
+    },
+    "COULD_NOT_DECRYPT_RESET_PWD_CODE" : {
+        "code": 65,
+        "message": "{COULD_NOT_DECRYPT_RESET_PWD_CODE}"
     },
     "TRANSACTION_INIT_FAIL" : {
         "code": 80,

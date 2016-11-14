@@ -5,6 +5,13 @@ var errorUtil = require('../libs/errors/error-util');
 var userService = require('../services/user-service');
 var userConverter = require('../converters/user-converter');
 
+var async = require('async');
+var exec = require('child_process').exec;
+const appConfig = require('../../server/libs/app-config');
+var nodeUtil = require('util');
+
+var util = require('util');
+
 module.exports = function (app) {
     var router = app.loopback.Router();
     
@@ -16,6 +23,7 @@ module.exports = function (app) {
     });
 
     router.get('/:id', function (req, res) {
+
         var userId = req.params.id;
 
         if ( !userId ) {
@@ -44,6 +52,17 @@ module.exports = function (app) {
             return res.status(200).send( userConverter.convertUserToUserJSON( userObj ));
 
         });*/
+    });
+
+    router.post('/:id', function (req, res) {
+
+        var updatingUser = req.body;
+
+        userService.getUserById(updatingUser.id, function (err, user) {
+            user.updateAttribute({status: updatingUser.status}, function (err, updatedUser) {
+                return res.status(200).send({});
+            })
+        });
     });
 
     return router;

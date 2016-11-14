@@ -22,7 +22,7 @@ module.exports = function (app) {
     app.use(auth.authenticateByToken);
     app.use(checker.checkPermission);
 
-    // 
+    //
     app.use(routes.API_USERS, require('./controllers/users')(app));
     app.use(routes.API_ORDERS, require('./controllers/orders')(app));
     app.use(routes.API_MY_PROFILE, require('./controllers/profile')(app));

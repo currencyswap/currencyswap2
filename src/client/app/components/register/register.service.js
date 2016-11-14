@@ -46,6 +46,25 @@ angular.module('register').factory('RegisterService', ['$http', '$q', function (
             };
 
             return $http(req);
+        },
+
+        sendActiveRequest: function (activeCode) {
+            var headers = {};
+
+            headers[httpHeader.CONTENT_TYPE] = contentTypes.JSON;
+
+            var postData = {
+                activeCode: activeCode
+            };
+
+            var req = {
+                method: httpMethods.POST,
+                url: apiRoutes.API_REGISTER,
+                headers: headers,
+                data: postData
+            };
+
+            return $http(req);
         }
     }
 }]);

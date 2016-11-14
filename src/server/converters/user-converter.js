@@ -3,6 +3,7 @@
 var exports = module.exports;
 var appConfig = require('../libs/app-config');
 var dateFormat = require('dateformat');
+var constant = require('../libs/constants/constants');
 
 exports.convertUserToUserJSON = function (user) {
 
@@ -64,7 +65,7 @@ exports.convertUserData = function (requestUser) {
     //Default for new registration user
     //resultUser.group = "Blocked User";
     resultUser.group = "Blocked User";
-    resultUser.status = 'Pending Approval';
+    resultUser.status = constant.USER_STATUSES.NEW;
     resultUser.expiredDate = "2017-06-30";
     resultUser.registeredDate = new Date(Date.now()).toISOString();
 

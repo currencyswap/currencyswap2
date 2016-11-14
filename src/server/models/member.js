@@ -192,5 +192,23 @@ module.exports = function (Member) {
                 return callback(null, user);
             }
         })
+    };
+
+    Member.findUserByUserName = function (username, callback) {
+        var where = {
+            username: username
+        };
+
+        var filter = {
+            where: where
+        };
+
+        Member.findOne(filter, function (err, user) {
+            if (err) return callback(errorUtil.createAppError(errors.SERVER_GET_PROBLEM));
+            else {
+                if (!user) return callback(errorUtil.createAppError(errors.NO_USER_FOUND_IN_DB));
+                return callback(null, user);
+            }
+        })
     }
 };

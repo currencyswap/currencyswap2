@@ -45,23 +45,24 @@ exports.createUser = function (user, callback) {
             });
         },
         function (txObject, instance, next) {
-
-            if (!user.addresses || user.addresses.lengh <= 0) {
+            if (!user.addresses || user.addresses.length <= 0) {
                 return next(null, txObject, instance);
             }
-
-            user.addresses.forEach(function (addr) {
+            user.addresses.forEach(function (addr, index, addresses) {
                 addr.memberId = instance.id;
-            });
 
-            instance.addresses.create(user.addresses, txObject, function (err) {
-                if (err) {
-                    console.log('Error on saving addresses for user');
-                    return next(errorUtil.createAppError(errors.COULD_NOT_SAVE_USER_ADDR_TO_DB));
-                } else {
-
-                }
-                next(err, txObject, instance);
+                instance.addresses.create(addr, txObject, function (err) {
+                    if (err) {
+                        console.log('Error on saving addresses for user');
+                        return next(errorUtil.createAppError(errors.COULD_NOT_SAVE_USER_ADDR_TO_DB));
+                    } else {
+                         if (index === addresses.length - 1) {
+                             return next(null, txObject, instance);
+                         } else {
+                             //continue;
+                         }
+                    }
+                });
             });
 
         },
@@ -163,14 +164,21 @@ exports.login = function (user, callback) {
             app.models.Member.findByUsername(user.username, true, function (err, userObj) {
 
                 if (err) return next(err);
+                else {
+                    if (!userObj) return next(errorUtil.createAppError(errors.MEMBER_INVALID_USERNAME));
 
-                var password = md5(user.password);
+                    var password = md5(user.password);
 
-                if (userObj.password != password) {
-                    return next(errorUtil.createAppError(errors.MEMBER_INVALID_PASSWORD));
+                    if (userObj.password != password) {
+                        return next(errorUtil.createAppError(errors.MEMBER_INVALID_PASSWORD));
+                    }
+
+                    if (userObj.status !== constant.USER_STATUSES.ACTIVATED) {
+                        return next(errorUtil.createAppError(errors.ACCOUNT_IS_NOT_ACTIVATED));
+                    }
+
+                    next(null, userObj);
                 }
-
-                next(null, userObj);
             });
         },
         function (user, next) {
@@ -261,8 +269,12 @@ exports.verifyResetPwdInfo = function (email, callback) {
 exports.resetPassword = function (newPassword, requestResetCode, callback) {
     async.waterfall([
         function (next) {
-            var emailAndRandomString = exports.extractEmailAndRandomString(requestResetCode);
-            return next (null, newPassword, emailAndRandomString)
+            try {
+                var emailAndRandomString = exports.extractEmailAndRandomString(requestResetCode);
+            } catch (err) {
+                return next(err);
+            }
+            return next (null, newPassword, emailAndRandomString);
         },
         function (newPassword, emailAndRandomString, next) {
             redis.checkResetCode(emailAndRandomString.email, emailAndRandomString.randomString, function (err, response) {
@@ -293,13 +305,26 @@ exports.constructResetUrl = function (randomString, email) {
     var plainResetCode = email + constant.RESET_CODE_DELIMITER + randomString;
     var encryptedResetCode = stringUtil.encryptString(plainResetCode, constant.ENCRYPTION_ALGORITHM, constant.ENCRYPTION_PWD, 'utf8', 'hex');
 
-    return app.get('url').replace(/\/$/, '')
+    return constant.HOST
         + constant.SLASH
         + constant.HASHTAG_AND_EXCLAMATION
         + constant.CLIENT_RESET_PWD_PATH
         + constant.QUESTION_MARK + constant.RESET_CODE_PARAM
         + '='
         + encryptedResetCode;
+};
+
+exports.constructActiveAccountUrl = function (randomString, username) {
+    var plainActiveCode = username + constant.RESET_CODE_DELIMITER + randomString;
+    var encryptedActiveCode = stringUtil.encryptString(plainActiveCode, constant.ENCRYPTION_ALGORITHM, constant.ENCRYPTION_PWD, 'utf8', 'hex');
+
+    return constant.HOST
+        + constant.SLASH
+        + constant.HASHTAG_AND_EXCLAMATION
+        + constant.CLIENT_ACTIVE_ACC_PATH
+        + constant.QUESTION_MARK + constant.ACTIVE_REGISTER_PARAM
+        + '='
+        + encryptedActiveCode;
 };
 
 exports.validateResetCode = function (redisResetCode, requestResetCode) {
@@ -380,8 +405,50 @@ exports.registerUser = function (newUser, callback) {
                 if (err) {
                     return next(err);
                 }
-                else return next(null, savedUser);
+                else return next(null, savedUser.username, savedUser.email);
             })
+        }, function (username, email, next) {
+            // generate reset password code
+            exports.generateRandomString(function (err, randomString) {
+                if (err) return next(err);
+                else {
+                    return next(null, randomString, username, email);
+                }
+            });
+        },
+        function (randomString, username, email, next) {
+            redis.set(username, randomString, constant.ONE_DAY_IN_SECONDS);
+            return next(null, randomString, username, email);
+        },
+        function (randomString, username, email, next) {
+            // send notification email to client
+            var senderInfo = appConfig.getMailSenderInfo();
+            var activeLink = exports.constructActiveAccountUrl(randomString, username);
+            var mailOptions = {
+                from: senderInfo.sender,
+                to: email,
+                subject: 'Active account URL',
+                html: '<!DOCTYPE html>'
+                + '<html lang="en">'
+                + '<head>'
+                + '<meta charset="UTF-8">'
+                + '<title></title>'
+                + '</head>'
+                + '<body>'
+                + '<p>Please click on the URL below and wait for admin approval before using Currency Swap</p>'
+                + '<a href="' +activeLink+ '">Active URL</a>'
+                + '<p>Thanks and best regards</p>'
+                + '<p>Currency Swap</p>'
+                + '</body>'
+                + '</html>'
+            };
+
+            mailSender.sendMail(mailOptions, function (err, info) {
+                if (err) return callback(err);
+                else {
+                    return next(null);
+                }
+            });
         }
     ], function (err, savedUser) {
         callback(err, savedUser);
@@ -396,7 +463,13 @@ exports.findAllUsers = function (callback) {
 };
 
 exports.extractEmailAndRandomString = function (requestResetCode) {
-    var decryptedString = stringUtil.decryptString(requestResetCode, constant.ENCRYPTION_ALGORITHM, constant.ENCRYPTION_PWD, 'hex', 'utf8');
+    try {
+        var decryptedString = stringUtil.decryptString(requestResetCode, constant.ENCRYPTION_ALGORITHM, constant.ENCRYPTION_PWD, 'hex', 'utf8');
+    } catch (decryptionErr) {
+        console.error('ERR: Can not decrypt reset password code: ', decryptionErr);
+        throw errorUtil.createAppError(errors.COULD_NOT_DECRYPT_RESET_PWD_CODE);
+    }
+
     var email = decryptedString.split(constant.RESET_CODE_DELIMITER)[0];
     var randomString = decryptedString.split(constant.RESET_CODE_DELIMITER)[1];
 
@@ -404,6 +477,55 @@ exports.extractEmailAndRandomString = function (requestResetCode) {
         email: email,
         randomString: randomString
     }
+};
+
+exports.extractUsernameAndRandomString = function (requestActiveCode) {
+    var decryptedString = stringUtil.decryptString(requestActiveCode, constant.ENCRYPTION_ALGORITHM, constant.ENCRYPTION_PWD, 'hex', 'utf8');
+    var username = decryptedString.split(constant.RESET_CODE_DELIMITER)[0];
+    var randomString = decryptedString.split(constant.RESET_CODE_DELIMITER)[1];
+
+    return {
+        username: username,
+        randomString: randomString
+    }
+};
+
+exports.activeUserAccount = function (activeCode, callback) {
+    async.waterfall([
+        function (next) {
+            try {
+                var usernameAndRandomString = exports.extractUsernameAndRandomString(activeCode);
+                return next (null, usernameAndRandomString);
+            } catch (err) {
+                console.error(err);
+                return next (errorUtil.createAppError(errors.COULD_NOT_DECRYPT_ACTIVE_ACC_CODE));
+            }
+        },
+        function (usernameAndRandomString, next) {
+            redis.checkActiveCode(usernameAndRandomString.username, usernameAndRandomString.randomString, function (err, response) {
+                if (err) return next(err);
+                else return next(null, usernameAndRandomString.username);
+            })
+        },
+        function (username, next) {
+            app.models.Member.findUserByUserName(username, function (err, user) {
+                if (err) return next(err);
+                else {
+                    return next (null, user);
+                }
+            })
+        },
+        function (user, next) {
+            user.updateAttribute(constant.STATUS_FIELD, constant.USER_STATUSES.PENDING_APPROVAL, function (err, response) {
+                if (err) return next (errorUtil.createAppError(errors.SERVER_GET_PROBLEM));
+                else {
+                    return next (null)
+                }
+            });
+        }
+    ], function (err) {
+        callback(err)
+    });
 };
 
 exports.getUserDetail = function (userId, callback) {

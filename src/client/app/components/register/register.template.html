@@ -1,4 +1,4 @@
-<div class="signuppanel" ng-hide="registerSuccess">
+<div class="signuppanel" ng-show="startRegister">
     <div class="row">
 
         <div class="col-md-2"></div>
@@ -21,7 +21,7 @@
                         <label class="control-label"><b>Username</b></label> <span class="asterisk">*</span>
                         <input ng-change="onUsernameChange()" type="text" name="username" class="form-control" ng-pattern="/^[a-zA-Z0-9\-\.\_]+$/" ng-model="user.username" ng-minlength="8" focus-me="focusUsername" required>
                         <p ng-show="registerForm.username.$error.minlength" class="help-block">Username is too short.</p>
-                        <p ng-show="registerForm.username.$error.pattern" class="help-block ">User is invalid.</p>
+                        <p ng-show="registerForm.username.$error.pattern" class="help-block ">Username is invalid.</p>
                         <p ng-show="userExisted" class="help-block ">Your chosen username is already in use</p>
                     </div>
                 </div>
@@ -40,7 +40,7 @@
                      ng-class="{ 'has-error' : (registerForm.email.$invalid && !registerForm.email.$pristine) || emailExisted}">
                     <div class="mb10">
                         <label class="control-label"><b>Email</b></label> <span class="asterisk">*</span>
-                        <input id="idEmail" type="email" name="email" class="form-control" ng-model="user.email" focus-me="focusEmail" required>
+                        <input ng-change="onEmailChange()" type="email" name="email" class="form-control" ng-model="user.email" focus-me="focusEmail" required>
                         <p ng-show="registerForm.email.$invalid && !registerForm.email.$pristine" class="help-block">Email is not valid.</p>
                         <p ng-show="emailExisted" class="help-block">Your email is already in use</p>
                     </div>
@@ -369,7 +369,39 @@
                 <h3 class="panel-title">Register Successfully</h3>
             </div>
             <div class="panel-body">
-                Your registration is successful, but your account is not actived, please help to wait for approval from Administrator
+                We sent an active link to your email, please help to check and follow the instruction in that email.
+                Please help to active your account within 24 hours.
+            </div>
+        </div>
+
+
+        <div class="signup-footer">
+            <div class="pull-left">
+                &copy; 2014. All Rights Reserved.
+            </div>
+            <div class="pull-right">
+                Currency Swap
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+
+    </div>
+</div>
+
+<div ng-show="activeSuccess">
+    <div class="col-md-3">
+
+    </div>
+    <div class="col-md-6">
+        <div class="panel panel-success">
+            <div class="panel-heading">
+                <div class="panel-btns">
+                </div><!-- panel-btns -->
+                <h3 class="panel-title">Activation successfully</h3>
+            </div>
+            <div class="panel-body">
+                Thank you for your activation. Please wait for admin's approval. After 3 days, if You can not login to your system, please help to contact <b>admin@gmail.com</b> for supports.
             </div>
         </div>
 

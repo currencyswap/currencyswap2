@@ -37,6 +37,26 @@ angular.module('userList')
                 $scope.userStatusesList.blocked = GLOBAL_CONSTANT.BLOCKED_USER_STATUS;
                 $scope.userStatusesList.pending = GLOBAL_CONSTANT.PENDING_USER_STATUS;
 
+                $scope.selectedStatus = {};
+
+                $scope.onSaveUserDetailData = function () {
+                    var resultUser = {
+                        status: $scope.selectedStatus.selectedStatus
+                    };
+
+                    var token = CookieService.getToken();
+                    var headers = {};
+
+                    headers[httpHeader.CONTENT_TYPE] = contentTypes.JSON;
+                    headers[httpHeader.AUTHORIZARION] = autheticateType.BEARER + token;
+
+                    UserListService.saveUserDetail(resultUser, headers)
+                        .then(function (response) {
+                            console.log(response.data);
+                        })
+
+                };
+
                 $scope.onAllClick = function () {
                     $scope.detailUserView = false;
 

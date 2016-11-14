@@ -14,7 +14,7 @@ var redis = require('../libs/redis');
 var permissionConverter = require('../converters/permission-converter');
 
 var collectPermissionFromRules = function (request, permissionItem) {
-
+    console.log('permissionItem.rules', permissionItem.rules);
     for (let idx in permissionItem.rules) {
         let rule = permissionItem.rules[idx];
 

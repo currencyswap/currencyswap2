@@ -20,8 +20,8 @@ module.exports = function (app) {
         var resetCode = req.body.resetCode;
 
         userService.resetPassword(newPassword, resetCode, function (err) {
-            if (err) res.status(500).send(err);
-            else res.status(200).send({});
+            if (err) res.status(constant.HTTP_FAILURE_CODE).send(err);
+            else res.status(constant.HTTP_SUCCESS_CODE).send({});
         });
     });
 
