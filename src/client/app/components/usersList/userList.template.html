@@ -107,7 +107,14 @@
                     <div class="form-group">
                         <label class="col-sm-3 control-label" for="dob" readonly="readonly">Date of birth</label>
                         <div class="col-sm-5">
-                            <input ng-model="userDetail.birthday" id="dob" class="form-control" type="text" readonly="readonly">
+                            <p class="input-group">
+                                <input type="text" id="dob" class="form-control" uib-datepicker-popup="dd-MMMM-yyyy" ng-model="birthday"
+                                   is-open="popup2.opened" datepicker-options="dateOptions" ng-required="true"
+                                       close-text="Close" alt-input-formats="altInputFormats"/>
+                                <span class="input-group-btn">
+                                    <button type="button" class="btn btn-default" ng-click="open2()"><i class="glyphicon glyphicon-calendar"></i></button>
+                                </span>
+                            </p>
                         </div>
                     </div>
 
@@ -184,11 +191,10 @@
                     <div class="form-group">
                         <label class="col-sm-3 control-label">Status</label>
                         <div class="col-sm-5">
-                            <select name="singleSelect" ng-model="selectedStatus.selectedStatus">
-                                <option value="{{userDetail.status}}">{{userDetail.status}}</option>
-                                <option ng-hide="userStatusesList.activated === userDetail.status" value="{{userStatusesList.activated}}">{{userStatusesList.activated}}</option>
-                                <option ng-hide="userStatusesList.blocked === userDetail.status" value="{{userStatusesList.blocked}}">{{userStatusesList.blocked}}</option>
-                                <option ng-hide="userStatusesList.pending === userDetail.status" value="{{userStatusesList.pending}}">{{userStatusesList.pending}}</option>
+                            <select name="singleSelect" ng-model="selectedStatus.selectedStatus" class="form-control">
+                                <option value="{{userStatusesList.activated}}">{{userStatusesList.activated}}</option>
+                                <option value="{{userStatusesList.blocked}}">{{userStatusesList.blocked}}</option>
+                                <option value="{{userStatusesList.pending}}">{{userStatusesList.pending}}</option>
                             </select><br>
                         </div>
                     </div>
