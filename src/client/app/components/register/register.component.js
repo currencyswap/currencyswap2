@@ -37,7 +37,11 @@ angular.module('register')
                 $scope.gifLoading = false;
                 $scope.userExisted = false;
                 $scope.emailExisted = false;
-
+                $scope.birthday = new Date();
+                $scope.calendar = { opened: false };
+                $scope.openCalendar = function () {
+                    $scope.calendar.opened = true;
+                };
                 $scope.onUsernameChange = function () {
                     $scope.userExisted = false;
                     $scope.emailExisted = false;
