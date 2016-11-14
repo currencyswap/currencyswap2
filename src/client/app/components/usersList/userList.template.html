@@ -112,9 +112,18 @@
                     </div>
 
                     <div class="form-group">
-                        <label class="col-sm-3 control-label" for="expDate" readonly="readonly">Expired Date</label>
+
+                        <label class="col-sm-3 control-label">Expired Date</label>
                         <div class="col-sm-5">
-                            <input ng-model="userDetail.expiredDate" id="expDate" class="form-control" type="text" readonly="readonly">
+                            <!--<input ng-model="userDetail.expiredDate" id="expDate" class="form-control" type="text" readonly="readonly">-->
+                            <p class="input-group">
+                                <input type="text" class="form-control" uib-datepicker-popup="{{format}}" ng-model="dt"
+                                       is-open="popup1.opened" datepicker-options="dateOptions" ng-required="true"
+                                       close-text="Close" alt-input-formats="altInputFormats"/>
+                                <span class="input-group-btn">
+                                    <button type="button" class="btn btn-default" ng-click="open1()"><i class="glyphicon glyphicon-calendar"></i></button>
+                                </span>
+                            </p>
                         </div>
                     </div>
 
