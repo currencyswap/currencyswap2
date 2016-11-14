@@ -26,7 +26,7 @@ module.exports = function (app) {
                 if (err) {
                     return res.status(constant.HTTP_FAILURE_CODE).send(err);
                 } else {
-                    return res.status(constant.HTTP_SUCCESS_CODE).send({})
+                    return res.status(constant.HTTP_SUCCESS_CODE).send({});
                 }
             });
         }
