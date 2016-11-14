@@ -865,7 +865,7 @@ strong {
 }
 
 .contentpanel {
-    padding: 20px;
+    /*padding: 20px;*/
     position: relative;
 }
 
@@ -3181,7 +3181,7 @@ div.error label.error:before {
 
 
 .signinpanel {
-    width: 780px;
+    /*width: 780px;*/
     margin: 10% auto 0 auto;
 }
 
@@ -3237,7 +3237,7 @@ div.error label.error:before {
 
 .signuppanel {
     margin: 5% auto 0 auto;
-    width: 780px;
+    /*width: 780px;*/
 }
 
 .signuppanel .row {
@@ -4395,7 +4395,8 @@ div.error label.error:before {
 
     .signinpanel,
     .signuppanel {
-        width: 360px;
+        width: 326px;
+        margin: auto;
     }
 
     .panel-email .pull-right {
