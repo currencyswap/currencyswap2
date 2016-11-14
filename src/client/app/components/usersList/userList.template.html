@@ -112,12 +112,13 @@
                                    is-open="popup2.opened" datepicker-options="dateOptions" ng-required="true"
                                        close-text="Close" alt-input-formats="altInputFormats"/>
                                 <span class="input-group-btn">
-                                    <button type="button" class="btn btn-default" ng-click="open2()"><i class="glyphicon glyphicon-calendar"></i></button>
+                                    <button type="button" class="btn btn-default" ng-click="open2()" style="height: 40px"><i class="glyphicon glyphicon-calendar"></i></button>
                                 </span>
+
                             </p>
                         </div>
-                    </div>
 
+                    </div>
                     <div class="form-group">
 
                         <label class="col-sm-3 control-label">Expired Date</label>
@@ -128,7 +129,7 @@
                                        is-open="popup1.opened" datepicker-options="dateOptions" ng-required="true"
                                        close-text="Close" alt-input-formats="altInputFormats"/>
                                 <span class="input-group-btn">
-                                    <button type="button" class="btn btn-default" ng-click="open1()"><i class="glyphicon glyphicon-calendar"></i></button>
+                                    <button type="button" class="btn btn-default" ng-click="open1()" style="height: 40px><i class="glyphicon glyphicon-calendar"></i></button>
                                 </span>
                             </p>
                         </div>
@@ -138,7 +139,7 @@
                         <label class="col-sm-3 control-label" for="cellPhone">Cell phone</label>
                         <div class="col-sm-5">
                             <input ng-model="userDetail.cellphone" value="Read Only Input" id="cellPhone"
-                                   class="form-control" readonly="readonly" type="text">
+                                   class="form-control" type="text">
                         </div>
                     </div>
                     <div class="form-group">
