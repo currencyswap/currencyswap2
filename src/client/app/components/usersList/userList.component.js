@@ -73,6 +73,8 @@ angular.module('userList')
                 $scope.format = $scope.formats[0];
                 $scope.altInputFormats = ['M!/d!/yyyy'];
 
+                $scope.birthday = new Date();
+
                 $scope.popup1 = {
                     opened: false
                 };
@@ -255,8 +257,11 @@ angular.module('userList')
                     UserListService.getUserDetail(userId, headers)
                         .then(function (response) {
                             $scope.userDetail = response.data;
+                            $scope.birthday = new Date($scope.userDetail.birthday);
+                            console.log("$scope.userDetail==",$scope.birthday);
+                            console.log("$scope.dt==",$scope.dt);
+                            $scope.selectedStatus.selectedStatus = $scope.userDetail.status;
                         })
-
                 }
             }]
     });

@@ -41,24 +41,6 @@ module.exports = function (app) {
 
     router.post('/:id', function (req, res) {
 
-        /*var updatingUser = {
-            id: 2911,
-            username: "currentUserName",
-            fullName: "newFull",
-            cellphone: "9999999999",
-            birthday: new Date(Date.now()),
-            profession: "newProfession",
-            address: [
-                {
-                    address: "newAddress",
-                    country: "newCountry",
-                    city: "newCity",
-                    postcode: "newPostcode"
-                }
-            ],
-            status: "activated"
-        };*/
-
         async.waterfall([
             function (next) {
                 userService.getUserByUsernameWithoutRelationModel(updatingUser.username, function (err, user) {
