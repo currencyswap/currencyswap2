@@ -1,0 +1,24 @@
+<div class="bloc-country form-group">
+    <div class="row">
+        <div class="col-sm-3">
+            <label for="country">{{countryLabel}}</label>
+        </div>
+        <div class="col-sm-9">
+            <select name="country" ng-change="selectCountry()" ng-model="country" required class="form-control">
+                <option ng-repeat="theCountry in countries track by $index">{{theCountry}}</option>
+            </select>
+        </div>
+    </div>
+</div>
+<div class="bloc-state form-group">
+    <div class="row">
+        <div class="col-sm-3">
+            <label for="state" ng-show="states">{{stateLabel}}</label>
+        </div>
+        <div class="col-sm-9">
+            <select name="state" ng-model="countryState" ng-show="states" required class="form-control">
+                <option ng-repeat="optStates in states track by $index">{{optStates}}</option>
+            </select>
+        </div>
+    </div>
+</div>

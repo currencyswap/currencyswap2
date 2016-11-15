@@ -1,0 +1,60 @@
+{
+  "_meta": {
+    "sources": [
+      "loopback/common/models",
+      "loopback/server/models",
+      "../common/models",
+      "./models"
+    ],
+    "mixins": [
+      "loopback/common/mixins",
+      "loopback/server/mixins",
+      "../common/mixins",
+      "./mixins"
+    ]
+  },
+  "Member": {
+    "dataSource": "NodeJSApp",
+    "public": false
+  },
+  "Group": {
+    "dataSource": "NodeJSApp",
+    "public": false
+  },
+  "Permission": {
+    "dataSource": "NodeJSApp",
+    "public": false
+  },
+  "GroupPermission": {
+    "dataSource": "NodeJSApp",
+    "public": false
+  },
+  "MemberGroup": {
+    "dataSource": "NodeJSApp",
+    "public": false
+  },
+  "Address": {
+    "dataSource": "NodeJSApp",
+    "public": false
+  },
+  "Notification": {
+    "dataSource": "NodeJSApp",
+    "public": false
+  },
+  "Order": {
+    "dataSource": "NodeJSApp",
+    "public": false
+  },
+  "Currency": {
+    "dataSource": "NodeJSApp",
+    "public": false
+  },
+  "Activity": {
+    "dataSource": "NodeJSApp",
+    "public": false
+  },
+  "OrderActivity": {
+    "dataSource": "NodeJSApp",
+    "public": false
+  }
+}
