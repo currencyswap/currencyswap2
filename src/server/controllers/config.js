@@ -59,7 +59,12 @@ module.exports = function (app) {
     router.get('/media/:filename', function (req, res) {
         var imagePath = appRoot + '/server/libs/media/' + req.params.filename + '.png';
         res.setHeader('Content-Type', 'image/png');
-        res.sendFile(imagePath);
+        res.sendFile(imagePath, function (err) {
+            if (err) {
+                console.log('profile pic was not found');
+                res.status(299).send({});
+            }
+        }) ;
     });
 
     return router;

@@ -45,7 +45,7 @@ exports.createUser = function (user, callback) {
             });
         },
         function (txObject, instance, next) {
-            if (!user.addresses || user.addresses.length <= 0) {
+            /*if (!user.addresses || user.addresses.length <= 0) {
                 return next(null, txObject, instance);
             }
             user.addresses.forEach(function (addr, index, addresses) {
@@ -63,6 +63,23 @@ exports.createUser = function (user, callback) {
                          }
                     }
                 });
+            });*/
+            if (!user.addresses || user.addresses.length <= 0) {
+                return next(null, txObject, instance);
+            }
+
+            user.addresses.forEach(function (addr) {
+                addr.memberId = instance.id;
+            });
+
+            instance.addresses.create(user.addresses, txObject, function (err) {
+                if (err) {
+                    console.log('Error on saving addresses for user');
+                    return next(errorUtil.createAppError(errors.COULD_NOT_SAVE_USER_ADDR_TO_DB));
+                } else {
+
+                }
+                next(err, txObject, instance);
             });
 
         },

@@ -55,7 +55,7 @@
                      ng-class="{ 'has-error' : registerForm.cellphone.$invalid && !registerForm.cellphone.$pristine }">
                     <div class="mb10">
                         <label class="control-label"><b>Cell phone</b></label>
-                        <input type="text" name="cellphone" class="form-control" ng-model="user.cellphone">
+                        <input type="text" name="cellphone" class="form-control" ng-model="user.cellphone" focus-me="focusCellphone">
                         <p ng-show="registerForm.cellphone.$invalid && !registerForm.cellphone.$pristine"
                            class="help-block">Phone number is not valid.</p>
                     </div>
@@ -175,7 +175,7 @@
                 <h3 class="panel-title">Activation successfully</h3>
             </div>
             <div class="panel-body">
-                Thank you for your activation. Please wait for admin's approval. After 3 days, if You can not login to your system, please help to contact <b>admin@gmail.com</b> for supports.
+                Thank you for your activation. Please wait for admin's approval. After 3 days, if You can not login to Currency Swap system, please help to contact <b>admin@gmail.com</b> for supports.
             </div>
         </div>
 

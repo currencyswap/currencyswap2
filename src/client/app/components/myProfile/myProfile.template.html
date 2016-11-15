@@ -6,12 +6,20 @@
                 <div class="row">
                     <div class="col-sm-8">
                         <div class="row">
-                            <h2 class="nomargin"><b><u>Viet Vu Hoang</u></b></h2>
+                            <h2 class="nomargin"><b><u>{{model.fullName}}</u></b></h2>
                         </div>
                         <br>
                         <div class="row">
-                            <a href="#">vietvu@vsi-international.com</a>
+                            <a href="#">{{model.email}}</a>
                         </div>
+                        <br>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <label class="control-label">Username</label>
+                            </div>
+                            <div class="col-sm-9">
+                                <input class="form-control" type="text" ng-model="model.username">
+                            </div>
                     </div>
                     <div class="col-sm-4 ">
                         <!--<img src="pic_mountain.jpg" alt="Mountain View" style="width:100px;height:120px;" class="pull-right">-->
@@ -66,7 +74,10 @@
                 <div class="row">
                     <div class="col-sm-3">
                         <label class="control-label">Registerd Date</label>
-
+                            </div>
+                            <div class="col-sm-9">
+                                <input class="form-control" type="text" ng-model="model.registeredDate">
+                            </div>
                     </div>
                     <div class="col-sm-9">
                         <div class="input-group" >
@@ -83,7 +94,89 @@
                 <div class="row">
                     <div class="col-sm-3">
                         <label class="control-label">Expried Date</label>
+                            </div>
+                            <div class="col-sm-9">
+                                <input class="form-control" type="text" ng-model="model.expiredDate">
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <label class="control-label">Cell phone</label>
 
+                            </div>
+                            <div class="col-sm-9">
+                                <input class="form-control" type="text" ng-model="model.cellphone">
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <label class="control-label">Passport ID</label>
+
+                            </div>
+                            <div class="col-sm-9">
+                                <input class="form-control" type="text" ng-model="model.nationalId">
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <label class="control-label">Adrress</label>
+
+                            </div>
+                            <div class="col-sm-9">
+                                <input class="form-control" type="text" ng-model="model.address">
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <label class="control-label">City</label>
+
+                            </div>
+                            <div class="col-sm-9">
+                                <input class="form-control" type="text" ng-model="model.city">
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <label class="control-label">Country</label>
+
+                            </div>
+                            <div class="col-sm-9">
+                                <input class="form-control" type="text" ng-model="model.country">
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <label class="control-label">Postcode </label>
+
+                            </div>
+                            <div class="col-sm-9">
+                                <input class="form-control" type="text" ng-model="model.postcode">
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <label class="control-label">Profession </label>
+
+                            </div>
+                            <div class="col-sm-9">
+                                <input class="form-control" type="text" ng-model="model.profession">
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <h3>Bank Account</h3>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <label class="control-label">Account Name </label>
                     </div>
                     <div class="col-sm-9">
                         <input type="text" class="form-control" uib-datepicker-popup="{{format}}"
@@ -225,6 +318,12 @@
                             <input class="form-control" type="password" >
                         </div>
                     </div>
+                    <div class="col-sm-4 ">
+                        <img ng-src="http://localhost:3000/config/media/{{model.username}}" alt="Mountain View" style="width:100px;height:120px;" class="pull-right">
+                        <div class="pull-right">
+                            <button type="file" ngf-select="uploadFiles($file, $invalidFiles)"
+                                    accept="image/*" ngf-max-height="1000" ngf-max-size="1MB">
+                                Select File</button>
                     <br>
                     <div class="row">
                         <div class="col-sm-4">
@@ -245,9 +344,6 @@
                 <button class="btn btn-success center-block" ng-click="saveUserInfo()" ng-if="isEditting">SAVE
                 </button>
             </div>
-
-
-
         </form>
     </div>
 
