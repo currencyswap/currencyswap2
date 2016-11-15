@@ -13,34 +13,15 @@
                             <a href="#">{{model.email}}</a>
                         </div>
                         <br>
-                        <div class="row">
-                            <div class="col-sm-3">
-                                <label class="control-label">Username</label>
-                            </div>
-                            <div class="col-sm-9">
-                                <input class="form-control" type="text" ng-model="model.username">
-                            </div>
                     </div>
                     <div class="col-sm-4 ">
-                        <!--<img src="pic_mountain.jpg" alt="Mountain View" style="width:100px;height:120px;" class="pull-right">-->
-                        <div class=" col-sm-4 avatarUp">
-                            <script src="../../libs/avatarUploader.js"></script>
-                            <script src="../../libs/imagePlayer.js"></script>
-                            <form id="upload" action="/jrsp/avatar" method="POST" enctype="multipart/form-data">
-                                <script src="../../libs/avatarUploader.js"></script>
-                                <script src="../../libs/imagePlayer.js"></script>
-                                <fieldset>
-                                    <div class="form-avata">
-                                        <img src="/jrsp/avatar/<%=user.username%>" id="userAvatar" class="bg-avar" />
-                                        <div>
-                                            <a id="aChangeAvatar" class="avar-change ">Change Avatar</a>
-                                            <input type="file" id="fileinput" name="fileinput" style="display:none;"/>
-                                        </div>
-                                    </div>
-                                </fieldset>
-                            </form>
+                        <img ng-src="http://localhost:3000/config/media/{{model.username}}" alt="Mountain View" style="width:100px;height:120px;" class="pull-right">
+                        <div class="pull-right">
+                            <button type="file" ngf-select="uploadFiles($file, $invalidFiles)"
+                                    accept="image/*" ngf-max-height="1000" ngf-max-size="1MB">
+                                Select File</button>
                         </div>
-                    </div>
+                        </div>
 
                 </div>
                 <br>
@@ -50,7 +31,7 @@
                         <label class="control-label">Username </label>
                     </div>
                     <div class="col-sm-9">
-                        <input class="form-control" type="text">
+                        <input class="form-control" type="text" ng-model="model.username">
                     </div>
                 </div>
                 <br>
@@ -74,21 +55,17 @@
                 <div class="row">
                     <div class="col-sm-3">
                         <label class="control-label">Registerd Date</label>
-                            </div>
-                            <div class="col-sm-9">
-                                <input class="form-control" type="text" ng-model="model.registeredDate">
-                            </div>
                     </div>
-                    <div class="col-sm-9">
-                        <div class="input-group" >
-                            <input type="text" class="form-control" uib-datepicker-popup="{{format}}"
-                                   is-open="calendarPicker.opened" datepicker-options="dateOptions" ng-required="true" ng-model="birthday"
-                                   close-text="Close" alt-input-formats="altInputFormats">
+                            <div class="col-sm-9">
+                                <div class="input-group" >
+                                    <input type="text" class="form-control" uib-datepicker-popup="{{format}}"
+                                           is-open="calendarPicker.opened" datepicker-options="dateOptions" ng-required="true" ng-model="model.registeredDate"
+                                           close-text="Close" alt-input-formats="altInputFormats" readonly>
                                     <span class="input-group-addon" style="height: 40px">
                                    <i class="glyphicon glyphicon-calendar" ng-click="openCalendar()"></i></button>
                                 </span>
-                        </div>
-                    </div>
+                                </div>
+                            </div>
                 </div>
                 <br>
                 <div class="row">
@@ -166,24 +143,62 @@
 
                             </div>
                             <div class="col-sm-9">
-                                <input class="form-control" type="text" ng-model="model.profession">
+                            </div>
+                            <div class="col-sm-9">
+                                <input class="form-control" type="text" ng-model="model.nationalId">
                             </div>
                         </div>
                         <br>
                         <div class="row">
-                            <h3>Bank Account</h3>
+                            <div class="col-sm-3">
+                                <label class="control-label">Adrress</label>
+
+                            </div>
+                            <div class="col-sm-9">
+                                <input class="form-control" type="text" ng-model="model.address">
+                            </div>
                         </div>
                         <br>
                         <div class="row">
                             <div class="col-sm-3">
-                                <label class="control-label">Account Name </label>
-                    </div>
-                    <div class="col-sm-9">
-                        <input type="text" class="form-control" uib-datepicker-popup="{{format}}"
-                               is-open="calendarPicker.opened" datepicker-options="dateOptions" ng-required="true" ng-model="birthday"
-                               close-text="Close" alt-input-formats="altInputFormats" readonly>
-                    </div>
-                </div>
+                                <label class="control-label">City</label>
+
+                            </div>
+                            <div class="col-sm-9">
+                                <input class="form-control" type="text" ng-model="model.city">
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <label class="control-label">Country</label>
+
+                            </div>
+                            <div class="col-sm-9">
+                                <input class="form-control" type="text" ng-model="model.country">
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <label class="control-label">Postcode </label>
+
+                            </div>
+                            <div class="col-sm-9">
+                                <input class="form-control" type="text" ng-model="model.postcode">
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <label class="control-label">Profession </label>
+
+                            </div>
+                            <div class="col-sm-9">
+                                <input class="form-control" type="text" ng-model="model.profession">
+                            </div>
+                        </div>
+                        <br>
                 <br>
                 <div class="row">
                     <div class="col-sm-3">
@@ -318,12 +333,7 @@
                             <input class="form-control" type="password" >
                         </div>
                     </div>
-                    <div class="col-sm-4 ">
-                        <img ng-src="http://localhost:3000/config/media/{{model.username}}" alt="Mountain View" style="width:100px;height:120px;" class="pull-right">
-                        <div class="pull-right">
-                            <button type="file" ngf-select="uploadFiles($file, $invalidFiles)"
-                                    accept="image/*" ngf-max-height="1000" ngf-max-size="1MB">
-                                Select File</button>
+
                     <br>
                     <div class="row">
                         <div class="col-sm-4">
