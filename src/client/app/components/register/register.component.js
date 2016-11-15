@@ -28,6 +28,7 @@ angular.module('register')
                                 $window.scrollTo(0, 0);
                             }
                         });
+                    return;
                 }
 
                 $scope.user = {};
@@ -37,6 +38,8 @@ angular.module('register')
                 $scope.gifLoading = false;
                 $scope.userExisted = false;
                 $scope.emailExisted = false;
+                $scope.passportExisted = false;
+                $scope.cellphoneExisted = false;
                 $scope.birthday = new Date();
                 $scope.calendar = { opened: false };
                 $scope.openCalendar = function () {
@@ -88,6 +91,20 @@ angular.module('register')
                                     $scope.userExisted = false;
                                     $scope.gifLoading = false;
                                     $scope.emailExisted = true;
+                                    $scope.focusEmail = true;
+                                }
+
+                                if (response.data.code === serverErrors.PASSPORT_EXISTED) {
+                                    $scope.userExisted = false;
+                                    $scope.gifLoading = false;
+                                    $scope.passportExisted = true;
+                                    $scope.focusEmail = true;
+                                }
+
+                                if (response.data.code === serverErrors.CELLPHONE_EXISTED) {
+                                    $scope.userExisted = false;
+                                    $scope.gifLoading = false;
+                                    $scope.cellphoneExisted = true;
                                     $scope.focusEmail = true;
                                 }
                             }

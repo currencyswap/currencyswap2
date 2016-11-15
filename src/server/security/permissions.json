@@ -4,7 +4,7 @@
             "route": "{API_MY_PROFILE}",
             "rules" : [
                 {
-                    "methods" : ["GET", "PATCH"],
+                    "methods" : ["GET", "PATCH", "POST"],
                     "requiredPermissions": [
                         "{EDIT_PROFILE}"
                     ],

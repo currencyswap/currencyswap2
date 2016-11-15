@@ -45,7 +45,7 @@ exports.createUser = function (user, callback) {
             });
         },
         function (txObject, instance, next) {
-            if (!user.addresses || user.addresses.length <= 0) {
+            /*if (!user.addresses || user.addresses.length <= 0) {
                 return next(null, txObject, instance);
             }
             user.addresses.forEach(function (addr, index, addresses) {
@@ -63,6 +63,23 @@ exports.createUser = function (user, callback) {
                          }
                     }
                 });
+            });*/
+            if (!user.addresses || user.addresses.length <= 0) {
+                return next(null, txObject, instance);
+            }
+
+            user.addresses.forEach(function (addr) {
+                addr.memberId = instance.id;
+            });
+
+            instance.addresses.create(user.addresses, txObject, function (err) {
+                if (err) {
+                    console.log('Error on saving addresses for user');
+                    return next(errorUtil.createAppError(errors.COULD_NOT_SAVE_USER_ADDR_TO_DB));
+                } else {
+
+                }
+                next(err, txObject, instance);
             });
 
         },
@@ -176,6 +193,8 @@ exports.login = function (user, callback) {
                     if (userObj.status !== constant.USER_STATUSES.ACTIVATED) {
                         return next(errorUtil.createAppError(errors.ACCOUNT_IS_NOT_ACTIVATED));
                     }
+
+                    if (userObj.expiredDate)
 
                     next(null, userObj);
                 }
@@ -375,6 +394,32 @@ exports.registerUser = function (newUser, callback) {
             })
         },
         function (newUser, next) {
+            exports.getUserByNationalId(newUser, function (err, userObj) {
+                if (err) {
+                    if (err.code === errorUtil.createAppError(errors.MEMBER_INVALID_USERNAME).code) {
+                        return next(null, newUser);
+                    } else {
+                        return next(err);
+                    }
+                } else {
+                    return next(errorUtil.createAppError(errors.PASSPORT_EXISTED));
+                }
+            });
+        },
+        function (newUser, next) {
+            exports.getUserByCellphone(newUser, function (err, userObj) {
+                if (err) {
+                    if (err.code === errorUtil.createAppError(errors.MEMBER_INVALID_USERNAME).code) {
+                        return next(null, newUser);
+                    } else {
+                        return next(err);
+                    }
+                } else {
+                    return next(errorUtil.createAppError(errors.USER_NAME_EXISTED));
+                }
+            });
+        },
+        function (newUser, next) {
             exports.getUserByUsername(newUser.username, function (err, user) {
                 if (err) {
                     if (err.code === errorUtil.createAppError(errors.MEMBER_INVALID_USERNAME).code) {
@@ -552,4 +597,18 @@ exports.updateUserInfo = function (user, filter, callback) {
             return callback(null, updatedUser);
         }
     });
+};
+
+exports.getUserByNationalId = function (user, callback) {
+    app.models.Member.findUserByPassport(user.nationalId, function (err, userObj) {
+        if (err) return callback(err);
+        else return callback(null, userObj);
+    })
+};
+
+exports.getUserByCellphone = function (user, callback) {
+    app.models.Member.findUserByCellphone(user.cellphone, function (err, userObj) {
+        if (err) return callback(err);
+        else return callback(null, userObj);
+    })
 };

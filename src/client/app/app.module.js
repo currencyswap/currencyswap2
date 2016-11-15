@@ -12,6 +12,7 @@ angular.module('currencySwapApp', [
     'register',
     'userList',
     'myProfile',
+    'ngFileUpload',
     'homePage',
     'navigation',
     'angularCountryState',

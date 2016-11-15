@@ -7,12 +7,87 @@ angular.module('myProfile')
             '$rootScope',
             '$location',
             '$window',
+            '$timeout',
+            '$http',
+            'Upload',
             'CookieService',
             'LoginService',
             'PermissionService',
             'NavigationHelper',
             'GLOBAL_CONSTANT',
-            function myProfileController($scope, $rootScope, $location, $window, CookieService, LoginService, PermissionService, NavigationHelper, GLOBAL_CONSTANT) {
+            function myProfileController($scope, $rootScope, $location, $window, $timeout, $http, Upload, CookieService, LoginService, PermissionService, NavigationHelper, GLOBAL_CONSTANT) {
+                $rootScope.loading = true;
+                $scope.model = {};
+                var currentUser = CookieService.getCurrentUser();
+                //$scope.model.profilePicUrl = "http://localhost:3000/api/profile/" + currentUser.username;
+
+                var profilePicReq = {
+                    method: httpMethods.GET,
+                    url: 'http://localhost:3000/config/' + currentUser.username
+                };
+
+                $http(profilePicReq)
+                    .then(function (response) {
+
+                    });
+
+                var token = CookieService.getToken();
+                var headers = {};
+
+                headers[httpHeader.CONTENT_TYPE] = contentTypes.JSON;
+                headers[httpHeader.AUTHORIZARION] = autheticateType.BEARER + token;
+
+                var userDetailReq = {
+                    method: httpMethods.GET,
+                    url: apiRoutes.API_MY_PROFILE,
+                    headers: headers,
+                };
+
+                $http(userDetailReq)
+                    .then(function (response) {
+                        var userDetail = response.data;
+                        $scope.model.username = userDetail.username;
+                        $scope.model.birthday = userDetail.birthday;
+                        $scope.model.email = userDetail.email;
+                        $scope.model.expiredDate = userDetail.expiredDate;
+                        $scope.model.registeredDate = userDetail.registeredDate;
+                        $scope.model.fullName = userDetail.fullName;
+                        if (userDetail.addresses[0] && userDetail.addresses[0].hasOwnProperty('address')) $scope.model.address = userDetail.addresses[0].address;
+                        if (userDetail.addresses[0] && userDetail.addresses[0].hasOwnProperty('city')) $scope.model.address = userDetail.addresses[0].city;
+                        if (userDetail.addresses[0] && userDetail.addresses[0].hasOwnProperty('state')) $scope.model.address = userDetail.addresses[0].state;
+                        if (userDetail.addresses[0] && userDetail.addresses[0].hasOwnProperty('country')) $scope.model.address = userDetail.addresses[0].country;
+                        if (userDetail.addresses[0] && userDetail.addresses[0].hasOwnProperty('postcode')) $scope.model.address = userDetail.addresses[0].postcode;
+                        $scope.model.cellphone = userDetail.cellphone;
+                        $scope.model.nationalId = userDetail.nationalId;
+                        $scope.model.profession = userDetail.profession;
+                    });
+
+                $scope.uploadFiles = function(file, errFiles) {
+                    $scope.f = file;
+                    file.fieldname = currentUser.username;
+                    $scope.errFile = errFiles && errFiles[0];
+
+                    if (file) {
+                        file.upload = Upload.upload({
+                            method: 'POST',
+                            url: 'http://localhost:3000/api/profile',
+                            data: {
+                                file: file
+                            },
+                            headers: headers
+                        });
+
+                        file.upload.then(function (response) {
+                            $timeout(function () {
+                                file.result = response.data;
+                            });
+                        }, function (response) {
+                            if (response.status > 0)
+                                $scope.errorMsg = response.status + ': ' + response.data;
+                        });
+                    }
+                };
+
                 $scope.isEditting = false;
                 $scope.calendarPicker = {
                     opened: false
@@ -22,12 +97,48 @@ angular.module('myProfile')
                     $scope.calendarPicker.opened = true;
                 };
 
+                $scope.openCalendar1 = function() {
+                    $scope.calendarPicker.opened1 = true;
+                };
+
                 $scope.changeStateToEdit = function () {
                     $scope.isEditting = true;
-                }
+                };
 
                 $scope.saveUserInfo = function () {
                     $scope.isEditting = false;
+
+                    var updatingUser = {
+                        username: $scope.model.username,
+                        birthday: $scope.model.birthday,
+                        email: $scope.model.email,
+                        expiredDate: $scope.model.expiredDate,
+                        fullName: $scope.model.fullName,
+                        registeredDate: $scope.model.registeredDate,
+                        addresses: [
+                            {
+                                address: $scope.model.address,
+                                city: $scope.model.city,
+                                country: $scope.model.country,
+                                postcode: $scope.model.postcode,
+                                nationalId: $scope.model.nationalId,
+                            }
+                        ],
+                        profession: $scope.model.profession,
+                        cellphone: $scope.model.cellphone
+                    };
+
+                    var saveUserDetailReq = {
+                        method: httpMethods.POST,
+                        url: apiRoutes.API_MY_PROFILE,
+                        headers: headers,
+                        data: updatingUser
+                    };
+
+                    $http(saveUserDetailReq)
+                        .then(function (response) {
+
+                        });
                 }
             }]
     });
