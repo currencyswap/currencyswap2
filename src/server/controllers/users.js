@@ -18,9 +18,7 @@ module.exports = function (app) {
     });
 
     router.get('/:id', function (req, res) {
-
         var userId = req.params.id;
-
         if ( !userId ) {
 
             var err = errorUtil.createAppError( errors.MEMBER_NO_USERID );
@@ -40,10 +38,10 @@ module.exports = function (app) {
     });
 
     router.post('/:id', function (req, res) {
-
+        var updatingUser = req.body;
         async.waterfall([
             function (next) {
-                userService.getUserByUsernameWithoutRelationModel(updatingUser.username, function (err, user) {
+                userService.getUserByUsernameWithoutRelationModel(updatingUser, function (err, user) {
                     if (err) return next (err);
                     else {
                         return next (null, user);
@@ -70,6 +68,10 @@ module.exports = function (app) {
             if (err) res.status(constant.HTTP_FAILURE_CODE).send(err);
             else res.status(constant.HTTP_SUCCESS_CODE).send({});
         });
+    });
+
+    router.put('/:username', function (req, res) {
+        res.status(constant.HTTP_SUCCESS_CODE).send({});
     });
 
     return router;

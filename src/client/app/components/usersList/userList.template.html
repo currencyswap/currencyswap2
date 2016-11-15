@@ -125,7 +125,7 @@
                         <div class="col-sm-5">
                             <!--<input ng-model="userDetail.expiredDate" id="expDate" class="form-control" type="text" readonly="readonly">-->
                             <p class="input-group">
-                                <input type="text" class="form-control" uib-datepicker-popup="{{format}}" ng-model="dt"
+                                <input type="text" class="form-control" uib-datepicker-popup="{{format}}" ng-model="userDetail.expiredDate"
                                        is-open="popup1.opened" datepicker-options="dateOptions" ng-required="true"
                                        close-text="Close" alt-input-formats="altInputFormats"/>
                                 <span class="input-group-addon" style="height: 40px">
@@ -196,6 +196,8 @@
                                 <option value="{{userStatusesList.activated}}">{{userStatusesList.activated}}</option>
                                 <option value="{{userStatusesList.blocked}}">{{userStatusesList.blocked}}</option>
                                 <option value="{{userStatusesList.pending}}">{{userStatusesList.pending}}</option>
+                                <option value="{{userStatusesList.new}}">{{userStatusesList.new}}</option>
+                                <option value="{{userStatusesList.deactivated}}">{{userStatusesList.deactivated}}</option>
                             </select>
                         </div>
                     </div>

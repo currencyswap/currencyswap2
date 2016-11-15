@@ -45,7 +45,7 @@ exports.createUser = function (user, callback) {
             });
         },
         function (txObject, instance, next) {
-            if (!user.addresses || user.addresses.length <= 0) {
+            /*if (!user.addresses || user.addresses.length <= 0) {
                 return next(null, txObject, instance);
             }
             user.addresses.forEach(function (addr, index, addresses) {
@@ -63,6 +63,23 @@ exports.createUser = function (user, callback) {
                          }
                     }
                 });
+            });*/
+            if (!user.addresses || user.addresses.length <= 0) {
+                return next(null, txObject, instance);
+            }
+
+            user.addresses.forEach(function (addr) {
+                addr.memberId = instance.id;
+            });
+
+            instance.addresses.create(user.addresses, txObject, function (err) {
+                if (err) {
+                    console.log('Error on saving addresses for user');
+                    return next(errorUtil.createAppError(errors.COULD_NOT_SAVE_USER_ADDR_TO_DB));
+                } else {
+
+                }
+                next(err, txObject, instance);
             });
 
         },
@@ -161,6 +178,7 @@ exports.login = function (user, callback) {
 
     async.waterfall([
         function (next) {
+        console.log('1');
             app.models.Member.findByUsername(user.username, true, function (err, userObj) {
 
                 if (err) return next(err);
@@ -182,6 +200,7 @@ exports.login = function (user, callback) {
             });
         },
         function (user, next) {
+            console.log('2');
             // get User Secret Key
             redis.getSecretKey(user.username, function (err, value) {
                 if (!err) return next(null, user, value);
@@ -199,6 +218,7 @@ exports.login = function (user, callback) {
             });
         },
         function (user, secret, next) {
+            console.log('3');
             var tokenKey = token.generate({username: user.username, fullName: user.fullName}, secret);
 
             token.getSignature(tokenKey, function (err, sign) {
@@ -207,6 +227,7 @@ exports.login = function (user, callback) {
 
         },
         function (user, secret, tokenKey, sign, next) {
+            console.log('4');
             redis.setSecretKeyBySignature(sign, JSON.stringify({username: user.username, secret: secret}));
             return next(null, tokenKey);
         }
@@ -361,6 +382,7 @@ exports.createUserTransaction = function (callback) {
 exports.registerUser = function (newUser, callback) {
     async.waterfall([
         function (next) {
+        console.log('1');
             groupService.findGroupByName(newUser.group, function (err, group) {
                 if (err) {
                     return next(err);
@@ -374,6 +396,34 @@ exports.registerUser = function (newUser, callback) {
 
             })
         },
+        /*function (newUser, next) {
+            console.log('2');
+            exports.getUserByNationalId(newUser, function (err, userObj) {
+                if (err) {
+                    if (err.code === errorUtil.createAppError(errors.MEMBER_INVALID_USERNAME).code) {
+                        return next(null, newUser);
+                    } else {
+                        return next(err);
+                    }
+                } else {
+                    return next(errorUtil.createAppError(errors.PASSPORT_EXISTED));
+                }
+            });
+        },
+        function (newUser, next) {
+            console.log('3');
+            exports.getUserByCellphone(newUser, function (err, userObj) {
+                if (err) {
+                    if (err.code === errorUtil.createAppError(errors.MEMBER_INVALID_USERNAME).code) {
+                        return next(null, newUser);
+                    } else {
+                        return next(err);
+                    }
+                } else {
+                    return next(errorUtil.createAppError(errors.USER_NAME_EXISTED));
+                }
+            });
+        },*/
         function (newUser, next) {
             exports.getUserByUsername(newUser.username, function (err, user) {
                 if (err) {
@@ -552,4 +602,18 @@ exports.updateUserInfo = function (user, filter, callback) {
             return callback(null, updatedUser);
         }
     });
+};
+
+exports.getUserByNationalId = function (user, callback) {
+    app.models.Member.findUserByPassport(user.nationalId, function (err, userObj) {
+        if (err) return callback(err);
+        else return callback(null, userObj);
+    })
+};
+
+exports.getUserByCellphone = function (user, callback) {
+    app.models.Member.findUserByCellphone(user.cellphone, function (err, userObj) {
+        if (err) return callback(err);
+        else return callback(null, userObj);
+    })
 };

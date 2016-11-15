@@ -166,5 +166,17 @@
     "ERROR_TX_COMMIT" : {
         "code": 82,
         "message": "{ERROR_TX_COMMIT}"
+    },
+    "PASSPORT_EXISTED" : {
+        "code": 83,
+        "message": "{PASSPORT_EXISTED}"
+    },
+    "CELLPHONE_EXISTED" : {
+        "code": 84,
+        "message": "{CELLPHONE_EXISTED}"
+    },
+    "INVALID_PASSWORD" : {
+        "code": 85,
+        "message": "{INVALID_PASSWORD}"
     }
 }

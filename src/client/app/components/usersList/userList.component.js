@@ -135,11 +135,41 @@ angular.module('userList')
                 $scope.userStatusesList.activated = GLOBAL_CONSTANT.ACTIVATED_USER_STATUS;
                 $scope.userStatusesList.blocked = GLOBAL_CONSTANT.BLOCKED_USER_STATUS;
                 $scope.userStatusesList.pending = GLOBAL_CONSTANT.PENDING_USER_STATUS;
+                $scope.userStatusesList.new = GLOBAL_CONSTANT.NEW_USER_STATUS;
+                $scope.userStatusesList.deactivated = GLOBAL_CONSTANT.DEACTIVATED_USER_STATUS;
 
                 $scope.selectedStatus = {};
 
                 $scope.onSaveUserDetailData = function () {
+
+                    var address, city, country, postcode, state = null;
+
+                    if ($scope.userDetail.addresses[0] && $scope.userDetail.addresses[0].hasOwnProperty('address')) address = $scope.userDetail.addresses[0].address;
+                    if ($scope.userDetail.addresses[0] && $scope.userDetail.addresses[0].hasOwnProperty('city')) city = userDetail.addresses[0].city;
+                    if ($scope.userDetail.addresses[0] && $scope.userDetail.addresses[0].hasOwnProperty('state')) state = userDetail.addresses[0].state;
+                    if ($scope.userDetail.addresses[0] && $scope.userDetail.addresses[0].hasOwnProperty('country')) country = userDetail.addresses[0].country;
+                    if ($scope.userDetail.addresses[0] && $scope.userDetail.addresses[0].hasOwnProperty('postcode')) postcode = userDetail.addresses[0].postcode;
+
                     var resultUser = {
+                        id: $scope.userDetail.id,
+                        username: $scope.userDetail.username,
+                        birthday: $scope.birthday,
+                        email: $scope.userDetail.email,
+                        expiredDate: $scope.userDetail.expiredDate,
+                        fullName: $scope.userDetail.fullName,
+                        registeredDate: $scope.userDetail.registeredDate,
+                        addresses: [
+                            {
+                                address: address,
+                                city: city,
+                                country: country,
+                                postcode: postcode,
+                                state: state
+                            }
+                        ],
+                        profession: $scope.userDetail.profession,
+                        cellphone: $scope.userDetail.cellphone,
+                        nationalId: $scope.userDetail.nationalId,
                         status: $scope.selectedStatus.selectedStatus
                     };
 
@@ -263,8 +293,6 @@ angular.module('userList')
                         .then(function (response) {
                             $scope.userDetail = response.data;
                             $scope.birthday = new Date($scope.userDetail.birthday);
-                            console.log("$scope.userDetail==",$scope.birthday);
-                            console.log("$scope.dt==",$scope.dt);
                             $scope.selectedStatus.selectedStatus = $scope.userDetail.status;
                         })
                 }
