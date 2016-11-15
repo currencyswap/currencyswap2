@@ -178,7 +178,6 @@ exports.login = function (user, callback) {
 
     async.waterfall([
         function (next) {
-        console.log('1');
             app.models.Member.findByUsername(user.username, true, function (err, userObj) {
 
                 if (err) return next(err);
