@@ -178,7 +178,6 @@ exports.login = function (user, callback) {
 
     async.waterfall([
         function (next) {
-        console.log('1');
             app.models.Member.findByUsername(user.username, true, function (err, userObj) {
 
                 if (err) return next(err);
@@ -194,6 +193,8 @@ exports.login = function (user, callback) {
                     if (userObj.status !== constant.USER_STATUSES.ACTIVATED) {
                         return next(errorUtil.createAppError(errors.ACCOUNT_IS_NOT_ACTIVATED));
                     }
+
+                    if (new Date(userObj.expiredDate).before)
 
                     next(null, userObj);
                 }

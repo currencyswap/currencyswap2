@@ -145,15 +145,15 @@ angular.module('userList')
                     var address, city, country, postcode, state = null;
 
                     if ($scope.userDetail.addresses[0] && $scope.userDetail.addresses[0].hasOwnProperty('address')) address = $scope.userDetail.addresses[0].address;
-                    if ($scope.userDetail.addresses[0] && $scope.userDetail.addresses[0].hasOwnProperty('city')) city = userDetail.addresses[0].city;
-                    if ($scope.userDetail.addresses[0] && $scope.userDetail.addresses[0].hasOwnProperty('state')) state = userDetail.addresses[0].state;
-                    if ($scope.userDetail.addresses[0] && $scope.userDetail.addresses[0].hasOwnProperty('country')) country = userDetail.addresses[0].country;
-                    if ($scope.userDetail.addresses[0] && $scope.userDetail.addresses[0].hasOwnProperty('postcode')) postcode = userDetail.addresses[0].postcode;
+                    if ($scope.userDetail.addresses[0] && $scope.userDetail.addresses[0].hasOwnProperty('city')) city = $scope.userDetail.addresses[0].city;
+                    if ($scope.userDetail.addresses[0] && $scope.userDetail.addresses[0].hasOwnProperty('state')) state = $scope.userDetail.addresses[0].state;
+                    if ($scope.userDetail.addresses[0] && $scope.userDetail.addresses[0].hasOwnProperty('country')) country = $scope.userDetail.addresses[0].country;
+                    if ($scope.userDetail.addresses[0] && $scope.userDetail.addresses[0].hasOwnProperty('postcode')) postcode = $scope.userDetail.addresses[0].postcode;
 
                     var resultUser = {
                         id: $scope.userDetail.id,
                         username: $scope.userDetail.username,
-                        birthday: $scope.birthday,
+                        birthday: $scope.userDetail.birthday,
                         email: $scope.userDetail.email,
                         expiredDate: $scope.userDetail.expiredDate,
                         fullName: $scope.userDetail.fullName,
@@ -172,6 +172,8 @@ angular.module('userList')
                         nationalId: $scope.userDetail.nationalId,
                         status: $scope.selectedStatus.selectedStatus
                     };
+
+                    console.log(resultUser);
 
                     var token = CookieService.getToken();
                     var headers = {};
@@ -287,9 +289,24 @@ angular.module('userList')
 
                     UserListService.getUserDetail(userId, headers)
                         .then(function (response) {
-                            $scope.userDetail = response.data;
-                            $scope.birthday = new Date($scope.userDetail.birthday);
-                            $scope.selectedStatus.selectedStatus = $scope.userDetail.status;
+                            var address1, city1, country1, postcode1, state1 = null;
+                            $scope.userDetail = {};
+                            var userDetail = response.data;
+
+                            if (userDetail.addresses[0] && userDetail.addresses[0].hasOwnProperty('address')) address1 = userDetail.addresses[0].address;
+                            if (userDetail.addresses[0] && userDetail.addresses[0].hasOwnProperty('city')) city1 = userDetail.addresses[0].city;
+                            if (userDetail.addresses[0] && userDetail.addresses[0].hasOwnProperty('state')) state1 = userDetail.addresses[0].state;
+                            if (userDetail.addresses[0] && userDetail.addresses[0].hasOwnProperty('country')) country1 = userDetail.addresses[0].country;
+                            if (userDetail.addresses[0] && userDetail.addresses[0].hasOwnProperty('postcode')) postcode1 = userDetail.addresses[0].postcode;
+
+                            $scope.userDetail.birthday = new Date(userDetail.birthday);
+                            $scope.userDetail.expiredDate = new Date(userDetail.expiredDate);
+                            $scope.userDetail.username = userDetail.username;
+                            $scope.userDetail.cellphone = userDetail.cellphone;
+                            $scope.userDetail.email = userDetail.email;
+                            $scope.userDetail.nationalId = userDetail.nationalId;
+                            $scope.userDetail.profession = userDetail.profession;
+                            $scope.selectedStatus.selectedStatus = userDetail.status;
                         })
                 }
             }]
