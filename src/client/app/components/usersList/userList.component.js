@@ -69,6 +69,7 @@ angular.module('userList')
                     $scope.dt = new Date(year, month, day);
                 };
 
+                $scope.role = "Standard Member";
                 $scope.formats = ['dd-MMMM-yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate'];
                 $scope.format = $scope.formats[0];
                 $scope.altInputFormats = ['M!/d!/yyyy'];
