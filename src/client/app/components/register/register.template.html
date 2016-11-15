@@ -1,3 +1,5 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
 <div class="signuppanel" ng-show="startRegister">
     <div class="row">
 
@@ -18,14 +20,13 @@
 
                 <div class="form-group" ng-class="{ 'has-error' : (registerForm.username.$invalid && !registerForm.username.$pristine) || userExisted}">
                     <div class="mb10">
-                        <label class="control-label"><b>Username</b></label> <span class="asterisk">*</span>
+                        <label class="control-label"><b>Username</b></label> <span class="asterisk">*</span><a data-toggle="popover" data-content="Username only containe a-z (0-9) "><i style="font-size:20px" class="fa" ng-click="showPopover()">&#xf29c;</i></a>
                         <input ng-change="onUsernameChange()" type="text" name="username" class="form-control" ng-pattern="/^[a-zA-Z0-9\-\.\_]+$/" ng-model="user.username" ng-minlength="8" focus-me="focusUsername" required>
                         <p ng-show="registerForm.username.$error.minlength" class="help-block">Username is too short.</p>
                         <p ng-show="registerForm.username.$error.pattern" class="help-block ">Username is invalid.</p>
                         <p ng-show="userExisted" class="help-block ">Your chosen username is already in use</p>
                     </div>
                 </div>
-
                 <div class="form-group"
                      ng-class="{ 'has-error' : registerForm.fullName.$invalid && !registerForm.fullName.$pristine }">
                     <div class="mb10">
@@ -35,11 +36,10 @@
                         <p ng-show="registerForm.fullName.$error.maxlength" class="help-block">Fullname is too long.</p>
                     </div>
                 </div>
-
                 <div class="form-group"
                      ng-class="{ 'has-error' : (registerForm.email.$invalid && !registerForm.email.$pristine) || emailExisted}">
                     <div class="mb10">
-                        <label class="control-label"><b>Email</b></label> <span class="asterisk">*</span>
+                        <label class="control-label"><b>Email</b></label> <span class="asterisk">*</span><a data-toggle="popover" data-content="Some content inside the popover"><i style="font-size:20px" class="fa" ng-click="showPopover()">&#xf29c;</i></a>
                         <input ng-change="onEmailChange()" type="email" name="email" class="form-control" ng-model="user.email" focus-me="focusEmail" required>
                         <p ng-show="registerForm.email.$invalid && !registerForm.email.$pristine" class="help-block">Email is not valid.</p>
                         <p ng-show="emailExisted" class="help-block">Your email is already in use</p>
@@ -62,7 +62,7 @@
                 </div>
 
                 <div class="form-group" data-ng-class="{'has-error' : registerForm.password.$invalid && !registerForm.password.$pristine}">
-                    <label for="password"><b>Password</b></label> <span class="asterisk">*</span>
+                    <label for="password"><b>Password</b></label> <span class="asterisk">*</span><a data-toggle="popover" data-content="Password at least 8 characters"><i style="font-size:20px" class="fa" ng-click="showPopover()">&#xf29c;</i></a>
                     <input class="form-control" type="password" name="password" required data-ng-model="user.password">
                 </div>
 
@@ -76,15 +76,16 @@
 
                 <div class="form-group">
                     <!--<div class="col-sm-5">-->
-                        <p class="input-group">
+                        <div class="input-group">
                             <input type="text" id="dob" class="form-control" uib-datepicker-popup="dd-MMMM-yyyy" ng-model="birthday"
                                    is-open="calendar.opened" datepicker-options="dateOptions" ng-required="true"
                                    close-text="Close" alt-input-formats="altInputFormats"/>
-                                <span class="input-group-btn">
-                                    <button type="button" class="btn btn-default" ng-click="openCalendar()" style="height: 40px"><i class="glyphicon glyphicon-calendar"></i></button>
+                                <span class="input-group-addon" style="height: 40px">
+                                   <i class="glyphicon glyphicon-calendar" ng-click="openCalendar()"></i></button>
                                 </span>
 
-                        </p>
+                        </div>
+
                     <!--</div>-->
                 </div>
 
@@ -128,77 +129,6 @@
         </div>
     </div>
 
-    <script src="../../../assets/js/jquery-1.11.1.min.js"></script>
-    <script src="../../../assets/js/jquery-migrate-1.2.1.min.js"></script>
-    <script src="../../../assets/js/bootstrap.min.js"></script>
-    <script src="../../../assets/js/modernizr.min.js"></script>
-    <script src="../../../assets/js/jquery.sparkline.min.js"></script>
-    <script src="../../../assets/js/jquery.cookies.js"></script>
-
-    <script src="../../../assets/js/toggles.min.js"></script>
-    <script src="../../../assets/js/retina.min.js"></script>
-
-    <script src="../../../assets/js/select2.min.js"></script>
-
-    <script src="../../../assets/js/custom.js"></script>
-
-    <script>
-        jQuery(document).ready(function(){
-
-            "use strict";
-
-            // Select2
-            jQuery(".select2").select2({
-                width: '100%',
-                minimumResultsForSearch: -1
-            });
-
-            // Basic Form
-            jQuery("#testForm").validate({
-                highlight: function(element) {
-                    jQuery(element).closest('.form-group').removeClass('has-success').addClass('has-error');
-                },
-                success: function(element) {
-                    jQuery(element).closest('.form-group').removeClass('has-error');
-                }
-            });
-
-            // Error Message In One Container
-            jQuery("#basicForm2").validate({
-                errorLabelContainer: jQuery("#basicForm2 div.error")
-            });
-
-            // With Checkboxes and Radio Buttons
-            jQuery("#basicForm3").validate({
-                highlight: function(element) {
-                    jQuery(element).closest('.form-group').removeClass('has-success').addClass('has-error');
-                },
-                success: function(element) {
-                    jQuery(element).closest('.form-group').removeClass('has-error');
-                }
-            });
-
-            // Validation with select boxes
-            jQuery("#basicForm4").validate({
-                highlight: function(element) {
-                    jQuery(element).closest('.form-group').removeClass('has-success').addClass('has-error');
-                },
-                success: function(element) {
-                    jQuery(element).closest('.form-group').removeClass('has-error');
-                }
-            });
-
-            // Date Picker
-/*            jQuery('#datepicker').datepicker();
-
-            jQuery('#datepicker-inline').datepicker();
-
-            jQuery('#datepicker-multiple').datepicker({
-                numberOfMonths: 3,
-                showButtonPanel: true
-            });*/
-        });
-    </script>
 </div>
 
 <div ng-show="registerSuccess">

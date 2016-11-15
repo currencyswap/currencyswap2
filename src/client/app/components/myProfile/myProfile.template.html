@@ -1,7 +1,7 @@
 <div class="signuppanel">
 
     <div class="col-sm-6 col-sm-offset-3">
-        <form  name="registerForm" >
+        <form  name="registerForm">
             <fieldset ng-disabled="!isEditting">
                 <div class="row">
                     <div class="col-sm-8">
@@ -12,217 +12,241 @@
                         <div class="row">
                             <a href="#">vietvu@vsi-international.com</a>
                         </div>
-                        <br>
-                        <div class="row">
-                            <div class="col-sm-3">
-                                <label class="control-label">Username </label>
-                            </div>
-                            <div class="col-sm-9">
-                                <input class="form-control" type="text">
-                            </div>
-                        </div>
-                        <br>
-                        <div class="row">
-                            <div class="col-sm-3">
-                                <label class="control-label">Date of birth</label>
-
-                            </div>
-                            <div class="col-sm-9">
-                                <p class="input-group">
-                                    <input type="text" class="form-control" uib-datepicker-popup="{{format}}"
-                                           is-open="calendarPicker.opened" datepicker-options="dateOptions" ng-required="true" ng-model="birthday"
-                                           close-text="Close" alt-input-formats="altInputFormats"/>
-                                    <span class="input-group-btn">
-                                    <button type="button" class="btn btn-default" ng-click="openCalendar()" style="height: 40px"><i class="glyphicon glyphicon-calendar"></i></button>
-                                </span>
-                                </p>
-                            </div>
-                        </div>
-                        <br>
-                        <div class="row">
-                            <div class="col-sm-3">
-                                <label class="control-label">Registerd Date</label>
-
-                            </div>
-                            <div class="col-sm-9">
-                                <input class="form-control" type="text">
-                            </div>
-                        </div>
-                        <br>
-                        <div class="row">
-                            <div class="col-sm-3">
-                                <label class="control-label">Expried Date</label>
-
-                            </div>
-                            <div class="col-sm-9">
-                                <input class="form-control" type="text" >
-                            </div>
-                        </div>
-                        <br>
-                        <div class="row">
-                            <div class="col-sm-3">
-                                <label class="control-label">Cell phone</label>
-
-                            </div>
-                            <div class="col-sm-9">
-                                <input class="form-control" type="text">
-                            </div>
-                        </div>
-                        <br>
-                        <div class="row">
-                            <div class="col-sm-3">
-                                <label class="control-label">Passport ID</label>
-
-                            </div>
-                            <div class="col-sm-9">
-                                <input class="form-control" type="text" >
-                            </div>
-                        </div>
-                        <br>
-                        <div class="row">
-                            <div class="col-sm-3">
-                                <label class="control-label">Adrress</label>
-
-                            </div>
-                            <div class="col-sm-9">
-                                <input class="form-control" type="text">
-                            </div>
-                        </div>
-                        <br>
-                        <div class="row">
-                            <div class="col-sm-3">
-                                <label class="control-label">City</label>
-
-                            </div>
-                            <div class="col-sm-9">
-                                <input class="form-control" type="text" >
-                            </div>
-                        </div>
-                        <br>
-                        <div class="row">
-                            <div class="col-sm-3">
-                                <label class="control-label">Country</label>
-
-                            </div>
-                            <div class="col-sm-9">
-                                <input class="form-control" type="text">
-                            </div>
-                        </div>
-                        <br>
-                        <div class="row">
-                            <div class="col-sm-3">
-                                <label class="control-label">Postcode </label>
-
-                            </div>
-                            <div class="col-sm-9">
-                                <input class="form-control" type="text">
-                            </div>
-                        </div>
-                        <br>
-                        <div class="row">
-                            <div class="col-sm-3">
-                                <label class="control-label">Profession </label>
-
-                            </div>
-                            <div class="col-sm-9">
-                                <input class="form-control" type="text" >
-                            </div>
-                        </div>
-                        <br>
-                        <div class="row">
-                            <h3>Bank Account</h3>
-                        </div>
-                        <br>
-                        <div class="row">
-                            <div class="col-sm-3">
-                                <label class="control-label">Account Name </label>
-
-                            </div>
-                            <div class="col-sm-9">
-                                <input class="form-control" type="text">
-                            </div>
-                        </div>
-                        <br>
-                        <div class="row">
-                            <div class="col-sm-3">
-                                <label class="control-label">Account Number </label>
-
-                            </div>
-                            <div class="col-sm-9">
-                                <input class="form-control" type="text" >
-                            </div>
-                        </div>
-                        <br>
-                        <div class="row">
-                            <div class="col-sm-3">
-                                <label class="control-label">Bank </label>
-
-                            </div>
-                            <div class="col-sm-9">
-                                <input class="form-control" type="text" >
-                            </div>
-                        </div>
-                        <br>
-                        <div class="row">
-                            <div class="col-sm-3">
-                                <label class="control-label">Country </label>
-
-                            </div>
-                            <div class="col-sm-9">
-                                <input class="form-control" type="text" >
-                            </div>
-                        </div>
-                        <br>
-
-                        <div ng-if="isEditting">
-                            <div class="row">
-                                <h3>Change Password</h3>
-                            </div>
-                            <br>
-                            <div class="row">
-                                <div class="col-sm-4">
-                                    <label class="control-label">Current Password </label>
-
-                                </div>
-                                <div class="col-sm-8">
-                                    <input class="form-control" type="password">
-                                </div>
-                            </div>
-                            <br>
-                            <div class="row">
-                                <div class="col-sm-4">
-                                    <label class="control-label">New Password </label>
-
-                                </div>
-                                <div class="col-sm-8">
-                                    <input class="form-control" type="password" >
-                                </div>
-                            </div>
-                            <br>
-                            <div class="row">
-                                <div class="col-sm-4">
-                                    <label class="control-label">Re-enter Password </label>
-
-                                </div>
-                                <div class="col-sm-8">
-                                    <input class="form-control" type="password" >
-                                </div>
-                            </div>
-                        </div>
-                        <br>
-
-
                     </div>
                     <div class="col-sm-4 ">
-                        <img src="pic_mountain.jpg" alt="Mountain View" style="width:100px;height:120px;" class="pull-right">
+                        <!--<img src="pic_mountain.jpg" alt="Mountain View" style="width:100px;height:120px;" class="pull-right">-->
+                        <div class=" col-sm-4 avatarUp">
+                            <script src="../../libs/avatarUploader.js"></script>
+                            <script src="../../libs/imagePlayer.js"></script>
+                            <form id="upload" action="/jrsp/avatar" method="POST" enctype="multipart/form-data">
+                                <script src="../../libs/avatarUploader.js"></script>
+                                <script src="../../libs/imagePlayer.js"></script>
+                                <fieldset>
+                                    <div class="form-avata">
+                                        <img src="/jrsp/avatar/<%=user.username%>" id="userAvatar" class="bg-avar" />
+                                        <div>
+                                            <a id="aChangeAvatar" class="avar-change ">Change Avatar</a>
+                                            <input type="file" id="fileinput" name="fileinput" style="display:none;"/>
+                                        </div>
+                                    </div>
+                                </fieldset>
+                            </form>
+                        </div>
+                    </div>
+
+                </div>
+                <br>
+                <br>
+                <div class="row">
+                    <div class="col-sm-3">
+                        <label class="control-label">Username </label>
+                    </div>
+                    <div class="col-sm-9">
+                        <input class="form-control" type="text">
                     </div>
                 </div>
                 <br>
+                <div class="row">
+                    <div class="col-sm-3">
+                        <label class="control-label">Date of birth</label>
+
+                    </div>
+                    <div class="col-sm-9">
+                        <div class="input-group" >
+                            <input type="text" class="form-control" uib-datepicker-popup="{{format}}"
+                                   is-open="calendarPicker.opened" datepicker-options="dateOptions" ng-required="true" ng-model="birthday"
+                                   close-text="Close" alt-input-formats="altInputFormats">
+                                    <span class="input-group-addon" style="height: 40px">
+                                   <i class="glyphicon glyphicon-calendar" ng-click="openCalendar()"></i></button>
+                                </span>
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-sm-3">
+                        <label class="control-label">Registerd Date</label>
+
+                    </div>
+                    <div class="col-sm-9">
+                        <div class="input-group" >
+                            <input type="text" class="form-control" uib-datepicker-popup="{{format}}"
+                                   is-open="calendarPicker.opened" datepicker-options="dateOptions" ng-required="true" ng-model="birthday"
+                                   close-text="Close" alt-input-formats="altInputFormats">
+                                    <span class="input-group-addon" style="height: 40px">
+                                   <i class="glyphicon glyphicon-calendar" ng-click="openCalendar()"></i></button>
+                                </span>
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-sm-3">
+                        <label class="control-label">Expried Date</label>
+
+                    </div>
+                    <div class="col-sm-9">
+                        <input type="text" class="form-control" uib-datepicker-popup="{{format}}"
+                               is-open="calendarPicker.opened" datepicker-options="dateOptions" ng-required="true" ng-model="birthday"
+                               close-text="Close" alt-input-formats="altInputFormats" readonly>
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-sm-3">
+                        <label class="control-label">Cell phone</label>
+
+                    </div>
+                    <div class="col-sm-9">
+                        <input class="form-control" type="text">
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-sm-3">
+                        <label class="control-label">Passport ID</label>
+
+                    </div>
+                    <div class="col-sm-9">
+                        <input class="form-control" type="text" >
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-sm-3">
+                        <label class="control-label">Adrress</label>
+
+                    </div>
+                    <div class="col-sm-9">
+                        <input class="form-control" type="text">
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-sm-3">
+                        <label class="control-label">City</label>
+
+                    </div>
+                    <div class="col-sm-9">
+                        <input class="form-control" type="text" >
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <country-state country="user.country" state="user.state"></country-state>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-sm-3">
+                        <label class="control-label">Postcode </label>
+
+                    </div>
+                    <div class="col-sm-9">
+                        <input class="form-control" type="text">
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-sm-3">
+                        <label class="control-label">Profession </label>
+
+                    </div>
+                    <div class="col-sm-9">
+                        <input class="form-control" type="text" >
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <h3>Bank Account</h3>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-sm-3">
+                        <label class="control-label">Account Name </label>
+
+                    </div>
+                    <div class="col-sm-9">
+                        <input class="form-control" type="text">
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-sm-3">
+                        <label class="control-label">Account Number </label>
+
+                    </div>
+                    <div class="col-sm-9">
+                        <input class="form-control" type="text" >
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-sm-3">
+                        <label class="control-label">Bank </label>
+
+                    </div>
+                    <div class="col-sm-9">
+                        <input class="form-control" type="text" >
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-sm-3">
+                        <label class="control-label">Country </label>
+
+                    </div>
+                    <div class="col-sm-9">
+                        <input class="form-control" type="text" >
+                    </div>
+                </div>
+                <br>
+
+                <div ng-if="isEditting">
+                    <div class="row">
+                        <h3>Change Password</h3>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <label class="control-label">Current Password </label>
+
+                        </div>
+                        <div class="col-sm-8">
+                            <input class="form-control" type="password">
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <label class="control-label">New Password </label>
+
+                        </div>
+                        <div class="col-sm-8">
+                            <input class="form-control" type="password" >
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <label class="control-label">Re-enter Password </label>
+
+                        </div>
+                        <div class="col-sm-8">
+                            <input class="form-control" type="password" >
+                        </div>
+                    </div>
+                </div>
+                <br>
+
             </fieldset>
-            <button type="submit" class="btn btn-success center-block" ng-click="changeStateToEdit()" ng-if="!isEditting">Edit
-            </button>
-            <button type="submit" class="btn btn-success center-block" ng-click="saveUserInfo()" ng-if="isEditting">Save
-            </button>
+            <div class="panel-footer">
+                <button class="btn btn-success center-block" ng-click="changeStateToEdit()" ng-if="!isEditting">EDIT
+                </button>
+                <button class="btn btn-success center-block" ng-click="saveUserInfo()" ng-if="isEditting">SAVE
+                </button>
+            </div>
+
+
 
         </form>
     </div>

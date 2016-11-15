@@ -1,3 +1,3 @@
 'use-strict';
 
-angular.module('myProfile', ['ngRoute', 'cookieManager', 'permission', 'navigation']);
+angular.module('myProfile', ['ngRoute', 'cookieManager', 'permission', 'navigation','angularCountryState']);
