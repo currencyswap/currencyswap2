@@ -93,6 +93,8 @@ angular.module('currencySwapApp', [
     ACTIVATED_USER_STATUS: 'Activated',
     BLOCKED_USER_STATUS: 'Blocked',
     PENDING_USER_STATUS: 'Pending Approval',
+    NEW_USER_STATUS: 'New',
+    DEACTIVATED_USER_STATUS: 'Deactivated',
     INVALID_USER_NAME_OR_PWD_MSG: 'Invalid username/password',
     ACCOUNT_IS_NOT_ACTIVATED_MSG: 'Account is not activated'
 

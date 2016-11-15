@@ -178,6 +178,7 @@ exports.login = function (user, callback) {
 
     async.waterfall([
         function (next) {
+        console.log('1');
             app.models.Member.findByUsername(user.username, true, function (err, userObj) {
 
                 if (err) return next(err);
@@ -194,13 +195,12 @@ exports.login = function (user, callback) {
                         return next(errorUtil.createAppError(errors.ACCOUNT_IS_NOT_ACTIVATED));
                     }
 
-                    if (userObj.expiredDate)
-
                     next(null, userObj);
                 }
             });
         },
         function (user, next) {
+            console.log('2');
             // get User Secret Key
             redis.getSecretKey(user.username, function (err, value) {
                 if (!err) return next(null, user, value);
@@ -218,6 +218,7 @@ exports.login = function (user, callback) {
             });
         },
         function (user, secret, next) {
+            console.log('3');
             var tokenKey = token.generate({username: user.username, fullName: user.fullName}, secret);
 
             token.getSignature(tokenKey, function (err, sign) {
@@ -226,6 +227,7 @@ exports.login = function (user, callback) {
 
         },
         function (user, secret, tokenKey, sign, next) {
+            console.log('4');
             redis.setSecretKeyBySignature(sign, JSON.stringify({username: user.username, secret: secret}));
             return next(null, tokenKey);
         }
@@ -380,6 +382,7 @@ exports.createUserTransaction = function (callback) {
 exports.registerUser = function (newUser, callback) {
     async.waterfall([
         function (next) {
+        console.log('1');
             groupService.findGroupByName(newUser.group, function (err, group) {
                 if (err) {
                     return next(err);
@@ -393,7 +396,8 @@ exports.registerUser = function (newUser, callback) {
 
             })
         },
-        function (newUser, next) {
+        /*function (newUser, next) {
+            console.log('2');
             exports.getUserByNationalId(newUser, function (err, userObj) {
                 if (err) {
                     if (err.code === errorUtil.createAppError(errors.MEMBER_INVALID_USERNAME).code) {
@@ -407,6 +411,7 @@ exports.registerUser = function (newUser, callback) {
             });
         },
         function (newUser, next) {
+            console.log('3');
             exports.getUserByCellphone(newUser, function (err, userObj) {
                 if (err) {
                     if (err.code === errorUtil.createAppError(errors.MEMBER_INVALID_USERNAME).code) {
@@ -418,7 +423,7 @@ exports.registerUser = function (newUser, callback) {
                     return next(errorUtil.createAppError(errors.USER_NAME_EXISTED));
                 }
             });
-        },
+        },*/
         function (newUser, next) {
             exports.getUserByUsername(newUser.username, function (err, user) {
                 if (err) {

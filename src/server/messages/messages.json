@@ -41,5 +41,6 @@
     "ACCOUNT_IS_NOT_ACTIVATED": "Account is not activated",
     "COULD_NOT_DECRYPT_RESET_PWD_CODE": "Could not decrypt reset password code",
     "PASSPORT_EXISTED": "Passport is existed",
-    "CELLPHONE_EXISTED": "Cellphone number is existed"
+    "CELLPHONE_EXISTED": "Cellphone number is existed",
+    "INVALID_PASSWORD": "Invalid password"
 }

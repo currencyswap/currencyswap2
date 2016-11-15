@@ -41,7 +41,7 @@ module.exports = function (app) {
         var updatingUser = req.body;
         async.waterfall([
             function (next) {
-                userService.getUserByUsernameWithoutRelationModel(updatingUser.username, function (err, user) {
+                userService.getUserByUsernameWithoutRelationModel(updatingUser, function (err, user) {
                     if (err) return next (err);
                     else {
                         return next (null, user);
@@ -71,7 +71,6 @@ module.exports = function (app) {
     });
 
     router.put('/:username', function (req, res) {
-        console.log('come here ???');
         res.status(constant.HTTP_SUCCESS_CODE).send({});
     });
 

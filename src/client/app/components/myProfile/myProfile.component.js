@@ -19,7 +19,6 @@ angular.module('myProfile')
                 $rootScope.loading = true;
                 $scope.model = {};
                 var currentUser = CookieService.getCurrentUser();
-                //$scope.model.profilePicUrl = "http://localhost:3000/api/profile/" + currentUser.username;
 
                 var profilePicReq = {
                     method: httpMethods.GET,
@@ -28,7 +27,7 @@ angular.module('myProfile')
 
                 $http(profilePicReq)
                     .then(function (response) {
-
+                        return;
                     });
 
                 var token = CookieService.getToken();
@@ -46,17 +45,18 @@ angular.module('myProfile')
                 $http(userDetailReq)
                     .then(function (response) {
                         var userDetail = response.data;
+                        console.log(userDetail);
                         $scope.model.username = userDetail.username;
                         $scope.model.birthday = userDetail.birthday;
                         $scope.model.email = userDetail.email;
-                        $scope.model.expiredDate = userDetail.expiredDate;
-                        $scope.model.registeredDate = userDetail.registeredDate;
+                        $scope.model.expiredDate = new Date(userDetail.expiredDate);
+                        $scope.model.registeredDate = new Date(userDetail.registeredDate);
                         $scope.model.fullName = userDetail.fullName;
                         if (userDetail.addresses[0] && userDetail.addresses[0].hasOwnProperty('address')) $scope.model.address = userDetail.addresses[0].address;
-                        if (userDetail.addresses[0] && userDetail.addresses[0].hasOwnProperty('city')) $scope.model.address = userDetail.addresses[0].city;
-                        if (userDetail.addresses[0] && userDetail.addresses[0].hasOwnProperty('state')) $scope.model.address = userDetail.addresses[0].state;
-                        if (userDetail.addresses[0] && userDetail.addresses[0].hasOwnProperty('country')) $scope.model.address = userDetail.addresses[0].country;
-                        if (userDetail.addresses[0] && userDetail.addresses[0].hasOwnProperty('postcode')) $scope.model.address = userDetail.addresses[0].postcode;
+                        if (userDetail.addresses[0] && userDetail.addresses[0].hasOwnProperty('city')) $scope.model.city = userDetail.addresses[0].city;
+                        if (userDetail.addresses[0] && userDetail.addresses[0].hasOwnProperty('state')) $scope.model.state = userDetail.addresses[0].state;
+                        if (userDetail.addresses[0] && userDetail.addresses[0].hasOwnProperty('country')) $scope.model.country = userDetail.addresses[0].country;
+                        if (userDetail.addresses[0] && userDetail.addresses[0].hasOwnProperty('postcode')) $scope.model.postcode = userDetail.addresses[0].postcode;
                         $scope.model.cellphone = userDetail.cellphone;
                         $scope.model.nationalId = userDetail.nationalId;
                         $scope.model.profession = userDetail.profession;
@@ -119,12 +119,14 @@ angular.module('myProfile')
                                 address: $scope.model.address,
                                 city: $scope.model.city,
                                 country: $scope.model.country,
-                                postcode: $scope.model.postcode,
-                                nationalId: $scope.model.nationalId,
+                                postcode: $scope.model.postcode
                             }
                         ],
                         profession: $scope.model.profession,
-                        cellphone: $scope.model.cellphone
+                        cellphone: $scope.model.cellphone,
+                        nationalId: $scope.model.nationalId,
+                        currentPwd: $scope.model.currentPwd,
+                        newPwd: $scope.model.newPwd
                     };
 
                     var saveUserDetailReq = {

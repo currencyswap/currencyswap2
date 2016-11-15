@@ -6,6 +6,7 @@ var errorUtil = require('../libs/errors/error-util');
 var userService = require('../services/user-service');
 var userConverter = require('../converters/user-converter');
 var multer  = require('multer');
+var md5 = require('js-md5');
 var async = require('async');
 var constant = require('../libs/constants/constants');
 
@@ -30,7 +31,6 @@ module.exports = function (app) {
         }
 
         userService.getUserByUsername(req.currentUser.username, function (err, userObj) {
-
             if (err) {
                 let code = err.code == errors.SERVER_GET_PROBLEM ? 500 : 406;
                 return res.status(code).send( errorUtil.getResponseError( err ) );
@@ -44,19 +44,15 @@ module.exports = function (app) {
 
     router.post('/', upload.single('file'), function (req, res, next) {
         if (!req.file) {
-            console.log('does not contain file in request');
 
             var updatingUser = req.body;
-
             console.log(updatingUser);
-            console.log(updatingUser.username);
-
             async.waterfall([
                 function (next) {
                     userService.getUserByUsernameWithoutRelationModel(updatingUser, function (err, user) {
                         if (err) return next (err);
                         else {
-                            console.log('user: ', user);
+                            if (md5(updatingUser.currentPwd) !== user.password) return next (errorUtil.createAppError(errors.INVALID_PASSWORD));
                             return next (null, user);
                         }
                     });
@@ -66,6 +62,7 @@ module.exports = function (app) {
 
                     for (var prop in updatingUser) {
                         if (prop === 'username' || prop === 'id' || prop === 'email') continue;
+                        if (prop === 'newPwd') filter.password = md5(updatingUser[prop]);
                         filter[prop] = updatingUser[prop];
                     }
 
