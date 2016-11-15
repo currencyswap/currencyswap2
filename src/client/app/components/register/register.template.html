@@ -21,8 +21,7 @@
                 <div class="form-group" ng-class="{ 'has-error' : (registerForm.username.$invalid && !registerForm.username.$pristine) || userExisted}">
                     <div class="mb10">
                         <label class="control-label"><b>Username</b></label> <span class="asterisk">*</span><a data-toggle="popover" data-content="Username only containe a-z (0-9) "><i style="font-size:20px" class="fa" ng-click="showPopover()">&#xf29c;</i></a>
-                        <input ng-change="onUsernameChange()" type="text" name="username" class="form-control" ng-pattern="/^[a-zA-Z0-9\-\.\_]+$/" ng-model="user.username" ng-minlength="8" focus-me="focusUsername" required>
-                        <p ng-show="registerForm.username.$error.minlength" class="help-block">Username is too short.</p>
+                        <input ng-change="onUsernameChange()" type="text" name="username" class="form-control" ng-pattern="/^[a-zA-Z0-9\-\.\_]+$/" ng-model="user.username" focus-me="focusUsername" required>
                         <p ng-show="registerForm.username.$error.pattern" class="help-block ">Username is invalid.</p>
                         <p ng-show="userExisted" class="help-block ">Your chosen username is already in use</p>
                     </div>
@@ -39,7 +38,7 @@
                 <div class="form-group"
                      ng-class="{ 'has-error' : (registerForm.email.$invalid && !registerForm.email.$pristine) || emailExisted}">
                     <div class="mb10">
-                        <label class="control-label"><b>Email</b></label> <span class="asterisk">*</span><a data-toggle="popover" data-content="Some content inside the popover"><i style="font-size:20px" class="fa" ng-click="showPopover()">&#xf29c;</i></a>
+                        <label class="control-label"><b>Email</b></label> <span class="asterisk">*</span><a data-toggle="popover" data-content="Important: Email must be valid"><i style="font-size:20px" class="fa" ng-click="showPopover()">&#xf29c;</i></a>
                         <input ng-change="onEmailChange()" type="email" name="email" class="form-control" ng-model="user.email" focus-me="focusEmail" required>
                         <p ng-show="registerForm.email.$invalid && !registerForm.email.$pristine" class="help-block">Email is not valid.</p>
                         <p ng-show="emailExisted" class="help-block">Your email is already in use</p>
@@ -63,7 +62,8 @@
 
                 <div class="form-group" data-ng-class="{'has-error' : registerForm.password.$invalid && !registerForm.password.$pristine}">
                     <label for="password"><b>Password</b></label> <span class="asterisk">*</span><a data-toggle="popover" data-content="Password at least 8 characters"><i style="font-size:20px" class="fa" ng-click="showPopover()">&#xf29c;</i></a>
-                    <input class="form-control" type="password" name="password" required data-ng-model="user.password">
+                    <input class="form-control" type="password" name="password" required data-ng-model="user.password" ng-minlength="8">
+                    <p ng-show="registerForm.password.$error.minlength" class="help-block">Username is too short.</p>
                 </div>
 
                 <div class="form-group" data-ng-class="{'has-error' : registerForm.passwordCompare.$invalid && !registerForm.passwordCompare.$pristine}">

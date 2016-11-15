@@ -11,9 +11,9 @@ angular.module('register')
             '$window',
             'GLOBAL_CONSTANT',
             function registerController($scope, $rootScope, RegisterService, $location, $http, $window, GLOBAL_CONSTANT) {
-               /* $scope.showPopover = function () {
+                $scope.showPopover = function () {
                     $('[data-toggle="popover"]').popover();
-                };*/
+                };
 
                 if ($location.search().activeCode) {
                     $scope.startRegister = false;

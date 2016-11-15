@@ -145,10 +145,10 @@ angular.module('userList')
                     var address, city, country, postcode, state = null;
 
                     if ($scope.userDetail.addresses[0] && $scope.userDetail.addresses[0].hasOwnProperty('address')) address = $scope.userDetail.addresses[0].address;
-                    if ($scope.userDetail.addresses[0] && $scope.userDetail.addresses[0].hasOwnProperty('city')) city = userDetail.addresses[0].city;
-                    if ($scope.userDetail.addresses[0] && $scope.userDetail.addresses[0].hasOwnProperty('state')) state = userDetail.addresses[0].state;
-                    if ($scope.userDetail.addresses[0] && $scope.userDetail.addresses[0].hasOwnProperty('country')) country = userDetail.addresses[0].country;
-                    if ($scope.userDetail.addresses[0] && $scope.userDetail.addresses[0].hasOwnProperty('postcode')) postcode = userDetail.addresses[0].postcode;
+                    if ($scope.userDetail.addresses[0] && $scope.userDetail.addresses[0].hasOwnProperty('city')) city = $scope.userDetail.addresses[0].city;
+                    if ($scope.userDetail.addresses[0] && $scope.userDetail.addresses[0].hasOwnProperty('state')) state = $scope.userDetail.addresses[0].state;
+                    if ($scope.userDetail.addresses[0] && $scope.userDetail.addresses[0].hasOwnProperty('country')) country = $scope.userDetail.addresses[0].country;
+                    if ($scope.userDetail.addresses[0] && $scope.userDetail.addresses[0].hasOwnProperty('postcode')) postcode = $scope.userDetail.addresses[0].postcode;
 
                     var resultUser = {
                         id: $scope.userDetail.id,
@@ -292,6 +292,7 @@ angular.module('userList')
                     UserListService.getUserDetail(userId, headers)
                         .then(function (response) {
                             $scope.userDetail = response.data;
+                            console.log("$scope.userDetail",$scope.userDetail);
                             $scope.birthday = new Date($scope.userDetail.birthday);
                             $scope.selectedStatus.selectedStatus = $scope.userDetail.status;
                         })
