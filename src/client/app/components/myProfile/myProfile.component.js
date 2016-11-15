@@ -64,7 +64,6 @@ angular.module('myProfile')
 
                 $scope.uploadFiles = function(file, errFiles) {
                     $scope.f = file;
-                    file.fieldname = currentUser.username;
                     $scope.errFile = errFiles && errFiles[0];
 
                     if (file) {

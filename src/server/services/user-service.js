@@ -194,6 +194,8 @@ exports.login = function (user, callback) {
                         return next(errorUtil.createAppError(errors.ACCOUNT_IS_NOT_ACTIVATED));
                     }
 
+                    if (userObj.expiredDate)
+
                     next(null, userObj);
                 }
             });
@@ -392,6 +394,32 @@ exports.registerUser = function (newUser, callback) {
             })
         },
         function (newUser, next) {
+            exports.getUserByNationalId(newUser, function (err, userObj) {
+                if (err) {
+                    if (err.code === errorUtil.createAppError(errors.MEMBER_INVALID_USERNAME).code) {
+                        return next(null, newUser);
+                    } else {
+                        return next(err);
+                    }
+                } else {
+                    return next(errorUtil.createAppError(errors.PASSPORT_EXISTED));
+                }
+            });
+        },
+        function (newUser, next) {
+            exports.getUserByCellphone(newUser, function (err, userObj) {
+                if (err) {
+                    if (err.code === errorUtil.createAppError(errors.MEMBER_INVALID_USERNAME).code) {
+                        return next(null, newUser);
+                    } else {
+                        return next(err);
+                    }
+                } else {
+                    return next(errorUtil.createAppError(errors.USER_NAME_EXISTED));
+                }
+            });
+        },
+        function (newUser, next) {
             exports.getUserByUsername(newUser.username, function (err, user) {
                 if (err) {
                     if (err.code === errorUtil.createAppError(errors.MEMBER_INVALID_USERNAME).code) {
@@ -569,4 +597,18 @@ exports.updateUserInfo = function (user, filter, callback) {
             return callback(null, updatedUser);
         }
     });
+};
+
+exports.getUserByNationalId = function (user, callback) {
+    app.models.Member.findUserByPassport(user.nationalId, function (err, userObj) {
+        if (err) return callback(err);
+        else return callback(null, userObj);
+    })
+};
+
+exports.getUserByCellphone = function (user, callback) {
+    app.models.Member.findUserByCellphone(user.cellphone, function (err, userObj) {
+        if (err) return callback(err);
+        else return callback(null, userObj);
+    })
 };
