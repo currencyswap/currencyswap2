@@ -111,10 +111,9 @@
                                 <input type="text" id="dob" class="form-control" uib-datepicker-popup="dd-MMMM-yyyy" ng-model="birthday"
                                    is-open="popup2.opened" datepicker-options="dateOptions" ng-required="true"
                                        close-text="Close" alt-input-formats="altInputFormats"/>
-                                <span class="input-group-btn">
-                                    <button type="button" class="btn btn-default" ng-click="open2()" style="height: 40px"><i class="glyphicon glyphicon-calendar"></i></button>
+                                <span class="input-group-addon" style="height: 40px">
+                                   <i class="glyphicon glyphicon-calendar" ng-click="open2()"></i></button>
                                 </span>
-
                             </p>
                         </div>
 
@@ -128,8 +127,8 @@
                                 <input type="text" class="form-control" uib-datepicker-popup="{{format}}" ng-model="dt"
                                        is-open="popup1.opened" datepicker-options="dateOptions" ng-required="true"
                                        close-text="Close" alt-input-formats="altInputFormats"/>
-                                <span class="input-group-btn">
-                                    <button type="button" class="btn btn-default" ng-click="open1()" style="height: 40px"><i class="glyphicon glyphicon-calendar"></i></button>
+                                <span class="input-group-addon" style="height: 40px">
+                                   <i class="glyphicon glyphicon-calendar" ng-click="open1()"></i></button>
                                 </span>
                             </p>
                         </div>
@@ -212,11 +211,7 @@
                 </form>
             </div>
             <div class="panel-footer">
-                <div class="row">
-                    <div class="col-sm-3 col-sm-offset-4">
-                        <button class="btn btn-success btn-block" ng-click="onSaveUserDetailData()">SAVE</button>
-                    </div>
-                </div>
+                <button class="btn btn-success center-block" ng-click="onSaveUserDetailData()">Save</button>
             </div>
         </div>
     </div>
