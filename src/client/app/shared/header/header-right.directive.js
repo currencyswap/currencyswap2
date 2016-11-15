@@ -24,6 +24,11 @@ angular.module('appHeader').directive('headerRight', function () {
                 avatarUrl: currUser.avatarUrl ? currUser.avatarUrl : global.DEF_AVATAR
             };
 
+            $scope.onMyProfile = function () {
+                $rootScope.isLoading = false;
+                $location.path(routes.MYPROFILE);
+            };
+
             $scope.onLogout = function () {
                 $rootScope.loggedIn = false;
                 $rootScope.isLoading = true;

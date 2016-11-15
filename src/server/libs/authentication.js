@@ -60,12 +60,12 @@ exports.authenticateByToken = function (request, response, callback) {
             request.currentUser = {
                 username: username
             };
-            
-            next( null );
+
+            next(null);
         }
     ], function (err) {
         if (!err) return callback();
-        console.error('ERROR [%s]: %s', err.name, err.message);        
-        return response.status(403).send( errorUtil.getResponseError( err ) );
+        console.error('ERROR [%s]: %s', err.name, err.message);
+        return response.status(299).send(err);
     });
 };

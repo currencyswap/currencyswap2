@@ -1,39 +1,35 @@
 'use strict';
+
 var userService = require('../services/user-service');
-var permissionService = require('../services/permission-service');
-var userValidation = require('../validation/user-validation');
-var groupService = require('../services/group-service');
-var async = require('async');
 var userConverter = require('../converters/user-converter');
-var errorUtil = require('../libs/errors/error-util');
-var errors = require('../libs/errors/errors');
+var constant = require('../libs/constants/constants')
 
 module.exports = function (app) {
     var router = app.loopback.Router();
 
     router.post('/', function (req, res) {
-        var clientUserData = req.body.newUser;
 
-        var serverUserData = userConverter.convertUserData(clientUserData);
+        // handle active user account request
+        if (req.body.activeCode) {
+            var activeCode = req.body.activeCode;
+            userService.activeUserAccount(activeCode, function (err, response) {
+                if (err) return res.status(299).send(err);
+                else return res.status(200).send({});
+            });
+        } else {
+            // handle register request
+            var clientUserData = req.body.newUser;
 
-        userService.registerUser(serverUserData, function (err) {
-            if (err) {
-                // Do not redirect to client's error page for these errors
-                if (err.code === errorUtil.createAppError(errors.USER_NAME_EXISTED).code
-                    || err.code === errorUtil.createAppError(errors.EMAIL_EXISTED).code
-                    || err.code === errorUtil.createAppError(errors.TRANSACTION_INIT_FAIL).code
-                    || err.code === errorUtil.createAppError(errors.COULD_NOT_SAVE_USER_TO_DB).code
-                    || err.code === errorUtil.createAppError(errors.COULD_NOT_SAVE_USER_ADDR_TO_DB).code
-                    || err.code === errorUtil.createAppError(errors.COULD_NOT_SAVE_USER_GR_TO_DB).code
-                    || err.code === errorUtil.createAppError(errors.ERROR_TX_ROLLBACK).code
-                    || err.code === errorUtil.createAppError(errors.ERROR_TX_COMMIT).code) {
+            var serverUserData = userConverter.convertUserData(clientUserData);
 
-                    res.status(299).send(err);
+            userService.registerUser(serverUserData, function (err) {
+                if (err) {
+                    return res.status(constant.HTTP_FAILURE_CODE).send(err);
+                } else {
+                    return res.status(constant.HTTP_SUCCESS_CODE).send({});
                 }
-            } else {
-                return res.status(200).send({})
-            }
-        });
+            });
+        }
     });
 
     return router;

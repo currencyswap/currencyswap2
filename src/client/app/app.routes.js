@@ -13,6 +13,10 @@ angular.module('currencySwapApp').config(['$locationProvider', '$routeProvider',
             template: '<register></register>'
         }).when(routes.USERS, {
             template: '<user-list></user-list>'
+        }).when(routes.USER, {
+            template: '<user-detail></user-detail>'
+        }).when(routes.MYPROFILE, {
+            template: '<my-profile></my-profile>'
         }).otherwise('');
     }
 ]);

@@ -11,6 +11,8 @@ angular.module('currencySwapApp', [
     'resetPassword',
     'register',
     'userList',
+    'myProfile',
+    'ngFileUpload',
     'homePage',
     'navigation',
     'angularCountryState',
@@ -31,6 +33,10 @@ angular.module('currencySwapApp', [
 
         if ($location.search().resetCode) {
             return $location.path(routes.FORGOT_PASSWORD_RESET);
+        }
+
+        if ($location.search().activeCode) {
+            return $location.path(routes.REGISTER);
         }
 
         if ($location.path() != routes.LOGIN) {
@@ -79,11 +85,17 @@ angular.module('currencySwapApp', [
     );
 
 }).constant('GLOBAL_CONSTANT', {
-    HTTP_SUCCESS_STATUS_CODE: 200, // Use when success
-    HTTP_ERROR_STATUS_CODE: 299,
+    HTTP_SUCCESS_STATUS_CODE: 200, // returned status from server for success case
+    HTTP_ERROR_STATUS_CODE: 299, // returned status from server for error case (2xx not to get browser shows the errors)
     SERVER_GOT_PROBLEM_MSG: 'Server got problem',
     SERVER_GOT_PROBLEM_STATUS: 'ERROR',
     PEDING_USER_STATUS: 'New',
     ACTIVATED_USER_STATUS: 'Activated',
     BLOCKED_USER_STATUS: 'Blocked',
+    PENDING_USER_STATUS: 'Pending Approval',
+    NEW_USER_STATUS: 'New',
+    DEACTIVATED_USER_STATUS: 'Deactivated',
+    INVALID_USER_NAME_OR_PWD_MSG: 'Invalid username/password',
+    ACCOUNT_IS_NOT_ACTIVATED_MSG: 'Account is not activated'
+
 });

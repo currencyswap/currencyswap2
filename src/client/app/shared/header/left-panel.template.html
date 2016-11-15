@@ -9,15 +9,20 @@
     <!-- This is only visible to small devices -->
     <div class="visible-xs hidden-sm hidden-md hidden-lg">
         <div class="media userlogged">
-            <img alt="" src="assets/images/photos/loggeduser.png" class="media-object">
+            <img alt="" src="{{currUser.avatarUrl}}" class="media-object">
             <div class="media-body">
-                <h4>John Doe</h4>
-                <span>"Life is so..."</span>
+                <h4>{{currUser.fullName}}</h4>
             </div>
         </div>
     </div>
-
-  <h5 class="sidebartitle">Navigation</h5>
+    <h5 class="sidebartitle actitle">Account</h5>
+    <ul class="nav nav-pills nav-stacked nav-bracket mb30">
+        <li><a href="#!profile"><i class="fa fa-user"></i> <span>Profile</span></a></li>
+        <li><a href="#!notifications"><i class="glyphicon glyphicon-envelope"></i> <span>Notifications</span></a></li>
+        <li><a href="#!help"><i class="fa fa-question-circle"></i> <span>Help</span></a></li>
+        <li><a ng-click="onLogout()"><i class="fa fa-sign-out"></i> <span>Sign Out</span></a></li>
+    </ul>
+    <h5 class="sidebartitle">Navigation</h5>
 
 </div><!-- leftpanelinner -->
 </div><!-- leftpanel -->
