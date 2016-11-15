@@ -10,19 +10,16 @@
       "type": "string"
     },
     "city": {
-      "type": "string",
-      "required": true
+      "type": "string"
     },
     "state": {
       "type": "string"
     },
     "country": {
-      "type": "string",
-      "required": true
+      "type": "string"
     },
     "postcode": {
-      "type": "string",
-      "required": true
+      "type": "string"
     },
     "memberId": {
       "type": "number",

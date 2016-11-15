@@ -80,7 +80,6 @@ exports.get = function (key, callback) {
         }
 
         if (!reply) {
-            console.log('MISSING_REDIS_KEY');
             let appError = errorUtil.createAppError(errors.MISSING_REDIS_KEY);
             appError.message = util.format(appError.message, key);
 
@@ -144,11 +143,24 @@ exports.getUserInfo = function (username, callback) {
 exports.checkResetCode = function (email, randomString, callback) {
     exports.get(email, function (err, value) {
         if (err) {
-            console.log('Can not get reset code from redis with key ', email);
+            console.error('Can not get reset code from redis with key ', email);
             return callback(errorUtil.createAppError(errors.RESET_PWD_CODE_NOT_FOUND));
         } else {
             if (!value) return callback(errorUtil.createAppError(errors.RESET_PWD_CODE_NOT_FOUND));
             else if (value !== randomString) return callback(errorUtil.createAppError(errors.RESET_PWD_CODE_DOES_NOT_MATCH));
+            else return callback(null);
+        }
+    })
+};
+
+exports.checkActiveCode = function (username, randomString, callback) {
+    exports.get(username, function (err, value) {
+        if (err) {
+            console.error('Can not get active code from redis with key ', username);
+            return callback(errorUtil.createAppError(errors.ACTIVE_ACC_CODE_NOT_FOUND));
+        } else {
+            if (!value) return callback(errorUtil.createAppError(errors.ACTIVE_ACC_CODE_NOT_FOUND));
+            else if (value !== randomString) return callback(errorUtil.createAppError(errors.ACTIVE_ACC_CODE_DOES_NOT_MATCH));
             else return callback(null);
         }
     })

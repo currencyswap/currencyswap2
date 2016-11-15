@@ -34,5 +34,13 @@
     "COULD_NOT_SAVE_USER_ADDR_TO_DB": "Could not save user addresses to DB",
     "COULD_NOT_FIND_GRP_BY_NAME": "Could not find group by group name",
     "COULD_NOT_UPDATE_USER_PWD": "Could not update user password in DB",
-    "NO_USER_FOUND_IN_DB": "No user is found in DB"
+    "NO_USER_FOUND_IN_DB": "No user is found in DB",
+    "ACTIVE_ACC_CODE_NOT_FOUND": "Active account code is not found in redis",
+    "ACTIVE_ACC_CODE_DOES_NOT_MATCH": "Active account code does not match in redis",
+    "COULD_NOT_DECRYPT_ACTIVE_ACC_CODE": "Could not decrypt active account code",
+    "ACCOUNT_IS_NOT_ACTIVATED": "Account is not activated",
+    "COULD_NOT_DECRYPT_RESET_PWD_CODE": "Could not decrypt reset password code",
+    "PASSPORT_EXISTED": "Passport is existed",
+    "CELLPHONE_EXISTED": "Cellphone number is existed",
+    "INVALID_PASSWORD": "Invalid password"
 }

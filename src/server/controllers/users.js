@@ -3,7 +3,9 @@
 var errors = require('../libs/errors/errors');
 var errorUtil = require('../libs/errors/error-util');
 var userService = require('../services/user-service');
-var userConverter = require('../converters/user-converter');
+var async = require('async');
+var util = require('util');
+var constant = require('../libs/constants/constants');
 
 module.exports = function (app) {
     var router = app.loopback.Router();
@@ -17,7 +19,6 @@ module.exports = function (app) {
 
     router.get('/:id', function (req, res) {
         var userId = req.params.id;
-
         if ( !userId ) {
 
             var err = errorUtil.createAppError( errors.MEMBER_NO_USERID );
@@ -34,16 +35,43 @@ module.exports = function (app) {
                 return res.status(200).send(user)
             }
         });
-/*        userService.getUserById( userId, function (err, userObj) {
+    });
 
-            if (err) {
-                var code = err.code == errors.SERVER_GET_PROBLEM ? 500 : 406;
-                return res.status(code).send( errorUtil.getResponseError( err ) );
+    router.post('/:id', function (req, res) {
+        var updatingUser = req.body;
+        async.waterfall([
+            function (next) {
+                userService.getUserByUsernameWithoutRelationModel(updatingUser, function (err, user) {
+                    if (err) return next (err);
+                    else {
+                        return next (null, user);
+                    }
+                });
+            },
+            function (user, next) {
+                var filter = {};
+
+                for (var prop in updatingUser) {
+                    if (prop === 'username' || prop === 'id' || prop === 'email') continue;
+                    filter[prop] = updatingUser[prop];
+                }
+
+                userService.updateUserInfo(user, filter, function (err, updatedUser) {
+                    if (err) return next(err);
+                    else {
+                        return next(null);
+                    }
+                });
+
             }
+        ], function (err) {
+            if (err) res.status(constant.HTTP_FAILURE_CODE).send(err);
+            else res.status(constant.HTTP_SUCCESS_CODE).send({});
+        });
+    });
 
-            return res.status(200).send( userConverter.convertUserToUserJSON( userObj ));
-
-        });*/
+    router.put('/:username', function (req, res) {
+        res.status(constant.HTTP_SUCCESS_CODE).send({});
     });
 
     return router;

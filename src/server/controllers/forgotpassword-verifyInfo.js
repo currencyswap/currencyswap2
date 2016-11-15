@@ -1,13 +1,8 @@
 'use strict';
-var mailSender = require('../libs/mail-sender');
 var userService = require('../services/user-service');
-var errorUtil = require('../libs/errors/error-util');
 var crypto = require('crypto');
+var constant = require('../libs/constants/constants');
 
-//temporary
-var errors = require('../libs/errors/errors');
-var appConfig = require('../libs/app-config');
-var util = require('util');
 module.exports = function (app) {
     var router = app.loopback.Router();
 
@@ -15,9 +10,9 @@ module.exports = function (app) {
         var userEmail = req.body.email;
         userService.verifyResetPwdInfo(userEmail, function (err, response) {
             if (err) {
-                return res.status(500).send(err)
+                return res.status(constant.HTTP_FAILURE_CODE).send(err)
             } else {
-                return res.status(200).send({});
+                return res.status(constant.HTTP_SUCCESS_CODE).send({});
             }
         });
     });
