@@ -17,7 +17,7 @@ angular.module('userList')
             '$window',
             'GLOBAL_CONSTANT',
             '$log',
-            function userListController($scope, $rootScope, UserListService, CookieService, PermissionService, $location, $http, $window, GLOBAL_CONSTANT, $log) {
+            function userListController($scope, $rootScope, UserListService,CookieService, PermissionService, $location, $http, $window, GLOBAL_CONSTANT, $log) {
 
                 // =====Date picker - START=====
                 $scope.today = function() {
@@ -155,7 +155,11 @@ angular.module('userList')
                         })
 
                 };
-
+                $scope.formatDate = function(date){
+                    var dateOut = new Date(date);
+                    return dateOut;
+                };
+                
                 $scope.onAllClick = function () {
                     $scope.detailUserView = false;
 

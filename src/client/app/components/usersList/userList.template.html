@@ -52,7 +52,7 @@
                                         <span ng-show="sortType == 'registeredDate' && sortReverse" class="fa fa-caret-up"></span>
                                     </a>
                                 </td>
-                                <td class="col-xs-1 col-sm-1">
+                                <td class="col-xs-1 col-sm-1" style="min-width: 150px">
                                     <a href="" ng-click="sortType = 'expiredDate'; sortReverse = !sortReverse">
                                         Expired Date
                                         <span ng-show="sortType == 'expiredDate' && !sortReverse" class="fa fa-caret-down"></span>
@@ -75,11 +75,12 @@
                                 <td class="center">{{user.email}}</td>
                                 <td class="center">{{user.cellphone}}</td>
                                 <td class="center">N/A</td>
-                                <td class="center">{{user.expiredDate}}</td>
+                                <td class="center"><label ng-bind="formatDate(user.expiredDate) |  date:'dd-MMM-yyyy'"></label></td>
                                 <td class="center">{{user.status}}</td>
                             </tr>
                             </tbody>
                         </table>
+
                         <ul uib-pagination
                             total-items="totalItems"
                             items-per-page= "itemsPerPage"
