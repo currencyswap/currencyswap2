@@ -16,11 +16,13 @@
                     </div>
                     <form class="form-vertical">
                         <div class="col-sm-3">
-                            <img ng-src="http://localhost:3000/config/media/{{model.username}}" alt="Mountain View"
-                                 style="width:100px;height:120px;" class="pull-right">
-                            <div>
+                            <div class="row">
+                                <img ng-src="http://localhost:3000/config/media/{{model.username}}" alt="Mountain View"
+                                     style="width:100px;height:120px;" class="pull-right">
+                            </div>
+                            <div class="row">
                                 <a type="file" ngf-select="uploadFiles($file, $invalidFiles)"
-                                        accept="image/*" ngf-max-height="1000" ngf-max-size="1MB">
+                                        accept="image/*" ngf-max-height="1000" ngf-max-size="1MB" class="pull-right">
                                     Change Avatar
                                 </a>
                             </div>
