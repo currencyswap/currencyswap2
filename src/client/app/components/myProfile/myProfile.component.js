@@ -131,7 +131,8 @@ angular.module('myProfile')
                         currentPwd: $scope.model.currentPwd,
                         newPwd: $scope.model.newPwd
                     };
-
+                    console.log("updatingUser",updatingUser);
+                    debugger;
                     var saveUserDetailReq = {
                         method: httpMethods.POST,
                         url: apiRoutes.API_MY_PROFILE,
@@ -141,7 +142,8 @@ angular.module('myProfile')
 
                     $http(saveUserDetailReq)
                         .then(function (response) {
-
+                            $location.path(routes.MYPROFILE);
+                            $window.location.reload();
                         });
                 }
             }]

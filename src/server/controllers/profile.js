@@ -12,7 +12,7 @@ var constant = require('../libs/constants/constants');
 
 var storage = multer.diskStorage({
     destination: function (req, file, cb) {
-        cb(null, './server/libs/media')
+        cb(null, './src/server/libs/media')
     },
     filename: function (req, file, cb) {
         cb(null, req.currentUser.username + ".png");
@@ -44,15 +44,13 @@ module.exports = function (app) {
 
     router.post('/', upload.single('file'), function (req, res, next) {
         if (!req.file) {
-
             var updatingUser = req.body;
-            console.log(updatingUser);
             async.waterfall([
                 function (next) {
                     userService.getUserByUsernameWithoutRelationModel(updatingUser, function (err, user) {
                         if (err) return next (err);
                         else {
-                            if (md5(updatingUser.currentPwd) !== user.password) return next (errorUtil.createAppError(errors.INVALID_PASSWORD));
+                            if(updatingUser.currentPwd)if (md5(updatingUser.currentPwd) !== user.password) return next (errorUtil.createAppError(errors.INVALID_PASSWORD));
                             return next (null, user);
                         }
                     });
@@ -65,7 +63,7 @@ module.exports = function (app) {
                         if (prop === 'newPwd') filter.password = md5(updatingUser[prop]);
                         filter[prop] = updatingUser[prop];
                     }
-
+                    console.log("filter:",filter);
                     userService.updateUserInfo(user, filter, function (err, updatedUser) {
                         if (err) return next(err);
                         else {
