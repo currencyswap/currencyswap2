@@ -166,12 +166,10 @@ exports.getUserByUsername = function (username, callback) {
 };
 
 exports.getUserByUsernameWithPermissions = function (username, callback) {
-
     app.models.Member.findByUsernameWithPermissions(username, function (err, userObj) {
         if (err) return callback(err);
         callback(null, userObj);
     });
-
 };
 
 exports.login = function (user, callback) {
@@ -628,3 +626,11 @@ exports.getUserByCellphone = function (user, callback) {
         else return callback(null, userObj);
     })
 };
+
+exports.checkExpiredDateUse = function (user, callback) {
+    app.models.Member.findByUsername(user.username, function (err, userObj) {
+        console.log("userObj",userObj);
+        if (err) return callback(err);
+        callback(null, userObj);
+    });
+}

@@ -6,10 +6,12 @@ var util = require('util');
 var constants = require('../libs/constants/constants');
 module.exports = function(Address) {
     Address.updateAddress = function (userid,address, callback) {
-        console.log("updateAddress",address);
-        console.log("address[0].country",address[0].address);
+        console.log("userid",userid);
         var where = {
             memberId: userid
+        };
+        var filter = {
+            where: where
         };
 
         var value = {
@@ -17,9 +19,12 @@ module.exports = function(Address) {
             city: address[0].city,
             country: address[0].country,
             state: address[0].state,
-            postcode: address[0].postcode
+            postcode: address[0].postcode,
+            memberId: userid
         };
-        Address.findOrCreate(where,value,function (err, info) {
+        Address.findOrCreate(filter,value,function (err, info) {
+            console.log("err",err);
+            console.log("info",info);
             callback(err,info);
         });
     };

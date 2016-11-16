@@ -1,12 +1,12 @@
-<div class="bloc-country form-group">
+<div class="bloc-country form-group" style="margin-right: 5px ; margin-left: 3px">
     <div class="row">
         <div class="col-sm-3">
             <label for="country">{{countryLabel}}</label>
         </div>
         <div class="col-sm-9">
             <select name="country" ng-change="selectCountry()" ng-model="country" required class="form-control">
-                <option ng-repeat="theCountry in countries track by $index">{{theCountry}}</option>
-            </select>
+            <option ng-repeat="theCountry in countries track by $index">{{theCountry}}</option>
+        </select>
         </div>
     </div>
 </div>
