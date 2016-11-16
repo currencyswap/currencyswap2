@@ -63,11 +63,20 @@ module.exports = function (app) {
                         if (prop === 'newPwd') filter.password = md5(updatingUser[prop]);
                         filter[prop] = updatingUser[prop];
                     }
-                    console.log("filter:",filter);
                     userService.updateUserInfo(user, filter, function (err, updatedUser) {
                         if (err) return next(err);
                         else {
-                            return next(null);
+                            if(filter.addresses.length > 0) {
+                                userService.updateAddress(user.id,filter.addresses,function (err, updateAdress) {
+                                    if(err) return next (err);
+                                    else {
+                                        return next(null);
+                                    }
+                                })
+                            }else {
+                                return next(null);
+                            }
+
                         }
                     });
 

@@ -17,7 +17,7 @@
                     <form class="form-vertical">
                         <div class="col-sm-3">
                             <img ng-src="http://localhost:3000/config/media/{{model.username}}" alt="Mountain View"
-                                 style="width:100px;height:120px;">
+                                 style="width:100px;height:120px;" class="pull-right">
                             <div>
                                 <a type="file" ngf-select="uploadFiles($file, $invalidFiles)"
                                         accept="image/*" ngf-max-height="1000" ngf-max-size="1MB">
@@ -123,6 +123,7 @@
                 </div>
                 <br>
                 <div class="row">
+                    <!--<country-state country="model.country" state="model.state" ></country-state>-->
                     <div class="col-sm-3">
                         <label class="control-label">Country</label>
 
