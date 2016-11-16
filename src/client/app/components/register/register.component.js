@@ -14,11 +14,9 @@ angular.module('register')
                 $scope.showPopover = function () {
                     $('[data-toggle="popover"]').popover();
                 };
-
                 if ($location.search().activeCode) {
                     $scope.startRegister = false;
                     $scope.registerSuccess = false;
-
                     var activeCode = $location.search().activeCode;
                     RegisterService.sendActiveRequest(activeCode)
                         .then(function (response) {

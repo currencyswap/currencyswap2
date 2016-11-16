@@ -272,6 +272,7 @@ exports.verifyResetPwdInfo = function (email, callback) {
                         + '\n'
                         + '\n' + 'Thanks and best regards'
                         + '\n' + 'Currency Swap'
+                        + '\n' + 'If you have any things, please contact: admin@currencyswap.com'
             };
 
             mailSender.sendMail(mailOptions, function (err, info) {

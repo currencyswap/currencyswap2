@@ -95,7 +95,10 @@ angular.module('myProfile')
                 $scope.openCalendar = function() {
                     $scope.calendarPicker.opened = true;
                 };
-
+                $scope.formatDate = function(date){
+                    var dateOut = new Date(date);
+                    return dateOut;
+                };
                 $scope.openCalendar1 = function() {
                     $scope.calendarPicker.opened1 = true;
                 };
