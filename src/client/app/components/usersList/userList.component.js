@@ -185,6 +185,8 @@ angular.module('userList')
                     UserListService.saveUserDetail(resultUser, headers)
                         .then(function (response) {
                             console.log(response.data);
+                            $location.path(routes.USERS);
+                            $window.location.reload();
                         })
 
                 };

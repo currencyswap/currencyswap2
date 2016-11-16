@@ -95,7 +95,10 @@ angular.module('myProfile')
                 $scope.openCalendar = function() {
                     $scope.calendarPicker.opened = true;
                 };
-
+                $scope.formatDate = function(date){
+                    var dateOut = new Date(date);
+                    return dateOut;
+                };
                 $scope.openCalendar1 = function() {
                     $scope.calendarPicker.opened1 = true;
                 };
@@ -128,7 +131,6 @@ angular.module('myProfile')
                         currentPwd: $scope.model.currentPwd,
                         newPwd: $scope.model.newPwd
                     };
-
                     var saveUserDetailReq = {
                         method: httpMethods.POST,
                         url: apiRoutes.API_MY_PROFILE,
@@ -138,7 +140,8 @@ angular.module('myProfile')
 
                     $http(saveUserDetailReq)
                         .then(function (response) {
-
+                            $location.path(routes.MYPROFILE);
+                            $window.location.reload();
                         });
                 }
             }]

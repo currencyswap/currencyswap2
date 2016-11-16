@@ -599,9 +599,20 @@ exports.updateUserInfo = function (user, filter, callback) {
     user.updateAttributes(filter, function (err, updatedUser) {
         if (err) return callback(errorUtil.createAppError(errors.SERVER_GET_PROBLEM));
         else {
+            console.log("updatedUser:",updatedUser);
             return callback(null, updatedUser);
         }
     });
+};
+
+exports.updateAddress = function (userid, address, callback) {
+    app.models.Address.updateAddress(userid,address,function (err, updatedAddress) {
+        if (err) return callback(errorUtil.createAppError(errors.SERVER_GET_PROBLEM));
+        else {
+            console.log(updatedAddress);
+            return callback(null, updatedAddress);
+        }
+    })
 };
 
 exports.getUserByNationalId = function (user, callback) {
