@@ -597,7 +597,6 @@ exports.updateUserInfo = function (user, filter, callback) {
     user.updateAttributes(filter, function (err, updatedUser) {
         if (err) return callback(errorUtil.createAppError(errors.SERVER_GET_PROBLEM));
         else {
-            console.log("updatedUser:",updatedUser);
             return callback(null, updatedUser);
         }
     });

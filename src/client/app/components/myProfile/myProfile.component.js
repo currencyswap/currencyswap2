@@ -22,7 +22,7 @@ angular.module('myProfile')
 
                 var profilePicReq = {
                     method: httpMethods.GET,
-                    url: 'http://localhost:3000/config/' + currentUser.username
+                    url: '/config/' + currentUser.username
                 };
 
                 $http(profilePicReq)
@@ -32,7 +32,7 @@ angular.module('myProfile')
 
                 var token = CookieService.getToken();
                 var headers = {};
-
+                
                 headers[httpHeader.CONTENT_TYPE] = contentTypes.JSON;
                 headers[httpHeader.AUTHORIZARION] = autheticateType.BEARER + token;
 
@@ -63,13 +63,14 @@ angular.module('myProfile')
                     });
 
                 $scope.uploadFiles = function(file, errFiles) {
+                    $scope.randomNumImg = parseInt(Math.floor(Number.MAX_SAFE_INTEGER * Math.random()));
                     $scope.f = file;
                     $scope.errFile = errFiles && errFiles[0];
 
                     if (file) {
                         file.upload = Upload.upload({
                             method: 'POST',
-                            url: 'http://localhost:3000/api/profile',
+                            url: '/api/profile',
                             data: {
                                 file: file
                             },
@@ -109,7 +110,6 @@ angular.module('myProfile')
 
                 $scope.saveUserInfo = function () {
                     $scope.isEditting = false;
-
                     var updatingUser = {
                         username: $scope.model.username,
                         birthday: $scope.model.birthday,

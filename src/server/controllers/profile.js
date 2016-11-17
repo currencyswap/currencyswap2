@@ -57,7 +57,6 @@ module.exports = function (app) {
                 },
                 function (user, next) {
                     var filter = {};
-
                     for (var prop in updatingUser) {
                         if (prop === 'username' || prop === 'id' || prop === 'email') continue;
                         if (prop === 'newPwd') filter.password = md5(updatingUser[prop]);
@@ -66,7 +65,7 @@ module.exports = function (app) {
                     userService.updateUserInfo(user, filter, function (err, updatedUser) {
                         if (err) return next(err);
                         else {
-                            if(filter.addresses.length > 0) {
+                            if(filter.addresses) {
                                 userService.updateAddress(user.id,filter.addresses,function (err, updateAdress) {
                                     if(err) return next (err);
                                     else {
