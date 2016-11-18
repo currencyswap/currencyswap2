@@ -11,7 +11,7 @@ const token = require('./token');
 var async = require('async');
 
 exports.authenticateByToken = function (request, response, callback) {
-
+    console.log('authenticateByToken request.body: ', request.body);
     async.waterfall([
         function (next) {
             httpHeaderUtil.getAuthBearerHeader(request, next);

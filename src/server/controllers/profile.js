@@ -44,14 +44,11 @@ module.exports = function (app) {
     });
 
     router.post('/', upload.single('file'), function (req, res, next) {
-        console.log('come to uploading file !!!');
         return res.status(200).send({});
     });
 
     router.put('/', function (req, res, next) {
-        console.log('come to saving info !!!');
         var updatingUser = req.body;
-        console.log('updatingUser: ', updatingUser);
         async.waterfall([
             function (next) {
                 userService.getUserByUsernameWithoutRelationModel(updatingUser, function (err, user) {
