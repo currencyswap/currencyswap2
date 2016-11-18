@@ -19,7 +19,7 @@ angular.module('myProfile')
                 $rootScope.loading = true;
                 $scope.model = {};
                 var currentUser = CookieService.getCurrentUser();
-
+                $scope.randomNumImg = 0;
                 var profilePicReq = {
                     method: httpMethods.GET,
                     url: '/config/' + currentUser.username
@@ -84,6 +84,9 @@ angular.module('myProfile')
                         }, function (response) {
                             if (response.status > 0)
                                 $scope.errorMsg = response.status + ': ' + response.data;
+                        }, function (evt) {
+                            file.progress = Math.min(100, parseInt(100.0 *
+                                evt.loaded / evt.total));
                         });
                     }
                 };
@@ -131,15 +134,22 @@ angular.module('myProfile')
                         currentPwd: $scope.model.currentPwd,
                         newPwd: $scope.model.newPwd
                     };
+
+                    var headersSave = {};
+
+                    headersSave[httpHeader.CONTENT_TYPE] = contentTypes.JSON;
+                    headersSave[httpHeader.AUTHORIZARION] = autheticateType.BEARER + token;
+
                     var saveUserDetailReq = {
                         method: httpMethods.PUT,
                         url: apiRoutes.API_MY_PROFILE,
-                        headers: headers,
+                        headers: headersSave,
                         data: updatingUser
                     };
 
                     $http(saveUserDetailReq)
                         .then(function (response) {
+                            console.log(response.data);
                             $location.path(routes.MYPROFILE);
                             $window.location.reload();
                         });
