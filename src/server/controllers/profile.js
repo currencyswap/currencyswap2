@@ -44,84 +44,76 @@ module.exports = function (app) {
     });
 
     router.post('/', upload.single('file'), function (req, res, next) {
-        if (!req.file) {
-            var updatingUser = req.body;
-            async.waterfall([
-                function (next) {
-                    userService.getUserByUsernameWithoutRelationModel(updatingUser, function (err, user) {
-                        if (err) return next (err);
-                        else {
-                            if(updatingUser.currentPwd)if (md5(updatingUser.currentPwd) !== user.password) return next (errorUtil.createAppError(errors.INVALID_PASSWORD));
-                            return next (null, user);
+        console.log('come to uploading file !!!');
+        return res.status(200).send({});
+    });
+
+    router.put('/', function (req, res, next) {
+        console.log('come to saving info !!!');
+        var updatingUser = req.body;
+        console.log('updatingUser: ', updatingUser);
+        async.waterfall([
+            function (next) {
+                userService.getUserByUsernameWithoutRelationModel(updatingUser, function (err, user) {
+                    if (err) return next(err);
+                    else {
+                        if (updatingUser.currentPwd)if (md5(updatingUser.currentPwd) !== user.password) return next(errorUtil.createAppError(errors.INVALID_PASSWORD));
+                        return next(null, user);
+                    }
+                });
+            },
+            function (user, next) {
+                var filter = {};
+                for (var prop in updatingUser) {
+                    if (prop === 'username' || prop === 'id' || prop === 'email') continue;
+                    if (prop === 'newPwd') filter.password = md5(updatingUser[prop]);
+                    filter[prop] = updatingUser[prop];
+                }
+
+                if (filter.addresses) {
+                    user.addresses(function (err, addresses) {
+                        if (err) {
+                            return next(err);
                         }
-                    });
-                },
-                function (user, next) {
-                    var filter = {};
-                    for (var prop in updatingUser) {
-                        if (prop === 'username' || prop === 'id' || prop === 'email') continue;
-                        if (prop === 'newPwd') filter.password = md5(updatingUser[prop]);
-                        filter[prop] = updatingUser[prop];
-                    }
-
-                    if (filter.addresses) {
-                        user.addresses(function (err, addresses) {
-                            if (err) {
-                                return res.status(500).send(err);
-                            }
-                            else {
-                                if (!addresses || addresses.length === 0) {
-                                    user.addresses.create(filter.addresses, function (err, updatedUser) {
-                                        if (err) return res.status(500).send(err);
-                                        else {
-                                            res.status(200).send(updatedUser);
-                                        }
-                                    })
-                                } else {
-                                    app.models.Address.findById(addresses[0].id, function (err, address) {
-                                        if (err) return res.status(500).send(err);
-                                        else {
-                                            if (!address) res.status(500).send(err);
-                                            else {
-                                                address.updateAttributes(filter.addresses[0], function (err, updatedAddresses) {
-                                                    if (err) return res.status(500).send(err);
-                                                    else {
-                                                        res.status(200).send(updatedAddresses);
-                                                    }
-                                                })
-                                            }
-                                        }
-                                    })
-                                }
-                            }
-                        })
-                    }
-
-                    /*userService.updateUserInfo(user, filter, function (err, updatedUser) {
-                        if (err) return next(err);
                         else {
-                            if(filter.addresses) {
-                                userService.updateAddress(user.id,filter.addresses,function (err, updateAdress) {
-                                    if(err) return next (err);
+                            if (!addresses || addresses.length === 0) {
+                                user.addresses.create(filter.addresses, function (err, updatedUser) {
+                                    if (err) return next(err);
                                     else {
-                                        return next(null);
+                                        return next (null);
                                     }
                                 })
-                            }else {
-                                return next(null);
+                            } else {
+                                app.models.Address.findById(addresses[0].id, function (err, address) {
+                                    if (err) return next(err);
+                                    else {
+                                        if (!address) return next(err);
+                                        else {
+                                            address.updateAttributes(filter.addresses[0], function (err, updatedAddresses) {
+                                                if (err) return next(err);
+                                                else {
+                                                    return next (null);
+                                                }
+                                            })
+                                        }
+                                    }
+                                })
                             }
-
                         }
-                    });*/
-
+                    })
+                } else {
+                    user.updateAttributes(filter, function (err, updatedUser) {
+                        if (err)  return next(err);
+                        else {
+                            return next (null);
+                        }
+                    });
                 }
-            ], function (err) {
-                if (err) res.status(constant.HTTP_FAILURE_CODE).send(err);
-                else res.status(constant.HTTP_SUCCESS_CODE).send({});
-            });
-        } else {
-            return res.status(200).send({});
-        }
+            }
+        ], function (err) {
+            if (err) res.status(constant.HTTP_FAILURE_CODE).send(err);
+            else res.status(constant.HTTP_SUCCESS_CODE).send({});
+        });
     });
 
     return router;
