@@ -19,7 +19,7 @@ angular.module('myProfile')
                 $rootScope.loading = true;
                 $scope.model = {};
                 var currentUser = CookieService.getCurrentUser();
-
+                $scope.randomNumImg = 0;
                 var profilePicReq = {
                     method: httpMethods.GET,
                     url: '/config/' + currentUser.username
@@ -150,8 +150,8 @@ angular.module('myProfile')
                     $http(saveUserDetailReq)
                         .then(function (response) {
                             console.log(response.data);
-                            //$location.path(routes.MYPROFILE);
-                            //$window.location.reload();
+                            $location.path(routes.MYPROFILE);
+                            $window.location.reload();
                         });
                 }
             }]
