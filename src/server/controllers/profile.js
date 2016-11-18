@@ -63,7 +63,41 @@ module.exports = function (app) {
                         if (prop === 'newPwd') filter.password = md5(updatingUser[prop]);
                         filter[prop] = updatingUser[prop];
                     }
-                    userService.updateUserInfo(user, filter, function (err, updatedUser) {
+
+                    if (filter.addresses) {
+                        user.addresses(function (err, addresses) {
+                            if (err) {
+                                return res.status(500).send(err);
+                            }
+                            else {
+                                if (!addresses || addresses.length === 0) {
+                                    user.addresses.create(filter.addresses, function (err, updatedUser) {
+                                        if (err) return res.status(500).send(err);
+                                        else {
+                                            res.status(200).send(updatedUser);
+                                        }
+                                    })
+                                } else {
+                                    app.models.Address.findById(addresses[0].id, function (err, address) {
+                                        if (err) return res.status(500).send(err);
+                                        else {
+                                            if (!address) res.status(500).send(err);
+                                            else {
+                                                address.updateAttributes(filter.addresses[0], function (err, updatedAddresses) {
+                                                    if (err) return res.status(500).send(err);
+                                                    else {
+                                                        res.status(200).send(updatedAddresses);
+                                                    }
+                                                })
+                                            }
+                                        }
+                                    })
+                                }
+                            }
+                        })
+                    }
+
+                    /*userService.updateUserInfo(user, filter, function (err, updatedUser) {
                         if (err) return next(err);
                         else {
                             if(filter.addresses) {
@@ -78,7 +112,7 @@ module.exports = function (app) {
                             }
 
                         }
-                    });
+                    });*/
 
                 }
             ], function (err) {
@@ -86,7 +120,7 @@ module.exports = function (app) {
                 else res.status(constant.HTTP_SUCCESS_CODE).send({});
             });
         } else {
-            return res.status(200).send();
+            return res.status(200).send({});
         }
     });
 

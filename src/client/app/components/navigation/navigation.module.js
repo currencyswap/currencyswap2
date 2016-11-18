@@ -32,7 +32,7 @@ angular.module('navigation', []).factory('NavigationHelper', ['$rootScope', '$lo
                 if (!checkValidPermission($rootScope.permissions, navItem.requiredPermissions)) return;
 
                 var pattern = new UrlPattern(navItem.route);
-                
+
                 var isActivated = pattern.match($location.path());
 
                 if (isActivated) {

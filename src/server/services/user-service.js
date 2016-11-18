@@ -602,8 +602,8 @@ exports.updateUserInfo = function (user, filter, callback) {
     });
 };
 
-exports.updateAddress = function (userid, address, callback) {
-    app.models.Address.updateAddress(userid,address,function (err, updatedAddress) {
+exports.updateAddress = function (addressId, address, callback) {
+    app.models.Address.updateAddress(addressId, address, function (err, updatedAddress) {
         if (err) return callback(errorUtil.createAppError(errors.SERVER_GET_PROBLEM));
         else {
             console.log(updatedAddress);
