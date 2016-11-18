@@ -5,9 +5,10 @@ var errors = require('../libs/errors/errors');
 var util = require('util');
 var constants = require('../libs/constants/constants');
 module.exports = function(Address) {
-    Address.updateAddress = function (userid,address, callback) {
+    Address.updateAddress = function (addressId, address, callback) {
+        console.log('addressId, ' + addressId);
         var where = {
-            memberId: userid
+            id: addressId
         };
         var filter = {
             where: where
@@ -19,9 +20,10 @@ module.exports = function(Address) {
             country: address[0].country,
             state: address[0].state,
             postcode: address[0].postcode,
-            memberId: userid
         };
-        Address.updateAll(filter,value,function (err, info) {
+
+        Address.updateAll(filter, value, function (err, info) {
+            console.log('infoooooooooooooooooo: ', info);
             callback(err,info);
         });
     };

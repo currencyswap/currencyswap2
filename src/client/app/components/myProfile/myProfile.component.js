@@ -132,7 +132,7 @@ angular.module('myProfile')
                         newPwd: $scope.model.newPwd
                     };
                     var saveUserDetailReq = {
-                        method: httpMethods.POST,
+                        method: httpMethods.PUT,
                         url: apiRoutes.API_MY_PROFILE,
                         headers: headers,
                         data: updatingUser

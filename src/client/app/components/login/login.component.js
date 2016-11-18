@@ -24,21 +24,23 @@ angular.module('loginForm')
 
                     LoginService.authenticate($scope.user)
                         .then(function (response) {
-                            console.log("response",response.data.expire);
                             if (response.data.expire === "expired") {
                                 $scope.isExpired = true;
-                            }else {
+                            } else {
                                 if (response.status === GLOBAL_CONSTANT.HTTP_SUCCESS_STATUS_CODE) {
                                     var newToken = response.data.token;
                                     CookieService.setUpCookies(newToken);
 
                                     PermissionService.getCurrentPermission(newToken)
                                         .then(function (response) {
-
                                                 $rootScope.permissions = response.data;
                                                 $rootScope.loggedIn = true;
                                                 NavigationHelper.initNavigationBar();
-                                                $location.path(routes.HOME);
+                                                if ($rootScope.permissions && $rootScope.permissions.USER_MANAGEMENT) {
+                                                    $location.path(routes.USERS);
+                                                } else {
+                                                    $location.path(routes.HOME);
+                                                }
                                             },
                                             function (error) {
                                                 CookieService.cleanUpCookies();
