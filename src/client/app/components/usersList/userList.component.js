@@ -271,7 +271,7 @@ angular.module('userList')
                             if (response.status === GLOBAL_CONSTANT.HTTP_SUCCESS_STATUS_CODE) {
                                 $scope.allUsers = response.data;
                                 $scope.allUsers.forEach(function (user) {
-                                    if (user.status === GLOBAL_CONSTANT.PEDING_USER_STATUS) {
+                                    if (user.status === GLOBAL_CONSTANT.PENDING_USER_STATUS) {
                                         $scope.users.push(user);
                                     } else {
                                         //do nothing
