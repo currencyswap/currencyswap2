@@ -552,10 +552,53 @@ exports.getUserByUsernameWithoutRelationModel = function (user, callback) {
 };
 
 exports.updateUserInfo = function (user, filter, callback) {
+    var oldUserStatus = user.status;
     user.updateAttributes(filter, function (err, updatedUser) {
         if (err) return callback(errorUtil.createAppError(errors.SERVER_GET_PROBLEM));
         else {
-            return callback(null, updatedUser);
+            if (oldUserStatus === constant.USER_STATUSES.PENDING_APPROVAL && updatedUser.status === constant.USER_STATUSES.ACTIVATED) {
+                async.waterfall([
+                    function (next) {
+                        // construct mail options
+                        var senderInfo = appConfig.getMailSenderInfo();
+
+                        var mailOptions = {
+                            from: senderInfo.sender,
+                            to: updatedUser.email,
+                            subject: 'You account has been activated by Administrator',
+                            html: '<!DOCTYPE html>'
+                            + '<html lang="en">'
+                            + '<head>'
+                            + '<meta charset="UTF-8">'
+                            + '<title>Account Approval</title>'
+                            + '</head>'
+                            + '<body>'
+                            + '<p>You account has been activated by Administrator, from now on, You can use your account to login to Currency Swap system.</p>'
+                            + '<p>Thanks and best regards</p>'
+                            + '<p>Currency Swap</p>'
+                            + '</body>'
+                            + '</html>'
+                        };
+
+                        return next (null, mailOptions);
+                    },
+                    function (mailOptions, next) {
+                        mailSender.sendMail(mailOptions, function (err, info) {
+                            if (err) {
+                                return next(err);
+                            }
+                            else {
+                                return next(null);
+                            }
+                        });
+                    }
+                ], function (err) {
+                    if (err) return callback(err);
+                    else return callback(null);
+                });
+            } else {
+                return callback(null);
+            }
         }
     });
 };

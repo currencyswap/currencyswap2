@@ -306,6 +306,7 @@ angular.module('userList')
                             if (userDetail.addresses[0] && userDetail.addresses[0].hasOwnProperty('country')) country1 = userDetail.addresses[0].country;
                             if (userDetail.addresses[0] && userDetail.addresses[0].hasOwnProperty('postcode')) postcode1 = userDetail.addresses[0].postcode;
 
+                            $scope.userDetail.id = userDetail.id;
                             $scope.userDetail.birthday = new Date(userDetail.birthday);
                             $scope.userDetail.expiredDate = new Date(userDetail.expiredDate);
                             $scope.userDetail.username = userDetail.username;
