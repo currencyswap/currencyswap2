@@ -20,13 +20,13 @@ angular.module('register')
                     var activeCode = $location.search().activeCode;
                     RegisterService.sendActiveRequest(activeCode)
                         .then(function (response) {
-                            if (response.status === GLOBAL_CONSTANT.HTTP_SUCCESS_STATUS_CODE) { //handle success response
-                                $scope.activeSuccess = true;
-                            } else {
+                            if (response.status === GLOBAL_CONSTANT.HTTP_ERROR_STATUS_CODE) { // handle error response
                                 $rootScope.error = {};
                                 $rootScope.error.status = GLOBAL_CONSTANT.SERVER_GOT_PROBLEM_STATUS;
                                 $rootScope.error.message = GLOBAL_CONSTANT.SERVER_GOT_PROBLEM_MSG;
                                 $window.scrollTo(0, 0);
+                            } else {
+                                $scope.activeSuccess = true;
                             }
                         });
                     return;

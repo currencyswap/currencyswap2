@@ -37,7 +37,7 @@ exports.createUser = function (user, callback) {
             app.models.Member.create(user, txObject, function (err, instance) {
                 if (err) {
                     console.log('Error on saving User to DB');
-                    return next(errorUtil.createAppError(errors.COULD_NOT_SAVE_USER_TO_DB));
+                    return next(errorUtil.createAppError(errors.COULD_NOT_SAVE_USER_TO_DB), txObject);
                 } else {
                     return next(null, txObject, instance)
                 }
@@ -45,25 +45,6 @@ exports.createUser = function (user, callback) {
             });
         },
         function (txObject, instance, next) {
-            /*if (!user.addresses || user.addresses.length <= 0) {
-                return next(null, txObject, instance);
-            }
-            user.addresses.forEach(function (addr, index, addresses) {
-                addr.memberId = instance.id;
-
-                instance.addresses.create(addr, txObject, function (err) {
-                    if (err) {
-                        console.log('Error on saving addresses for user');
-                        return next(errorUtil.createAppError(errors.COULD_NOT_SAVE_USER_ADDR_TO_DB));
-                    } else {
-                         if (index === addresses.length - 1) {
-                             return next(null, txObject, instance);
-                         } else {
-                             //continue;
-                         }
-                    }
-                });
-            });*/
             if (!user.addresses || user.addresses.length <= 0) {
                 return next(null, txObject, instance);
             }
@@ -72,14 +53,14 @@ exports.createUser = function (user, callback) {
                 addr.memberId = instance.id;
             });
 
-            instance.addresses.create(user.addresses, txObject, function (err) {
+            app.models.Address.create(user.addresses, txObject, function (err) {
                 if (err) {
                     console.log('Error on saving addresses for user');
-                    return next(errorUtil.createAppError(errors.COULD_NOT_SAVE_USER_ADDR_TO_DB));
+                    return next(errorUtil.createAppError(errors.COULD_NOT_SAVE_USER_ADDR_TO_DB), txObject);
                 } else {
 
                 }
-                next(err, txObject, instance);
+                return next(err, txObject, instance);
             });
 
         },
@@ -102,7 +83,7 @@ exports.createUser = function (user, callback) {
             app.models.MemberGroup.create(userGrps, txObject, function (err) {
                 if (err) {
                     console.log('Error on saving User Groups to DB');
-                    return next(errorUtil.createAppError(errors.COULD_NOT_SAVE_USER_GR_TO_DB));
+                    return next(errorUtil.createAppError(errors.COULD_NOT_SAVE_USER_GR_TO_DB), txObject);
                 } else {
                     return next(null, txObject, instance)
                 }
@@ -197,7 +178,6 @@ exports.login = function (user, callback) {
             });
         },
         function (user, next) {
-            console.log('2');
             // get User Secret Key
             redis.getSecretKey(user.username, function (err, value) {
                 if (!err) return next(null, user, value);
@@ -215,7 +195,6 @@ exports.login = function (user, callback) {
             });
         },
         function (user, secret, next) {
-            console.log('3');
             var tokenKey = token.generate({username: user.username, fullName: user.fullName}, secret);
 
             token.getSignature(tokenKey, function (err, sign) {
@@ -224,7 +203,6 @@ exports.login = function (user, callback) {
 
         },
         function (user, secret, tokenKey, sign, next) {
-            console.log('4');
             redis.setSecretKeyBySignature(sign, JSON.stringify({username: user.username, secret: secret}));
             return next(null, tokenKey);
         }
@@ -259,7 +237,7 @@ exports.verifyResetPwdInfo = function (email, callback) {
             return next(null, randomString, email);
         },
         function (randomString, email, next) {
-            // send notification email to client
+            // construct mail options
             var senderInfo = appConfig.getMailSenderInfo();
             var mailOptions = {
                 from: senderInfo.sender,
@@ -273,8 +251,11 @@ exports.verifyResetPwdInfo = function (email, callback) {
                         + '\n' + 'If you have any things, please contact: admin@currencyswap.com'
             };
 
+            return next (null, mailOptions);
+        },
+        function (mailOptions, next) {
             mailSender.sendMail(mailOptions, function (err, info) {
-                if (err) return callback(err);
+                if (err) return next(err);
                 else {
                     return next(null);
                 }
@@ -337,7 +318,7 @@ exports.constructActiveAccountUrl = function (randomString, username) {
     var plainActiveCode = username + constant.RESET_CODE_DELIMITER + randomString;
     var encryptedActiveCode = stringUtil.encryptString(plainActiveCode, constant.ENCRYPTION_ALGORITHM, constant.ENCRYPTION_PWD, 'utf8', 'hex');
 
-    return appConfig.getHost()
+    return "http://localhost:3000"
         + constant.SLASH
         + constant.HASHTAG_AND_EXCLAMATION
         + constant.CLIENT_ACTIVE_ACC_PATH
@@ -380,7 +361,6 @@ exports.createUserTransaction = function (callback) {
 exports.registerUser = function (newUser, callback) {
     async.waterfall([
         function (next) {
-        console.log('1');
             groupService.findGroupByName(newUser.group, function (err, group) {
                 if (err) {
                     return next(err);
@@ -394,34 +374,6 @@ exports.registerUser = function (newUser, callback) {
 
             })
         },
-        /*function (newUser, next) {
-            console.log('2');
-            exports.getUserByNationalId(newUser, function (err, userObj) {
-                if (err) {
-                    if (err.code === errorUtil.createAppError(errors.MEMBER_INVALID_USERNAME).code) {
-                        return next(null, newUser);
-                    } else {
-                        return next(err);
-                    }
-                } else {
-                    return next(errorUtil.createAppError(errors.PASSPORT_EXISTED));
-                }
-            });
-        },
-        function (newUser, next) {
-            console.log('3');
-            exports.getUserByCellphone(newUser, function (err, userObj) {
-                if (err) {
-                    if (err.code === errorUtil.createAppError(errors.MEMBER_INVALID_USERNAME).code) {
-                        return next(null, newUser);
-                    } else {
-                        return next(err);
-                    }
-                } else {
-                    return next(errorUtil.createAppError(errors.USER_NAME_EXISTED));
-                }
-            });
-        },*/
         function (newUser, next) {
             exports.getUserByUsername(newUser.username, function (err, user) {
                 if (err) {
@@ -455,7 +407,8 @@ exports.registerUser = function (newUser, callback) {
                 }
                 else return next(null, savedUser.username, savedUser.email);
             })
-        }, function (username, email, next) {
+        },
+        function (username, email, next) {
             // generate reset password code
             exports.generateRandomString(function (err, randomString) {
                 if (err) return next(err);
@@ -469,9 +422,10 @@ exports.registerUser = function (newUser, callback) {
             return next(null, randomString, username, email);
         },
         function (randomString, username, email, next) {
-            // send notification email to client
+            // construct mail options
             var senderInfo = appConfig.getMailSenderInfo();
             var activeLink = exports.constructActiveAccountUrl(randomString, username);
+
             var mailOptions = {
                 from: senderInfo.sender,
                 to: email,
@@ -484,15 +438,19 @@ exports.registerUser = function (newUser, callback) {
                 + '</head>'
                 + '<body>'
                 + '<p>Please click on the URL below and wait for admin approval before using Currency Swap</p>'
-                + '<a href="' +activeLink+ '">Active URL</a>'
+                + '<a href="' + activeLink + '">Active URL</a>'
                 + '<p>Thanks and best regards</p>'
                 + '<p>Currency Swap</p>'
                 + '</body>'
                 + '</html>'
             };
 
+            return next(null, mailOptions);
+        },
+        function (mailOptions, next) {
+            // send notification email to client
             mailSender.sendMail(mailOptions, function (err, info) {
-                if (err) return callback(err);
+                if (err) return next(err);
                 else {
                     return next(null);
                 }
@@ -628,7 +586,6 @@ exports.getUserByCellphone = function (user, callback) {
 
 exports.checkExpiredDateUse = function (user, callback) {
     app.models.Member.findByUsername(user.username, function (err, userObj) {
-        console.log("userObj",userObj);
         if (err) return callback(err);
         callback(null, userObj);
     });
