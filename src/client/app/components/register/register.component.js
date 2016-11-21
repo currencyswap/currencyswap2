@@ -20,17 +20,18 @@ angular.module('register')
                     var activeCode = $location.search().activeCode;
                     RegisterService.sendActiveRequest(activeCode)
                         .then(function (response) {
-                            console.log('http status after clicking on active link: ', response.status);
                             if (response.status === GLOBAL_CONSTANT.HTTP_ERROR_STATUS_CODE) { // handle error response
                                 $rootScope.error = {};
                                 $rootScope.error.status = GLOBAL_CONSTANT.SERVER_GOT_PROBLEM_STATUS;
                                 $rootScope.error.message = GLOBAL_CONSTANT.SERVER_GOT_PROBLEM_MSG;
                                 $window.scrollTo(0, 0);
                             } else {
+                                $rootScope.isLoading = false;
+                                $scope.registerSuccess = false;
+                                $scope.startRegister = false;
                                 $scope.activeSuccess = true;
                             }
                         });
-                    return;
                 }
 
                 $scope.user = {};
