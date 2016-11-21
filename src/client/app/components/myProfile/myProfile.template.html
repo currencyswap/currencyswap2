@@ -43,16 +43,15 @@
                 <div class="row">
                     <div class="col-sm-3">
                         <label class="control-label">Date of birth</label>
-
                     </div>
                     <div class="col-sm-9">
                         <div class="input-group">
                             <input type="text" class="form-control" uib-datepicker-popup="{{format}}"
-                                   is-open="calendarPicker.opened" datepicker-options="dateOptions" ng-required="true"
-                                   ng-model="birthday"
-                                   close-text="Close" alt-input-formats="altInputFormats">
+                                   is-open="calendarPickerBirthday.opened" datepicker-options="dateOptions" ng-required="true"
+                                   ng-model="model.birthday"
+                                   close-text="Close" alt-input-formats="altInputFormats" readonly>
                             <span class="input-group-addon" style="height: 40px">
-                                   <i class="glyphicon glyphicon-calendar" ng-click="openCalendar()"></i></button>
+                                   <i class="glyphicon glyphicon-calendar" ng-click="openCalendarBirthday()"></i></button>
                                 </span>
                         </div>
                     </div>
@@ -65,11 +64,11 @@
                     <div class="col-sm-9">
                         <div class="input-group">
                             <input type="text" class="form-control" uib-datepicker-popup="{{format}}"
-                                   is-open="calendarPicker.opened" datepicker-options="dateOptions" ng-required="true"
+                                   is-open="calendarPickerRegister.opened" datepicker-options="dateOptions" ng-required="true"
                                    ng-model="model.registeredDate"
                                    close-text="Close" alt-input-formats="altInputFormats" readonly>
                             <span class="input-group-addon" style="height: 40px">
-                                   <i class="glyphicon glyphicon-calendar" ng-click="openCalendar()"></i></button>
+                                   <i class="glyphicon glyphicon-calendar" ng-click="openCalendaRegister()"></i></button>
                                 </span>
                         </div>
                     </div>

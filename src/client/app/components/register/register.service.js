@@ -3,19 +3,13 @@
 angular.module('register').factory('RegisterService', ['$http', '$q', function ($http, $q) {
     return {
         compressUserDataToObj: function (userData) {
-            if (userData.dobYear && userData.dobMonth && userData.dobDay) {
-                var birthday = userData.dobYear + '-' + userData.dobMonth + '-' + userData.dobDay;
-            } else {
-                birthday = null;
-            }
-
             userData.username = userData.username.trim();
 
             var resultUser = {
                 username: userData.username,
                 fullName: userData.fullName,
                 cellphone: userData.cellphone,
-                birthday: birthday,
+                birthday: userData.birthday,
                 profession: userData.profession,
                 email: userData.email,
                 password: userData.password,

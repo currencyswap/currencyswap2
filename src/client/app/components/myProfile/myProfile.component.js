@@ -18,6 +18,8 @@ angular.module('myProfile')
             function myProfileController($scope, $rootScope, $location, $window, $timeout, $http, Upload, CookieService, LoginService, PermissionService, NavigationHelper, GLOBAL_CONSTANT) {
                 $rootScope.loading = true;
                 $scope.model = {};
+                $scope.formats = ['dd-MMMM-yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate'];
+                $scope.format = $scope.formats[0];
                 var currentUser = CookieService.getCurrentUser();
                 $scope.randomNumImg = 0;
                 var profilePicReq = {
@@ -45,9 +47,8 @@ angular.module('myProfile')
                 $http(userDetailReq)
                     .then(function (response) {
                         var userDetail = response.data;
-                        console.log(userDetail);
                         $scope.model.username = userDetail.username;
-                        $scope.model.birthday = userDetail.birthday;
+                        $scope.model.birthday = new Date(userDetail.birthday);
                         $scope.model.email = userDetail.email;
                         $scope.model.expiredDate = new Date(userDetail.expiredDate);
                         $scope.model.registeredDate = new Date(userDetail.registeredDate);
@@ -92,12 +93,18 @@ angular.module('myProfile')
                 };
 
                 $scope.isEditting = false;
-                $scope.calendarPicker = {
+                $scope.calendarPickerBirthday = {
+                    opened: false
+                };
+                $scope.calendarPickerRegister = {
                     opened: false
                 };
                 $scope.birthday = new Date();
-                $scope.openCalendar = function() {
-                    $scope.calendarPicker.opened = true;
+                $scope.openCalendarBirthday = function() {
+                    $scope.calendarPickerBirthday.opened = true;
+                };
+                $scope.openCalendaRegister = function() {
+                    $scope.calendarPickerRegister.opened = true;
                 };
                 $scope.formatDate = function(date){
                     var dateOut = new Date(date);

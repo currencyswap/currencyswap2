@@ -299,7 +299,6 @@ angular.module('userList')
                             var address1, city1, country1, postcode1, state1 = null;
                             $scope.userDetail = {};
                             var userDetail = response.data;
-
                             if (userDetail.addresses[0] && userDetail.addresses[0].hasOwnProperty('address')) address1 = userDetail.addresses[0].address;
                             if (userDetail.addresses[0] && userDetail.addresses[0].hasOwnProperty('city')) city1 = userDetail.addresses[0].city;
                             if (userDetail.addresses[0] && userDetail.addresses[0].hasOwnProperty('state')) state1 = userDetail.addresses[0].state;

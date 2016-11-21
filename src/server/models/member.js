@@ -184,8 +184,9 @@ module.exports = function (Member) {
             where: where,
             include: includeAddress
         };
-
+        console.log("filter:",filter);
         Member.findOne(filter, function (err, user) {
+            console.log("user:",user);
             if (err) return callback(errorUtil.createAppError(errors.SERVER_GET_PROBLEM));
             else {
                 if (!user) return callback(errorUtil.createAppError(errors.NO_USER_FOUND_IN_DB));
