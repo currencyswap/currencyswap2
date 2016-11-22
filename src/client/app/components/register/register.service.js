@@ -4,7 +4,6 @@ angular.module('register').factory('RegisterService', ['$http', '$q', function (
     return {
         compressUserDataToObj: function (userData) {
             userData.username = userData.username.trim();
-
             var resultUser = {
                 username: userData.username,
                 fullName: userData.fullName,
@@ -13,6 +12,10 @@ angular.module('register').factory('RegisterService', ['$http', '$q', function (
                 profession: userData.profession,
                 email: userData.email,
                 password: userData.password,
+                bankAccountName: userData.bankAccountName,
+                bankAccountNumber: userData.bankAccountNumber,
+                bankName: userData.bankName,
+                bankCountry: userData.bankCountry,
                 addresses: [
                     {
                         address: userData.address,

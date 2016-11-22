@@ -60,21 +60,19 @@ module.exports = function (app) {
                 });
             },
             function (user, next) {
-                var filter = {};
-                for (var prop in updatingUser) {
-                    if (prop === 'username' || prop === 'id' || prop === 'email') continue;
-                    if (prop === 'newPwd') filter.password = md5(updatingUser[prop]);
-                    filter[prop] = updatingUser[prop];
-                }
+                if (updatingUser.addresses && updatingUser.addresses.length > 0  && (updatingUser.addresses[0].address
+                    || updatingUser.addresses[0].city
+                    || updatingUser.addresses[0].postcode
+                    || updatingUser.addresses[0].state
+                    || updatingUser.addresses[0].country)) {
 
-                if (filter.addresses) {
                     user.addresses(function (err, addresses) {
                         if (err) {
                             return next(err);
                         }
                         else {
                             if (!addresses || addresses.length === 0) {
-                                user.addresses.create(filter.addresses, function (err, updatedUser) {
+                                user.addresses.create(updatingUser.addresses, function (err, updatedUser) {
                                     if (err) return next(err);
                                     else {
                                         return next (null);
@@ -86,10 +84,22 @@ module.exports = function (app) {
                                     else {
                                         if (!address) return next(err);
                                         else {
-                                            address.updateAttributes(filter.addresses[0], function (err, updatedAddresses) {
+                                            address.updateAttributes(updatingUser.addresses[0], function (err, updatedAddresses) {
                                                 if (err) return next(err);
                                                 else {
-                                                    return next (null);
+                                                    var filter = {};
+                                                    for (var prop in updatingUser) {
+                                                        if (prop === 'username' || prop === 'id' || prop === 'email' || prop === 'addresses') continue;
+                                                        if (prop === 'newPwd') filter.password = md5(updatingUser[prop]);
+                                                        filter[prop] = updatingUser[prop];
+                                                    }
+
+                                                    user.updateAttributes(filter, function (err, updatedUser) {
+                                                        if (err) return next (err);
+                                                        else {
+                                                            return next (null);
+                                                        }
+                                                    });
                                                 }
                                             })
                                         }
@@ -97,14 +107,22 @@ module.exports = function (app) {
                                 })
                             }
                         }
-                    })
+                    });
                 } else {
+                    var filter = {};
+                    for (var prop in updatingUser) {
+                        if (prop === 'username' || prop === 'id' || prop === 'email' || prop === 'addresses') continue;
+                        if (prop === 'newPwd') filter.password = md5(updatingUser[prop]);
+                        filter[prop] = updatingUser[prop];
+                    }
+
                     user.updateAttributes(filter, function (err, updatedUser) {
-                        if (err)  return next(err);
+                        if (err) return next (err);
                         else {
+                            console.log('updatedUser: ', updatedUser);
                             return next (null);
                         }
-                    });
+                    })
                 }
             }
         ], function (err) {

@@ -63,8 +63,7 @@ exports.convertUserData = function (requestUser) {
     resultUser.addresses = [];
 
     //Default for new registration user
-    //resultUser.group = "Blocked User";
-    resultUser.group = "Blocked User";
+    resultUser.group = constant.USER_GROUPS.BLOCKED_USER_GR;
     resultUser.status = constant.USER_STATUSES.NEW;
     resultUser.expiredDate = new Date(Date.now()).toISOString();
     resultUser.registeredDate = new Date(Date.now()).toISOString();
@@ -74,7 +73,7 @@ exports.convertUserData = function (requestUser) {
     }
 
     if (requestUser.birthday) {
-        resultUser.birthday = requestUser.birthday;
+        resultUser.birthday = new Date(requestUser.birthday).toISOString();
     }
 
     if (requestUser.cellphone) {
@@ -90,6 +89,14 @@ exports.convertUserData = function (requestUser) {
     }
 
     if (requestUser.profession) resultUser.profession = requestUser.profession;
+
+    if (requestUser.bankAccountName) resultUser.bankAccountName = requestUser.bankAccountName;
+
+    if (requestUser.bankAccountNumber) resultUser.bankAccountNumber = requestUser.bankAccountNumber;
+
+    if (requestUser.bankName) resultUser.bankName = requestUser.bankName;
+
+    if (requestUser.bankCountry) resultUser.bankCountry = requestUser.bankCountry;
 
     return resultUser;
 };

@@ -45,7 +45,6 @@ angular.module('register')
                 $scope.emailExisted = false;
                 $scope.passportExisted = false;
                 $scope.cellphoneExisted = false;
-                $scope.birthday = new Date();
                 $scope.calendar = { opened: false };
                 $scope.openCalendar = function () {
                     $scope.calendar.opened = true;
@@ -63,7 +62,6 @@ angular.module('register')
                 $scope.onSubmit = function () {
                     $scope.gifLoading = true;
                     var newUser = RegisterService.compressUserDataToObj($scope.user);
-
                     RegisterService.submitRequest(newUser)
                         .then(function (response) {
                             if (response.status === GLOBAL_CONSTANT.HTTP_SUCCESS_STATUS_CODE) { //handle success response

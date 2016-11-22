@@ -48,7 +48,6 @@ angular.module('myProfile')
                 $http(userDetailReq)
                     .then(function (response) {
                         var userDetail = response.data;
-                        console.log(userDetail);
                         $scope.model.username = userDetail.username;
                         $scope.model.birthday = new Date(userDetail.birthday);
                         $scope.model.email = userDetail.email;
@@ -63,6 +62,10 @@ angular.module('myProfile')
                         $scope.model.cellphone = userDetail.cellphone;
                         $scope.model.nationalId = userDetail.nationalId;
                         $scope.model.profession = userDetail.profession;
+                        $scope.model.bankAccountName = userDetail.bankAccountName;
+                        $scope.model.bankAccountNumber = userDetail.bankAccountNumber;
+                        $scope.model.bankName = userDetail.bankName;
+                        $scope.model.bankCountry = userDetail.bankCountry;
                     });
 
                 $scope.uploadFiles = function(file, errFiles) {
@@ -123,6 +126,10 @@ angular.module('myProfile')
                         expiredDate: $scope.model.expiredDate,
                         fullName: $scope.model.fullName,
                         registeredDate: $scope.model.registeredDate,
+                        bankAccountName: $scope.model.bankAccountName,
+                        bankAccountNumber: $scope.model.bankAccountNumber,
+                        bankName: $scope.model.bankName,
+                        bankCountry: $scope.model.bankCountry,
                         addresses: [
                             {
                                 address: $scope.model.address,
@@ -152,7 +159,6 @@ angular.module('myProfile')
 
                     $http(saveUserDetailReq)
                         .then(function (response) {
-                            console.log(response.data);
                             $location.path(routes.MYPROFILE);
                             $window.location.reload();
                         });

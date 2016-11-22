@@ -32,7 +32,7 @@
                         <label class="control-label"><b>Full name</b></label>
                         <input type="text" name="fullName" class="form-control" ng-model="user.fullName" ng-minlength="3" ng-maxlength="45">
                         <p ng-show="registerForm.fullName.$error.minlength" class="help-block">Fullname is too short.</p>
-                        <p ng-show="registerForm.fullName.$error.maxlength" class="help-block">Fullname is too long.</p>
+                        <!--<p ng-show="registerForm.fullName.$error.maxlength" class="help-block">Fullname is too long.</p>-->
                     </div>
                 </div>
                 <div class="form-group"
@@ -77,16 +77,15 @@
                 <div class="form-group">
                     <!--<div class="col-sm-5">-->
                         <div class="input-group">
-                            <input type="text" id="dob" class="form-control" uib-datepicker-popup="{{format}}" ng-model="user.birthday"
-                                   is-open="calendar.opened" datepicker-options="dateOptions" ng-required="true"
+                            <!--<input type="text" id="dob" class="form-control" uib-datepicker-popup="{{format}}" ng-model="user.birthday"
+                                   is-open="calendar.opened" datepicker-options="dateOptions" ng-required="true"-->
+                            <input type="text" id="dob" class="form-control" uib-datepicker-popup="dd-MMMM-yyyy" ng-model="user.birthday"
+                                   is-open="calendar.opened" datepicker-options="dateOptions"
                                    close-text="Close" alt-input-formats="altInputFormats"/>
                                 <span class="input-group-addon" style="height: 40px">
                                    <i class="glyphicon glyphicon-calendar" ng-click="openCalendar()"></i></button>
                                 </span>
-
                         </div>
-
-                    <!--</div>-->
                 </div>
 
                 <div class="mb10">
@@ -106,6 +105,32 @@
 
                 <div class="mb10">
                     <country-state-select country="user.country" state="user.state"></country-state-select>
+                </div>
+
+                <br>
+                <div class="row">
+                    <h3>Bank Account</h3>
+                </div>
+                <br>
+
+                <div class="mb10">
+                    <label class="control-label"><b>Account Name</b></label>
+                    <input class="form-control" type="text" ng-model="user.bankAccountName">
+                </div>
+
+                <div class="mb10">
+                    <label class="control-label"><b>Account Number</b></label>
+                    <input class="form-control" type="text" ng-model="user.bankAccountNumber">
+                </div>
+
+                <div class="mb10">
+                    <label class="control-label"><b>Bank Name</b></label>
+                    <input class="form-control" type="text" ng-model="user.bankName">
+                </div>
+
+                <div class="mb10">
+                    <label class="control-label"><b>Country</b></label>
+                    <input class="form-control" type="text" ng-model="user.bankCountry">
                 </div>
 
                 <br>

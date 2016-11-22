@@ -20,6 +20,11 @@ module.exports = {
         ACTIVATED: 'Activated', // after admin approval
         BLOCKED: 'Blocked'
     },
+    USER_GROUPS: {
+        ADMIN_GR: 'Admin',
+        STANDARD_USER_GR: 'User',
+        BLOCKED_USER_GR: 'Blocked User'
+    },
     // HOST: 'http://localhost:3000',
     HTTP_SUCCESS_CODE: 200,
     HTTP_FAILURE_CODE: 299
