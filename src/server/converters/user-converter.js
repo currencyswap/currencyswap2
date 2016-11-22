@@ -86,9 +86,7 @@ exports.convertUserData = function (requestUser) {
     }
 
     if (requestUser.addresses) {
-        requestUser.addresses.forEach(function (address) {
-            if (address.address && address.city && address.postcode && address.country) resultUser.addresses.push(requestUser.addresses);
-        });
+        resultUser.addresses = requestUser.addresses;
     }
 
     if (requestUser.profession) resultUser.profession = requestUser.profession;

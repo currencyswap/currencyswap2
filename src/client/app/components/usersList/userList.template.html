@@ -74,7 +74,7 @@
                                 <td class="center"><a href="" ng-click="showUserDetail(user.id)">{{user.username}}</a></td>
                                 <td class="center">{{user.email}}</td>
                                 <td class="center">{{user.cellphone}}</td>
-                                <td class="center">N/A</td>
+                                <td class="center"><label ng-bind="formatDate(user.registeredDate) |  date:'dd-MMM-yyyy'"></label></td>
                                 <td class="center"><label ng-bind="formatDate(user.expiredDate) |  date:'dd-MMM-yyyy'"></label></td>
                                 <td class="center">{{user.status}}</td>
                             </tr>
