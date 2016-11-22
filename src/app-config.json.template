@@ -27,5 +27,6 @@
   },
   "mediaFolder": "MEDIA_FOLDER",
   "logs" : "LOG_FOLDER",
-  "tokenExpired" : "7 d"
+  "tokenExpired" : "7 d",
+  host:"HOST"
 }

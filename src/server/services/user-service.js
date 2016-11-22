@@ -324,7 +324,7 @@ exports.constructResetUrl = function (randomString, email) {
     var plainResetCode = email + constant.RESET_CODE_DELIMITER + randomString;
     var encryptedResetCode = stringUtil.encryptString(plainResetCode, constant.ENCRYPTION_ALGORITHM, constant.ENCRYPTION_PWD, 'utf8', 'hex');
 
-    return constant.HOST
+    return appConfig.getHost()
         + constant.SLASH
         + constant.HASHTAG_AND_EXCLAMATION
         + constant.CLIENT_RESET_PWD_PATH
@@ -337,7 +337,7 @@ exports.constructActiveAccountUrl = function (randomString, username) {
     var plainActiveCode = username + constant.RESET_CODE_DELIMITER + randomString;
     var encryptedActiveCode = stringUtil.encryptString(plainActiveCode, constant.ENCRYPTION_ALGORITHM, constant.ENCRYPTION_PWD, 'utf8', 'hex');
 
-    return constant.HOST
+    return appConfig.getHost()
         + constant.SLASH
         + constant.HASHTAG_AND_EXCLAMATION
         + constant.CLIENT_ACTIVE_ACC_PATH
@@ -597,14 +597,13 @@ exports.updateUserInfo = function (user, filter, callback) {
     user.updateAttributes(filter, function (err, updatedUser) {
         if (err) return callback(errorUtil.createAppError(errors.SERVER_GET_PROBLEM));
         else {
-            console.log("updatedUser:",updatedUser);
             return callback(null, updatedUser);
         }
     });
 };
 
-exports.updateAddress = function (userid, address, callback) {
-    app.models.Address.updateAddress(userid,address,function (err, updatedAddress) {
+exports.updateAddress = function (addressId, address, callback) {
+    app.models.Address.updateAddress(addressId, address, function (err, updatedAddress) {
         if (err) return callback(errorUtil.createAppError(errors.SERVER_GET_PROBLEM));
         else {
             console.log(updatedAddress);

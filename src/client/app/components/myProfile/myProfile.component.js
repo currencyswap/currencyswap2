@@ -19,10 +19,10 @@ angular.module('myProfile')
                 $rootScope.loading = true;
                 $scope.model = {};
                 var currentUser = CookieService.getCurrentUser();
-
+                $scope.randomNumImg = 0;
                 var profilePicReq = {
                     method: httpMethods.GET,
-                    url: 'http://localhost:3000/config/' + currentUser.username
+                    url: '/config/' + currentUser.username
                 };
 
                 $http(profilePicReq)
@@ -32,7 +32,7 @@ angular.module('myProfile')
 
                 var token = CookieService.getToken();
                 var headers = {};
-
+                
                 headers[httpHeader.CONTENT_TYPE] = contentTypes.JSON;
                 headers[httpHeader.AUTHORIZARION] = autheticateType.BEARER + token;
 
@@ -63,13 +63,14 @@ angular.module('myProfile')
                     });
 
                 $scope.uploadFiles = function(file, errFiles) {
+                    $scope.randomNumImg = parseInt(Math.floor(Number.MAX_SAFE_INTEGER * Math.random()));
                     $scope.f = file;
                     $scope.errFile = errFiles && errFiles[0];
 
                     if (file) {
                         file.upload = Upload.upload({
                             method: 'POST',
-                            url: 'http://localhost:3000/api/profile',
+                            url: '/api/profile',
                             data: {
                                 file: file
                             },
@@ -83,6 +84,9 @@ angular.module('myProfile')
                         }, function (response) {
                             if (response.status > 0)
                                 $scope.errorMsg = response.status + ': ' + response.data;
+                        }, function (evt) {
+                            file.progress = Math.min(100, parseInt(100.0 *
+                                evt.loaded / evt.total));
                         });
                     }
                 };
@@ -109,7 +113,6 @@ angular.module('myProfile')
 
                 $scope.saveUserInfo = function () {
                     $scope.isEditting = false;
-
                     var updatingUser = {
                         username: $scope.model.username,
                         birthday: $scope.model.birthday,
@@ -131,15 +134,22 @@ angular.module('myProfile')
                         currentPwd: $scope.model.currentPwd,
                         newPwd: $scope.model.newPwd
                     };
+
+                    var headersSave = {};
+
+                    headersSave[httpHeader.CONTENT_TYPE] = contentTypes.JSON;
+                    headersSave[httpHeader.AUTHORIZARION] = autheticateType.BEARER + token;
+
                     var saveUserDetailReq = {
-                        method: httpMethods.POST,
+                        method: httpMethods.PUT,
                         url: apiRoutes.API_MY_PROFILE,
-                        headers: headers,
+                        headers: headersSave,
                         data: updatingUser
                     };
 
                     $http(saveUserDetailReq)
                         .then(function (response) {
+                            console.log(response.data);
                             $location.path(routes.MYPROFILE);
                             $window.location.reload();
                         });

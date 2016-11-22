@@ -182,6 +182,7 @@ exports.collectUserPermission = function (username, callback) {
 };
 
 exports.checkPermission = function (request, response, callback) {
+    console.log('checkPermission request.body: ', request.body);
     if (!request.currentUser || !request.currentUser.username) {
         let err = errorUtil.createAppError(errors.PERMISSION_DENIDED);
         return response.status(403).send(errorUtil.getResponseError(err));
