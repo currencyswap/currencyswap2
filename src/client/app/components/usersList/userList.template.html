@@ -109,7 +109,7 @@
                         <label class="col-sm-3 control-label" for="dob" readonly="readonly">Date of birth</label>
                         <div class="col-sm-5">
                             <p class="input-group">
-                                <input type="text" id="dob" class="form-control" uib-datepicker-popup="dd-MMMM-yyyy" ng-model="userDetail.birthday"
+                                <input type="text" id="dob" class="form-control" uib-datepicker-popup="{{format}}" ng-model="userDetail.birthday"
                                    is-open="popup2.opened" datepicker-options="dateOptions" ng-required="true"
                                        close-text="Close" alt-input-formats="altInputFormats"/>
                                 <span class="input-group-addon" style="height: 40px">
