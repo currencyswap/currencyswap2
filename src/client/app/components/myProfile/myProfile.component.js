@@ -20,6 +20,9 @@ angular.module('myProfile')
                 $scope.model = {};
                 var currentUser = CookieService.getCurrentUser();
                 $scope.randomNumImg = 0;
+                $scope.formats = ['dd-MMMM-yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate'];
+                $scope.format = $scope.formats[0];
+                $scope.altInputFormats = ['M!/d!/yyyy'];
                 var profilePicReq = {
                     method: httpMethods.GET,
                     url: '/config/' + currentUser.username
@@ -47,7 +50,7 @@ angular.module('myProfile')
                         var userDetail = response.data;
                         console.log(userDetail);
                         $scope.model.username = userDetail.username;
-                        $scope.model.birthday = userDetail.birthday;
+                        $scope.model.birthday = new Date(userDetail.birthday);
                         $scope.model.email = userDetail.email;
                         $scope.model.expiredDate = new Date(userDetail.expiredDate);
                         $scope.model.registeredDate = new Date(userDetail.registeredDate);
