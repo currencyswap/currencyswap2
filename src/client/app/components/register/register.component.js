@@ -33,7 +33,9 @@ angular.module('register')
                             }
                         });
                 }
-
+                $scope.formats = ['dd-MMMM-yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate'];
+                $scope.format = $scope.formats[0];
+                $scope.altInputFormats = ['M!/d!/yyyy'];
                 $scope.user = {};
                 $scope.registerSuccess = false;
                 $scope.startRegister = true;
