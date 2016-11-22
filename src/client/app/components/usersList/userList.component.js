@@ -271,7 +271,7 @@ angular.module('userList')
                             if (response.status === GLOBAL_CONSTANT.HTTP_SUCCESS_STATUS_CODE) {
                                 $scope.allUsers = response.data;
                                 $scope.allUsers.forEach(function (user) {
-                                    if (user.status === GLOBAL_CONSTANT.PEDING_USER_STATUS) {
+                                    if (user.status === GLOBAL_CONSTANT.PENDING_USER_STATUS) {
                                         $scope.users.push(user);
                                     } else {
                                         //do nothing
@@ -306,6 +306,7 @@ angular.module('userList')
                             if (userDetail.addresses[0] && userDetail.addresses[0].hasOwnProperty('country')) country1 = userDetail.addresses[0].country;
                             if (userDetail.addresses[0] && userDetail.addresses[0].hasOwnProperty('postcode')) postcode1 = userDetail.addresses[0].postcode;
 
+                            $scope.userDetail.id = userDetail.id;
                             $scope.userDetail.birthday = new Date(userDetail.birthday);
                             $scope.userDetail.expiredDate = new Date(userDetail.expiredDate);
                             $scope.userDetail.username = userDetail.username;
