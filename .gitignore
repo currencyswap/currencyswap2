@@ -10,4 +10,5 @@
 *~lock*
 *logs*
 *swp
+package.json
 buildscripts/deploy-ubuntu/config/*
