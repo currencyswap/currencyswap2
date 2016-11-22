@@ -45,7 +45,6 @@ angular.module('myProfile')
                 $http(userDetailReq)
                     .then(function (response) {
                         var userDetail = response.data;
-                        console.log(userDetail);
                         $scope.model.username = userDetail.username;
                         $scope.model.birthday = userDetail.birthday;
                         $scope.model.email = userDetail.email;
@@ -120,6 +119,10 @@ angular.module('myProfile')
                         expiredDate: $scope.model.expiredDate,
                         fullName: $scope.model.fullName,
                         registeredDate: $scope.model.registeredDate,
+                        bankAccountName: $scope.model.bankAccountName,
+                        bankAccountNumber: $scope.model.bankAccountNumber,
+                        bankName: $scope.model.bankName,
+                        bankCountry: $scope.model.bankCountry,
                         addresses: [
                             {
                                 address: $scope.model.address,
@@ -134,6 +137,8 @@ angular.module('myProfile')
                         currentPwd: $scope.model.currentPwd,
                         newPwd: $scope.model.newPwd
                     };
+
+                    console.log('updating user: ', updatingUser);
 
                     var headersSave = {};
 
