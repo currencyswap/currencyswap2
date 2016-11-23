@@ -11,3 +11,4 @@
 *swp
 package.json
 buildscripts/deploy-ubuntu/config/*
+src/app-config.json
