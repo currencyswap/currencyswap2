@@ -63,7 +63,7 @@ angular.module('register')
                     $scope.userExisted = false;
                     $scope.emailExisted = false;
                 };
-
+                $scope.user.birthday = new Date();
                 $scope.onSubmit = function () {
                     $scope.gifLoading = true;
                     var newUser = RegisterService.compressUserDataToObj($scope.user);

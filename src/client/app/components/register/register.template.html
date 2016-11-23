@@ -20,7 +20,7 @@
 
                 <div class="form-group" ng-class="{ 'has-error' : (registerForm.username.$invalid && !registerForm.username.$pristine) || userExisted}">
                     <div class="mb10">
-                        <label class="control-label"><b>Username</b></label> <span class="asterisk">*</span><a data-toggle="popover" data-content="Username only containe a-z (0-9) "><i style="font-size:20px" class="fa" ng-click="showPopover()">&#xf29c;</i></a>
+                        <label class="control-label"><b>Username</b></label> <span class="asterisk">*</span><a data-toggle="popover" data-content="Username only containe  [a-z], [0-9], '-', '_', '.'"><i style="font-size:20px" class="fa" ng-click="showPopover()">&#xf29c;</i></a>
                         <input ng-change="onUsernameChange()" type="text" name="username" class="form-control" ng-pattern="/^[a-zA-Z0-9\-\.\_]+$/" ng-model="user.username" focus-me="focusUsername" required>
                         <p ng-show="registerForm.username.$error.pattern" class="help-block ">Username is invalid.</p>
                         <p ng-show="userExisted" class="help-block ">Your chosen username is already in use</p>
@@ -86,7 +86,6 @@
                                 <span class="input-group-addon" style="height: 40px">
                                    <i class="glyphicon glyphicon-calendar" ng-click="openCalendar()"></i></button>
                                 </span>
-                            {{user.birthday}}
                         </div>
                 </div>
 
