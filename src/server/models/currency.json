@@ -2,28 +2,24 @@
   "name": "Currency",
   "base": "PersistedModel",
   "idInjection": true,
+  "indexes": {
+    "CURRENCY_CODE_UNQ_IDX": {
+      "columns": "code",
+      "kind": "unique"
+    }
+  },
   "options": {
     "validateUpsert": true
   },
   "properties": {
     "code": {
       "type": "string",
-      "required": true,
-      "index": {
-        "unique": true
-      }
+      "length": 32,
+      "required": true
     },
     "name": {
-      "type": "string"
-    },
-    "number": {
-      "type": "number"
-    },
-    "digits": {
-      "type": "number"
-    },
-    "country": {
-      "type": "string"
+      "type": "string",
+      "length": 128
     }
   },
   "validations": [],
