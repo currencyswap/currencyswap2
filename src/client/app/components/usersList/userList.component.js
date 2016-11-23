@@ -18,13 +18,13 @@ angular.module('userList')
             'GLOBAL_CONSTANT',
             '$log',
             function userListController($scope, $rootScope, UserListService,CookieService, PermissionService, $location, $http, $window, GLOBAL_CONSTANT, $log) {
-
+                $window.scrollTo(0,0);
                 // =====Date picker - START=====
                 $scope.today = function() {
                     $scope.dt = new Date();
                 };
                 $scope.today();
-
+                $scope.isEditting = false;
                 $scope.clear = function() {
                     $scope.dt = null;
                 };
@@ -120,7 +120,6 @@ angular.module('userList')
 
                 $scope.sortType     = 'fullName'; // set the default sort type
                 $scope.sortReverse  = false;  // set the default sort order
-                //$scope.searchFish   = '';     // set the default search/filter
 
                 $scope.users = [];
                 $scope.allUser = [];
@@ -174,7 +173,6 @@ angular.module('userList')
                         status: $scope.selectedStatus.selectedStatus
                     };
 
-                    console.log(resultUser);
 
                     var token = CookieService.getToken();
                     var headers = {};
@@ -184,6 +182,7 @@ angular.module('userList')
 
                     UserListService.saveUserDetail(resultUser, headers)
                         .then(function (response) {
+                            $scope.isEditting = false;
                             console.log(response.data);
                             $location.path(routes.USERS);
                             $window.location.reload();
@@ -194,7 +193,9 @@ angular.module('userList')
                     var dateOut = new Date(date);
                     return dateOut;
                 };
-                
+                $scope.changeStateToEdit = function () {
+                    $scope.isEditting = true;
+                };
                 $scope.onAllClick = function () {
                     $scope.detailUserView = false;
 
@@ -204,9 +205,16 @@ angular.module('userList')
 
                     headers[httpHeader.CONTENT_TYPE] = contentTypes.JSON;
                     headers[httpHeader.AUTHORIZARION] = autheticateType.BEARER + token;
+                    var  success = function () {
+                        console.log("success");
+                    }
+                    var  failed = function () {
+                        console.log("failed");
 
-                    UserListService.fetchAllUser(headers)
+                    }
+                    UserListService.fetchAllUser(headers,success,failed)
                         .then(function (response) {
+                            console.log("response",response);
                             if (response.status === GLOBAL_CONSTANT.HTTP_SUCCESS_STATUS_CODE) {
                                 $scope.allUsers = response.data;
                                 $scope.users = $scope.allUsers;

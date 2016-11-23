@@ -3,14 +3,14 @@
 
 angular.module('userList').factory('UserListService', ['$http', function ($http, PermissionService) {
     return {
-        fetchAllUser: function (headers) {
+        fetchAllUser: function (headers, success, failled) {
             var req = {
                 method: httpMethods.GET,
                 url: apiRoutes.API_USERS,
+                timeout : global.TIMEOUT,
                 headers: headers,
                 data: {}
             };
-
             return $http(req);
         },
         getUserDetail: function (userId, headers) {
