@@ -97,14 +97,12 @@ angular.module('register')
                                 }
 
                                 if (response.data.code === serverErrors.NATIONAL_ID_EXISTED) {
-                                    console.log('11111');
                                     $scope.nationalIdExisted = true;
                                     $scope.gifLoading = false;
                                     $scope.focusNationalId = true;
                                 }
 
                                 if (response.data.code === serverErrors.CELLPHONE_EXISTED) {
-                                    console.log('22222');
                                     $scope.cellphoneExisted = true;
                                     $scope.gifLoading = false;
                                     $scope.focusCellphone = true;
