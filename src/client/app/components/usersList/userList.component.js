@@ -140,7 +140,7 @@ angular.module('userList')
                 $scope.selectedStatus = {};
 
                 $scope.onSaveUserDetailData = function () {
-
+                    $scope.gifLoading = true;
                     var address, city, country, postcode, state = null;
                     $scope.userDetail.addresses = [];
 
@@ -183,9 +183,8 @@ angular.module('userList')
                     UserListService.saveUserDetail(resultUser, headers)
                         .then(function (response) {
                             $scope.isEditting = false;
-                            console.log(response.data);
-                            $location.path(routes.USERS);
-                            $window.location.reload();
+                            $window.scrollTo(0, 0);
+                            $scope.gifLoading = false;
                         })
 
                 };
@@ -214,7 +213,6 @@ angular.module('userList')
                     }
                     UserListService.fetchAllUser(headers,success,failed)
                         .then(function (response) {
-                            console.log("response",response);
                             if (response.status === GLOBAL_CONSTANT.HTTP_SUCCESS_STATUS_CODE) {
                                 $scope.allUsers = response.data;
                                 $scope.users = $scope.allUsers;
