@@ -429,7 +429,7 @@ exports.registerUser = function (newUser, callback) {
             var mailOptions = {
                 from: senderInfo.sender,
                 to: email,
-                subject: 'Active account URL',
+                subject: 'CurrencySwap Registration',
                 html: '<!DOCTYPE html>'
                 + '<html lang="en">'
                 + '<head>'
@@ -437,6 +437,7 @@ exports.registerUser = function (newUser, callback) {
                 + '<title></title>'
                 + '</head>'
                 + '<body>'
+                + '<p>CurrencySwap Registration</p><br>'
                 + '<p>Please click on the URL below and wait for admin approval before using Currency Swap</p>'
                 + '<a href="' + activeLink + '">Active URL</a>'
                 + '<p>Thanks and best regards</p>'

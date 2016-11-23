@@ -115,22 +115,22 @@
 
                 <div class="mb10">
                     <label class="control-label"><b>Account Name</b></label>
-                    <input class="form-control" type="text" ng-model="user.bankAccountName">
+                    <input class="form-control" type="text" ng-model="user.bankAccountName" maxlength="128">
                 </div>
 
                 <div class="mb10">
                     <label class="control-label"><b>Account Number</b></label>
-                    <input class="form-control" type="text" ng-model="user.bankAccountNumber">
+                    <input class="form-control" type="text" ng-model="user.bankAccountNumber" maxlength="128">
                 </div>
 
                 <div class="mb10">
                     <label class="control-label"><b>Bank Name</b></label>
-                    <input class="form-control" type="text" ng-model="user.bankName">
+                    <input class="form-control" type="text" ng-model="user.bankName" maxlength="128">
                 </div>
 
                 <div class="mb10">
                     <label class="control-label"><b>Country</b></label>
-                    <input class="form-control" type="text" ng-model="user.bankCountry">
+                    <input class="form-control" type="text" ng-model="user.bankCountry" maxlength="128">
                 </div>
 
                 <br>
@@ -146,11 +146,8 @@
     </div><!-- row -->
 
     <div class="signup-footer">
-        <div class="pull-left">
-            &copy; 2014. All Rights Reserved.
-        </div>
-        <div class="pull-right">
-            Currency Swap
+        <div style="text-align: center;">
+            &copy; Copyright © 2016. All rights reserved.
         </div>
     </div>
 
@@ -158,7 +155,6 @@
 
 <div ng-show="registerSuccess">
     <div class="col-md-3">
-
     </div>
     <div class="col-md-6">
         <div class="panel panel-success">
@@ -168,8 +164,9 @@
                 <h3 class="panel-title">Register Successfully</h3>
             </div>
             <div class="panel-body">
-                We sent an active link to your email, please help to check and follow the instruction in that email.
-                Please help to active your account within 24 hours.
+                The confirmation link has been sent to your email address - {{user.email}}
+                Please, check your email and click the link inside in order to finish registration and start working with Currency Swap.
+                _The confirmation link will be valid for a duration of 24 hours
             </div>
         </div>
 
