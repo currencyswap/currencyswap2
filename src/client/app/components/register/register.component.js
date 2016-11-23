@@ -112,6 +112,7 @@ angular.module('register')
                                 }
                             }
                         }, function (error) {
+                            console.log("error",error);
                         });
                 }
             }]
