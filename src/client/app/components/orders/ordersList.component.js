@@ -1,19 +1,19 @@
 'use strict';
 
 angular.module('orders')
-    .component('ordersList', {
-        templateUrl: 'app/components/usersDetail/ordersList.template.html',
+    .component('orders', {
+        templateUrl: 'app/components/orders/ordersList.template.html',
         controller: ['$scope',
             '$rootScope',
-            'OrdersService',
             'CookieService',
+            'OrdersService',
             'PermissionService',
             '$location',
             '$http',
             '$window',
             'GLOBAL_CONSTANT',
             '$log',
-            function userListController($scope, $rootScope, UserListService, OrdersService, PermissionService, $location, $http, $window, GLOBAL_CONSTANT, $log) {
+            function userListController($scope, $rootScope,CookieService, OrdersService, PermissionService, $location, $http, $window, GLOBAL_CONSTANT, $log) {
 
             }]
     });
