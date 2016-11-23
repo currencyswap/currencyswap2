@@ -2,7 +2,7 @@
 
 var routes = {
     HOME: '/',
-    ORDERS: '/orders/(:id)',  
+    ORDERS: '/orders/',
     USERS: '/users/',
     USER: 'user/:userid',
     ADD: '/request',
