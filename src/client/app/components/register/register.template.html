@@ -51,12 +51,11 @@
                 </div>
 
                 <div class="form-group"
-                     ng-class="{ 'has-error' : registerForm.cellphone.$invalid && !registerForm.cellphone.$pristine }">
+                     ng-class="{ 'has-error' : cellphoneExisted}">
                     <div class="mb10">
-                        <label class="control-label"><b>Cell phone</b></label>
-                        <input type="text" name="cellphone" class="form-control" ng-model="user.cellphone" focus-me="focusCellphone">
-                        <p ng-show="registerForm.cellphone.$invalid && !registerForm.cellphone.$pristine"
-                           class="help-block">Phone number is not valid.</p>
+                        <label class="control-label"><b>Cellphone</b></label>
+                        <input type="text" class="form-control" ng-model="user.cellphone" focus-me="focusCellphone">
+                        <p ng-show="cellphoneExisted" class="help-block">Your cellphone number is already in use</p>
                     </div>
                 </div>
 
@@ -86,6 +85,20 @@
                                    <i class="glyphicon glyphicon-calendar" ng-click="openCalendar()"></i></button>
                                 </span>
                         </div>
+                </div>
+
+                <!--<div class="mb10">
+                    <label class="control-label"><b>Passport/NationalId</b></label>
+                    <input class="form-control" type="text" ng-model="user.nationalId">
+                </div>-->
+
+                <div class="form-group"
+                     ng-class="{ 'has-error' : nationalIdExisted}">
+                    <div class="mb10">
+                        <label class="control-label"><b>Passport/NationalId</b></label>
+                        <input type="text" class="form-control" ng-model="user.nationalId" focus-me="focusNationalId">
+                        <p ng-show="nationalIdExisted" class="help-block">Your National Id is already in use</p>
+                    </div>
                 </div>
 
                 <div class="mb10">
