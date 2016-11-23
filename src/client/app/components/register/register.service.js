@@ -29,7 +29,6 @@ angular.module('register').factory('RegisterService', ['$http', '$q', function (
 
         submitRequest: function (userObj) {
             var headers = {};
-
             headers[httpHeader.CONTENT_TYPE] = contentTypes.JSON;
             var postData = {
                 newUser: userObj
