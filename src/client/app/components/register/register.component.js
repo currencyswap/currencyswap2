@@ -14,6 +14,7 @@ angular.module('register')
                 $scope.showPopover = function () {
                     $('[data-toggle="popover"]').popover();
                 };
+
                 if ($location.search().activeCode) {
                     $scope.startRegister = false;
                     $scope.registerSuccess = false;
@@ -33,9 +34,12 @@ angular.module('register')
                             }
                         });
                 }
+
                 $scope.formats = ['dd-MMMM-yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate'];
                 $scope.format = $scope.formats[0];
                 $scope.altInputFormats = ['M!/d!/yyyy'];
+
+
                 $scope.user = {};
                 $scope.registerSuccess = false;
                 $scope.startRegister = true;
@@ -45,7 +49,8 @@ angular.module('register')
                 $scope.emailExisted = false;
                 $scope.passportExisted = false;
                 $scope.cellphoneExisted = false;
-                $scope.calendar = { opened: false };
+                $scope.calendar = {opened: false};
+
                 $scope.openCalendar = function () {
                     $scope.calendar.opened = true;
                 };
@@ -64,12 +69,8 @@ angular.module('register')
                     var newUser = RegisterService.compressUserDataToObj($scope.user);
                     RegisterService.submitRequest(newUser)
                         .then(function (response) {
-                            if (response.status === GLOBAL_CONSTANT.HTTP_SUCCESS_STATUS_CODE) { //handle success response
-                                $scope.gifLoading = false;
-                                $scope.registerSuccess = true;
-                                $scope.startRegister = false;
-                                $window.scrollTo(0, 0);
-                            } else { //handle error response
+                            if (response.status === GLOBAL_CONSTANT.HTTP_ERROR_STATUS_CODE) { //handle success response
+
                                 if (response.data.code === serverErrors.TRANSACTION_INIT_FAIL
                                     || response.data.code === serverErrors.COULD_NOT_SAVE_USER_TO_DB
                                     || response.data.code === serverErrors.COULD_NOT_SAVE_USER_ADDR_TO_DB
@@ -110,8 +111,17 @@ angular.module('register')
                                     $scope.cellphoneExisted = true;
                                     $scope.focusEmail = true;
                                 }
+                            } else { //handle success response
+                                $scope.gifLoading = false;
+                                $scope.registerSuccess = true;
+                                $scope.startRegister = false;
+                                $window.scrollTo(0, 0);
                             }
                         }, function (error) {
+                            $rootScope.error = {};
+                            $rootScope.error.status = GLOBAL_CONSTANT.SERVER_GOT_PROBLEM_STATUS;
+                            $rootScope.error.message = GLOBAL_CONSTANT.SERVER_GOT_PROBLEM_MSG;
+                            $window.scrollTo(0, 0);
                         });
                 }
             }]

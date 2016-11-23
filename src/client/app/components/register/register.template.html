@@ -75,17 +75,24 @@
                 <label class="control-label"><b>Birthday</b></label>
 
                 <div class="form-group">
-                    <!--<div class="col-sm-5">-->
                         <div class="input-group">
-                            <!--<input type="text" id="dob" class="form-control" uib-datepicker-popup="{{format}}" ng-model="user.birthday"
-                                   is-open="calendar.opened" datepicker-options="dateOptions" ng-required="true"-->
-                            <input type="text" id="dob" class="form-control" uib-datepicker-popup="dd-MMMM-yyyy" ng-model="user.birthday"
-                                   is-open="calendar.opened" datepicker-options="dateOptions"
-                                   close-text="Close" alt-input-formats="altInputFormats"/>
+                            <input type="text" class="form-control"
+                                   uib-datepicker-popup="{{format}}"
+                                   is-open="calendar.opened"
+                                   datepicker-options="dateOptions"
+                                   ng-model="user.birthday"
+                                   close-text="Close"
+                                   alt-input-formats="altInputFormats"/>
                                 <span class="input-group-addon" style="height: 40px">
                                    <i class="glyphicon glyphicon-calendar" ng-click="openCalendar()"></i></button>
                                 </span>
+                            {{user.birthday}}
                         </div>
+                </div>
+
+                <div class="mb10">
+                    <label class="control-label"><b>Passport/NationalId</b></label>
+                    <input class="form-control" type="text" ng-model="user.nationalId">
                 </div>
 
                 <div class="mb10">

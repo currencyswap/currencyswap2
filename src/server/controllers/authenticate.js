@@ -20,7 +20,11 @@ module.exports = function (app) {
                 });
             },
             function (user, next) {
-                userService.checkExpiredDateUse(user, function (err, responce) {
+                userService.login(user, function (err, tokenKey) {
+                    next(err, tokenKey);
+                });
+
+                /*userService.checkExpiredDateUse(user, function (err, responce) {
                     var expiredDate = dateFormat(responce.expiredDate, appConfig.DATE_FORMAT)
                     var currentData = dateFormat(new Date(), appConfig.DATE_FORMAT)
                     if(responce.username !== "admin" && expiredDate < currentData) {
@@ -32,7 +36,7 @@ module.exports = function (app) {
                             next(err, tokenKey);
                         });
                     }
-                })
+                })*/
             }
         ], function (err, tokenKey) {
 

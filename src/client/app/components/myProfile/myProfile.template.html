@@ -47,13 +47,17 @@
                     </div>
                     <div class="col-sm-9">
                         <div class="input-group">
-                            <input type="text" class="form-control" uib-datepicker-popup="{{format}}"
-                                   is-open="calendarPicker.opened" datepicker-options="dateOptions" ng-required="true"
+                            <input type="text" class="form-control"
+                                   uib-datepicker-popup="{{format}}"
+                                   is-open="calendarPicker.opened"
+                                   datepicker-options="dateOptions"
                                    ng-model="model.birthday"
-                                   close-text="Close" alt-input-formats="altInputFormats">
+                                   close-text="Close"
+                                   alt-input-formats="altInputFormats">
                             <span class="input-group-addon" style="height: 40px">
                                    <i class="glyphicon glyphicon-calendar" ng-click="openCalendar()"></i>
                                 </span>
+                            {{model.birthday}}
                         </div>
                     </div>
                 </div>
