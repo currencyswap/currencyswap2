@@ -8,7 +8,8 @@ var global = {
     TOOLSBAR : 'Tools-Bar',
     NONE : '',
     DEF_AVATAR: 'assets/images/photos/profile.png',
-    USER_EMAIL: 'userEmail'
+    USER_EMAIL: 'userEmail',
+    TIME_OUT: 1
 };
 
 var permissions = {

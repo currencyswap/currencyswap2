@@ -43,6 +43,18 @@
     "profession": {
       "type": "string"
     },
+    "bankAccountName": {
+      "type": "string"
+    },
+    "bankAccountNumber": {
+      "type": "string"
+    },
+    "bankName": {
+      "type": "string"
+    },
+    "bankCountry": {
+      "type": "string"
+    },
     "registeredDate": {
       "type": "date"
     },
