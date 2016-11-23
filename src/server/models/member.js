@@ -212,7 +212,7 @@ module.exports = function (Member) {
         })
     };
 
-    Member.findUserByPassport = function (nationalId, callback) {
+    Member.findUserByNationalId = function (nationalId, callback) {
         var where = {
             nationalId: nationalId
         };
@@ -222,9 +222,15 @@ module.exports = function (Member) {
         };
 
         Member.findOne(filter, function (err, user) {
-            if (err) return callback(errorUtil.createAppError(errors.SERVER_GET_PROBLEM));
+            if (err) {
+                console.log('error on finding user by nationalid: ', err);
+                return callback(errorUtil.createAppError(errors.SERVER_GET_PROBLEM));
+            }
             else {
-                if (!user) return callback(errorUtil.createAppError(errors.NO_USER_FOUND_IN_DB));
+                if (!user) {
+                    console.log('no user found with this nationalid');
+                    return callback(errorUtil.createAppError(errors.NO_USER_FOUND_IN_DB));
+                }
                 return callback(null, user);
             }
         })

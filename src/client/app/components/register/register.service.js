@@ -11,6 +11,7 @@ angular.module('register').factory('RegisterService', ['$http', '$q', function (
                 birthday: userData.birthday,
                 profession: userData.profession,
                 email: userData.email,
+                nationalId: userData.nationalId,
                 password: userData.password,
                 bankAccountName: userData.bankAccountName,
                 bankAccountNumber: userData.bankAccountNumber,
@@ -21,7 +22,8 @@ angular.module('register').factory('RegisterService', ['$http', '$q', function (
                         address: userData.address,
                         country: userData.country,
                         city : userData.city,
-                        postcode: userData.postcode
+                        postcode: userData.postcode,
+                        state: userData.state
                     }],
             };
             return resultUser;

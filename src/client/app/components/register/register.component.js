@@ -75,7 +75,8 @@ angular.module('register')
                                     || response.data.code === serverErrors.COULD_NOT_SAVE_USER_ADDR_TO_DB
                                     || response.data.code === serverErrors.COULD_NOT_SAVE_USER_GR_TO_DB
                                     || response.data.code === serverErrors.ERROR_TX_ROLLBACK
-                                    || response.data.code === serverErrors.ERROR_TX_COMMIT) {
+                                    || response.data.code === serverErrors.ERROR_TX_COMMIT
+                                    || response.data.code === serverErrors.ERR_COULD_NOT_SEND_MAIL) {
 
                                     $rootScope.error = {};
                                     $rootScope.error.status = GLOBAL_CONSTANT.SERVER_GOT_PROBLEM_STATUS;
@@ -84,31 +85,27 @@ angular.module('register')
                                 }
 
                                 if (response.data.code === serverErrors.USER_NAME_EXISTED) {
-                                    $scope.emailExisted = false;
-                                    $scope.gifLoading = false;
                                     $scope.userExisted = true;
+                                    $scope.gifLoading = false;
                                     $scope.focusUsername = true;
                                 }
 
                                 if (response.data.code === serverErrors.EMAIL_EXISTED) {
-                                    $scope.userExisted = false;
-                                    $scope.gifLoading = false;
                                     $scope.emailExisted = true;
+                                    $scope.gifLoading = false;
                                     $scope.focusEmail = true;
                                 }
 
-                                if (response.data.code === serverErrors.PASSPORT_EXISTED) {
-                                    $scope.userExisted = false;
+                                if (response.data.code === serverErrors.NATIONAL_ID_EXISTED) {
+                                    $scope.nationalIdExisted = true;
                                     $scope.gifLoading = false;
-                                    $scope.passportExisted = true;
-                                    $scope.focusEmail = true;
+                                    $scope.focusNationalId = true;
                                 }
 
                                 if (response.data.code === serverErrors.CELLPHONE_EXISTED) {
-                                    $scope.userExisted = false;
-                                    $scope.gifLoading = false;
                                     $scope.cellphoneExisted = true;
-                                    $scope.focusEmail = true;
+                                    $scope.gifLoading = false;
+                                    $scope.focusCellphone = true;
                                 }
                             }
                         }, function (error) {

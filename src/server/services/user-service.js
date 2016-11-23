@@ -358,7 +358,7 @@ exports.createUserTransaction = function (callback) {
     });
 };
 
-exports.registerUser = function (newUser, callback) {
+    exports.registerUser = function (newUser, callback) {
     async.waterfall([
         function (next) {
             groupService.findGroupByName(newUser.group, function (err, group) {
@@ -385,10 +385,44 @@ exports.registerUser = function (newUser, callback) {
                 } else {
                     return next(errorUtil.createAppError(errors.USER_NAME_EXISTED));
                 }
-            })
+            });
         },
         function (newUser, next) {
-            app.models.Member.findByEmail(newUser.email, function (err, user) {
+            if (!newUser.nationalId) {
+                return next (null, newUser);
+            } else {
+                exports.getUserByNationalId(newUser, function (err, foundUser) {
+                    if (err) {
+                        if (err.code === errorUtil.createAppError(errors.NO_USER_FOUND_IN_DB).code) {
+                            return next(null, newUser);
+                        } else {
+                            return next(err);
+                        }
+                    } else {
+                        return next (errorUtil.createAppError(errors.NATIONAL_ID_EXISTED));
+                    }
+                });
+            }
+        },
+        function (newUser, next) {
+            if (!newUser.cellphone) {
+                return next(null, newUser);
+            } else {
+                exports.getUserByCellphone(newUser, function (err, foundUser) {
+                    if (err) {
+                        if (err.code === errorUtil.createAppError(errors.NO_USER_FOUND_IN_DB).code) {
+                            return next(null, newUser);
+                        } else {
+                            return next(err);
+                        }
+                    } else {
+                        return next (errorUtil.createAppError(errors.CELLPHONE_EXISTED))
+                    }
+                })
+            }
+        },
+        function (newUser, next) {
+            app.models.Member.findByEmail(newUser.email, function (err, foundUser) {
                 if (err) {
                     if (err.code === errorUtil.createAppError(errors.MEMBER_EMAIL_NOT_FOUND).code) {
                         return next(null, newUser);
@@ -451,7 +485,7 @@ exports.registerUser = function (newUser, callback) {
         function (mailOptions, next) {
             // send notification email to client
             mailSender.sendMail(mailOptions, function (err, info) {
-                if (err) return next(err);
+                if (err) return next(errorUtil.createAppError(errors.ERR_COULD_NOT_SEND_MAIL));
                 else {
                     return next(null);
                 }
@@ -615,7 +649,7 @@ exports.updateAddress = function (addressId, address, callback) {
 };
 
 exports.getUserByNationalId = function (user, callback) {
-    app.models.Member.findUserByPassport(user.nationalId, function (err, userObj) {
+    app.models.Member.findUserByNationalId(user.nationalId, function (err, userObj) {
         if (err) return callback(err);
         else return callback(null, userObj);
     })
@@ -633,4 +667,4 @@ exports.checkExpiredDateUse = function (user, callback) {
         if (err) return callback(err);
         callback(null, userObj);
     });
-}
+};

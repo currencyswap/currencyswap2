@@ -52,5 +52,13 @@
   "OrderActivity": {
     "dataSource": "CSwapDB",
     "public": false
+  },
+  "Message": {
+    "dataSource": "CSwapDB",
+    "public": false
+  },
+  "MessageRead": {
+    "dataSource": "CSwapDB",
+    "public": false
   }
 }

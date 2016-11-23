@@ -42,5 +42,6 @@
     "COULD_NOT_DECRYPT_RESET_PWD_CODE": "Could not decrypt reset password code",
     "PASSPORT_EXISTED": "Passport is existed",
     "CELLPHONE_EXISTED": "Cellphone number is existed",
-    "INVALID_PASSWORD": "Invalid password"
+    "INVALID_PASSWORD": "Invalid password",
+    "NATIONAL_ID_EXISTED": "NationalId/Passport is existed"
 }

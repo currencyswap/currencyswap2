@@ -37,11 +37,6 @@
       "required": true,
       "default": "now"
     },
-    "isRead": {
-      "type": "boolean",
-      "required": true,
-      "default": false
-    },
     "isGroupMessage": {
       "type": "boolean",
       "required": true,
@@ -59,6 +54,11 @@
       "type": "belongsTo",
       "model": "Member",
       "foreignKey": "creatorId"
+    },
+    "readers": {
+      "type": "hasMany",
+      "model": "MessageRead",
+      "foreignKey": "messageId"
     }
   },
   "acls": [],
