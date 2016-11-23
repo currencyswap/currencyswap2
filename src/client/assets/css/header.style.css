@@ -13,6 +13,10 @@ button.tb-active {
  margin: auto;
  width: 80%;
 }
+
+.support-content {
+ margin: 10px auto;
+}
 @media screen and (max-width: 1024px) {
 }
 
