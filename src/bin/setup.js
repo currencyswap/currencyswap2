@@ -1,22 +1,43 @@
 'use strict';
 
 var path = require('path');
-var app = require(path.resolve(__dirname, '../server/server'));
-var ds = app.datasources.NodeJSApp;
+var nodeUtil = require('util');
+var util = require('util');
+var async = require('async');
+var exec = require('child_process').exec;
+
 var users = require('./data/users');
+var groupsWithPermissions = require('./data/permissions');
+var currencyData = require('./data/currency');
+var statusData = require('./data/status-type');
+
+var app = require(path.resolve(__dirname, '../server/server'));
+var ds = app.datasources.CSwapDB;
+
 var userService = require('../server/services/user-service');
 var permissionService = require('../server/services/permission-service');
 var groupService = require('../server/services/group-service');
 
-var async = require('async');
-var exec = require('child_process').exec;
-const appConfig = require('../server/libs/app-config');
-var nodeUtil = require('util');
-
 var persGroups = require('../server/security/permissions-groups');
-var groupsWithPermissions = require('./data/permissions');
 
-var util = require('util');
+var appConfig = require('../server/libs/app-config');
+
+var mapDataModels = [
+    {'model': 'Currency', 'values': currencyData.currencies},
+    {'model': 'StatusType', 'values': statusData.statuses}
+];
+
+function _insertData(arrayData, modelType, next) {
+    console.log('_insertData', modelType);
+    if (arrayData && arrayData.length > 0) {
+      ds.models[modelType].create(arrayData, function(err, result) {
+        console.log('create', modelType, err, result);
+        next(err);
+      });
+    } else {
+      next();
+    }
+  };
 
 function cleanUpCache(callback) {
     let redis = appConfig.getRedis();
@@ -133,9 +154,14 @@ function getGroup(groupKey, groupMaps) {
         id: groupId,
         name: groupName
     };
-}
+};
 
-var migrateDb = function () {
+var otherInSeries = function(done) {
+   async.eachSeries(mapDataModels, function iterator(data, next) {
+     _insertData(data.values, data.model, next);
+   }, done);
+ };
+var migrate = function () {
     ds.automigrate(function (err) {
         if (err) {
             console.error('ERROR : %s', err.message);
@@ -160,28 +186,19 @@ var migrateDb = function () {
             },
             function (groups, next) {
                 let groupMaps = convertObjectsToMaps(groups);
-
-
                 let userObjs = [];
-
                 for (let key in users) {
-
                     let user = users[key];
                     let groupObjs = [];
 
                     for (let key in user.groups) {
                         let grp = getGroup(user.groups[key], groupMaps);
-
                         if (grp) groupObjs.push(grp);
-
                     }
-
                     user.groups = groupObjs;
                     console.log('USER %s', JSON.stringify(user));
-
                     userObjs.push(user);
                 }
-
                 next(null, userObjs);
             },
             function (userObjs, next) {
@@ -191,13 +208,13 @@ var migrateDb = function () {
             },
             function ( users, next) {
                 cleanUpCache(next);
-            }
-        ], function (err) {
-
+            },
+            otherInSeries
+        ],
+        function (err) {
             if (err) {
                 console.error('ERROR : %s', err.message);
             }
-
             process.exit(0);
         });
 
@@ -205,9 +222,9 @@ var migrateDb = function () {
 };
 
 if(ds.connected) {
-    migrateDb();
+    migrate();
 } else {
     ds.once('connected', function() {
-        migrateDb();
+        migrate();
     });
 }

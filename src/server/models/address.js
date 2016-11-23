@@ -23,7 +23,6 @@ module.exports = function(Address) {
         };
 
         Address.updateAll(filter, value, function (err, info) {
-            console.log('infoooooooooooooooooo: ', info);
             callback(err,info);
         });
     };
