@@ -2,63 +2,78 @@
   "name": "Member",
   "base": "PersistedModel",
   "idInjection": true,
+  "indexes": {
+    "MEMBER_USERNAME_UNQ_IDX": {
+      "columns": "username",
+      "kind": "unique"
+    },
+    "MEMBER_EMAIL_UNQ_IDX": {
+      "columns": "email",
+      "kind": "unique"
+    }
+  },
   "options": {
     "validateUpsert": true
   },
   "properties": {
     "username": {
       "type": "string",
-      "required": true,
-      "index": {
-        "unique": true
-      }
+      "length": 64,
+      "required": true
     },
     "email": {
       "type": "string",
-      "required": true,
-      "index": {
-        "unique": true
-      }
+      "length": 64,
+      "required": true
     },
     "password": {
       "type": "string",
+      "length": 64,
       "required": true
     },
     "fullName": {
-      "type": "string"
+      "type": "string",
+      "length": 128
     },
     "birthday": {
-      "type": "date",
-      "postgresql": {
-        "dataType": "date",
-        "nullable": "YES"
-      }
+      "type": "date"
     },
     "nationalId": {
-      "type": "string"
+      "type": "string",
+      "length": 128
     },
     "cellphone": {
-      "type": "string"
+      "type": "string",
+      "length": 32
     },
     "profession": {
+      "type": "string",
+      "length": 256
+    },
+    "bankAccountName": {
       "type": "string"
     },
-    "expiredDate": {
+    "bankAccountNumber": {
+      "type": "string"
+    },
+    "bankName": {
+      "type": "string"
+    },
+    "bankCountry": {
+      "type": "string"
+    },
+    "registeredDate": {
       "type": "date",
-      "postgresql": {
-        "dataType": "date",
-        "nullable": "YES"
-      }
-    },
-    "isActivated": {
-      "type": "boolean",
       "required": true,
-      "default": false
+      "defaultFn": "now"
     },
-    "isBlocked": {
-      "type": "boolean",
-      "required": true,
-      "default": false
+    "expiredDate": {
+      "type": "date"
+    },
+    "status": {
+      "type": "string",
+      "length": 128,
+      "required": true
     }
   },
   "validations": [],

@@ -7,7 +7,9 @@ var global = {
     MENUBAR : 'Menu-Bar',
     TOOLSBAR : 'Tools-Bar',
     NONE : '',
-    DEF_AVATAR: 'assets/images/photos/profile.png'
+    DEF_AVATAR: 'assets/images/photos/profile.png',
+    USER_EMAIL: 'userEmail',
+    TIME_OUT: 1
 };
 
 var permissions = {
@@ -35,7 +37,8 @@ var httpMethods = {
 
 var contentTypes = {
     JSON: 'application/json',
-    JSONP : 'application/javascript'
+    JSONP : 'application/javascript',
+    FORM_URL_ENCODED: 'application/x-www-form-urlencoded'
 };
 
 var autheticateType = {

@@ -7,9 +7,17 @@ angular.module('currencySwapApp', [
     'errorPage',
     'permission',
     'loginForm',
+    'verifyInfo',
+    'resetPassword',
+    'register',
+    'userList',
+    'myProfile',
+    'ngFileUpload',
     'homePage',
-    'navigation'
-]).run(function ($rootScope, $location, CookieService, PermissionService, NavigationHelper ) {
+    'navigation',
+    'angularCountryState',
+    'ui.bootstrap',
+]).run(function ($rootScope, $location, CookieService, PermissionService, NavigationHelper) {
 
     var token = CookieService.getToken();
     $rootScope.loggedIn = false;
@@ -19,9 +27,21 @@ angular.module('currencySwapApp', [
 
     if (!token) {
         $rootScope.isLoading = false;
+        if ($location.path() === routes.FORGOT_PASSWORD_VERIFY) {
+            return $location.path(routes.FORGOT_PASSWORD_VERIFY);
+        }
 
-        if ($location.path() != routes.LOGIN) return $location.path(routes.LOGIN);
-        else return;
+        if ($location.search().resetCode) {
+            return $location.path(routes.FORGOT_PASSWORD_RESET);
+        }
+
+        if ($location.search().activeCode) {
+            return $location.path(routes.REGISTER);
+        }
+
+        if ($location.path() != routes.LOGIN) {
+            return $location.path(routes.LOGIN);
+        } else return;
     }
 
     $rootScope.$on("$routeChangeStart", function (event, next, current) {
@@ -46,7 +66,7 @@ angular.module('currencySwapApp', [
             if ($location.path() == routes.LOGIN) return $location.path(routes.HOME);
 
         }, function (error) {
-            let err = error.data;
+            var err = error.data;
             console.error('ERROR [%s] : %s.', err.code, err.message);
             $rootScope.isLoading = false;
 
@@ -65,7 +85,16 @@ angular.module('currencySwapApp', [
     );
 
 }).constant('GLOBAL_CONSTANT', {
-}).constant('ERROR_MSG', {
-    INVALID_USR_OR_PWD_MSG: 'Invalid username or password !',
-    EMPTY_USR_OR_PWD_MSG: 'Empty username or password !'
+    HTTP_SUCCESS_STATUS_CODE: 200, // returned status from server for success case
+    HTTP_ERROR_STATUS_CODE: 299, // returned status from server for error case (2xx not to get browser shows the errors)
+    SERVER_GOT_PROBLEM_MSG: 'Server got problem',
+    SERVER_GOT_PROBLEM_STATUS: 'ERROR',
+    ACTIVATED_USER_STATUS: 'Activated',
+    BLOCKED_USER_STATUS: 'Blocked',
+    PENDING_USER_STATUS: 'Pending Approval',
+    NEW_USER_STATUS: 'New',
+    DEACTIVATED_USER_STATUS: 'Deactivated',
+    INVALID_USER_NAME_OR_PWD_MSG: 'Invalid username/password',
+    ACCOUNT_IS_NOT_ACTIVATED_MSG: 'Account is not activated'
+
 });

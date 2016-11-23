@@ -6,6 +6,7 @@ var errorUtil = require('./errors/error-util');
 const errors = require('./errors/errors');
 const appConfig = require('./app-config');
 var async = require('async');
+var util = require('util');
 
 var exports = module.exports;
 
@@ -69,16 +70,14 @@ exports.sendMail = function (mailOptions, callback) {
         let err = errorUtil.createAppError(errors.MAIL_SENDER_NOT_VAILABLE);
         return callback(err);
     }
-
     sender.sendMail(mailOptions, function (error, info) {
         if (error) {
-            console.error('ERROR : %s', error);
+            console.error(util.inspect(error, {showHidden: false, depth: null}));
             let err = errorUtil.createAppError(errors.COULD_NOT_SEND_MAIL);
             err.message = error;
             return callback(err);
         }
 
-        console.info('INFO : %s', JSON.stringify(info));
         callback(null, info);
     });
 };

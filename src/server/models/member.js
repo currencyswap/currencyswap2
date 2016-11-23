@@ -3,6 +3,7 @@
 var errorUtil = require('../libs/errors/error-util');
 var errors = require('../libs/errors/errors');
 var util = require('util');
+var constants = require('../libs/constants/constants');
 
 module.exports = function (Member) {
     Member.observe('after save', function (ctx, next) {
@@ -23,7 +24,7 @@ module.exports = function (Member) {
             isActivated = null;
         }
 
-        let where = {
+        var where = {
             id: userId
         };
 
@@ -31,15 +32,15 @@ module.exports = function (Member) {
             where.isActivated = isActivated;
         }
 
-        let includeGroups = {
+        var includeGroups = {
             relation: 'groups'
         };
 
-        let includeAddresses = {
+        var includeAddresses = {
             relation: 'addresses'
         };
 
-        let filter = {
+        var filter = {
             where: where,
             include: [includeGroups, includeAddresses]
         };
@@ -51,7 +52,7 @@ module.exports = function (Member) {
             }
 
             if (!user) {
-                let appError = errorUtil.createAppError(errors.MEMBER_INVALID_USERID);
+                var appError = errorUtil.createAppError(errors.MEMBER_INVALID_USERID);
                 appError.message = util.format(appError.message, userId);
                 return callback(appError);
             }
@@ -67,7 +68,7 @@ module.exports = function (Member) {
             isActivated = null;
         }
 
-        let where = {
+        var where = {
             username: username
         };
 
@@ -75,15 +76,15 @@ module.exports = function (Member) {
             where.isActivated = isActivated;
         }
 
-        let includeGroups = {
+        var includeGroups = {
             relation: 'groups'
         };
 
-        let includeAddresses = {
+        var includeAddresses = {
             relation: 'addresses'
         };
 
-        let filter = {
+        var filter = {
             where: where,
             include: [includeGroups, includeAddresses]
         };
@@ -95,7 +96,7 @@ module.exports = function (Member) {
             }
 
             if (!user) {
-                let appError = errorUtil.createAppError(errors.MEMBER_INVALID_USERNAME);
+                var appError = errorUtil.createAppError(errors.MEMBER_INVALID_USERNAME);
                 appError.message = util.format(appError.message, username);
                 return callback(appError);
             }
@@ -105,19 +106,19 @@ module.exports = function (Member) {
     };
 
     Member.findByUsernameWithPermissions = function (username, callback) {
-        let where = {
+        var where = {
             username: username,
             isActivated: true
         };
 
-        let includeGroups = {
+        var includeGroups = {
             relation: 'groups',
             scope: {
                 include: 'permissions'
             }
         };
 
-        let filter = {
+        var filter = {
             where: where,
             include: includeGroups
         };
@@ -129,7 +130,7 @@ module.exports = function (Member) {
             }
 
             if (!user) {
-                let appError = errorUtil.createAppError(errors.MEMBER_INVALID_USERNAME);
+                var appError = errorUtil.createAppError(errors.MEMBER_INVALID_USERNAME);
                 appError.message = util.format(appError.message, username);
                 return callback(appError);
             }
@@ -138,4 +139,112 @@ module.exports = function (Member) {
         });
     };
 
+    Member.findByEmail = function (email, callback) {
+        var where = {
+            email: email
+        };
+
+        var filter = {
+            where: where
+        };
+        Member.findOne(filter, function (err, user) {
+
+            if (err) {
+                return callback(errorUtil.createAppError(errors.SERVER_GET_PROBLEM));
+            }
+
+            if (!user) {
+                return callback(errorUtil.createAppError(errors.MEMBER_EMAIL_NOT_FOUND));
+            }
+
+            callback(null, user);
+        });
+    };
+
+    Member.findAll = function (callback) {
+        Member.find(function (err, users) {
+            if (err) return callback(errorUtil.createAppError(errors.SERVER_GET_PROBLEM));
+            else {
+                if (!users || users.length < 0) return callback(errorUtil.createAppError(errors.NO_USER_FOUND_IN_DB));
+                else return callback(null, users);
+            }
+        });
+    };
+
+    Member.findUserDetailWithEmail = function (userId, callback) {
+        var where = {
+            id: userId
+        };
+
+        var includeAddress = {
+            relation: 'addresses'
+        };
+
+        var filter = {
+            where: where,
+            include: includeAddress
+        };
+
+        Member.findOne(filter, function (err, user) {
+            if (err) return callback(errorUtil.createAppError(errors.SERVER_GET_PROBLEM));
+            else {
+                if (!user) return callback(errorUtil.createAppError(errors.NO_USER_FOUND_IN_DB));
+                return callback(null, user);
+            }
+        })
+    };
+
+    Member.findUserByUserName = function (username, callback) {
+        var where = {
+            username: username
+        };
+
+        var filter = {
+            where: where
+        };
+
+        Member.findOne(filter, function (err, user) {
+            if (err) return callback(errorUtil.createAppError(errors.SERVER_GET_PROBLEM));
+            else {
+                if (!user) return callback(errorUtil.createAppError(errors.NO_USER_FOUND_IN_DB));
+                return callback(null, user);
+            }
+        })
+    };
+
+    Member.findUserByPassport = function (nationalId, callback) {
+        var where = {
+            nationalId: nationalId
+        };
+
+        var filter = {
+            where: where
+        };
+
+        Member.findOne(filter, function (err, user) {
+            if (err) return callback(errorUtil.createAppError(errors.SERVER_GET_PROBLEM));
+            else {
+                if (!user) return callback(errorUtil.createAppError(errors.NO_USER_FOUND_IN_DB));
+                return callback(null, user);
+            }
+        })
+    };
+
+    Member.findUserByCellphone = function (cellphone, callback) {
+        var where = {
+            cellphone: cellphone
+        };
+
+        var filter = {
+            where: where
+        };
+
+        Member.findOne(filter, function (err, user) {
+            if (err) return callback(errorUtil.createAppError(errors.SERVER_GET_PROBLEM));
+            else {
+                if (!user) return callback(errorUtil.createAppError(errors.NO_USER_FOUND_IN_DB));
+                return callback(null, user);
+            }
+        })
+    };
 };

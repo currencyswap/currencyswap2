@@ -15,7 +15,7 @@ var checkValidPermission = function (permissions, requiredPermissions) {
     return false;
 };
 
-angular.module('navigation', []).factory('NavigationHelper', ['$rootScope', '$location', function ($rootScope, $location) {
+angular.module('navigation', []).factory('NavigationHelper', ['$rootScope', '$location', 'CookieService', function ($rootScope, $location, CookieService) {
     return {
         initNavigationBar: function () {
 
@@ -66,7 +66,6 @@ angular.module('navigation', []).factory('NavigationHelper', ['$rootScope', '$lo
                 }
 
             });
-
         },
         checkPermission: function () {
             $rootScope.error = null;

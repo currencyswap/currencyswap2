@@ -44,7 +44,6 @@ exports.setupClient = function () {
 };
 
 exports.set = function (key, value, exp) {
-
     if ( !exports.redis ) {
         return;
     }
@@ -58,7 +57,7 @@ exports.set = function (key, value, exp) {
 };
 
 exports.remove = function (key) {
-    
+
     if ( !exports.redis ) {
         return;
     }
@@ -108,7 +107,7 @@ exports.setSecretKeyBySignature = function (sign, value) {
     let exp = appConfig.getTokenExpired();
     let milisec = ms(exp) / SEC + 1;
     let key = SIGNATURES + sign;
-    
+
     exports.set(key, value, milisec);
 };
 
@@ -139,4 +138,30 @@ exports.getUserInfo = function (username, callback) {
         callback(err, user);
 
     });
+};
+
+exports.checkResetCode = function (email, randomString, callback) {
+    exports.get(email, function (err, value) {
+        if (err) {
+            console.error('Can not get reset code from redis with key ', email);
+            return callback(errorUtil.createAppError(errors.RESET_PWD_CODE_NOT_FOUND));
+        } else {
+            if (!value) return callback(errorUtil.createAppError(errors.RESET_PWD_CODE_NOT_FOUND));
+            else if (value !== randomString) return callback(errorUtil.createAppError(errors.RESET_PWD_CODE_DOES_NOT_MATCH));
+            else return callback(null);
+        }
+    })
+};
+
+exports.checkActiveCode = function (username, randomString, callback) {
+    exports.get(username, function (err, value) {
+        if (err) {
+            console.error('Can not get active code from redis with key ', username);
+            return callback(errorUtil.createAppError(errors.ACTIVE_ACC_CODE_NOT_FOUND));
+        } else {
+            if (!value) return callback(errorUtil.createAppError(errors.ACTIVE_ACC_CODE_NOT_FOUND));
+            else if (value !== randomString) return callback(errorUtil.createAppError(errors.ACTIVE_ACC_CODE_DOES_NOT_MATCH));
+            else return callback(null);
+        }
+    })
 };

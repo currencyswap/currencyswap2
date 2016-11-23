@@ -37,11 +37,15 @@
     },
     "MAIL_SENDER_NOT_VAILABLE": {
         "code": 10,
-        "message": "{ERR_MAIL_SENDER_NOT_VAILABLE}"
+        "message": "{ERR_MAIL_SENDER_NOT_AVAILABLE}"
     },
     "COULD_NOT_SEND_MAIL": {
         "code": 11,
         "message": "{ERR_COULD_NOT_SEND_MAIL}"
+    },
+    "ACCOUNT_IS_NOT_ACTIVATED": {
+        "code": 12,
+        "message": "{ACCOUNT_IS_NOT_ACTIVATED}"
     },
     "MEMBER_NO_USERNAME": {
         "code": 20,
@@ -71,6 +75,46 @@
         "code": 26,
         "message": "{ERR_NO_USERID}"
     },
+    "MEMBER_EMAIL_NOT_FOUND": {
+        "code": 27,
+        "message": "{ERR_EMAIL_NOT_FOUND}"
+    },
+    "RESET_PWD_CODE_NOT_FOUND": {
+        "code": 28,
+        "message": "{RESET_PWD_CODE_NOT_FOUND}"
+    },
+    "RESET_PWD_CODE_DOES_NOT_MATCH": {
+        "code": 29,
+        "message": "{RESET_PWD_CODE_DOES_NOT_MATCH}"
+    },
+    "USER_NAME_EXISTED": {
+        "code": 30,
+        "message": "{USER_NAME_EXISTED}"
+    },
+    "EMAIL_EXISTED": {
+        "code": 31,
+        "message": "{EMAIL_EXISTED}"
+    },
+    "COULD_NOT_SAVE_USER_TO_DB": {
+        "code": 32,
+        "message": "{COULD_NOT_SAVE_USER_TO_DB}"
+    },
+    "COULD_NOT_SAVE_USER_GR_TO_DB": {
+        "code": 33,
+        "message": "{COULD_NOT_SAVE_USER_GR_TO_DB}"
+    },
+    "COULD_NOT_SAVE_USER_ADDR_TO_DB": {
+        "code": 34,
+        "message": "{COULD_NOT_SAVE_USER_ADDR_TO_DB}"
+    },
+    "COULD_NOT_FIND_GRP_BY_NAME": {
+        "code": 35,
+        "message": "{COULD_NOT_FIND_GRP_BY_NAME}"
+    },
+    "COULD_NOT_UPDATE_USER_PWD": {
+        "code": 36,
+        "message": "{COULD_NOT_UPDATE_USER_PWD}"
+    },
     "INVALID_TOKEN_API_KEY": {
         "code": 40,
         "message": "{ERR_INVALID_TOKEN_API_KEY}"
@@ -78,6 +122,14 @@
     "INVALID_TOKEN_API_KEY_FOR_USER": {
         "code": 41,
         "message": "{ERR_INVALID_TOKEN_API_KEY_FOR_USER}"
+    },
+    "ACTIVE_ACC_CODE_NOT_FOUND": {
+        "code": 42,
+        "message": "{ACTIVE_ACC_CODE_NOT_FOUND}"
+    },
+    "ACTIVE_ACC_CODE_DOES_NOT_MATCH": {
+        "code": 43,
+        "message": "{ACTIVE_ACC_CODE_DOES_NOT_MATCH}"
     },
     "INVALID_PERMISSION": {
         "code": 60,
@@ -90,5 +142,41 @@
     "USER_IS_NOT_AVAILABLE" : {
         "code": 62,
         "message": "{ERR_USER_IS_NOT_AVAILABLE}"        
+    },
+    "NO_USER_FOUND_IN_DB" : {
+        "code": 63,
+        "message": "{NO_USER_FOUND_IN_DB}"
+    },
+    "COULD_NOT_DECRYPT_ACTIVE_ACC_CODE" : {
+        "code": 64,
+        "message": "{COULD_NOT_DECRYPT_ACTIVE_ACC_CODE}"
+    },
+    "COULD_NOT_DECRYPT_RESET_PWD_CODE" : {
+        "code": 65,
+        "message": "{COULD_NOT_DECRYPT_RESET_PWD_CODE}"
+    },
+    "TRANSACTION_INIT_FAIL" : {
+        "code": 80,
+        "message": "{ERR_TX_INIT_FAILED}"
+    },
+    "ERROR_TX_ROLLBACK" : {
+        "code": 81,
+        "message": "{ERROR_TX_ROLLBACK}"
+    },
+    "ERROR_TX_COMMIT" : {
+        "code": 82,
+        "message": "{ERROR_TX_COMMIT}"
+    },
+    "PASSPORT_EXISTED" : {
+        "code": 83,
+        "message": "{PASSPORT_EXISTED}"
+    },
+    "CELLPHONE_EXISTED" : {
+        "code": 84,
+        "message": "{CELLPHONE_EXISTED}"
+    },
+    "INVALID_PASSWORD" : {
+        "code": 85,
+        "message": "{INVALID_PASSWORD}"
     }
 }

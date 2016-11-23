@@ -11,7 +11,6 @@ const token = require('./token');
 var async = require('async');
 
 exports.authenticateByToken = function (request, response, callback) {
-
     async.waterfall([
         function (next) {
             httpHeaderUtil.getAuthBearerHeader(request, next);
@@ -47,9 +46,7 @@ exports.authenticateByToken = function (request, response, callback) {
             });
         },
         function (decode, username, next) {
-
             console.log('secret : %s', JSON.stringify(decode));
-
             if (decode.username !== username) {
                 let err = errorUtil.createAppError(errors.INVALID_TOKEN_API_KEY);
                 err.message = util.format(err.message, decode.username);
@@ -62,12 +59,12 @@ exports.authenticateByToken = function (request, response, callback) {
             request.currentUser = {
                 username: username
             };
-            
-            next( null );
+
+            next(null);
         }
     ], function (err) {
         if (!err) return callback();
-        console.error('ERROR [%s]: %s', err.name, err.message);        
-        response.status(403).send( errorUtil.getResponseError( err ) );
+        console.error('ERROR [%s]: %s', err.name, err.message);
+        return response.status(299).send(err);
     });
 };

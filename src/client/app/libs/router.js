@@ -3,7 +3,8 @@
 var routes = {
     HOME: '/',
     ORDERS: '/orders/(:id)',  
-    USERS: '/users/(:id)',
+    USERS: '/users/',
+    USER: 'user/:userid',
     ADD: '/request',
     MYPROFILE: '/profile',
     SUPPORT: '/support',
@@ -12,6 +13,8 @@ var routes = {
     LOGOUT: '/logout',
     REGISTER: '/register',
     NOTIFICATIONS: '/notifications',
+    FORGOT_PASSWORD_VERIFY: '/forgotpassword/verify',
+    FORGOT_PASSWORD_RESET: '/forgotpassword/reset/'
 };
 
 var navigation = [

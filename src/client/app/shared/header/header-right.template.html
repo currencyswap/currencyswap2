@@ -9,7 +9,7 @@
                 </a>
                 <!-- My Profile -->
                 <a href="#!{{item.route}}" ng-if="item.isMyProfile">
-                    <button type="button" class="btn btn-default dropdown-toggle {{item.isActivated ? 'tb-active' : ''}}" data-toggle="dropdown" data-placement="bottom" title="{{item.name}}">
+                    <button ng-click="onMyProfile()" type="button" class="btn btn-default dropdown-toggle {{item.isActivated ? 'tb-active' : ''}}" data-toggle="dropdown" data-placement="bottom" title="{{item.name}}">
                         <img ng-src="{{currUser.avatarUrl}}" alt=""/>
                         {{currUser.fullName}}
                     </button>
@@ -25,4 +25,5 @@
         </li>
     </ul>
 </div>
+
 <!-- header-right -->

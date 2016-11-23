@@ -18,3 +18,16 @@ exports.createPermissions = function ( permissions, callback ) {
 
     });
 };
+
+exports.listAllPermissions = function (callback) {
+    app.models.Permission.find(function (err, permissions ) {
+        if ( err ) {
+            console.error('ERROR : %s', err );
+            err = errorUtil.createAppError(errors.SERVER_GET_PROBLEM);
+            return callback(err);
+        }
+
+        callback(null, permissions);
+
+    });
+};

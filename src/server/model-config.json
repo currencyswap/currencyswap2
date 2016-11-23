@@ -14,47 +14,43 @@
     ]
   },
   "Member": {
-    "dataSource": "NodeJSApp",
+    "dataSource": "CSwapDB",
     "public": false
   },
   "Group": {
-    "dataSource": "NodeJSApp",
+    "dataSource": "CSwapDB",
     "public": false
   },
   "Permission": {
-    "dataSource": "NodeJSApp",
+    "dataSource": "CSwapDB",
     "public": false
   },
   "GroupPermission": {
-    "dataSource": "NodeJSApp",
+    "dataSource": "CSwapDB",
     "public": false
   },
   "MemberGroup": {
-    "dataSource": "NodeJSApp",
+    "dataSource": "CSwapDB",
     "public": false
   },
   "Address": {
-    "dataSource": "NodeJSApp",
-    "public": false
-  },
-  "Notification": {
-    "dataSource": "NodeJSApp",
-    "public": false
-  },
-  "Order": {
-    "dataSource": "NodeJSApp",
+    "dataSource": "CSwapDB",
     "public": false
   },
   "Currency": {
-    "dataSource": "NodeJSApp",
+    "dataSource": "CSwapDB",
     "public": false
   },
-  "Activity": {
-    "dataSource": "NodeJSApp",
+  "StatusType": {
+    "dataSource": "CSwapDB",
+    "public": false
+  },
+  "Order": {
+    "dataSource": "CSwapDB",
     "public": false
   },
   "OrderActivity": {
-    "dataSource": "NodeJSApp",
+    "dataSource": "CSwapDB",
     "public": false
   }
 }

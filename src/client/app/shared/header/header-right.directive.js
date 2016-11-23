@@ -4,7 +4,7 @@ angular.module('appHeader').directive('headerRight', function () {
     return {
         restrict: 'EA',
         scope: {
-            name: '@',
+            name: '@'
         },
         templateUrl: 'app/shared/header/header-right.template.html',
         controller: function ($rootScope, $window, $location, $scope, $element, CookieService) {
@@ -24,7 +24,10 @@ angular.module('appHeader').directive('headerRight', function () {
                 avatarUrl: currUser.avatarUrl ? currUser.avatarUrl : global.DEF_AVATAR
             };
 
-            console.log('current user: ', $scope.currUser);
+            $scope.onMyProfile = function () {
+                $rootScope.isLoading = false;
+                $location.path(routes.MYPROFILE);
+            };
 
             $scope.onLogout = function () {
                 $rootScope.loggedIn = false;

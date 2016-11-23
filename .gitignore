@@ -1,7 +1,6 @@
 *node_modules
 *bower_components
-*app-config.json
-*datasources.json
+*env.properties
 *.idea
 *.DS_Store
 *.editorconfig
@@ -10,3 +9,5 @@
 *~lock*
 *logs*
 *swp
+package.json
+buildscripts/deploy-ubuntu/config/*

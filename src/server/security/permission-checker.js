@@ -11,11 +11,10 @@ var errorUtil = require('../libs/errors/error-util');
 var exports = module.exports;
 var util = require('util');
 var redis = require('../libs/redis');
-
 var permissionConverter = require('../converters/permission-converter');
 
 var collectPermissionFromRules = function (request, permissionItem) {
-
+    console.log('permissionItem.rules', permissionItem.rules);
     for (let idx in permissionItem.rules) {
         let rule = permissionItem.rules[idx];
 
@@ -104,7 +103,6 @@ var validatePermission = function (permissions, requiredPermissions, callback) {
 };
 
 var checkPermissionInRequest = function (request, permissions, callback) {
-
     console.log('PATH %s', request.path);
     console.log('METHOD %s', request.method);
 
@@ -144,13 +142,15 @@ exports.collectUserPermissionFormDB = function (username, callback) {
 };
 
 exports.collectUserPermission = function (username, callback) {
-
     async.waterfall([
         function (next) {
-            exports.collectUserPermissionFormRedis(username, next);
+            exports.collectUserPermissionFormRedis(username, next, function (err, user) {
+                if (err) return next(err);
+                else return next(null, user);
+
+            });
         },
         function (user, next) {
-
             if (user) return next(null, user);
 
             exports.collectUserPermissionFormDB(username, function (err, user) {
@@ -160,10 +160,14 @@ exports.collectUserPermission = function (username, callback) {
                 if (user) {
 
                     console.log('JSON %s', JSON.stringify(user.toJSON()));
+                    /*redis.setUserInfo(user.toJSON(), function (err, user) {
+                        console.log('never comes here !!!');
+                        if (err) return next(err);
+                        else return next(null, user);
+                    });*/
                     redis.setUserInfo(user.toJSON());
+                    return next(null, user);
                 }
-
-                next(null, user);
             });
         },
         function (user, next) {
@@ -178,7 +182,6 @@ exports.collectUserPermission = function (username, callback) {
 };
 
 exports.checkPermission = function (request, response, callback) {
-
     if (!request.currentUser || !request.currentUser.username) {
         let err = errorUtil.createAppError(errors.PERMISSION_DENIDED);
         return response.status(403).send(errorUtil.getResponseError(err));
@@ -189,8 +192,7 @@ exports.checkPermission = function (request, response, callback) {
             exports.collectUserPermission(request.currentUser.username, next);
         },
         function (user, permissions, next) {
-
-            if (!user.isActivated) {
+            if (user.status !== 'Activated') {
                 let err = errorUtil.createAppError(errors.USER_IS_NOT_AVAILABLE);
                 err.message = util.format(err.message, request.currentUser.username);
                 return next(err);
@@ -201,7 +203,6 @@ exports.checkPermission = function (request, response, callback) {
             });
         },
         function (user, permissions, next) {
-
             request.currentUser.permissions = permissions;
             request.currentUser.id = user.id;
             request.currentUser.isActivated = user.isActivated;
@@ -211,7 +212,9 @@ exports.checkPermission = function (request, response, callback) {
         }
     ],
         function (err) {
-            if (!err) return callback();
+            if (!err) {
+                return callback();
+            }
 
             if (err.code == errors.SERVER_GET_PROBLEM.code ||
                 err.code == errors.INVALID_PERMISSION.code) {
