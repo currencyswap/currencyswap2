@@ -51,16 +51,20 @@
       "length": 256
     },
     "bankAccountName": {
-      "type": "string"
+      "type": "string",
+      "length": 128
     },
     "bankAccountNumber": {
-      "type": "string"
+      "type": "string",
+      "length": 128
     },
     "bankName": {
-      "type": "string"
+      "type": "string",
+      "length": 128
     },
     "bankCountry": {
-      "type": "string"
+      "type": "string",
+      "length": 128
     },
     "registeredDate": {
       "type": "date",
