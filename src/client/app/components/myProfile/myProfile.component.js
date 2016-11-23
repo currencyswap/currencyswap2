@@ -20,9 +20,11 @@ angular.module('myProfile')
                 $scope.model = {};
                 var currentUser = CookieService.getCurrentUser();
                 $scope.randomNumImg = 0;
+
                 $scope.formats = ['dd-MMMM-yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate'];
                 $scope.format = $scope.formats[0];
                 $scope.altInputFormats = ['M!/d!/yyyy'];
+
                 var profilePicReq = {
                     method: httpMethods.GET,
                     url: '/config/' + currentUser.username
@@ -101,14 +103,12 @@ angular.module('myProfile')
                 $scope.calendarPicker = {
                     opened: false
                 };
+
                 $scope.birthday = new Date();
                 $scope.openCalendar = function() {
                     $scope.calendarPicker.opened = true;
                 };
-                $scope.formatDate = function(date){
-                    var dateOut = new Date(date);
-                    return dateOut;
-                };
+
                 $scope.openCalendar1 = function() {
                     $scope.calendarPicker.opened1 = true;
                 };

@@ -20,19 +20,6 @@ module.exports = function (app) {
                 });
             },
             function (user, next) {
-                // userService.checkExpiredDateUse(user, function (err, responce) {
-                //     var expiredDate = dateFormat(responce.expiredDate, appConfig.DATE_FORMAT)
-                //     var currentData = dateFormat(new Date(), appConfig.DATE_FORMAT)
-                //     if(responce.username !== "admin" && expiredDate < currentData) {
-                //         return res.status(200).send({
-                //             expire: "expired"
-                //         });
-                //     }else {
-                //         userService.login(user, function (err, tokenKey) {
-                //             next(err, tokenKey);
-                //         });
-                //     }
-                // })
                 userService.login(user, function (err, tokenKey) {
                     next(err, tokenKey);
                 });
