@@ -3,3 +3,38 @@ button.tb-active {
     color: #1CAF9A !important;
     background: none;
 }
+
+.user-content {
+ text-align: center;
+ margin: 10px auto !important;
+}
+.user-content .user-tabs {
+ float: none;
+ margin: auto;
+ width: 80%;
+}
+
+.support-content {
+ margin: 10px auto;
+}
+@media screen and (max-width: 1024px) {
+}
+
+@media screen and (max-width: 767px) {
+}
+
+@media screen and (max-width: 640px) {
+
+}
+
+@media screen and (max-width: 480px) {
+
+}
+
+@media screen and (max-width: 360px) {
+
+}
+
+@media screen and (max-width: 320px) {
+
+}

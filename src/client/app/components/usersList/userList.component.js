@@ -196,6 +196,7 @@ angular.module('userList')
                     $scope.isEditting = true;
                 };
                 $scope.onAllClick = function () {
+                    $scope.isEditting = false;
                     $scope.detailUserView = false;
 
                     $scope.users = [];
@@ -209,7 +210,6 @@ angular.module('userList')
                     }
                     var  failed = function () {
                         console.log("failed");
-
                     }
                     UserListService.fetchAllUser(headers,success,failed)
                         .then(function (response) {
@@ -230,7 +230,7 @@ angular.module('userList')
 
                 $scope.onActivatedClick = function () {
                     $scope.detailUserView = false;
-
+                    $scope.isEditting = false;
                     $scope.users = [];
                     $scope.allUser = [];
 
@@ -262,7 +262,7 @@ angular.module('userList')
 
                 $scope.onPendingClick = function () {
                     $scope.detailUserView = false;
-
+                    $scope.isEditting = false;
                     $scope.users = [];
                     $scope.allUser = [];
 
@@ -305,17 +305,11 @@ angular.module('userList')
                             var address1, city1, country1, postcode1, state1 = null;
                             $scope.userDetail = {};
                             var userDetail = response.data;
-
-                            if (userDetail.addresses[0] && userDetail.addresses[0].hasOwnProperty('address')) address1 = userDetail.addresses[0].address;
-                            if (userDetail.addresses[0] && userDetail.addresses[0].hasOwnProperty('city')) city1 = userDetail.addresses[0].city;
-                            if (userDetail.addresses[0] && userDetail.addresses[0].hasOwnProperty('state')) state1 = userDetail.addresses[0].state;
-                            if (userDetail.addresses[0] && userDetail.addresses[0].hasOwnProperty('country')) country1 = userDetail.addresses[0].country;
-                            if (userDetail.addresses[0] && userDetail.addresses[0].hasOwnProperty('postcode')) postcode1 = userDetail.addresses[0].postcode;
-
                             $scope.userDetail.id = userDetail.id;
                             $scope.userDetail.birthday = new Date(userDetail.birthday);
                             $scope.userDetail.expiredDate = new Date(userDetail.expiredDate);
                             $scope.userDetail.username = userDetail.username;
+                            $scope.userDetail.addresses = userDetail.addresses;
                             $scope.userDetail.cellphone = userDetail.cellphone;
                             $scope.userDetail.email = userDetail.email;
                             $scope.userDetail.nationalId = userDetail.nationalId;

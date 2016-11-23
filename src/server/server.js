@@ -1,5 +1,9 @@
 var loopback = require('loopback');
 var boot = require('loopback-boot');
+var path = require('path');
+
+require('dotenv').config({silent: true, path: path.join(__dirname, '../env.properties')});
+
 var redis = require('./libs/redis');
 var mailSender = require('./libs/mail-sender');
 var logger = require('./libs/logger');

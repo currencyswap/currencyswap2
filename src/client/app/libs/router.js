@@ -2,7 +2,7 @@
 
 var routes = {
     HOME: '/',
-    ORDERS: '/orders/(:id)',  
+    ORDERS: '/orders/',
     USERS: '/users/',
     USER: 'user/:userid',
     ADD: '/request',
@@ -58,7 +58,7 @@ var navigation = [
     },
     {
         route: routes.HELP,
-        name: 'Help',
+        name: 'Guideline Information',
         requiredPermissions: [permissions.EDIT_PROFILE],
         position: global.TOOLSBAR,
         icon : 'fa fa-question-circle'

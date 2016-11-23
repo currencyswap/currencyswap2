@@ -305,7 +305,7 @@ exports.constructResetUrl = function (randomString, email) {
     var plainResetCode = email + constant.RESET_CODE_DELIMITER + randomString;
     var encryptedResetCode = stringUtil.encryptString(plainResetCode, constant.ENCRYPTION_ALGORITHM, constant.ENCRYPTION_PWD, 'utf8', 'hex');
 
-    return appConfig.getHost()
+    return appConfig.getAppHost()
         + constant.SLASH
         + constant.HASHTAG_AND_EXCLAMATION
         + constant.CLIENT_RESET_PWD_PATH
@@ -318,7 +318,7 @@ exports.constructActiveAccountUrl = function (randomString, username) {
     var plainActiveCode = username + constant.RESET_CODE_DELIMITER + randomString;
     var encryptedActiveCode = stringUtil.encryptString(plainActiveCode, constant.ENCRYPTION_ALGORITHM, constant.ENCRYPTION_PWD, 'utf8', 'hex');
 
-    return "http://localhost:3000"
+    return appConfig.getAppHost()
         + constant.SLASH
         + constant.HASHTAG_AND_EXCLAMATION
         + constant.CLIENT_ACTIVE_ACC_PATH
@@ -358,7 +358,7 @@ exports.createUserTransaction = function (callback) {
     });
 };
 
-exports.registerUser = function (newUser, callback) {
+    exports.registerUser = function (newUser, callback) {
     async.waterfall([
         function (next) {
             groupService.findGroupByName(newUser.group, function (err, group) {
@@ -385,10 +385,44 @@ exports.registerUser = function (newUser, callback) {
                 } else {
                     return next(errorUtil.createAppError(errors.USER_NAME_EXISTED));
                 }
-            })
+            });
         },
         function (newUser, next) {
-            app.models.Member.findByEmail(newUser.email, function (err, user) {
+            if (!newUser.nationalId) {
+                return next (null, newUser);
+            } else {
+                exports.getUserByNationalId(newUser, function (err, foundUser) {
+                    if (err) {
+                        if (err.code === errorUtil.createAppError(errors.NO_USER_FOUND_IN_DB).code) {
+                            return next(null, newUser);
+                        } else {
+                            return next(err);
+                        }
+                    } else {
+                        return next (errorUtil.createAppError(errors.NATIONAL_ID_EXISTED));
+                    }
+                });
+            }
+        },
+        function (newUser, next) {
+            if (!newUser.cellphone) {
+                return next(null, newUser);
+            } else {
+                exports.getUserByCellphone(newUser, function (err, foundUser) {
+                    if (err) {
+                        if (err.code === errorUtil.createAppError(errors.NO_USER_FOUND_IN_DB).code) {
+                            return next(null, newUser);
+                        } else {
+                            return next(err);
+                        }
+                    } else {
+                        return next (errorUtil.createAppError(errors.CELLPHONE_EXISTED))
+                    }
+                })
+            }
+        },
+        function (newUser, next) {
+            app.models.Member.findByEmail(newUser.email, function (err, foundUser) {
                 if (err) {
                     if (err.code === errorUtil.createAppError(errors.MEMBER_EMAIL_NOT_FOUND).code) {
                         return next(null, newUser);
@@ -429,7 +463,7 @@ exports.registerUser = function (newUser, callback) {
             var mailOptions = {
                 from: senderInfo.sender,
                 to: email,
-                subject: 'Active account URL',
+                subject: 'CurrencySwap Registration',
                 html: '<!DOCTYPE html>'
                 + '<html lang="en">'
                 + '<head>'
@@ -437,6 +471,7 @@ exports.registerUser = function (newUser, callback) {
                 + '<title></title>'
                 + '</head>'
                 + '<body>'
+                + '<p>CurrencySwap Registration</p><br>'
                 + '<p>Please click on the URL below and wait for admin approval before using Currency Swap</p>'
                 + '<a href="' + activeLink + '">Active URL</a>'
                 + '<p>Thanks and best regards</p>'
@@ -450,7 +485,7 @@ exports.registerUser = function (newUser, callback) {
         function (mailOptions, next) {
             // send notification email to client
             mailSender.sendMail(mailOptions, function (err, info) {
-                if (err) return next(err);
+                if (err) return next(errorUtil.createAppError(errors.ERR_COULD_NOT_SEND_MAIL));
                 else {
                     return next(null);
                 }
@@ -614,7 +649,7 @@ exports.updateAddress = function (addressId, address, callback) {
 };
 
 exports.getUserByNationalId = function (user, callback) {
-    app.models.Member.findUserByPassport(user.nationalId, function (err, userObj) {
+    app.models.Member.findUserByNationalId(user.nationalId, function (err, userObj) {
         if (err) return callback(err);
         else return callback(null, userObj);
     })
@@ -632,4 +667,4 @@ exports.checkExpiredDateUse = function (user, callback) {
         if (err) return callback(err);
         callback(null, userObj);
     });
-}
+};

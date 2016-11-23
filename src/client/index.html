@@ -72,6 +72,22 @@
     <script src="assets/js/angular-country-state.min.js"></script>
     <script src="assets/js/country_directive.js"></script>
 
+
+    <script src="app/components/help/help.module.js"></script>
+    <script src="app/components/help/help.component.js"></script>
+
+    <script src="app/components/support/support.module.js"></script>
+    <script src="app/components/support/support.component.js"></script>
+    <script src="app/components/support/support.service.js"></script>
+
+    <script src="app/components/notification/notification.module.js"></script>
+    <script src="app/components/notification/notification.component.js"></script>
+    <script src="app/components/notification/notification.service.js"></script>
+
+    <script src="app/components/orders/ordersList.module.js"></script>
+    <script src="app/components/orders/ordersList.component.js"></script>
+    <script src="app/components/orders/orders.service.js"></script>
+
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
     <script src="assets/js/html5shiv.js"></script>
@@ -100,7 +116,7 @@
 
         <page-header ng-if="loggedIn"></page-header>
 
-        <div class="contentpanel">
+        <div class="container-fluid contentpanel">
             <!-- content goes here... -->
             <error-page ng-if="error"></error-page>
             <div ng-view ng-if="!isLoading && !error"></div>

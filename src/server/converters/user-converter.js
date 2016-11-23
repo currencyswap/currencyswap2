@@ -68,8 +68,6 @@ exports.convertUserData = function (requestUser) {
     resultUser.expiredDate = new Date(Date.now()).toISOString();
     resultUser.registeredDate = new Date(Date.now()).toISOString();
 
-    if (requestUser.nationalId) resultUser.nationalId = requestUser.nationalId;
-
     if (requestUser.fullName) resultUser.fullName = requestUser.fullName;
 
     if (requestUser.birthday) resultUser.birthday = new Date(requestUser.birthday).toISOString();
@@ -77,6 +75,8 @@ exports.convertUserData = function (requestUser) {
     if (requestUser.cellphone) resultUser.cellphone = requestUser.cellphone;
 
     if (requestUser.profession) resultUser.profession = requestUser.profession;
+
+    if (requestUser.nationalId) resultUser.nationalId = requestUser.nationalId;
 
     if (requestUser.addresses) resultUser.addresses = requestUser.addresses;
 

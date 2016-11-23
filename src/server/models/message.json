@@ -1,31 +1,43 @@
 {
-  "name": "Notification",
+  "name": "Message",
   "base": "PersistedModel",
   "idInjection": true,
+  "indexes": {
+    "MESSAGE_OWNER_ID_IDX": {
+      "columns": "creatorId"
+    },
+    "MESSAGE_RECEIVER_ID_IDX": {
+      "columns": "receiverId"
+    }
+  },
   "options": {
     "validateUpsert": true
   },
   "properties": {
     "title": {
       "type": "string",
+      "length": 128,
       "required": true
     },
-    "description": {
-      "type": "string"
+    "message": {
+      "type": "string",
+      "length": 4096
     },
-    "memberId": {
+    "receiverId": {
+      "type": "number",
+      "required": true,
+      "default": 0
+    },
+    "creatorId": {
       "type": "number",
       "required": true
     },
-    "creatorId": {
-      "type": "number"
-    },
-    "createdDate": {
+    "created": {
       "type": "date",
       "required": true,
       "default": "now"
     },
-    "isRead": {
+    "isGroupMessage": {
       "type": "boolean",
       "required": true,
       "default": false
@@ -33,15 +45,20 @@
   },
   "validations": [],
   "relations": {
-    "member": {
+    "receiver": {
       "type": "belongsTo",
       "model": "Member",
-      "foreignKey": "memberId"
+      "foreignKey": "receiverId"
     },
     "creator": {
       "type": "belongsTo",
       "model": "Member",
       "foreignKey": "creatorId"
+    },
+    "readers": {
+      "type": "hasMany",
+      "model": "MessageRead",
+      "foreignKey": "messageId"
     }
   },
   "acls": [],

@@ -11,6 +11,7 @@ angular.module('register').factory('RegisterService', ['$http', '$q', function (
                 birthday: userData.birthday,
                 profession: userData.profession,
                 email: userData.email,
+                nationalId: userData.nationalId,
                 password: userData.password,
                 nationalId: userData.nationalId,
                 bankAccountName: userData.bankAccountName,
@@ -31,7 +32,6 @@ angular.module('register').factory('RegisterService', ['$http', '$q', function (
 
         submitRequest: function (userObj) {
             var headers = {};
-
             headers[httpHeader.CONTENT_TYPE] = contentTypes.JSON;
             var postData = {
                 newUser: userObj
