@@ -58,7 +58,7 @@ var navigation = [
     },
     {
         route: routes.HELP,
-        name: 'Help',
+        name: 'Guideline Information',
         requiredPermissions: [permissions.EDIT_PROFILE],
         position: global.TOOLSBAR,
         icon : 'fa fa-question-circle'
