@@ -16,12 +16,12 @@ module.exports = function (app) {
             },
             function (user, next) {
                 userValidation.validateUsernamePass(user, function (err) {
-                    next(err, user);
+                    return next(err, user);
                 });
             },
             function (user, next) {
                 userService.login(user, function (err, tokenKey) {
-                    next(err, tokenKey);
+                    return next(err, tokenKey);
                 });
             }
         ], function (err, tokenKey) {

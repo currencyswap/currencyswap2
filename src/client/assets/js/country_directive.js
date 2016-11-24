@@ -644,7 +644,8 @@
                 scope.countryLabel = "Country";
                 scope.stateLabel = "State";
                 scope.countrySelectLabel = "Select";
-                console.log("user:",scope.userinfo);
+                console.log("scope:",scope);
+                console.log("country:",scope.country);
                 scope.country = scope.userinfo.addresses[0].country;
                 scope.countryState = scope.userinfo.addresses[0].state;
                 if(typeof attrs.countryLabel != 'undefined'){

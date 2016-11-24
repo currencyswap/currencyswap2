@@ -17,6 +17,26 @@ button.tb-active {
 .support-content {
  margin: 10px auto;
 }
+.support-content textarea {
+ min-height: 200px;
+}
+.msg-row {
+  border-bottom: 1px solid #D3D3D3;
+  margin-bottom: 6px;
+}
+.msg-time {
+ font-size: 12px;
+}
+.msg-user {
+ font-weight:bold;
+}
+.msg-issue {
+ text-align: right;
+ margin-top: -6px;
+}
+.notification-content {
+  margin-top: 10px;
+}
 @media screen and (max-width: 1024px) {
 }
 

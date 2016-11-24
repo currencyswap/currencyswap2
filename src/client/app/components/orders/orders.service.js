@@ -1,58 +1,25 @@
 
 'use strict';
 
-angular.module('orders').factory('OrdersService', ['$http', function ($http, PermissionService) {
-    return {
-        getSwappingOrders: function (headers) { //status == 2
-            var req = {
-                method: httpMethods.GET,
-                url: apiRoutes.API_ORDERS_SWAPPING,
-                headers: headers,
-                data: {}
-            };
-
-            return $http(req);
+angular.module('orders').factory('OrdersService', ['ConnectorService', function (ConnectorService, PermissionService) {
+    return $.extend({}, ConnectorService, {
+        getSwappingOrders: function() { //status == 2
+            return this.get(apiRoutes.API_ORDERS_SWAPPING);
         },
-        getConfirmedOrders: function(headers){ // status = 3 || 4
-        	var req = {
-                    method: httpMethods.GET,
-                    url: apiRoutes.API_ORDERS_CONFIRMED,
-                    headers: headers,
-                    data: {}
-                };
-                return $http(req);
+        getConfirmedOrders: function(){ // status = 3 || 4
+            return this.get(apiRoutes.API_ORDERS_CONFIRMED);
         },
-        getHistoryOrders: function (headers) { // status = 5 || 6 
-            var req = {
-                method: httpMethods.GET,
-                url: apiRoutes.API_ORDERS_HISTORY,
-                headers: headers
-            };
-            return $http(req);
+        getHistoryOrders: function() { // status = 5 || 6 
+            return this.get(apiRoutes.API_ORDERS_HISTORY);
         },
-        getSumittedOrders: function (headers) { // status = 1 
-            var req = {
-                method: httpMethods.GET,
-                url: apiRoutes.API_ORDERS_SUBMITTED,
-                headers: headers
-            };
-            return $http(req);
+        getSumittedOrders: function() { // status = 1 
+            return this.get(apiRoutes.API_ORDERS_SUBMITTED);
         },
-        getOrderById : function(orderId, headers){
-        	var req = {
-                method: httpMethods.GET,
-                url: apiRoutes.API_ORDERS_ID +  '/' + orderId,
-                headers: headers
-            };	
-        	return $http(req);
+        getOrderById : function(orderId){
+            return this.get(apiRoutes.API_ORDERS_ID +  '/' + orderId);
         },
-        getAllOrders: function(headers){
-        	var req = {
-                method: httpMethods.GET,
-                url: apiRoutes.API_ORDERS,
-                headers: headers
-            };
-        	return $http(req);
+        getAllOrders: function(){
+            return this.get(apiRoutes.API_ORDERS);
         }
-    }
+    });
 }]);

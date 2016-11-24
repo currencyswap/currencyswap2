@@ -17,6 +17,7 @@ var routes = require('../routes').routes;
 var os = require('os');
 var userConverter = require('../converters/user-converter');
 var groupService = require('../services/group-service');
+var supportService = require('../services/support-service');
 
 exports.createUser = function (user, callback) {
     user.password = md5(user.password);
@@ -158,22 +159,29 @@ exports.login = function (user, callback) {
     async.waterfall([
         function (next) {
             app.models.Member.findByUsername(user.username, true, function (err, userObj) {
-
-                if (err) return next(err);
+                if (err) return next(errorUtil.createAppError(errors.SERVER_GET_PROBLEM));
                 else {
                     if (!userObj) return next(errorUtil.createAppError(errors.MEMBER_INVALID_USERNAME));
 
                     var password = md5(user.password);
 
+                    // check password matched
                     if (userObj.password != password) {
                         return next(errorUtil.createAppError(errors.MEMBER_INVALID_PASSWORD));
                     }
 
+                    // check user status
                     if (userObj.status !== constant.USER_STATUSES.ACTIVATED) {
                         return next(errorUtil.createAppError(errors.ACCOUNT_IS_NOT_ACTIVATED));
                     }
 
-                    next(null, userObj);
+                    // check expired date
+                    var now = new Date(Date.now());
+                    if (userObj.expiredDate && userObj.expiredDate < now) {
+                        return next(errorUtil.createAppError(errors.ACCOUNT_IS_EXPIRED));
+                    }
+
+                    return next(null, userObj);
                 }
             });
         },
@@ -383,7 +391,14 @@ exports.createUserTransaction = function (callback) {
                         return next(err);
                     }
                 } else {
-                    return next(errorUtil.createAppError(errors.USER_NAME_EXISTED));
+                    if (user.status === constant.USER_STATUSES.NEW) {
+                        exports.deleteUserAndRelatedAddresses(user, function (err) {
+                            if (err) return next (err);
+                            else return next (null, newUser);
+                        })
+                    } else {
+                        return next(errorUtil.createAppError(errors.USER_NAME_EXISTED));
+                    }
                 }
             });
         },
@@ -439,8 +454,16 @@ exports.createUserTransaction = function (callback) {
                 if (err) {
                     return next(err);
                 }
-                else return next(null, savedUser.username, savedUser.email);
+                else return next(null, savedUser);
             })
+        },
+        function createMessage(savedUser, next) {
+            supportService.messageToGroup({'title': constant.MSG.NEW_MEMBER_TITLE, 
+                'message': constant.MSG.NEW_MEMBER_CONTENT, 
+                'group': true, 
+                'isAdmin': true,
+                'creatorId': savedUser.id});
+            return next(null, savedUser.username, savedUser.email);
         },
         function (username, email, next) {
             // generate reset password code
@@ -452,8 +475,19 @@ exports.createUserTransaction = function (callback) {
             });
         },
         function (randomString, username, email, next) {
-            redis.set(username, randomString, constant.ONE_DAY_IN_SECONDS);
-            return next(null, randomString, username, email);
+            redis.get(username, function (err, response) {
+                if (err) {
+                    if (err.code === errorUtil.createAppError(errors.SERVER_GET_PROBLEM).code) return next (errorUtil.createAppError(errors.SERVER_GET_PROBLEM));
+                    if (err.code === errorUtil.createAppError(errors.MISSING_REDIS_KEY).code) {
+                        redis.set(username, randomString, constant.ONE_DAY_IN_SECONDS);
+                        return next(null, randomString, username, email);
+                    }
+                } else {
+                    redis.remove(username);
+                    redis.set(username, randomString, constant.ONE_DAY_IN_SECONDS);
+                    return next(null, randomString, username, email);
+                }
+            });
         },
         function (randomString, username, email, next) {
             // construct mail options
@@ -665,5 +699,36 @@ exports.checkExpiredDateUse = function (user, callback) {
     app.models.Member.findByUsername(user.username, function (err, userObj) {
         if (err) return callback(err);
         callback(null, userObj);
+    });
+};
+
+exports.deleteUserAndRelatedAddresses = function (userInstance, callback) {
+    async.waterfall([
+        function (next) {
+            // find address with user instance
+            userInstance.addresses(function (err, address) {
+                if (err) return next (errorUtil.createAppError(errors.SERVER_GET_PROBLEM));
+                else {
+                    if (!address || address.length <= 0) return next (null);
+                    else {
+                        // delete address of this instance
+                        app.models.Address.destroyById(address[0].id, function (err) {
+                            if (err) {
+                                return next (errorUtil.createAppError(errors.SERVER_GET_PROBLEM));
+                            }
+                            else return next (null);
+                        });
+                    }
+                }
+            })
+        },
+        function (next) {
+            userInstance.destroy(function (err) {
+                if (err) return next (errorUtil.createAppError(errors.SERVER_GET_PROBLEM));
+                else return next (null);
+            });
+        }
+    ], function (err) {
+        callback(err)
     });
 };

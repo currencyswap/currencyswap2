@@ -13,7 +13,7 @@ angular.module('orders')
             '$window',
             'GLOBAL_CONSTANT',
             '$log',
-            function userListController($scope, $rootScope,CookieService, OrdersService, PermissionService, $location, $http, $window, GLOBAL_CONSTANT, $log) {
+            function ordersController($scope, $rootScope,CookieService, OrdersService, PermissionService, $location, $http, $window, GLOBAL_CONSTANT, $log) {
 
             }]
     });

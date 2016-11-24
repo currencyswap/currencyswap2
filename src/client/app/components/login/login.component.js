@@ -47,6 +47,13 @@ angular.module('loginForm')
                                                 }
 
                                                 NavigationHelper.initNavigationBar();
+                                                if (!$rootScope.user) {
+                                                    $rootScope.getCreator().then(function(resp){
+                                                        console.log('Success: Current User Info', resp);
+                                                    }, function(e){
+                                                        console.log(e);
+                                                    });
+                                                }
                                             },
                                             function (error) {
                                                 CookieService.cleanUpCookies();
@@ -71,6 +78,10 @@ angular.module('loginForm')
 
                                         if (response.data.code === serverErrors.ACCOUNT_IS_NOT_ACTIVATED) {
                                             $scope.loginErrMsg = GLOBAL_CONSTANT.ACCOUNT_IS_NOT_ACTIVATED_MSG;
+                                        }
+
+                                        if (response.data.code === serverErrors.ACCOUNT_IS_EXPIRED) {
+                                            $scope.loginErrMsg = GLOBAL_CONSTANT.ACCOUNT_IS_EXPIRED;
                                         }
                                     }
                                 }

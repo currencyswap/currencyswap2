@@ -196,7 +196,6 @@ angular.module('userList')
                     $scope.isEditting = true;
                 };
                 $scope.onAllClick = function () {
-                    $scope.userDetail = null;
                     $scope.isEditting = false;
                     $scope.detailUserView = false;
 
@@ -230,7 +229,6 @@ angular.module('userList')
                 $scope.onAllClick();
 
                 $scope.onActivatedClick = function () {
-                    $scope.userDetail = null;
                     $scope.detailUserView = false;
                     $scope.isEditting = false;
                     $scope.users = [];
@@ -264,7 +262,6 @@ angular.module('userList')
                 };
 
                 $scope.onPendingClick = function () {
-                    $scope.userDetail = null;
                     $scope.detailUserView = false;
                     $scope.isEditting = false;
                     $scope.users = [];
@@ -322,6 +319,6 @@ angular.module('userList')
                             $scope.selectedStatus.selectedStatus = userDetail.status;
                             $scope.userDetailclone = $scope.userDetail;
                            })
-                }
+                };
             }]
     });

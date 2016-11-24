@@ -13,6 +13,7 @@ var app = module.exports = loopback();
 
 // body-parser middleware
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended: false}));
 
 app.start = function () {
   // start the web server
@@ -28,7 +29,6 @@ app.start = function () {
 };
 
 function startUp() {
-
   logger.setupLogs();
 
   redis.setupClient();

@@ -1,6 +1,6 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
-<div class="signuppanel" ng-show="startRegister">
+<div class="signuppanel" ng-if="startRegister">
     <div class="row">
 
         <!--<div class="col-sm-2"></div>-->
@@ -20,7 +20,7 @@
 
                 <div class="form-group" ng-class="{ 'has-error' : (registerForm.username.$invalid && !registerForm.username.$pristine) || userExisted}">
                     <div class="mb10">
-                        <label class="control-label"><b>Username</b></label> <span class="asterisk">*</span><a data-toggle="popover" data-content="Username only containe [a-z], [0-9], '-', '_', '.'"><i style="font-size:15px; color: #4d4e4e" class="fa fa-question-circle" ng-click="showPopover()"></i></a>
+                        <label class="control-label"><b>Username</b></label> <span class="asterisk">*</span><a data-toggle="popover" data-trigger="hover" data-content="Username only containe [a-z], [0-9], '-', '_', '.'"><i style="font-size:15px; color: #4d4e4e" class="fa fa-question-circle" ng-click="showPopover()"></i></a>
                         <input ng-change="onUsernameChange()" type="text" name="username" class="form-control" ng-pattern="/^[a-zA-Z0-9\-\.\_]+$/" ng-model="user.username" focus-me="focusUsername" required>
                         <p ng-show="registerForm.username.$error.pattern" class="help-block ">Username is invalid.</p>
                         <p ng-show="userExisted" class="help-block ">Your chosen username is already in use</p>
@@ -38,7 +38,7 @@
                 <div class="form-group"
                      ng-class="{ 'has-error' : (registerForm.email.$invalid && !registerForm.email.$pristine) || emailExisted}">
                     <div class="mb10">
-                        <label class="control-label"><b>Email</b></label> <span class="asterisk">*</span><a data-toggle="popover" data-content="Important: Email must be valid"><i style="font-size:15px; color: #4d4e4e" class="fa fa-question-circle" ng-click="showPopover()"></i></a>
+                        <label class="control-label"><b>Email</b></label> <span class="asterisk">*</span><a data-toggle="popover" data-trigger="hover" data-content="Important: Email must be valid"><i style="font-size:15px; color: #4d4e4e" class="fa fa-question-circle" ng-click="showPopover()"></i></a>
                         <input ng-change="onEmailChange()" type="email" name="email" class="form-control" ng-model="user.email" focus-me="focusEmail" required>
                         <p ng-show="registerForm.email.$invalid && !registerForm.email.$pristine" class="help-block">Email is not valid.</p>
                         <p ng-show="emailExisted" class="help-block">Your email is already in use</p>
@@ -60,7 +60,7 @@
                 </div>
 
                 <div class="form-group" data-ng-class="{'has-error' : registerForm.password.$invalid && !registerForm.password.$pristine}">
-                    <label for="password"><b>Password</b></label> <span class="asterisk">*</span><a data-toggle="popover" data-content="Password at least 8 characters"><i style="font-size:15px; color: #4d4e4e" class="fa fa-question-circle" ng-click="showPopover()"></i></a>
+                    <label for="password"><b>Password</b></label> <span class="asterisk">*</span><a data-toggle="popover" data-trigger="hover" data-content="Password at least 8 characters"><i style="font-size:15px; color: #4d4e4e" class="fa fa-question-circle" ng-click="showPopover()"></i></a>
                     <input class="form-control" type="password" name="password" required data-ng-model="user.password" ng-minlength="8">
                     <p ng-show="registerForm.password.$error.minlength" class="help-block">Username is too short.</p>
                 </div>
@@ -166,10 +166,11 @@
 
 </div>
 
-<div ng-show="registerSuccess">
+<div ng-if="registerSuccess">
     <div class="col-md-3">
     </div>
     <div class="col-md-6">
+        <br>
         <div class="panel panel-success">
             <div class="panel-heading">
                 <div class="panel-btns">
@@ -180,6 +181,9 @@
                 The confirmation link has been sent to your email address - {{user.email}}<br>
                 Please, check your email and click the link inside in order to finish registration and start working with Currency Swap.<br>
                 <i>The confirmation link will be valid for a duration of 24 hours</i>
+                <br>
+                <br>
+                <div align="center"><a ng-click="backToLogin()" href="">BACK TO LOGIN PAGE</a></div>
             </div>
         </div>
 
@@ -195,11 +199,12 @@
     </div>
 </div>
 
-<div ng-show="activeSuccess">
+<div ng-if="activeSuccess">
     <div class="col-md-3">
 
     </div>
     <div class="col-md-6">
+        <br>
         <div class="panel panel-success">
             <div class="panel-heading">
                 <div class="panel-btns">
@@ -208,6 +213,9 @@
             </div>
             <div class="panel-body">
                 Thank you for your activation. Please wait for admin's approval. After 3 days, if You can not login to Currency Swap system, please help to contact <b>admin@gmail.com</b> for supports.
+                <br>
+                <br>
+                <div align="center"><a ng-click="backToLogin()" href="">BACK TO LOGIN PAGE</a></div>
             </div>
         </div>
 
