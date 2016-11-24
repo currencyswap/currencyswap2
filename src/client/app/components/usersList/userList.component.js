@@ -142,14 +142,13 @@ angular.module('userList')
                 $scope.onSaveUserDetailData = function () {
                     $scope.gifLoading = true;
                     var address, city, country, postcode, state = null;
-                    $scope.userDetail.addresses = [];
-
                     if ($scope.userDetail.addresses[0] && $scope.userDetail.addresses[0].hasOwnProperty('address')) address = $scope.userDetail.addresses[0].address;
                     if ($scope.userDetail.addresses[0] && $scope.userDetail.addresses[0].hasOwnProperty('city')) city = $scope.userDetail.addresses[0].city;
                     if ($scope.userDetail.addresses[0] && $scope.userDetail.addresses[0].hasOwnProperty('state')) state = $scope.userDetail.addresses[0].state;
                     if ($scope.userDetail.addresses[0] && $scope.userDetail.addresses[0].hasOwnProperty('country')) country = $scope.userDetail.addresses[0].country;
                     if ($scope.userDetail.addresses[0] && $scope.userDetail.addresses[0].hasOwnProperty('postcode')) postcode = $scope.userDetail.addresses[0].postcode;
 
+                    console.log("$scope.userDetail.addresses: ",$scope.userDetail.addresses);
                     var resultUser = {
                         id: $scope.userDetail.id,
                         username: $scope.userDetail.username,
@@ -182,6 +181,7 @@ angular.module('userList')
 
                     UserListService.saveUserDetail(resultUser, headers)
                         .then(function (response) {
+                            console.log("response:",response);
                             $scope.isEditting = false;
                             $window.scrollTo(0, 0);
                             $scope.gifLoading = false;
@@ -196,6 +196,7 @@ angular.module('userList')
                     $scope.isEditting = true;
                 };
                 $scope.onAllClick = function () {
+                    $scope.userDetail = null;
                     $scope.isEditting = false;
                     $scope.detailUserView = false;
 
@@ -229,6 +230,7 @@ angular.module('userList')
                 $scope.onAllClick();
 
                 $scope.onActivatedClick = function () {
+                    $scope.userDetail = null;
                     $scope.detailUserView = false;
                     $scope.isEditting = false;
                     $scope.users = [];
@@ -251,6 +253,7 @@ angular.module('userList')
                                         //do nothing
                                     }
                                 })
+                                $scope.totalItems = $scope.users.length;
                             } else {
                                 $rootScope.error = {};
                                 $rootScope.error.status = GLOBAL_CONSTANT.SERVER_GOT_PROBLEM_STATUS;
@@ -261,6 +264,7 @@ angular.module('userList')
                 };
 
                 $scope.onPendingClick = function () {
+                    $scope.userDetail = null;
                     $scope.detailUserView = false;
                     $scope.isEditting = false;
                     $scope.users = [];
@@ -283,6 +287,7 @@ angular.module('userList')
                                         //do nothing
                                     }
                                 })
+                                $scope.totalItems = $scope.users.length;
                             } else {
                                 $rootScope.error = {};
                                 $rootScope.error.status = GLOBAL_CONSTANT.SERVER_GOT_PROBLEM_STATUS;
@@ -315,7 +320,8 @@ angular.module('userList')
                             $scope.userDetail.nationalId = userDetail.nationalId;
                             $scope.userDetail.profession = userDetail.profession;
                             $scope.selectedStatus.selectedStatus = userDetail.status;
-                        })
+                            $scope.userDetailclone = $scope.userDetail;
+                           })
                 }
             }]
     });

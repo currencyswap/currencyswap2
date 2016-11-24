@@ -158,7 +158,9 @@ strong {
     -webkit-transition: all 0.2s ease-out 0s;
     transition: all 0.2s ease-out 0s;
 }
-
+select {
+    height: 40px !important;
+}
 .menutoggle:hover {
     color: #1d2939;
     background-color: #f7f7f7;
