@@ -43,7 +43,7 @@ angular.module('common').factory('ConnectorService', ['$http', '$q', 'CookieServ
     var token = null;
     
     var defaultHeaders = {};
-    defaultHeaders[httpHeader.CONTENT_TYPE] = contentTypes.JSON;
+    //defaultHeaders[httpHeader.CONTENT_TYPE] = contentTypes.JSON;
 
       var _getErrorMsg = function(resp) {
         var e = resp.responseJSON;
