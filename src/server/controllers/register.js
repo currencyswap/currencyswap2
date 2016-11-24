@@ -19,7 +19,6 @@ module.exports = function (app) {
         } else {
             // handle register request
             var clientUserData = req.body.newUser;
-
             var serverUserData = userConverter.convertUserData(clientUserData);
 
             userService.registerUser(serverUserData, function (err) {

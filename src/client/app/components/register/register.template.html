@@ -1,6 +1,6 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
-<div class="signuppanel" ng-show="startRegister">
+<div class="signuppanel" ng-if="startRegister">
     <div class="row">
 
         <!--<div class="col-sm-2"></div>-->
@@ -166,7 +166,7 @@
 
 </div>
 
-<div ng-show="registerSuccess">
+<div ng-if="registerSuccess">
     <div class="col-md-3">
     </div>
     <div class="col-md-6">
@@ -202,7 +202,7 @@
     </div>
 </div>
 
-<div ng-show="activeSuccess">
+<div ng-if="activeSuccess">
     <div class="col-md-3">
 
     </div>

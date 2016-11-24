@@ -36,6 +36,7 @@ exports.createUser = function (user, callback) {
         function (txObject, next) {
             app.models.Member.create(user, txObject, function (err, instance) {
                 if (err) {
+                    console.log(err);
                     console.log('Error on saving User to DB');
                     return next(errorUtil.createAppError(errors.COULD_NOT_SAVE_USER_TO_DB), txObject);
                 } else {
@@ -390,7 +391,14 @@ exports.createUserTransaction = function (callback) {
                         return next(err);
                     }
                 } else {
-                    return next(errorUtil.createAppError(errors.USER_NAME_EXISTED));
+                    if (user.status === constant.USER_STATUSES.NEW) {
+                        exports.deleteUserAndRelatedAddresses(user, function (err) {
+                            if (err) return next (err);
+                            else return next (null, newUser);
+                        })
+                    } else {
+                        return next(errorUtil.createAppError(errors.USER_NAME_EXISTED));
+                    }
                 }
             });
         },
@@ -459,8 +467,19 @@ exports.createUserTransaction = function (callback) {
             });
         },
         function (randomString, username, email, next) {
-            redis.set(username, randomString, constant.ONE_DAY_IN_SECONDS);
-            return next(null, randomString, username, email);
+            redis.get(username, function (err, response) {
+                if (err) {
+                    if (err.code === errorUtil.createAppError(errors.SERVER_GET_PROBLEM).code) return next (errorUtil.createAppError(errors.SERVER_GET_PROBLEM));
+                    if (err.code === errorUtil.createAppError(errors.MISSING_REDIS_KEY).code) {
+                        redis.set(username, randomString, constant.ONE_DAY_IN_SECONDS);
+                        return next(null, randomString, username, email);
+                    }
+                } else {
+                    redis.remove(username);
+                    redis.set(username, randomString, constant.ONE_DAY_IN_SECONDS);
+                    return next(null, randomString, username, email);
+                }
+            });
         },
         function (randomString, username, email, next) {
             // construct mail options
@@ -673,5 +692,36 @@ exports.checkExpiredDateUse = function (user, callback) {
     app.models.Member.findByUsername(user.username, function (err, userObj) {
         if (err) return callback(err);
         callback(null, userObj);
+    });
+};
+
+exports.deleteUserAndRelatedAddresses = function (userInstance, callback) {
+    async.waterfall([
+        function (next) {
+            // find address with user instance
+            userInstance.addresses(function (err, address) {
+                if (err) return next (errorUtil.createAppError(errors.SERVER_GET_PROBLEM));
+                else {
+                    if (!address || address.length <= 0) return next (null);
+                    else {
+                        // delete address of this instance
+                        app.models.Address.destroyById(address[0].id, function (err) {
+                            if (err) {
+                                return next (errorUtil.createAppError(errors.SERVER_GET_PROBLEM));
+                            }
+                            else return next (null);
+                        });
+                    }
+                }
+            })
+        },
+        function (next) {
+            userInstance.destroy(function (err) {
+                if (err) return next (errorUtil.createAppError(errors.SERVER_GET_PROBLEM));
+                else return next (null);
+            });
+        }
+    ], function (err) {
+        callback(err)
     });
 };

@@ -53,7 +53,7 @@ angular.module('loginForm')
                                                     }, function(e){
                                                         console.log(e);
                                                     });
-                                                };
+                                                }
                                             },
                                             function (error) {
                                                 CookieService.cleanUpCookies();

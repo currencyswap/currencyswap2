@@ -23,6 +23,7 @@ angular.module('register')
                     var activeCode = $location.search().activeCode;
                     RegisterService.sendActiveRequest(activeCode)
                         .then(function (response) {
+                            $rootScope.isLoading = true;
                             if (response.status === GLOBAL_CONSTANT.HTTP_ERROR_STATUS_CODE) { // handle error response
                                 $rootScope.error = {};
                                 $rootScope.error.status = GLOBAL_CONSTANT.SERVER_GOT_PROBLEM_STATUS;
@@ -34,8 +35,14 @@ angular.module('register')
                                 $scope.startRegister = false;
                                 $scope.activeSuccess = true;
                             }
+                        }, function (error) {
+                            $rootScope.error = {};
+                            $rootScope.error.status = GLOBAL_CONSTANT.UNKNOWN_ERROR_STATUS;
+                            $rootScope.error.message = GLOBAL_CONSTANT.UNKNOWN_ERROR_MSG;
+                            $window.scrollTo(0, 0);
                         });
                 }
+
                 $scope.formats = ['dd-MMMM-yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate'];
                 $scope.format = $scope.formats[0];
                 $scope.altInputFormats = ['M!/d!/yyyy'];
@@ -112,13 +119,16 @@ angular.module('register')
                                 }
                             }
                         }, function (error) {
-                            console.log("error",error);
+                            $rootScope.error = {};
+                            $rootScope.error.status = GLOBAL_CONSTANT.UNKNOWN_ERROR_STATUS;
+                            $rootScope.error.message = GLOBAL_CONSTANT.UNKNOWN_ERROR_MSG;
+                            $window.scrollTo(0, 0);
                         });
                 };
 
                 $scope.backToLogin = function () {
-                    $location.path(routes.LOGIN);
-                }
+                    $location.path(routes.LOGIN).path();
+                };
                 
                 // init
                 $scope.init();
