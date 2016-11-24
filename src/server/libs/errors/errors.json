@@ -179,8 +179,12 @@
         "code": 85,
         "message": "{INVALID_PASSWORD}"
     },
+    "INVALID_PARAMETER_INPUT" : {
+        "code": 86,
+        "message": "{INVALID_PARAMETER_INPUT}"
+    },
     "ACCOUNT_IS_EXPIRED": {
-        "code": 85,
+        "code": 87,
         "message": "{ACCOUNT_IS_EXPIRED}"
     }
 }

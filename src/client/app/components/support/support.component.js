@@ -6,19 +6,32 @@ angular.module('support')
         controller: ['$scope',
             '$rootScope',
             '$timeout',
-            'CookieService',
             'SupportService',
             'PermissionService',
             'NavigationHelper',
             'GLOBAL_CONSTANT',
-            function supportController($scope, $rootScope, $timeout, CookieService, SupportService, PermissionService, NavigationHelper, GLOBAL_CONSTANT) {
+            function supportController($scope, $rootScope, $timeout, SupportService, PermissionService, NavigationHelper, GLOBAL_CONSTANT) {
+                console.log($rootScope.user);
                 $scope.messageTitle = 'Message to Admin';
-                $scope.support = {title: '', message: ''};
+                $scope.support = {title: '', message: '', group: true, username: user.username};
                 $scope.init = function() {
                     $('[data-toggle="popover"]').popover();
                 };
                 $scope.save = function() {
-                    
+                    $scope.message = '';
+                    SupportService.saveSupport($scope.support).then(function(resp){
+                        console.log('Successful in saving message');
+                        $timeout(function(){
+                            $scope.message = 'Successful: Your message has been sent to Admin';
+                            $scope.support.title = '';
+                            $scope.support.message = '';
+                        });
+                    }, function(err){
+                        console.log('Failure in saving your message');
+                        $timeout(function(){
+                            $scope.message = 'Failure: Could not send your message due to system error. Please try again later!';
+                        });
+                    });
                 };
 
                 // init

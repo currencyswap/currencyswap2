@@ -17,6 +17,8 @@ const Routes = {
     API_ORDERS_ID : '/api/orders/:id',
     API_MY_PROFILE: '/api/profile',
     API_PERMISSIONS: '/api/permissions',
+    API_SUPPORTS : '/api/supports',
+    API_SUPPORTS_CREATOR: '/api/supports/creator',
     API_FORGOT_PASSWORD_VERIFY: '/api/forgotpassword/verify',
     API_FORGOT_PASSWORD_RESET: '/api/forgotpassword/reset',
     API_REGISTER: '/api/register'

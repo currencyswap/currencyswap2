@@ -28,7 +28,6 @@ app.start = function () {
 };
 
 function startUp() {
-
   logger.setupLogs();
 
   redis.setupClient();
