@@ -17,6 +17,7 @@ var routes = require('../routes').routes;
 var os = require('os');
 var userConverter = require('../converters/user-converter');
 var groupService = require('../services/group-service');
+var supportService = require('../services/support-service');
 
 exports.createUser = function (user, callback) {
     user.password = md5(user.password);
@@ -36,7 +37,6 @@ exports.createUser = function (user, callback) {
         function (txObject, next) {
             app.models.Member.create(user, txObject, function (err, instance) {
                 if (err) {
-                    console.log(err);
                     console.log('Error on saving User to DB');
                     return next(errorUtil.createAppError(errors.COULD_NOT_SAVE_USER_TO_DB), txObject);
                 } else {
@@ -454,8 +454,16 @@ exports.createUserTransaction = function (callback) {
                 if (err) {
                     return next(err);
                 }
-                else return next(null, savedUser.username, savedUser.email);
+                else return next(null, savedUser);
             })
+        },
+        function createMessage(savedUser, next) {
+            supportService.messageToGroup({'title': constant.MSG.NEW_MEMBER_TITLE, 
+                'message': constant.MSG.NEW_MEMBER_CONTENT, 
+                'group': true, 
+                'isAdmin': true,
+                'creatorId': savedUser.id});
+            return next(null, savedUser.username, savedUser.email);
         },
         function (username, email, next) {
             // generate reset password code

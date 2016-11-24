@@ -33,6 +33,29 @@ exports.saveMessage = function(input) {
     return dbUtil.executeModelFn(app.models.Message, 'create', dto);
 };
 
+exports.messageToGroup = function(input) {
+    return exports.getGroups().then(function(groups){
+        // get the group receiver
+        for (var i=0; i<groups.length; i++) {
+            if (input.isAdmin) {
+                if (groups[i].name === 'Admin') {
+                    input.receiverId = groups[i].id;
+                    break;
+                }
+            } else if (groups[i].name){
+                input.receiverId = groups[i].id;
+                break;
+            }
+        }
+        if (!input.receiverId) {
+            return {'message': 'Could not save message due to system is laking of groups setting'};
+        }
+        return exports.saveMessage(input);
+    }, function(){
+        return {'message': 'Could not save message due to system issue'};
+    });
+};
+
 exports.getMessages = function() {
     var creatorRelation = {
             'relation' : 'creator',
@@ -40,5 +63,6 @@ exports.getMessages = function() {
                 'fields' : [ 'id', 'username', 'email', 'fullName' ],
             }
           };
-    return dbUtil.executeModelFn(app.models.Message, 'find', {'include': [creatorRelation]});
+    return dbUtil.executeModelFn(app.models.Message, 'find', {'include': [creatorRelation], 'order': 'id DESC'});
 };
+

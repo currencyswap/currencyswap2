@@ -1,4 +1,10 @@
 module.exports = {
+    MSG: {
+        NEW_MEMBER_TITLE : 'New member registered',
+        NEW_MEMBER_CONTENT : 'The New member has just joint the application',
+        APPROVAL_TITLE : 'Welcome new member',
+        APPROVAL_CONTENT : 'You have just been approved to use this application'
+    },
     PASSWORD_FIELD: 'password',
     STATUS_FIELD: 'status',
     RESET_PWD_REDIS_VALUE: 'resetPassword',

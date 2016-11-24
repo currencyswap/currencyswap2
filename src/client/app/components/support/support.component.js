@@ -20,7 +20,7 @@ angular.module('support')
                             var group = user.groups[i];
                             if (group.name === 'Admin') {
                                 $scope.messageTitle = 'Message to Users';
-                                $scope.support.isAdmin = true;
+                                $scope.support.isAdmin = false;
                                 break;
                             }
                         }
@@ -29,7 +29,7 @@ angular.module('support')
                 };
                 
                 $scope.messageTitle = 'Message to Admin';
-                $scope.support = {title: '', message: '', group: true};
+                $scope.support = {title: '', message: '', group: true, isAdmin: true};
                 $scope.init = function() {
                     $('[data-toggle="popover"]').popover();
                     _checkAdmin();

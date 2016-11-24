@@ -34,37 +34,24 @@ module.exports = function (app) {
             return res.status(404).send(errorUtil.createAppError(errors.INVALID_PARAMETER_INPUT));
         }
 
-        var _save = function() {
+        if (input.group) {
+            service.messageToGroup(input).then(function(message){
+                if (!message || !message.id) {
+                    return res.status(500).send(errorUtil.createAppError(message||errors.SERVER_GET_PROBLEM));
+                }
+                return res.send({'isSuccessful': true});
+            }, function(message){
+                return res.status(500).send(errorUtil.createAppError(message||errors.SERVER_GET_PROBLEM));
+            });
+        } else {
             if (!input.receiverId) {
                 return res.status(404).send(errorUtil.createAppError(errors.INVALID_PARAMETER_INPUT));
             }
             service.saveMessage(input).then(function(resp){
-                res.send({'isSuccessful': true});
+                return res.send({'isSuccessful': true});
             }, function(e){
                 return res.status(500).send(errorUtil.createAppError(errors.SERVER_GET_PROBLEM));
             });
-        };
-
-        if (input.group) {
-            service.getGroups().then(function(groups){
-                // get the group receiver
-                for (var i=0; i<groups.length; i++) {
-                    if (input.isAdmin) {
-                        if (groups[i].name === 'Admin') {
-                            input.receiverId = groups[i].id;
-                            break;
-                        }
-                    } else if (groups[i].name){
-                        input.receiverId = groups[i].id;
-                        break;
-                    }
-                }
-                _save();
-            }, function(){
-                return res.status(500).send(errorUtil.createAppError(errors.SERVER_GET_PROBLEM));
-            });
-        } else {
-            _save();
         }
     });
 
