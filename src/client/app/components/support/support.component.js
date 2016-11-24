@@ -6,23 +6,16 @@ angular.module('support')
         controller: ['$scope',
             '$rootScope',
             '$timeout',
-            'CookieService',
             'SupportService',
             'PermissionService',
             'NavigationHelper',
             'GLOBAL_CONSTANT',
-            function supportController($scope, $rootScope, $timeout, CookieService, SupportService, PermissionService, NavigationHelper, GLOBAL_CONSTANT) {
-                var user = CookieService.getCurrentUser();
-
+            function supportController($scope, $rootScope, $timeout, SupportService, PermissionService, NavigationHelper, GLOBAL_CONSTANT) {
+                console.log($rootScope.user);
                 $scope.messageTitle = 'Message to Admin';
                 $scope.support = {title: '', message: '', group: true, username: user.username};
                 $scope.init = function() {
                     $('[data-toggle="popover"]').popover();
-//                    SupportService.getCreator(user.username).then(function(resp){
-//                        console.log(resp);
-//                    }, function(err){
-//                        console.log(err);
-//                    });
                 };
                 $scope.save = function() {
                     $scope.message = '';

@@ -20,6 +20,6 @@ angular.module('orders').factory('OrdersService', ['ConnectorService', function 
         },
         getAllOrders: function(){
             return this.get(apiRoutes.API_ORDERS);
-        });
+        }
     });
 }]);
