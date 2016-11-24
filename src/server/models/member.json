@@ -15,6 +15,9 @@
   "options": {
     "validateUpsert": true
   },
+  "hidden": [
+    "password"
+  ],
   "properties": {
     "username": {
       "type": "string",

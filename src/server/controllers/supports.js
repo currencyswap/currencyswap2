@@ -12,6 +12,7 @@ module.exports = function (app) {
         if (!username) {
             return res.status(404).send(errorUtil.createAppError(errors.INVALID_PARAMETER_INPUT));
         }
+        var user = req.currentUser;
         service.getCreator(username).then(function(resp){
             return res.send(resp);
         }, function(err){
@@ -19,6 +20,9 @@ module.exports = function (app) {
         });
     });
     router.post('/', function (req, res, next) {
+        var input = req.body;
+        console.log(req.currentUser);
+        console.log(input);
     });
 
     return router;
