@@ -13,6 +13,7 @@ angular.module('register').factory('RegisterService', ['$http', '$q', function (
                 email: userData.email,
                 nationalId: userData.nationalId,
                 password: userData.password,
+                nationalId: userData.nationalId,
                 bankAccountName: userData.bankAccountName,
                 bankAccountNumber: userData.bankAccountNumber,
                 bankName: userData.bankName,

@@ -19,7 +19,6 @@ angular.module('userList').factory('UserListService', ['$http', function ($http,
                 url: apiRoutes.API_USERS + '/' + userId,
                 headers: headers
             };
-
             return $http(req);
         },
         saveUserDetail: function (user, headers) {

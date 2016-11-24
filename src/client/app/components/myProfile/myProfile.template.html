@@ -47,10 +47,13 @@
                     </div>
                     <div class="col-sm-9">
                         <div class="input-group">
-                            <input type="text" class="form-control" uib-datepicker-popup="{{format}}"
-                                   is-open="calendarPicker.opened" datepicker-options="dateOptions" ng-required="true"
+                            <input type="text" class="form-control"
+                                   uib-datepicker-popup="{{format}}"
+                                   is-open="calendarPicker.opened"
+                                   datepicker-options="dateOptions"
                                    ng-model="model.birthday"
-                                   close-text="Close" alt-input-formats="altInputFormats">
+                                   close-text="Close"
+                                   alt-input-formats="altInputFormats">
                             <span class="input-group-addon" style="height: 40px">
                                    <i class="glyphicon glyphicon-calendar" ng-click="openCalendar()"></i>
                                 </span>
@@ -125,15 +128,7 @@
                 </div>
                 <br>
                 <div class="row">
-                    <!--<country-state country="model.country" state="model.state" ></country-state>-->
-                    <div class="col-sm-3">
-                        <label class="control-label">Country</label>
-
-                    </div>
-                    <div class="col-sm-9">
-                        <!--<country-state country="model.country" state="user.state" ></country-state>-->
-                        <input class="form-control" type="text" ng-model="model.country">
-                    </div>
+                    <country-state country="model.country" countryState="model.state"></country-state>
                 </div>
                 <br>
                 <div class="row">
@@ -155,7 +150,6 @@
                     </div>
                 </div>
                 <br>
-
                 <br>
                 <div class="row">
                     <h3>Bank Account</h3>
