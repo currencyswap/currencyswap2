@@ -560,7 +560,6 @@ exports.extractUsernameAndRandomString = function (requestActiveCode) {
 exports.activeUserAccount = function (activeCode, callback) {
     async.waterfall([
         function (next) {
-        console.log('active acc 1');
             try {
                 var usernameAndRandomString = exports.extractUsernameAndRandomString(activeCode);
                 return next (null, usernameAndRandomString);
@@ -570,14 +569,12 @@ exports.activeUserAccount = function (activeCode, callback) {
             }
         },
         function (usernameAndRandomString, next) {
-            console.log('active acc 2');
             redis.checkActiveCode(usernameAndRandomString.username, usernameAndRandomString.randomString, function (err, response) {
                 if (err) return next(err);
                 else return next(null, usernameAndRandomString.username);
             })
         },
         function (username, next) {
-            console.log('active acc 3');
             app.models.Member.findUserByUserName(username, function (err, user) {
                 if (err) return next(err);
                 else {
@@ -586,7 +583,6 @@ exports.activeUserAccount = function (activeCode, callback) {
             })
         },
         function (user, next) {
-            console.log('active acc 4');
             user.updateAttribute(constant.STATUS_FIELD, constant.USER_STATUSES.PENDING_APPROVAL, function (err, response) {
                 if (err) return next (errorUtil.createAppError(errors.SERVER_GET_PROBLEM));
                 else {
