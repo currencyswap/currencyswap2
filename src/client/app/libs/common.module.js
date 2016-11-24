@@ -4,33 +4,46 @@
  * @author Viet Nghiem
  */
 'use strict';
-angular.module('common', ['ngRoute', 'cookieManager', 'permission', 'navigation', 'ui.bootstrap']).run(function($rootScope, CookieService, SupportService){
+angular.module('common', ['ngRoute', 'cookieManager', 'permission', 'navigation', 'ui.bootstrap']).run(function($rootScope, $q, CookieService, SupportService){
     $rootScope.getCreator = function() {
+        var def = $q.defer();
         var user = CookieService.getCurrentUser();
-        if (!user.username) {
-            console.log('No user session exists');
-            return;
+        if (user.username) {
+            SupportService.getCreator(user.username).then(function(resp){
+                if (resp.username) {
+                    $rootScope.user = resp;
+                    def.resolve(resp);
+                } else {
+                    def.reject('Error: Current User Info', resp);
+                }
+            }, function(err){
+                def.reject('Error: Current User Info', err);
+            });
+        } else {
+            def.reject('No user session exists');
         }
-        SupportService.getCreator(user.username).then(function(resp){
-            console.log('Success: Current User Info', resp);
-            $rootScope.user = resp;
-        }, function(err){
-            console.log('Error: Current User Info', err);
-        });
-    }
-    if (!$rootScope.user) {
-        $rootScope.getCreator();
-    }
+        return def.promise;
+    };
+    var _retreiveUser = function() {
+        if (!$rootScope.user) {
+            $rootScope.getCreator().then(function(resp){
+                console.log('Success: Current User Info', resp);
+            }, function(e){
+                console.log(e);
+                //setTimeout(_retreiveUser, 2000);
+            });
+        };
+    };
+    _retreiveUser();
 });
 
 angular.module('common').factory('ConnectorService', ['$http', '$q', 'CookieService', function ($http, $q, CookieService) {
     var debug = true;
     var timeout = 60000;//1 min for each request
-    var token = CookieService.getToken();
+    var token = null;
     
     var defaultHeaders = {};
     defaultHeaders[httpHeader.CONTENT_TYPE] = contentTypes.JSON;
-    defaultHeaders[httpHeader.AUTHORIZARION] = autheticateType.BEARER + token;
 
       var _getErrorMsg = function(resp) {
         var e = resp.responseJSON;
@@ -42,6 +55,10 @@ angular.module('common').factory('ConnectorService', ['$http', '$q', 'CookieServ
       };
 
       var _ajax = function(method, url, data, headers) {
+          // update token header
+          token = CookieService.getToken();
+          defaultHeaders[httpHeader.AUTHORIZARION] = autheticateType.BEARER + token;
+
           return $.ajax({
             url : url,
             type : method,
