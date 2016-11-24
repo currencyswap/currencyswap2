@@ -158,22 +158,29 @@ exports.login = function (user, callback) {
     async.waterfall([
         function (next) {
             app.models.Member.findByUsername(user.username, true, function (err, userObj) {
-
-                if (err) return next(err);
+                if (err) return next(errorUtil.createAppError(errors.SERVER_GET_PROBLEM));
                 else {
                     if (!userObj) return next(errorUtil.createAppError(errors.MEMBER_INVALID_USERNAME));
 
                     var password = md5(user.password);
 
+                    // check password matched
                     if (userObj.password != password) {
                         return next(errorUtil.createAppError(errors.MEMBER_INVALID_PASSWORD));
                     }
 
+                    // check user status
                     if (userObj.status !== constant.USER_STATUSES.ACTIVATED) {
                         return next(errorUtil.createAppError(errors.ACCOUNT_IS_NOT_ACTIVATED));
                     }
 
-                    next(null, userObj);
+                    // check expired date
+                    var now = new Date(Date.now());
+                    if (userObj.expiredDate && userObj.expiredDate < now) {
+                        return next(errorUtil.createAppError(errors.ACCOUNT_IS_EXPIRED));
+                    }
+
+                    return next(null, userObj);
                 }
             });
         },

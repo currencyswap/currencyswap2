@@ -99,6 +99,6 @@ angular.module('currencySwapApp', [
     NEW_USER_STATUS: 'New',
     DEACTIVATED_USER_STATUS: 'Deactivated',
     INVALID_USER_NAME_OR_PWD_MSG: 'Invalid username/password',
-    ACCOUNT_IS_NOT_ACTIVATED_MSG: 'Account is not activated'
-
+    ACCOUNT_IS_NOT_ACTIVATED_MSG: 'Account is not activated',
+    ACCOUNT_IS_EXPIRED: 'Your account was expired'
 });

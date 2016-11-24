@@ -178,5 +178,9 @@
     "INVALID_PASSWORD" : {
         "code": 85,
         "message": "{INVALID_PASSWORD}"
+    },
+    "ACCOUNT_IS_EXPIRED": {
+        "code": 85,
+        "message": "{ACCOUNT_IS_EXPIRED}"
     }
 }

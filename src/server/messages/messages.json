@@ -43,5 +43,6 @@
     "PASSPORT_EXISTED": "Passport is existed",
     "CELLPHONE_EXISTED": "Cellphone number is existed",
     "INVALID_PASSWORD": "Invalid password",
-    "NATIONAL_ID_EXISTED": "NationalId/Passport is existed"
+    "NATIONAL_ID_EXISTED": "NationalId/Passport is existed",
+    "ACCOUNT_IS_EXPIRED": "Your account is expired"
 }

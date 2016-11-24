@@ -72,6 +72,10 @@ angular.module('loginForm')
                                         if (response.data.code === serverErrors.ACCOUNT_IS_NOT_ACTIVATED) {
                                             $scope.loginErrMsg = GLOBAL_CONSTANT.ACCOUNT_IS_NOT_ACTIVATED_MSG;
                                         }
+
+                                        if (response.data.code === serverErrors.ACCOUNT_IS_EXPIRED) {
+                                            $scope.loginErrMsg = GLOBAL_CONSTANT.ACCOUNT_IS_EXPIRED;
+                                        }
                                     }
                                 }
                             }
