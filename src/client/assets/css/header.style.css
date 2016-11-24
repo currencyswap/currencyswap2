@@ -13,9 +13,8 @@ button.tb-active {
  margin: auto;
  width: 80%;
 }
-
-.support-content {
- margin: 10px auto;
+.support-content, .help-content, .notification-content {
+  margin: 10px auto;
 }
 .support-content textarea {
  min-height: 200px;
@@ -33,9 +32,6 @@ button.tb-active {
 .msg-issue {
  text-align: right;
  margin-top: -6px;
-}
-.notification-content {
-  margin-top: 10px;
 }
 @media screen and (max-width: 1024px) {
 }
