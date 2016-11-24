@@ -1,9 +1,13 @@
 <div class="support-content">
 
-<form id="msgForm" name="msgForm" novalidate="novalidate">
-<h2 class="nomargin">{{::messageTitle}}</h2>
-<br>
-<div style="color:green">{{message}}</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<h4 class="panel-title">{{::messageTitle}}</h4>
+<p style="color:green">{{message}}</p>
+
+<div class="panel-body panel-body-nopadding">
+<form id="msgForm" name="msgForm" novalidate="novalidate" class="form-horizontal form-bordered">
+<br/>
   <div class="form-group">
     <label class="control-label"><b>Title</b></label> <span class="asterisk">*</span><a data-toggle="popover" data-trigger="hover" data-content="Message title is the words that are limited to 128 characters"><i style="font-size:15px; color: #4d4e4e" class="fa fa-question-circle"></i></a>
     <input type="text" name="title" class="form-control" ng-model="support.title" placeholder="Enter your message title..." required maxlength="128" ng-change="resetMessage()">
@@ -13,9 +17,19 @@
     <label class="control-label"><b>Message</b></label> <span class="asterisk">*</span><a data-toggle="popover" data-trigger="hover" data-content="Message content"><i style="font-size:15px; color: #4d4e4e" class="fa fa-question-circle"></i></a>
     <textarea type="text" name="message" class="form-control" ng-model="support.message" placeholder="Enter your message content..." maxlength="4000" required row="12" ng-change="resetMessage()"></textarea>
   </div>
-
-  <button type="button" class="btn btn-success btn-md" ng-disabled="msgForm.$invalid" ng-click="save()">Send</button>
 </form>
-
+          
+        </div><!-- panel-body -->
+        
+        <div class="panel-footer">
+       <div class="row">
+        <div class="col-sm-6 col-sm-offset-0">
+          <button class="btn btn-primary" ng-disabled="msgForm.$invalid" ng-click="save()">Send</button>
+        </div>
+       </div>
+      </div><!-- panel-footer -->
+        
+  </div>
 </div>
 
+</div>
