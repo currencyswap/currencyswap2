@@ -41,9 +41,6 @@ angular.module('common').factory('ConnectorService', ['$http', '$q', 'CookieServ
     var debug = true;
     var timeout = 60000;//1 min for each request
     var token = null;
-    
-    var defaultHeaders = {};
-    //defaultHeaders[httpHeader.CONTENT_TYPE] = contentTypes.JSON;
 
       var _getErrorMsg = function(resp) {
         var e = resp.responseJSON;
@@ -57,14 +54,16 @@ angular.module('common').factory('ConnectorService', ['$http', '$q', 'CookieServ
       var _ajax = function(method, url, data, headers) {
           // update token header
           token = CookieService.getToken();
-          defaultHeaders[httpHeader.AUTHORIZARION] = autheticateType.BEARER + token;
 
           return $.ajax({
             url : url,
             type : method,
             dataType : 'json',
             timeout: timeout,
-            headers: $.extend({}, defaultHeaders, headers),
+            headers: headers,
+            beforeSend: function(xhr) {
+                xhr.setRequestHeader("Authorization", autheticateType.BEARER + token);
+            },
             data: data
           }).fail(function(resp){
             alert(_getErrorMsg(resp));

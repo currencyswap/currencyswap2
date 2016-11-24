@@ -19,7 +19,6 @@ angular.module('support')
                             var group = user.groups[i];
                             if (group.name === 'Admin') {
                                 $scope.messageTitle = 'Message to Users';
-                                user.isAdmin = true;
                                 $scope.support.isAdmin = true;
                                 break;
                             }
@@ -28,12 +27,13 @@ angular.module('support')
                 };
                 
                 $scope.messageTitle = 'Message to Admin';
-                $scope.support = {title: '', message: '', group: true, username: user.username};
+                $scope.support = {title: '', message: '', group: true, username: user.username, creatorId: user.id};
                 $scope.init = function() {
                     $('[data-toggle="popover"]').popover();
                     _checkAdmin();
                 };
                 $scope.save = function() {
+                    console.log('save')
                     $scope.message = '';
                     SupportService.saveSupport($scope.support).then(function(resp){
                         console.log('Successful in saving message');
