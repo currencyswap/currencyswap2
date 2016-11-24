@@ -15,7 +15,7 @@ angular.module('orders').factory('OrdersService', ['ConnectorService', function 
         getSumittedOrders: function() { // status = 1 
             return this.get(apiRoutes.API_ORDERS_SUBMITTED);
         },
-        getOrderById : function(orderId, ){
+        getOrderById : function(orderId){
             return this.get(apiRoutes.API_ORDERS_ID +  '/' + orderId);
         },
         getAllOrders: function(){
