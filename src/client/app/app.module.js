@@ -118,5 +118,20 @@ angular.module('currencySwapApp', [
     DEACTIVATED_USER_STATUS: 'Deactivated',
     INVALID_USER_NAME_OR_PWD_MSG: 'Invalid username/password',
     ACCOUNT_IS_NOT_ACTIVATED_MSG: 'Account is not activated',
-    ACCOUNT_IS_EXPIRED: 'Your account was expired'
+    ACCOUNT_IS_EXPIRED: 'Your account was expired',
+    ORDER_FIXED_VALUE : {
+    	"RATE" : "RATE",
+		"GIVE" : "GIVE",
+		"GET" : "GET"
+	},
+	ORDER_EXPIRED_VALUE : [
+		{"key" : "ON_3_DAY","value" : "on 3 days", "dayLive" : 3},
+		{"key" : "ON_7_DAY","value" : "on 7 days", "dayLive" : 7},
+		{"key" : "ON_2_WEEKS","value" : "on 2 weeks", "dayLive" : 14}
+	]
+}).filter('filterDate', function($filter){
+	return function (date, format) {
+	    if (!format) format = 'MMM dd, yyyy';
+	    return $filter('date')(date, format);
+	}
 });
