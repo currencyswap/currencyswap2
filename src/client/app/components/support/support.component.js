@@ -11,11 +11,27 @@ angular.module('support')
             'NavigationHelper',
             'GLOBAL_CONSTANT',
             function supportController($scope, $rootScope, $timeout, SupportService, PermissionService, NavigationHelper, GLOBAL_CONSTANT) {
-                console.log($rootScope.user);
+                var user = $rootScope.user;
+                console.log(user);
+                var _checkAdmin = function() {
+                    if (user && user.groups && user.groups.length > 0) {
+                        for (var i=0; i<user.groups.length; i++) {
+                            var group = user.groups[i];
+                            if (group.name === 'Admin') {
+                                $scope.messageTitle = 'Message to Users';
+                                user.isAdmin = true;
+                                $scope.support.isAdmin = true;
+                                break;
+                            }
+                        }
+                    }
+                };
+                
                 $scope.messageTitle = 'Message to Admin';
                 $scope.support = {title: '', message: '', group: true, username: user.username};
                 $scope.init = function() {
                     $('[data-toggle="popover"]').popover();
+                    _checkAdmin();
                 };
                 $scope.save = function() {
                     $scope.message = '';

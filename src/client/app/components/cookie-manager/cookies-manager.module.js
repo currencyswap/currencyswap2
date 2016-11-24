@@ -30,7 +30,9 @@ angular.module('cookieManager', ['ngCookies'])
             },
             getCurrentUser: function () {
                 var userString = $cookies.get(global.CURRENT_USER);
-                return JSON.parse(userString);
+                var json = {};
+                try {json = JSON.parse(userString);}catch(e){}
+                return json;
             },
             getUserEmail: function () {
                 return $cookies.get(global.USER_EMAIL);
