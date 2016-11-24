@@ -49,6 +49,54 @@
             ]
         },
         {
+            "route": "{API_ORDERS_SWAPPING}",
+            "rules" : [
+                {
+                    "methods" : ["GET", "PUT"],
+                    "requiredPermissions": [
+                        "{VIEW_OWN_ORDERS}"
+                    ],
+                    "isAlive": true
+                }
+            ]
+        },
+        {
+            "route": "{API_ORDERS_CONFIRMED}",
+            "rules" : [
+                {
+                    "methods" : ["GET", "PUT"],
+                    "requiredPermissions": [
+                        "{VIEW_OWN_ORDERS}"
+                    ],
+                    "isAlive": true
+                }
+            ]
+        },
+        {
+            "route": "{API_ORDERS_SUBMITTED}",
+            "rules" : [
+                {
+                    "methods" : ["GET", "PUT"],
+                    "requiredPermissions": [
+                        "{VIEW_OWN_ORDERS}"
+                    ],
+                    "isAlive": true
+                }
+            ]
+        },
+		{
+            "route": "{API_ORDERS_HISTORY}",
+            "rules" : [
+                {
+                    "methods" : ["GET", "PUT"],
+                    "requiredPermissions": [
+                        "{VIEW_OWN_ORDERS}"
+                    ],
+                    "isAlive": true
+                }
+            ]
+        },
+        {
             "route": "{API_ORDERS_ID}",
             "rules" : [
                 {

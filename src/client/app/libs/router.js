@@ -3,9 +3,9 @@
 var routes = {
     HOME: '/',
     ORDERS: '/orders/',
+    ORDER_CREATE: '/orders/create',
     USERS: '/users/',
     USER: 'user/:userid',
-    ADD: '/request',
     MYPROFILE: '/profile',
     SUPPORT: '/support',
     HELP: '/help',
@@ -43,8 +43,8 @@ var navigation = [
         icon : 'fa fa-users'
     },
     {
-        route: routes.ADD,
-        name: 'Create Request',
+        route: routes.ORDER_CREATE,
+        name: 'Create Order',
         requiredPermissions: [permissions.MAINTAIN_OWN_ORDERS],
         position: global.TOOLSBAR,
         icon : 'fa fa-plus'

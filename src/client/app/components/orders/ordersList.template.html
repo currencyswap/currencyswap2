@@ -1,5 +1,200 @@
-<div class="order-content">
+<div class="order-content row">
+    <div class="col-md-8 order-tabs">
+        <ul class="nav nav-tabs nav-justified">
+            <li class="active"><a data-toggle="tab" ng-click="getWorkingOrders();"><strong>Working Orders</strong></a></li>
+            <li class=""><a data-toggle="tab" ng-click="getSubmittedOrders();"><strong>Submitted Orders</strong></a></li>
+            <li class=""><a href="" data-toggle="tab" ng-click="getHistoryOrders();"><strong>History</strong></a></li>
+        </ul>
+        <div class="tab-content disabled">
+            <div id="workingOrders" class="tab-panel" ng-if="tab==1">
+                <div class="table-responsive">
+					<div id="swappingOrders" class="dataTables_wrapper no-footer" style="overflow: auto">
+						<div class="swapping-order-title" style="text-align: left; color: green; font-size: 18px;">Swapping Orders</div>
+						<table class="table table-striped2">
+							<thead>
+								<tr>
+									<th class="col-sm-1 order-item-header">Order Id</th>
+									<th class="col-sm-1 order-item-header">Date</th>
+									<th class="col-sm-1 order-item-header">Expired Date</th>
+									<th class="col-sm-1 order-item-header">Get</th>
+									<th class="col-sm-1 order-item-header">Give</th>
+									<th class="col-sm-1 order-item-header">Rate</th>
+									
+									<th class="col-sm-1 order-item-header">Initializer</th>
+									<th class="col-sm-1 order-item-header">Accepter</th>
+									<th class="col-sm-1 order-item-header">State</th>
+									<th class="col-sm-2 order-item-header"></th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr ng-repeat="swappingOrder in swappingOrders">
+									<td class="col-sm-1 order-item-content"><a ng-click="getOrderById(1);">{{swappingOrder.code}}</a></td>
+									<td class="col-sm-1 order-item-content">{{swappingOrder.created | date:'MMM dd yyyy'}}</td>
+									<td class="col-sm-1 order-item-content">{{swappingOrder.expired | date:'MMM dd yyyy'}}</td>
+									<td class="col-sm-1 order-item-content">{{swappingOrder.get}}</td>
+									<td class="col-sm-1 order-item-content">{{swappingOrder.give}}</td>
+									<td class="col-sm-1 order-item-content">{{swappingOrder.rate}}</td>
+									
+									<td class="col-sm-1 order-item-content">{{swappingOrder.ownerId}}</td>
+									<td class="col-sm-1 order-item-content">{{swappingOrder.accepterId}}</td>
+									<td class="col-sm-1 order-item-content order-status-{{swappingOrder.statusId}}">{{status[swappingOrder.statusId - 1]}}</td>
+									<td class="col-sm-2">
+										<a href="javascript:" class="btn btn-default"  ng-click="" ng-if="true"> 
+										 	<span class="glyphicon glyphicon-pencil"></span> 
+										</a>
+										<a href="javascript:" class="btn btn-default"  ng-click="" ng-if="true"> 
+											<span class="glyphicon glyphicon-remove"></span>
+										</a>
 
-    <h3>Orders</h3>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+					<div id="confirmedOrders" class="dataTables_wrapper no-footer" style="overflow: auto">
+						<div class="confirmed-order-title" style="text-align: left; color: green; font-size: 18px;">Confirmed Orders</div>
+						<table class="table table-striped2">
+							<thead>
+								<tr>
+									<th class="col-sm-1 order-item-header"  order-header>Order Id</th>
+									<th class="col-sm-1 order-item-header">Date</th>
+									<th class="col-sm-1 order-item-header">Expired Date</th>
+									<th class="col-sm-1 order-item-header">Get</th>
+									<th class="col-sm-1 order-item-header">Give</th>
+									<th class="col-sm-1 order-item-header">Rate</th>
+									
+									<th class="col-sm-1 order-item-header">Initializer</th>
+									<th class="col-sm-1 order-item-header">Accepter</th>
+									<th class="col-sm-1 order-item-header">State</th>
+									<th class="col-sm-2 order-item-header"></th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr ng-repeat="confirmOrder in confirmOrders">
+									<td class="col-sm-1 order-item-content">{{confirmOrder.code}}</td>
+									<td class="col-sm-1 order-item-content">{{confirmOrder.created | date:'MMM dd yyyy'}}</td>
+									<td class="col-sm-1 order-item-content">{{confirmOrder.expired | date:'MMM dd yyyy'}}</td>
+									<td class="col-sm-1 order-item-content">{{confirmOrder.get}}</td>
+									<td class="col-sm-1 order-item-content">{{confirmOrder.give}}</td>
+									<td class="col-sm-1 order-item-content">{{confirmOrder.rate}}</td>
+									
+									<td class="col-sm-1 order-item-content">{{confirmOrder.ownerId}}</td>
+									<td class="col-sm-1 order-item-content">{{confirmOrder.accepterId}}</td>
+									<td class="col-sm-1 order-item-content order-status-{{confirmOrder.statusId}}">{{status[confirmOrder.statusId - 1]}}</td>
+									<td class="col-sm-2">
+										<a href="javascript:" class="btn btn-default"  ng-click="" ng-if="true"> 
+										 	<span class="glyphicon glyphicon-pencil"></span> 
+										</a>
+										<a href="javascript:" class="btn btn-default"  ng-click="" ng-if="true"> 
+											<span class="glyphicon glyphicon-remove"></span>
+										</a>
+													
+									</td>
 
+								</tr>
+							</tbody>
+						</table>
+					</div>
+                </div>
+<!--                 <ul uib-pagination
+                    total-items="totalItems"
+                    items-per-page= "itemsPerPage"
+                    ng-model="current">
+                </ul> -->
+            </div>
+            <div id="submittedOrders" class="tab-panel" ng-if="tab==2">
+                <div class="table-responsive">
+					<div id="submittedOrders" class="dataTables_wrapper no-footer" style="overflow: auto">
+						<table class="table table-striped2">
+							<thead>
+								<tr>
+									<th class="col-sm-1 order-item-header">Order Id</th>
+									<th class="col-sm-1 order-item-header">Date</th>
+									<th class="col-sm-1 order-item-header">Expired Date</th>
+									<th class="col-sm-1 order-item-header">Get</th>
+									<th class="col-sm-1 order-item-header">Give</th>
+									<th class="col-sm-1 order-item-header">Rate</th>
+									
+									<th class="col-sm-1 order-item-header">Initializer</th>
+									<th class="col-sm-1 order-item-header">Accepter</th>
+									<th class="col-sm-1 order-item-header">State</th>
+									<th class="col-sm-2 order-item-header"></th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr ng-repeat="submittedOrder in submittedOrders">
+									<td class="col-sm-1 order-item-content">{{submittedOrder.code}}</td>
+									<td class="col-sm-1 order-item-content">{{submittedOrder.created | date:'MMM dd yyyy'}}</td>
+									<td class="col-sm-1 order-item-content">{{submittedOrder.expired | date:'MMM dd yyyy'}}</td>
+									<td class="col-sm-1 order-item-content">{{submittedOrder.get}}</td>
+									<td class="col-sm-1 order-item-content">{{submittedOrder.give}}</td>
+									<td class="col-sm-1 order-item-content">{{submittedOrder.rate}}</td>
+									
+									<td class="col-sm-1">{{submittedOrder.ownerId}}</td>
+									<td class="col-sm-1">{{submittedOrder.accepterId}}</td>
+									<td class="col-sm-1 order-status-{{submittedOrder.statusId}}">{{status[submittedOrder.statusId - 1]}}</td>
+									<td class="col-sm-2">
+										<a href="javascript:" class="btn btn-default"  ng-click="" ng-if="true"> 
+										 	<span class="glyphicon glyphicon-pencil"></span> 
+										</a>
+										<a href="javascript:" class="btn btn-default"  ng-click="" ng-if="true"> 
+											<span class="glyphicon glyphicon-remove"></span>
+										</a>
+
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+                </div>
+<!--                 <ul uib-pagination
+                    total-items="totalItems"
+                    items-per-page= "itemsPerPage"
+                    ng-model="current">
+                </ul> -->
+            </div>
+			<div id="historyOrders" class="tab-panel" ng-if="tab==3">
+                <div class="table-responsive">
+					<div id="historyOrders" class="dataTables_wrapper no-footer" style="overflow: auto">
+						<table class="table table-striped2">
+							<thead>
+								<tr>
+									<th class="col-sm-1 order-item-header">Order Id</th>
+									<th class="col-sm-1 order-item-header">Date</th>
+									<th class="col-sm-1 order-item-header">Expired Date</th>
+									<th class="col-sm-1 order-item-header">Get</th>
+									<th class="col-sm-1 order-item-header">Give</th>
+									<th class="col-sm-1 order-item-header">Rate</th>
+									<th class="col-sm-1 order-item-header">Initializer</th>
+									<th class="col-sm-1 order-item-header">Accepter</th>
+									<th class="col-sm-1 order-item-header">State</th>
+									
+								</tr>
+							</thead>
+							<tbody>
+								<tr ng-repeat="historyOrder in historyOrders">
+									<td class="col-sm-1 order-item-content">{{historyOrder.code}}</td>
+									<td class="col-sm-1 order-item-content">{{historyOrder.created | date:'MMM dd yyyy'}}</td>
+									<td class="col-sm-1 order-item-content">{{historyOrder.expired | date:'MMM dd yyyy'}}</td>
+									<td class="col-sm-1 order-item-content">{{historyOrder.get}}</td>
+									<td class="col-sm-1 order-item-content">{{historyOrder.give}}</td>
+									<td class="col-sm-1 order-item-content">{{historyOrder.rate}}</td>
+									
+									<td class="col-sm-1 order-item-content">{{historyOrder.ownerId}}</td>
+									<td class="col-sm-1 order-item-content">{{historyOrder.accepterId}}</td>
+									<td class="col-sm-1 order-item-content order-status-{{historyOrder.statusId}}">{{status[historyOrder.statusId - 1]}}</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+					
+                </div>
+<!--                 <ul uib-pagination
+                    total-items="totalItems"
+                    items-per-page= "itemsPerPage"
+                    ng-model="current">
+                </ul> -->
+            </div>
+        </div>
+    </div>
 </div>

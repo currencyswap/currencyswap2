@@ -79,7 +79,7 @@
 body {
     background: #1d2939;
     font-family: 'LatoRegular', 'Lucida Grande', 'Lucida Sans Unicode', Helvetica, sans-serif !important;
-    line-height: 21px;
+    line-height: 25px;
     color: #636e7b;
 }
 
@@ -4042,6 +4042,22 @@ div.error label.error:before {
     margin-right: 30px;
 }
 
+.ml5 {
+    margin-left: 5px;
+}
+
+.ml10 {
+    margin-left: 10px;
+}
+
+.ml20 {
+    margin-left: 20px;
+}
+
+.ml30 {
+    margin-left: 30px;
+}
+
 .mt5 {
     margin-top: 5px;
 }
@@ -4110,6 +4126,10 @@ div.error label.error:before {
 
 .inblock {
     display: inline-block;
+}
+
+select {
+    height: 40px !important;
 }
 
 

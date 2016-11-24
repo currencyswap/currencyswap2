@@ -1,0 +1,146 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<div class="createOrderPanel">
+     
+    <div class="row row-create" ng-show="statusPage != STATUS_PAGE_VALUE.INITIALIZED">
+        <div class="col-sm-8 col-sm-offset-2">
+        	<h2 class="mb20"><b>New Order</b></h2>
+			<h4 class="mb20 order-current-date">{{currentDate | filterDate}}</h4>
+            <form id="orderCreateFormId" name="orderCreateForm" novalidate="novalidate">
+                <div class="form-group mb10" ng-class="{ 'has-error' : (orderCreateForm.give.$invalid && !orderCreateForm.give.$pristine) || (orderCreateForm.giveCurrency.$invalid && !orderCreateForm.giveCurrency.$pristine)}">
+                       <label class="control-label">Give</label> <span class="asterisk">*</span>
+                       <div class="form-inline">
+                        <div class="input-group mr20 col-sm-2">
+                        	<input type="number" name="give" class="form-control" ng-model="newOrder.give" ng-change="onChangeValue();" ng-disabled="newOrder.fixed == FIXED_VALUE.GIVE" focus-me="focusGive" required>
+                        </div>
+                        <div class="input-group mr20 col-sm-4">
+                        	<div class="form-group">
+								<select name="giveCurrency" ng-model="newOrder.giveCurrencyCode" ng-change="onChangeValue();" class="form-control" required>
+									<option ng-repeat="currency in currencies" value="{{currency.code}}">{{currency.code}} - {{currency.name}}</option>
+								</select>
+							</div>
+                        </div>
+                        <div class="input-group mr20">
+                        	<div class="form-group">
+								<label class="radio-inline">
+								  	<input type="radio" name="fixed" ng-model="newOrder.fixed" ng-change="onChangeValue();" value="{{FIXED_VALUE.GIVE}}"> fixed
+								</label>
+							</div>
+                        </div>
+                        <p ng-show="orderCreateForm.give.$invalid && !orderCreateForm.give.$pristine" class="help-block ">Give number is invalid.</p>
+                        <p ng-show="orderCreateForm.giveCurrency.$invalid && !orderCreateForm.giveCurrency.$pristine" class="help-block ">Give currency is invalid.</p>
+                    </div>
+                </div>
+                
+                <div class="form-group" ng-class="{ 'has-error' : (orderCreateForm.get.$invalid && !orderCreateForm.get.$pristine) || (orderCreateForm.getCurrency.$invalid && !orderCreateForm.getCurrency.$pristine)}">
+                    <div class="mb10">
+                        <label class="control-label">Get</label> <span class="asterisk">*</span>
+                        <div class="form-inline">
+	                        <div class="input-group mr20 col-sm-2">
+	                        	<input type="number" name="get" class="form-control" ng-model="newOrder.get" ng-change="onChangeValue();" ng-disabled="newOrder.fixed == FIXED_VALUE.GET" focus-me="focusGet" required>
+	                        </div>
+	                        <div class="input-group mr20 col-sm-4">
+	                        	<div class="form-group">
+									<select name="getCurrency" ng-model="newOrder.getCurrencyCode" ng-change="onChangeValue();" class="form-control" required>
+										<option ng-repeat="currency in currencies" value="{{currency.code}}">{{currency.code}} - {{currency.name}}</option>
+									</select>
+								</div>
+	                        </div>
+	                        <div class="input-group mr20">
+	                        	<div class="form-group">
+									<label class="radio-inline">
+									  	<input type="radio" name="fixed" ng-model="newOrder.fixed" ng-change="onChangeValue();" value="{{FIXED_VALUE.GET}}"> fixed
+									</label>
+								</div>
+	                        </div>
+	                    </div>
+                        <p ng-show="orderCreateForm.get.$invalid && !orderCreateForm.get.$pristine" class="help-block ">Get number is invalid.</p>
+                        <p ng-show="orderCreateForm.getCurrency.$invalid && !orderCreateForm.getCurrency.$pristine" class="help-block ">Get currency is invalid.</p>
+                    </div>
+                </div>
+                
+                <div class="form-group" ng-class="{ 'has-error' : (orderCreateForm.rate.$invalid && !orderCreateForm.rate.$pristine) || (orderCreateForm.rateCurrency.$invalid && !orderCreateForm.rateCurrency.$pristine)}">
+                    <div class="mb10">
+                        <label class="control-label">Rate</label> <span class="asterisk">*</span>
+                        <div class="form-inline">
+	                        <div class="input-group mr20 col-sm-6">
+	                        	<input type="number" name="rate" class="form-control" ng-model="newOrder.rate" ng-change="onChangeValue();" ng-disabled="newOrder.fixed == FIXED_VALUE.RATE" focus-me="focusRate" required>
+	                        </div>
+	                        <div class="input-group mr20 ml20">
+	                        	<div class="form-group">
+									<label class="radio-inline">
+									  	<input type="radio" name="fixed" ng-model="newOrder.fixed" ng-change="onChangeValue();" value="{{FIXED_VALUE.RATE}}"> fixed
+									</label>
+								</div>
+	                        </div>
+	                    </div>
+                        <p ng-show="orderCreateForm.rate.$invalid && !orderCreateForm.rate.$pristine" class="help-block ">Rate number is invalid.</p>
+                    </div>
+                </div>
+                
+                <div class="form-group" ng-class="{ 'has-error' : (orderCreateForm.rate.$invalid && !orderCreateForm.rate.$pristine) || (orderCreateForm.rateCurrency.$invalid && !orderCreateForm.rateCurrency.$pristine)}">
+                    <div class="mb10">
+                        <label class="control-label">Alive Period</label> <span class="asterisk">*</span>
+                       	<div class="form-group">
+							<label class="radio-inline mr20" ng-repeat="expiredValue in EXPIRED_VALUE">
+							  	<input type="radio" name="expired" ng-model="newOrder.expired" value="{{expiredValue.key}}"> {{expiredValue.value}}
+							</label>
+						</div>
+                    </div>
+                </div>
+                
+                <div class="form-group has-error" ng-show="checkEqualCurrency();">
+                	<p class="help-block">Give currency can not equal get currency.</p>
+                </div>
+                
+                <div class="form-group col-sm-2 nopadding">
+                	<button type="submit" class="btn btn-info btn-block nomagin" ng-disabled="orderCreateForm.$invalid || checkEqualCurrency()" ng-click="onNextStep();">NEXT</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <div class="row row-initialized" ng-show="statusPage == STATUS_PAGE_VALUE.INITIALIZED">
+        <div class="col-sm-8 col-sm-offset-2 form-inline">
+                <h2 class="mb20"><b>New Order</b></h2>
+				<h4 class="mb20 order-current-date">{{currentDate | filterDate}}</h4>
+                
+                <div class="row mb10">
+                	<label class="control-label col-sm-2">Give</label>
+                	<label class="control-label">{{newOrder.give}} {{newOrder.giveCurrencyCode}} </label>
+                </div>
+                
+                <div class="row mb10">
+                	<label class="control-label col-sm-2">Get</label>
+                	<label class="control-label">{{newOrder.get}} {{newOrder.getCurrencyCode}} </label>
+                </div>
+                
+                <div class="row mb10">
+                	<label class="control-label col-sm-2">Rate Exchange</label>
+                	<label class="control-label">{{newOrder.rate}} </label>
+                </div>
+                
+                <div class="row mb10">
+                	<label class="control-label col-sm-2">Expried Date</label>
+                	<label class="control-label">{{newOrder.expiredDate | filterDate}} </label>
+                </div>
+                
+                
+                <div class="row mb10">
+                	<div class="col-sm-2 mr20">
+                		<button class="btn btn-warning btn-block nomagin" ng-click="onBackStep();">Back</button>
+                	</div>
+                	<div class="col-sm-2">
+                		<button class="btn btn-primary btn-block nomagin col-sm-2" ng-click="onSubmit();">Submit</button>
+                	</div>
+                </div>
+        </div>
+    </div>
+
+    <div class="signup-footer">
+        <div style="text-align: center;">
+            &copy; Copyright © 2016. All rights reserved.
+        </div>
+    </div>
+
+</div>
