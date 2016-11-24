@@ -1,11 +1,26 @@
 <div class="notification-content">
+<div class="panel panel-default">
+  <div class="panel-heading">
+  <h4 class="panel-title">Your messages</h4>
+  <div class="panel-body">
 
-    <h3>Your messages</h3>
-
-<div class="msg-row" ng-repeat="item in messages">
-  <h4 class="msg-title">{{item.title}}</h4>
-  <p class="msg-content">{{item.message}}</p>
-  <div class="msg-issue">Sender: <span class="msg-user">{{item.creator.username}}</span> Time: <span class="msg-time">{{item.created | date : 'MMM dd, yyyy hh:mm a'}}</span></div>
+<div>
+<div class="results-list" ng-repeat="item in messages">
+<div class="media">
+  <div class="media-body">
+    <h4 class="filename text-primary">{{item.title}}</h4>
+    <p class="msg-content">{{item.message}}</p>
+    <div class="msg-issue">
+    <small class="text-muted">Sender: <strong>{{item.creator.username}}</strong></small>
+    <small class="text-muted"> - {{item.created | date : 'MMM dd, yyyy hh:mm a'}}</small><br>
+    </div>
+  </div>
 </div>
 </div>
+</div>
 
+</div>
+
+</div>
+</div>
+</div>
