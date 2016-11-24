@@ -111,6 +111,10 @@ angular.module('register')
                         }, function (error) {
                             console.log("error",error);
                         });
+                };
+
+                $scope.backToLogin = function () {
+                    $location.path(routes.LOGIN);
                 }
             }]
     });

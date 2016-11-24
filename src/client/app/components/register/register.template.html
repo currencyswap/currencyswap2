@@ -170,6 +170,7 @@
     <div class="col-md-3">
     </div>
     <div class="col-md-6">
+        <br>
         <div class="panel panel-success">
             <div class="panel-heading">
                 <div class="panel-btns">
@@ -177,9 +178,12 @@
                 <h3 class="panel-title">Register Successfully</h3>
             </div>
             <div class="panel-body">
-                The confirmation link has been sent to your email address - {{user.email}}
-                Please, check your email and click the link inside in order to finish registration and start working with Currency Swap.
-                _The confirmation link will be valid for a duration of 24 hours
+                The confirmation link has been sent to your email address - {{user.email}}.
+                Please, check your email and click the link inside in order to verify your email.
+                The confirmation link will be valid for a duration of 24 hours.
+                <br>
+                <br>
+                <div align="center"><a ng-click="backToLogin()" href="">BACK TO LOGIN PAGE</a></div>
             </div>
         </div>
 
@@ -203,6 +207,7 @@
 
     </div>
     <div class="col-md-6">
+        <br>
         <div class="panel panel-success">
             <div class="panel-heading">
                 <div class="panel-btns">
@@ -211,6 +216,9 @@
             </div>
             <div class="panel-body">
                 Thank you for your activation. Please wait for admin's approval. After 3 days, if You can not login to Currency Swap system, please help to contact <b>admin@gmail.com</b> for supports.
+                <br>
+                <br>
+                <div align="center"><a ng-click="backToLogin()" href="">BACK TO LOGIN PAGE</a></div>
             </div>
         </div>
 
