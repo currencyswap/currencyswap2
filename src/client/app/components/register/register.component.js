@@ -14,6 +14,9 @@ angular.module('register')
                 $scope.showPopover = function () {
                     $('[data-toggle="popover"]').popover();
                 };
+                $scope.init = function() {
+                    $scope.showPopover();
+                };
                 if ($location.search().activeCode) {
                     $scope.startRegister = false;
                     $scope.registerSuccess = false;
@@ -130,5 +133,8 @@ angular.module('register')
                 $scope.backToLogin1 = function () {
                     $location.path(routes.LOGIN).path();
                 }
+                
+                // init
+                $scope.init();
             }]
     });
