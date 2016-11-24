@@ -94,6 +94,8 @@ angular.module('currencySwapApp', [
     HTTP_ERROR_STATUS_CODE: 299, // returned status from server for error case (2xx not to get browser shows the errors)
     SERVER_GOT_PROBLEM_MSG: 'Server got problem',
     SERVER_GOT_PROBLEM_STATUS: 'ERROR',
+    UNKNOWN_ERROR_MSG: 'Unknown error',
+    UNKNOWN_ERROR_STATUS: 'Unknown',
     ACTIVATED_USER_STATUS: 'Activated',
     BLOCKED_USER_STATUS: 'Blocked',
     PENDING_USER_STATUS: 'Pending Approval',
