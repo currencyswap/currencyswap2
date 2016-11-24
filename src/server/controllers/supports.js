@@ -1,5 +1,7 @@
 'use strict';
-
+/**
+ * @author Viet Nghiem
+ */
 var errors = require('../libs/errors/errors');
 var errorUtil = require('../libs/errors/error-util');
 var service = require('../services/support-service');
@@ -19,10 +21,51 @@ module.exports = function (app) {
             return res.status(500).send(errorUtil.createAppError(errors.SERVER_GET_PROBLEM));
         });
     });
+    router.get('/', function (req, res, next) {
+        service.getMessages().then(function(resp){
+            res.send({'isSuccessful': true, 'messages': resp});
+        }, function(e){
+            return res.status(500).send(errorUtil.createAppError(errors.SERVER_GET_PROBLEM));
+        });
+    });
     router.post('/', function (req, res, next) {
         var input = req.body;
         console.log(req.currentUser);
         console.log(input);
+
+        if (req.currentUser && req.currentUser.id != input.creatorId) {
+            return res.status(404).send(errorUtil.createAppError(errors.INVALID_PARAMETER_INPUT));
+        }
+
+        var _save = function() {
+            service.saveMessage(input).then(function(resp){
+                res.send({'isSuccessful': true});
+            }, function(e){
+                return res.status(500).send(errorUtil.createAppError(errors.SERVER_GET_PROBLEM));
+            });
+        };
+
+        if (input.group) {
+            service.getGroups().then(function(groups){
+                // get the group receiver
+                for (var i=0; i<groups.length; i++) {
+                    if (input.isAdmin) {
+                        if (groups[i].name === 'Admin') {
+                            input.receiverId = groups[i].id;
+                            break;
+                        }
+                    } else if (groups[i].name){
+                        input.receiverId = groups[i].id;
+                        break;
+                    }
+                }
+                _save();
+            }, function(){
+                return res.status(500).send(errorUtil.createAppError(errors.SERVER_GET_PROBLEM));
+            });
+        } else {
+            _save();
+        }
     });
 
     return router;

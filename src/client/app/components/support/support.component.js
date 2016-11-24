@@ -1,5 +1,7 @@
 'use strict';
-
+/**
+ * @author Viet Nghiem
+ */
 angular.module('support')
     .component('support', {
         templateUrl: 'app/components/support/support.template.html',
@@ -11,9 +13,8 @@ angular.module('support')
             'NavigationHelper',
             'GLOBAL_CONSTANT',
             function supportController($scope, $rootScope, $timeout, SupportService, PermissionService, NavigationHelper, GLOBAL_CONSTANT) {
-                var user = $rootScope.user;
-                console.log(user);
                 var _checkAdmin = function() {
+                    var user = $rootScope.user;
                     if (user && user.groups && user.groups.length > 0) {
                         for (var i=0; i<user.groups.length; i++) {
                             var group = user.groups[i];
@@ -23,11 +24,12 @@ angular.module('support')
                                 break;
                             }
                         }
+                        $scope.support.creatorId = user.id;
                     }
                 };
                 
                 $scope.messageTitle = 'Message to Admin';
-                $scope.support = {title: '', message: '', group: true, username: user.username, creatorId: user.id};
+                $scope.support = {title: '', message: '', group: true};
                 $scope.init = function() {
                     $('[data-toggle="popover"]').popover();
                     _checkAdmin();
@@ -38,7 +40,7 @@ angular.module('support')
                     SupportService.saveSupport($scope.support).then(function(resp){
                         console.log('Successful in saving message');
                         $timeout(function(){
-                            $scope.message = 'Successful: Your message has been sent to Admin';
+                            $scope.message = 'Successful: Your message has been sent';
                             $scope.support.title = '';
                             $scope.support.message = '';
                         });
@@ -48,6 +50,10 @@ angular.module('support')
                             $scope.message = 'Failure: Could not send your message due to system error. Please try again later!';
                         });
                     });
+                };
+                
+                $scope.resetMessage = function() {
+                    $scope.message = '';
                 };
 
                 // init

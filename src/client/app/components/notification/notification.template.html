@@ -1,6 +1,11 @@
 <div class="notification-content">
 
-    <h3>Your message</h3>
+    <h3>Your messages</h3>
 
+<div class="msg-row" ng-repeat="item in messages">
+  <h4 class="msg-title">{{item.title}}</h4>
+  <p class="msg-content">{{item.message}}</p>
+  <div class="msg-issue">Sender: <span class="msg-user">{{item.creator.username}}</span> Time: <span class="msg-time">{{item.created | date : 'MMM dd, yyyy hh:mm a'}}</span></div>
+</div>
 </div>
 

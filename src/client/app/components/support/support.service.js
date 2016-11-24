@@ -1,5 +1,7 @@
 'use strict';
-
+/**
+ * @author Viet Nghiem
+ */
 angular.module('support').factory('SupportService', ['ConnectorService', function (ConnectorService) {
     return $.extend({}, ConnectorService, {
         saveSupport: function (support) {
