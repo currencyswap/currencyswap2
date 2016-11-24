@@ -4,6 +4,7 @@ angular.module('currencySwapApp', [
     'ngRoute',
     'cookieManager',
     'appHeader',
+    'appFooter',
     'errorPage',
     'permission',
     'loginForm',

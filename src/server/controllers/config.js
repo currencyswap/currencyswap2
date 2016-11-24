@@ -16,6 +16,7 @@ module.exports = function (app) {
 
         var config = {
             title: appConfig.getTitle(),
+            footer: appConfig.getFooter(),
             dateFormat: appConfig.getDateFormat(),
             cookieExpried: miliseconds
         };

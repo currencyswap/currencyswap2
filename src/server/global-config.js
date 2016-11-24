@@ -6,6 +6,7 @@ module.exports = {
         'debug': process.env.ENABLE_DEBUG,
         'isProd': (process.env.NODE_ENV == 'production'),
         'title' : process.env.APP_NAME || 'Currency Swap',
+        'footer' : process.env.APP_FOOTER || 'Copyright © 2016',
         'host': process.env.APP_HOST || 'http://localhost:3000',
         'redis': {
             'host': process.env.REDIS_HOST || 'localhost',

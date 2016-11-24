@@ -39,6 +39,10 @@ exports.getTitle = function () {
     return config.title ? config.title : '';
 };
 
+exports.getFooter = function () {
+    return config.footer ? config.footer : '';
+};
+
 exports.getRedis = function () {
     if (config.redis === undefined) {
         let message = errorUtil.getMessage(error.INVALID_REDIS_PARAMS.message);
