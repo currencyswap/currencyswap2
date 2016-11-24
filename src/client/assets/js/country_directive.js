@@ -627,12 +627,26 @@
 
                 //Back compatibility for the option defaultCountry for choosing a default country.
                 //Instead, you can use the scope.country as default value when is possible
-                if(typeof scope.country  == 'undefined' && typeof  attrs.defaultCountry != 'undefined'){
-                    scope.country = attrs.defaultCountry;
-                    scope.selectCountry();
-                } else if (typeof scope.country  != 'undefined') {
-                    scope.selectCountry();
-                }
+                scope.$watch('country', function(newValue, oldValue) {
+                    scope.country = oldValue;
+                    if(typeof scope.country  == 'undefined' && typeof  attrs.defaultCountry != 'undefined'){
+                        scope.country = attrs.defaultCountry;
+                        scope.selectCountry();
+                    } else if (typeof scope.country  != 'undefined') {
+
+                        scope.selectCountry();
+                    }
+                    if(newValue!==oldValue) {
+                        scope.country = newValue;
+                        if(typeof scope.country  == 'undefined' && typeof  attrs.defaultCountry != 'undefined'){
+                            scope.country = attrs.defaultCountry;
+                            scope.selectCountry();
+                        } else if (typeof scope.country  != 'undefined') {
+
+                            scope.selectCountry();
+                        }
+                    }
+                });
             }
         };
     }]).directive("countryStateUser", [ function () {
@@ -641,13 +655,10 @@
             templateUrl: "assets/js/country_directive _userinfo.html",
             scope: { country: "=?", countryState: "=?state" , defaultCountry:"=?", userinfo:"="},
             link: function (scope, element, attrs) {
+                console.log("==============1111");
                 scope.countryLabel = "Country";
                 scope.stateLabel = "State";
                 scope.countrySelectLabel = "Select";
-                console.log("scope:",scope);
-                console.log("country:",scope.country);
-                scope.country = scope.userinfo.addresses[0].country;
-                scope.countryState = scope.userinfo.addresses[0].state;
                 if(typeof attrs.countryLabel != 'undefined'){
                     scope.countryLabel = attrs.countryLabel;
                 }
@@ -921,7 +932,6 @@
 
                 scope.selectCountry = function(){
                     var indexCountry = scope.countries.indexOf(scope.country);
-                    console.log("===================================",indexCountry);
                     scope.states = scope.state[indexCountry].split("|");
 
                     if(scope.states.length == 1){
@@ -933,16 +943,26 @@
                     }
 
                 }
+                scope.$watch('country', function(newValue, oldValue) {
+                    scope.country = oldValue;
+                    if(typeof scope.country  == 'undefined' && typeof  attrs.defaultCountry != 'undefined'){
+                        scope.country = attrs.defaultCountry;
+                        scope.selectCountry();
+                    } else if (typeof scope.country  != 'undefined') {
 
-                //Back compatibility for the option defaultCountry for choosing a default country.
-                //Instead, you can use the scope.country as default value when is possible
-                if(typeof scope.country  == 'undefined' && typeof  attrs.defaultCountry != 'undefined'){
-                    scope.country = attrs.defaultCountry;
-                    scope.selectCountry();
-                } else if (typeof scope.country  != 'undefined') {
+                        scope.selectCountry();
+                    }
+                    if(newValue!==oldValue) {
+                        scope.country = newValue;
+                        if(typeof scope.country  == 'undefined' && typeof  attrs.defaultCountry != 'undefined'){
+                            scope.country = attrs.defaultCountry;
+                            scope.selectCountry();
+                        } else if (typeof scope.country  != 'undefined') {
 
-                    scope.selectCountry();
-                }
+                            scope.selectCountry();
+                        }
+                    }
+                });
             }
         };
     }]);
