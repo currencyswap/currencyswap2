@@ -1,0 +1,34 @@
+.order-content  {
+ text-align: center;
+ margin: 10px auto !important;
+}
+.order-content .order-tabs {
+ 	float: none;
+ 	margin: auto;
+ 	width: 98%;
+}
+.order-content .order-status-1 {
+	color: blue;	
+}
+.order-content .order-status-2 {
+	color: green;
+}
+.order-content .order-status-3{
+	
+	color: #135970;
+}
+.order-content .order-status-4{
+	color: green;
+}
+.order-content .order-status-5{
+	color: green;
+}
+.order-content .order-status-6{
+	color: green;
+}
+.order-content .order-item-header {
+	background: #cccccc;
+}
+.order-content .order-item-content {
+	text-align: left;
+}

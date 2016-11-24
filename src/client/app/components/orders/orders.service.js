@@ -16,7 +16,7 @@ angular.module('orders').factory('OrdersService', ['ConnectorService', function 
             return this.get(apiRoutes.API_ORDERS_SUBMITTED);
         },
         getOrderById : function(orderId){
-            return this.get(apiRoutes.API_ORDERS_ID +  '/' + orderId);
+            return this.get(apiRoutes.API_ORDERS +  '/' + orderId);
         },
         getAllOrders: function(){
             return this.get(apiRoutes.API_ORDERS);
