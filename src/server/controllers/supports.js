@@ -30,14 +30,14 @@ module.exports = function (app) {
     });
     router.post('/', function (req, res, next) {
         var input = req.body;
-        console.log(req.currentUser);
-        console.log(input);
-
         if (req.currentUser && req.currentUser.id != input.creatorId) {
             return res.status(404).send(errorUtil.createAppError(errors.INVALID_PARAMETER_INPUT));
         }
 
         var _save = function() {
+            if (!input.receiverId) {
+                return res.status(404).send(errorUtil.createAppError(errors.INVALID_PARAMETER_INPUT));
+            }
             service.saveMessage(input).then(function(resp){
                 res.send({'isSuccessful': true});
             }, function(e){
