@@ -175,13 +175,27 @@ exports.login = function (user, callback) {
                         return next(errorUtil.createAppError(errors.ACCOUNT_IS_NOT_ACTIVATED));
                     }
 
-                    // check expired date
-                    var now = new Date(Date.now());
-                    if (userObj.expiredDate && userObj.expiredDate < now) {
-                        return next(errorUtil.createAppError(errors.ACCOUNT_IS_EXPIRED));
-                    }
-
-                    return next(null, userObj);
+                    return next (null, userObj);
+                }
+            });
+        },
+        function (user, next) {
+            // check expired date
+            user.groups(function (err, groups) {
+                if (err) return next (errorUtil.createAppError(errors.SERVER_GET_PROBLEM));
+                else {
+                    groups.forEach(function (group) {
+                        if (group.name === constant.USER_GROUPS.ADMIN_GR) {
+                            return next (null, user);
+                        } else {
+                            var now = new Date(Date.now());
+                            if (user.expiredDate && user.expiredDate < now) {
+                                return next(errorUtil.createAppError(errors.ACCOUNT_IS_EXPIRED));
+                            } else {
+                                return next(null, user);
+                            }
+                        }
+                    })
                 }
             });
         },
@@ -220,7 +234,7 @@ exports.login = function (user, callback) {
 
 };
 
-exports.verifyResetPwdInfo = function (email, callback) {
+exports.verifyResetPwdInfo = function (email, options, callback) {
     async.waterfall([
         function (next) {
             // find user by email
@@ -228,40 +242,52 @@ exports.verifyResetPwdInfo = function (email, callback) {
                 if (err) {
                     return next(errorUtil.createAppError(errors.MEMBER_EMAIL_NOT_FOUND));
                 }
-                return next(null, email);
+                return next(null, email, options);
             });
         },
-        function (email, next) {
+        function (email, options, next) {
             // generate reset password code
             exports.generateRandomString(function (err, randomString) {
                 if (err) return next(err);
                 else {
-                    return next(null, randomString, email);
+                    return next(null, randomString, email, options);
                 }
             });
         },
-        function (randomString, email, next) {
+        function (randomString, email, options, next) {
             redis.set(email, randomString, constant.ONE_DAY_IN_SECONDS);
-            return next(null, randomString, email);
+            return next(null, randomString, email, options);
         },
-        function (randomString, email, next) {
+        function (randomString, email, options, next) {
             // construct mail options
             var senderInfo = appConfig.getMailSenderInfo();
+            var resetLink = exports.constructResetUrl(randomString, email, options.protocolHostAndPort);
+
             var mailOptions = {
                 from: senderInfo.sender,
                 to: email,
-                subject: senderInfo.subject,
-                text: 'Please click to below link to reset your password'
-                        + '\n' + 'Your reset password URL: ' + exports.constructResetUrl(randomString, email)
-                        + '\n'
-                        + '\n' + 'Thanks and best regards'
-                        + '\n' + 'Currency Swap'
-                        + '\n' + 'If you have any things, please contact: admin@currencyswap.com'
+                subject: 'CurrencySwap Password Reset',
+                html: '<!DOCTYPE html>'
+                + '<html lang="en">'
+                + '<head>'
+                + '<meta charset="UTF-8">'
+                + '<title></title>'
+                + '</head>'
+                + '<body>'
+                + '<p>Please use the below link to reset your password</p>'
+                + '<a href="' + resetLink + '">RESET LINK</a>'
+                + '<p>If you did not request this password change, please feel free to ignore it.</p>'
+                + '<p>If you have any comments or questions, please do not hesitate to reach us at <b><u>'+senderInfo.sender+'</u></b></p>'
+                + '<p><br></p>'
+                + '<p>Thanks and best regards</p>'
+                + '<p>Currency Swap</p>'
+                + '</body>'
+                + '</html>'
             };
 
-            return next (null, mailOptions);
+            return next (null, mailOptions, options);
         },
-        function (mailOptions, next) {
+        function (mailOptions, options, next) {
             mailSender.sendMail(mailOptions, function (err, info) {
                 if (err) return next(err);
                 else {
@@ -309,11 +335,11 @@ exports.generateRandomString = function (callback) {
     });
 };
 
-exports.constructResetUrl = function (randomString, email) {
+exports.constructResetUrl = function (randomString, email, protocolHostAndPort) {
     var plainResetCode = email + constant.RESET_CODE_DELIMITER + randomString;
     var encryptedResetCode = stringUtil.encryptString(plainResetCode, constant.ENCRYPTION_ALGORITHM, constant.ENCRYPTION_PWD, 'utf8', 'hex');
 
-    return appConfig.getAppHost()
+    return protocolHostAndPort
         + constant.SLASH
         + constant.HASHTAG_AND_EXCLAMATION
         + constant.CLIENT_RESET_PWD_PATH
@@ -322,11 +348,11 @@ exports.constructResetUrl = function (randomString, email) {
         + encryptedResetCode;
 };
 
-exports.constructActiveAccountUrl = function (randomString, username) {
+exports.constructActiveAccountUrl = function (randomString, username, protocolHostAndPort) {
     var plainActiveCode = username + constant.RESET_CODE_DELIMITER + randomString;
     var encryptedActiveCode = stringUtil.encryptString(plainActiveCode, constant.ENCRYPTION_ALGORITHM, constant.ENCRYPTION_PWD, 'utf8', 'hex');
 
-    return appConfig.getAppHost()
+    return protocolHostAndPort
         + constant.SLASH
         + constant.HASHTAG_AND_EXCLAMATION
         + constant.CLIENT_ACTIVE_ACC_PATH
@@ -366,7 +392,7 @@ exports.createUserTransaction = function (callback) {
     });
 };
 
-    exports.registerUser = function (newUser, callback) {
+    exports.registerUser = function (newUser, options, callback) {
     async.waterfall([
         function (next) {
             groupService.findGroupByName(newUser.group, function (err, group) {
@@ -377,16 +403,16 @@ exports.createUserTransaction = function (callback) {
                         id: group.id,
                         name: group.name
                     }];
-                    return next(null, newUser);
+                    return next(null, newUser, options);
                 }
 
             })
         },
-        function (newUser, next) {
+        function (newUser, options, next) {
             exports.getUserByUsername(newUser.username, function (err, user) {
                 if (err) {
                     if (err.code === errorUtil.createAppError(errors.MEMBER_INVALID_USERNAME).code) {
-                        return next(null, newUser);
+                        return next(null, newUser, options);
                     } else {
                         return next(err);
                     }
@@ -394,7 +420,7 @@ exports.createUserTransaction = function (callback) {
                     if (user.status === constant.USER_STATUSES.NEW) {
                         exports.deleteUserAndRelatedAddresses(user, function (err) {
                             if (err) return next (err);
-                            else return next (null, newUser);
+                            else return next (null, newUser, options);
                         })
                     } else {
                         return next(errorUtil.createAppError(errors.USER_NAME_EXISTED));
@@ -402,14 +428,14 @@ exports.createUserTransaction = function (callback) {
                 }
             });
         },
-        function (newUser, next) {
+        function (newUser, options, next) {
             if (!newUser.nationalId) {
-                return next (null, newUser);
+                return next (null, newUser, options);
             } else {
                 exports.getUserByNationalId(newUser, function (err, foundUser) {
                     if (err) {
                         if (err.code === errorUtil.createAppError(errors.NO_USER_FOUND_IN_DB).code) {
-                            return next(null, newUser);
+                            return next(null, newUser, options);
                         } else {
                             return next(err);
                         }
@@ -419,14 +445,14 @@ exports.createUserTransaction = function (callback) {
                 });
             }
         },
-        function (newUser, next) {
+        function (newUser, options, next) {
             if (!newUser.cellphone) {
-                return next(null, newUser);
+                return next(null, newUser, options);
             } else {
                 exports.getUserByCellphone(newUser, function (err, foundUser) {
                     if (err) {
                         if (err.code === errorUtil.createAppError(errors.NO_USER_FOUND_IN_DB).code) {
-                            return next(null, newUser);
+                            return next(null, newUser, options);
                         } else {
                             return next(err);
                         }
@@ -436,11 +462,11 @@ exports.createUserTransaction = function (callback) {
                 })
             }
         },
-        function (newUser, next) {
+        function (newUser, options, next) {
             app.models.Member.findByEmail(newUser.email, function (err, foundUser) {
                 if (err) {
                     if (err.code === errorUtil.createAppError(errors.MEMBER_EMAIL_NOT_FOUND).code) {
-                        return next(null, newUser);
+                        return next(null, newUser, options);
                     } else {
                         return next (err);
                     }
@@ -449,50 +475,50 @@ exports.createUserTransaction = function (callback) {
                 }
             })
         },
-        function (user, next) {
+        function (user, options, next) {
             exports.createUser(user, function (err, savedUser) {
                 if (err) {
                     return next(err);
                 }
-                else return next(null, savedUser);
+                else return next(null, savedUser, options);
             })
         },
-        function createMessage(savedUser, next) {
+        function createMessage(savedUser, options, next) {
             supportService.messageToGroup({'title': constant.MSG.NEW_MEMBER_TITLE, 
                 'message': constant.MSG.NEW_MEMBER_CONTENT, 
                 'group': true, 
                 'isAdmin': true,
                 'creatorId': savedUser.id});
-            return next(null, savedUser.username, savedUser.email);
+            return next(null, savedUser.username, savedUser.email, options);
         },
-        function (username, email, next) {
+        function (username, email, options, next) {
             // generate reset password code
             exports.generateRandomString(function (err, randomString) {
                 if (err) return next(err);
                 else {
-                    return next(null, randomString, username, email);
+                    return next(null, randomString, username, email, options);
                 }
             });
         },
-        function (randomString, username, email, next) {
+        function (randomString, username, email, options, next) {
             redis.get(username, function (err, response) {
                 if (err) {
                     if (err.code === errorUtil.createAppError(errors.SERVER_GET_PROBLEM).code) return next (errorUtil.createAppError(errors.SERVER_GET_PROBLEM));
                     if (err.code === errorUtil.createAppError(errors.MISSING_REDIS_KEY).code) {
                         redis.set(username, randomString, constant.ONE_DAY_IN_SECONDS);
-                        return next(null, randomString, username, email);
+                        return next(null, randomString, username, email, options);
                     }
                 } else {
                     redis.remove(username);
                     redis.set(username, randomString, constant.ONE_DAY_IN_SECONDS);
-                    return next(null, randomString, username, email);
+                    return next(null, randomString, username, email, options);
                 }
             });
         },
-        function (randomString, username, email, next) {
+        function (randomString, username, email, options, next) {
             // construct mail options
             var senderInfo = appConfig.getMailSenderInfo();
-            var activeLink = exports.constructActiveAccountUrl(randomString, username);
+            var activeLink = exports.constructActiveAccountUrl(randomString, username, options.protocolHostAndPort);
 
             var mailOptions = {
                 from: senderInfo.sender,
@@ -506,17 +532,20 @@ exports.createUserTransaction = function (callback) {
                 + '</head>'
                 + '<body>'
                 + '<p>Welcome to Currency Swap!</p><br>'
-                + '<p>Please click on the URL below and wait for admin approval before using Currency Swap</p>'
+                + '<p>Please use the below link to process your registration with Currency Swap</p>'
                 + '<a href="' + activeLink + '">Active URL</a>'
+                + '<p>If you have not register to Currency Swap recently, please feel free to ignore it.</p>'
+                + '<p>If you have any comments or questions, please do not hesitate to reach us at <b><u>'+senderInfo.sender+'</u></b></p>'
+                + '<p><br></p>'
                 + '<p>Thanks and best regards</p>'
                 + '<p>Currency Swap</p>'
                 + '</body>'
                 + '</html>'
             };
 
-            return next(null, mailOptions);
+            return next(null, mailOptions, options);
         },
-        function (mailOptions, next) {
+        function (mailOptions, options, next) {
             // send notification email to client
             mailSender.sendMail(mailOptions, function (err, info) {
                 if (err) return next(errorUtil.createAppError(errors.ERR_COULD_NOT_SEND_MAIL));

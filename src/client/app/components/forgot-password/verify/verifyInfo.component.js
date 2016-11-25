@@ -14,6 +14,10 @@ angular.module('verifyInfo')
                 $scope.gifLoading = false;
                 $scope.verification = {};
 
+                $scope.backToLogin = function () {
+                    $location.url(routes.LOGIN);
+                };
+
                 $scope.submitEmail = function () {
                     $scope.gifLoading = true;
                     $scope.invalid = false;

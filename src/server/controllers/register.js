@@ -2,13 +2,12 @@
 
 var userService = require('../services/user-service');
 var userConverter = require('../converters/user-converter');
-var constant = require('../libs/constants/constants')
+var constant = require('../libs/constants/constants');
 
 module.exports = function (app) {
     var router = app.loopback.Router();
-
+    var options = {};
     router.post('/', function (req, res) {
-
         // handle active user account request
         if (req.body.activeCode) {
             var activeCode = req.body.activeCode;
@@ -18,10 +17,13 @@ module.exports = function (app) {
             });
         } else {
             // handle register request
+            var protocolHostAndPort = req.protocol + '://' + req.get('host');
+            options.protocolHostAndPort = protocolHostAndPort;
+
             var clientUserData = req.body.newUser;
             var serverUserData = userConverter.convertUserData(clientUserData);
 
-            userService.registerUser(serverUserData, function (err) {
+            userService.registerUser(serverUserData, options, function (err) {
                 if (err) {
                     return res.status(constant.HTTP_FAILURE_CODE).send(err);
                 } else {

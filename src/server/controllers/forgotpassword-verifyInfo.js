@@ -8,7 +8,12 @@ module.exports = function (app) {
 
     router.post('/', function (req, res) {
         var userEmail = req.body.email;
-        userService.verifyResetPwdInfo(userEmail, function (err, response) {
+
+        var options = {};
+        var protocolHostAndPort = req.protocol + '://' + req.get('host');
+        options.protocolHostAndPort = protocolHostAndPort;
+
+        userService.verifyResetPwdInfo(userEmail, options, function (err, response) {
             if (err) {
                 return res.status(constant.HTTP_FAILURE_CODE).send(err)
             } else {

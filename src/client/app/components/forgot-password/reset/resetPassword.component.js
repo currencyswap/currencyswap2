@@ -13,6 +13,10 @@ angular.module('resetPassword')
                 var resetCode = $location.search().resetCode;
                 $scope.isResetSuccess = false;
 
+                $scope.backToLogin = function () {
+                    $location.url(routes.LOGIN);
+                };
+
                 $scope.submitNewPassword = function () {
 
                     var headers = {};

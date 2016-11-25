@@ -127,7 +127,7 @@ angular.module('register')
                 };
 
                 $scope.backToLogin = function () {
-                    $location.path(routes.LOGIN).path();
+                    $location.url(routes.LOGIN);
                 };
                 
                 // init

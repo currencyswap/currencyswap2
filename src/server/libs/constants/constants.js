@@ -31,6 +31,10 @@ module.exports = {
         STANDARD_USER_GR: 'User',
         BLOCKED_USER_GR: 'Blocked User'
     },
+    USER_ROLE: {
+        STD_MEMBER: 'Standard Member',
+        ADMIN: 'Admin'
+    },
     // HOST: 'http://localhost:3000',
     HTTP_SUCCESS_CODE: 200,
     HTTP_FAILURE_CODE: 299

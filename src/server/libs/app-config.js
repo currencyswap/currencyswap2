@@ -107,6 +107,6 @@ exports.getResetPwdCodeExipired = function () {
 
 exports.getAppHost = function () {
     return config.host;
-}
+};
 
 module.exports = exports;
