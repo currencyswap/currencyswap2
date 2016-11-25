@@ -134,6 +134,34 @@
                     <img src="../../../assets/images/loaders/loader1.gif" alt="">
                 </div>
         </div>
+        <div class="table-responsive">
+        	<div class="dataTables_wrapper no-footer" style="overflow: auto">
+						<table class="table table-striped2">
+							<thead>
+								<tr>
+									<th class="col-sm-3 order-item-header">Username</th>
+									<th class="col-sm-1 order-item-header">Get</th>
+									<th class="col-sm-1 order-item-header">Give</th>
+									<th class="col-sm-1 order-item-header">Rate</th>
+									<th class="col-sm-3 order-item-header"></th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr ng-repeat="suggestionOrder in suggestionOrders" class="order-row-{{$index % 2}}">
+									<td class="col-sm-3 order-item-content">{{suggestionOrder.owner.username}}</td>
+									<td class="col-sm-1 order-item-content">{{suggestionOrder.get}} {{suggestionOrder.getCurrency.code}}</td>
+									<td class="col-sm-1 order-item-content">{{suggestionOrder.give}} {{suggestionOrder.giveCurrency.code}}</td>
+									<td class="col-sm-1 order-item-content">{{suggestionOrder.rate}}</td>
+									<td class="col-sm-3 text-left">
+										<div class="order-action">
+											<div class="button-order-list button-confirm-swapping">swapping</div>
+										</div>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+        </div>
     </div>
 
 	<footer></footer>

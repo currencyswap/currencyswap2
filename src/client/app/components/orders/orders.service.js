@@ -24,6 +24,9 @@ angular.module('orders').factory('OrdersService', ['ConnectorService', function 
         getCurrenciesList: function(){
             return this.get(apiRoutes.API_CURRENCIES);
         },
+        getSuggetOrders: function() { // status = 1 
+            return this.get(apiRoutes.API_ORDERS_SUGGEST);
+        },
         postSaveNewOrders: function(newOrder){
         	var data = newOrder;
             return this.post(apiRoutes.API_ORDERS, data);

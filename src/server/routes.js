@@ -19,6 +19,7 @@ const Routes = {
     API_ORDERS_SWAPPING : '/api/orders/swapping',
     API_ORDERS_CONFIRMED : '/api/orders/confirmed',
     API_ORDERS_SUBMITTED : '/api/orders/submitted',
+    API_ORDERS_SUGGEST : '/api/orders/suggest',
     API_ORDERS_HISTORY : '/api/orders/history',
     API_MY_PROFILE: '/api/profile',
     API_PERMISSIONS: '/api/permissions',

@@ -42,6 +42,8 @@ angular.module('orders')
         		
         		$scope.currentDate = new Date();
         		
+        		$scope.suggestOrders = [];
+        		
         		$scope.STATUS_PAGE_VALUE = {
         				"CREATE" : "CREATE",
         				"INITIALIZED" : "INITIALIZED"
@@ -56,6 +58,10 @@ angular.module('orders')
         				console.log("getCurrenciesList success: " + JSON.stringify(data));
         				$scope.$apply(function(){
         					$scope.currencies = data;
+        					if($scope.currencies.length > 2){
+        						$scope.newOrder.giveCurrencyCode = $scope.currencies[0].code;
+        						$scope.newOrder.getCurrencyCode = $scope.currencies[1].code;
+        					}
         				});
         			},function(err){
         				console.log("getCurrenciesList err: " + JSON.stringify(err));
@@ -63,6 +69,17 @@ angular.module('orders')
         		}
         		
         		getCurrenciesList();
+        		
+        		var getSuggestionOrders = function(){
+        			OrdersService.getSuggetOrders().then(function(data1){
+        				console.log("getSuggestionOrders : " + JSON.stringify(data1));
+        				$scope.$apply(function(){
+        					$scope.suggestionOrders = data1;
+        				});
+        			},function(err){
+        				console.log("getSuggestionOrders err: " + JSON.stringify(err));
+        			});
+        		}
         		
         		$scope.newOrder = {
         				give : 0,
@@ -116,6 +133,7 @@ angular.module('orders')
         			$scope.newOrder.expiredDate = expiredDate;
         			$scope.statusPage = $scope.STATUS_PAGE_VALUE.INITIALIZED;
         			$scope.submitLoading = false;
+        			getSuggestionOrders();
             	}
         		
         		$scope.onBackStep = function(){

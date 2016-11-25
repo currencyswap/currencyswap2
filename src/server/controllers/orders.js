@@ -202,6 +202,26 @@ module.exports = function (app) {
         });
         
     });
+    router.get('/suggest', function (req, res) {
+    	var user = req.currentUser;
+    	console.log('submitted', JSON.stringify(user.id));
+		var filter = {
+			where: {
+    			and: [
+    			      //{'ownerId': {'neq' : user.id} }, 
+    			      { statusId: 1 }
+    			]
+    		},
+    		'include' : [ ownerRelation, accepterRelation, giveCurrencyRelation, getCurrencyRelation, statusRelation]
+		
+		}
+        service.filterOrders(filter).then(function(resp){
+            return res.send(resp);
+        }, function(err){
+            return res.status(500).send(errorUtil.createAppError(errors.SERVER_GET_PROBLEM));
+        });
+        
+    });
     router.get('/history', function (req, res) {
     	var orders = [{
     		"code": "W321R4",
@@ -285,6 +305,7 @@ module.exports = function (app) {
         	
         });
     });
+    
     return router;
 };
 
