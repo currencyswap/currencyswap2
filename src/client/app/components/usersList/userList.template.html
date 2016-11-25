@@ -71,7 +71,7 @@
                                 <td class="center">{{user.cellphone}}</td>
                                 <td class="center"><label ng-bind="formatDate(user.registeredDate) |  date:'{{format}}'"></label></td>
                                 <td class="center"><label ng-bind="formatDate(user.expiredDate) |  date:'{{format}}'"></label></td>
-                                <td class="center">{{user.status}}</td>
+                                <td class="center user-status-{{listStatus.indexOf(user.status)}}">{{user.status}}</td>
                             </tr>
                             </tbody>
                         </table>
@@ -187,8 +187,8 @@
                                     <option value="{{userStatusesList.activated}}">{{userStatusesList.activated}}</option>
                                     <option value="{{userStatusesList.blocked}}">{{userStatusesList.blocked}}</option>
                                     <option value="{{userStatusesList.pending}}">{{userStatusesList.pending}}</option>
-                                    <option value="{{userStatusesList.new}}">{{userStatusesList.new}}</option>
-                                    <option value="{{userStatusesList.deactivated}}">{{userStatusesList.deactivated}}</option>
+                                    <!--<option value="{{userStatusesList.new}}">{{userStatusesList.new}}</option>-->
+                                    <!--<option value="{{userStatusesList.deactivated}}">{{userStatusesList.deactivated}}</option>-->
                                 </select>
                             </div>
                         </div>

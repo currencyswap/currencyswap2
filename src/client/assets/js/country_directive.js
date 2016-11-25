@@ -305,17 +305,18 @@
 
 
                     scope.selectCountry = function(){
-                        var indexCountry = scope.countries.indexOf(scope.country);
-                        scope.states = scope.state[indexCountry].split("|");
+                        if(scope.country) {
+                            var indexCountry = scope.countries.indexOf(scope.country);
+                            scope.states = scope.state[indexCountry].split("|");
 
-                        if(scope.states.length == 1){
-                            scope.states = new Array(scope.country);
+                            if(scope.states.length == 1){
+                                scope.states = new Array(scope.country);
+                            }
+                            //indexCountry correspond to the "Select" label
+                            if(indexCountry == 0){
+                                scope.states = new Array("");
+                            }
                         }
-                        //indexCountry correspond to the "Select" label
-                        if(indexCountry == 0){
-                            scope.states = new Array("");
-                        }
-
                     }
 
                     //Back compatibility for the option defaultCountry for choosing a default country.
@@ -323,7 +324,7 @@
                     if(typeof scope.country  == 'undefined' && typeof  attrs.defaultCountry != 'undefined'){
                         scope.country = attrs.defaultCountry;
                         scope.selectCountry();
-                    } else if (typeof scope.country  != 'undefined') {
+                    } else {
                         scope.selectCountry();
                     }
                 }
@@ -611,17 +612,18 @@
 
 
                 scope.selectCountry = function(){
-                    var indexCountry = scope.countries.indexOf(scope.country);
-                    scope.states = scope.statelist[indexCountry].split("|");
+                    if(scope.country) {
+                        var indexCountry = scope.countries.indexOf(scope.country);
+                        scope.states = scope.statelist[indexCountry].split("|");
 
-                    if(scope.states.length == 1){
-                        scope.states = new Array(scope.country);
+                        if(scope.states.length == 1){
+                            scope.states = new Array(scope.country);
+                        }
+                        //indexCountry correspond to the "Select" label
+                        if(indexCountry == 0){
+                            scope.states = new Array("");
+                        }
                     }
-                    //indexCountry correspond to the "Select" label
-                    if(indexCountry == 0){
-                        scope.states = new Array("");
-                    }
-
                 }
 
                 //Back compatibility for the option defaultCountry for choosing a default country.
@@ -630,9 +632,8 @@
                     scope.country = oldValue;
                     if(typeof scope.country  == 'undefined' && typeof  attrs.defaultCountry != 'undefined'){
                         scope.country = attrs.defaultCountry;
-                        scope.selectCountry();
-                    } else if (typeof scope.country  != 'undefined') {
-
+                        scope.selectCountry(scope.country);
+                    } else {
                         scope.selectCountry();
                     }
                     if(newValue!==oldValue) {
@@ -640,8 +641,7 @@
                         if(typeof scope.country  == 'undefined' && typeof  attrs.defaultCountry != 'undefined'){
                             scope.country = attrs.defaultCountry;
                             scope.selectCountry();
-                        } else if (typeof scope.country  != 'undefined') {
-
+                        } else {
                             scope.selectCountry();
                         }
                     }
@@ -660,7 +660,6 @@
             templateUrl: "assets/js/country_directive _userinfo.html",
             scope: { country: "=?", countryState: "=?state" , defaultCountry:"=?", userinfo:"="},
             link: function (scope, element, attrs) {
-                console.log("==============1111");
                 scope.countryLabel = "Country";
                 scope.stateLabel = "State";
                 scope.countrySelectLabel = "Select";
@@ -936,34 +935,34 @@
 
 
                 scope.selectCountry = function(){
-                    var indexCountry = scope.countries.indexOf(scope.country);
-                    scope.states = scope.state[indexCountry].split("|");
+                    if(scope.country) {
+                        var indexCountry = scope.countries.indexOf(scope.country);
+                        scope.states = scope.state[indexCountry].split("|");
 
-                    if(scope.states.length == 1){
-                        scope.states = new Array(scope.country);
+                        if(scope.states.length == 1){
+                            scope.states = new Array(scope.country);
+                        }
+                        //indexCountry correspond to the "Select" label
+                        if(indexCountry == 0){
+                            scope.states = new Array("");
+                        }
                     }
-                    //indexCountry correspond to the "Select" label
-                    if(indexCountry == 0){
-                        scope.states = new Array("");
-                    }
-
                 }
                 scope.$watch('country', function(newValue, oldValue) {
                     scope.country = oldValue;
                     if(typeof scope.country  == 'undefined' && typeof  attrs.defaultCountry != 'undefined'){
                         scope.country = attrs.defaultCountry;
                         scope.selectCountry();
-                    } else if (typeof scope.country  != 'undefined') {
-
+                    } else {
                         scope.selectCountry();
                     }
                     if(newValue!==oldValue) {
+
                         scope.country = newValue;
                         if(typeof scope.country  == 'undefined' && typeof  attrs.defaultCountry != 'undefined'){
                             scope.country = attrs.defaultCountry;
                             scope.selectCountry();
-                        } else if (typeof scope.country  != 'undefined') {
-
+                        } else {
                             scope.selectCountry();
                         }
                     }

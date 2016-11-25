@@ -9,9 +9,20 @@ button.tb-active {
     margin: 10px auto !important;
 }
 .user-content .user-tabs {
- float: none;
- margin: auto;
- width: 80%;
+    float: none;
+    margin: auto;
+    width: 100%;
+}
+
+.user-content .user-status-0 {
+    color: #159d21;
+}
+
+.user-content .user-status-1{
+    color: #fea340;
+}
+.user-content .user-status-2{
+    color: #9d000e;
 }
 .support-content, .help-content, .notification-content, .createOrderPanel {
   margin: 10px auto;

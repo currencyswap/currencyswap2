@@ -188,6 +188,7 @@ angular.module('userList')
                         })
 
                 };
+                $scope.listStatus = [GLOBAL_CONSTANT.ACTIVATED_USER_STATUS,GLOBAL_CONSTANT.PENDING_USER_STATUS,GLOBAL_CONSTANT.BLOCKED_USER_STATUS];
                 $scope.formatDate = function(date){
                     var dateOut = new Date(date);
                     return dateOut;
