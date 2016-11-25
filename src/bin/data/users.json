@@ -25,5 +25,39 @@
             "postcode": "130634"
         }],
         "groups" : ["{USER}"]
+    },
+    "demouser2": {
+        "username": "vietnv",
+        "fullName": "Demo CS",
+        "birthday" : "2016-10-01",
+        "registeredDate" : "2016-11-29",
+        "expiredDate" : "2017-06-30",
+        "email": "demo.cs2@example.com",
+        "password": "qwerty12",
+        "status" : "Activated",
+        "addresses" : [{
+            "address" : "6th Floor, Building 15 Pham Hung Road, Tu Liem Dist",
+            "city" : "Hanoi",
+            "country" : "Vietnam",
+            "postcode": "130634"
+        }],
+        "groups" : ["{USER}"]
+    },
+    "demouser3": {
+        "username": "siemdt",
+        "fullName": "Demo CS",
+        "birthday" : "2016-10-01",
+        "registeredDate" : "2016-11-29",
+        "expiredDate" : "2017-06-30",
+        "email": "demo.cs3@example.com",
+        "password": "qwerty12",
+        "status" : "Activated",
+        "addresses" : [{
+            "address" : "6th Floor, Building 15 Pham Hung Road, Tu Liem Dist",
+            "city" : "Hanoi",
+            "country" : "Vietnam",
+            "postcode": "130634"
+        }],
+        "groups" : ["{USER}"]
     }
 }

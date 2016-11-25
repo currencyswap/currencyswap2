@@ -35,7 +35,7 @@
     "created": {
       "type": "date",
       "required": true,
-      "default": "now"
+      "defaultFn": "now"
     },
     "isGroupMessage": {
       "type": "boolean",

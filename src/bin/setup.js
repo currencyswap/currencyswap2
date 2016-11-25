@@ -10,6 +10,7 @@ var users = require('./data/users');
 var groupsWithPermissions = require('./data/permissions');
 var currencyData = require('./data/currency');
 var statusData = require('./data/status-type');
+var ordersData = require('./data/orders');
 
 var app = require(path.resolve(__dirname, '../server/server'));
 var ds = app.datasources.CSwapDB;
@@ -24,7 +25,10 @@ var appConfig = require('../server/libs/app-config');
 
 var mapDataModels = [
     {'model': 'Currency', 'values': currencyData.currencies},
-    {'model': 'StatusType', 'values': statusData.statuses}
+    {'model': 'StatusType', 'values': statusData.statuses},
+    {'model': 'Order', 'values': ordersData.orders},
+    {'model': 'OrderActivity', 'values': ordersData.orderActis},
+    {'model': 'Message', 'values': ordersData.messages}
 ];
 
 function _insertData(arrayData, modelType, next) {
