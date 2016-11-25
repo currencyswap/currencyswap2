@@ -67,3 +67,15 @@
 	background: #ff0658;
 	color: #ffffff;
 }
+
+.order-action {
+	position: relative;
+	float: right;
+	width: 130px;
+}
+.order-row-0 {
+	background: white;
+}
+.order-row-1 {
+	background: #e6e6e6;
+}
