@@ -50,6 +50,7 @@ angular.module('myProfile')
                 $http(userDetailReq)
                     .then(function (response) {
                         var userDetail = response.data;
+
                         $scope.model.username = userDetail.username;
                         $scope.model.birthday = new Date(userDetail.birthday);
                         $scope.model.email = userDetail.email;
@@ -134,6 +135,7 @@ angular.module('myProfile')
                             {
                                 address: $scope.model.address,
                                 city: $scope.model.city,
+                                state: $scope.model.state,
                                 country: $scope.model.country,
                                 postcode: $scope.model.postcode
                             }

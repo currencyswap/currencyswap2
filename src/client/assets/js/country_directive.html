@@ -16,7 +16,7 @@
             <label for="state" ng-show="states">{{stateLabel}}</label>
         </div>
         <div class="col-sm-9">
-            <select name="state" ng-model="countryState" ng-show="states" required class="form-control">
+            <select name="state" ng-model="state" ng-show="states" required class="form-control">
                 <option ng-repeat="optStates in states track by $index" value="{{optStates}}">{{optStates}}</option>
             </select>
         </div>
