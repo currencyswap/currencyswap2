@@ -11,9 +11,12 @@ exports.getOrderById = function (filter) {
 	return dbUtil.executeModelFn(app.models.Order, 'findOne', filter);
 };
 
+exports.updateOrder = function (where, obj) {
+	return dbUtil.executeModelFn(app.models.Order, 'updateAll', where, obj);
+};
+exports.removeOrder = function(orderId) {
+	return execModelFn(Order, 'destroyById', orderId);
+};
 exports.saveOrder = function (newOrder) {
 	return dbUtil.executeModelFn(app.models.Order, 'create', newOrder);
 };
-
-
-
