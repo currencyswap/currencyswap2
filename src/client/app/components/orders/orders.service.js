@@ -20,6 +20,13 @@ angular.module('orders').factory('OrdersService', ['ConnectorService', function 
         },
         getAllOrders: function(){
             return this.get(apiRoutes.API_ORDERS);
+        },
+        getCurrenciesList: function(){
+            return this.get(apiRoutes.API_CURRENCIES);
+        },
+        postSaveNewOrders: function(newOrder){
+        	var data = newOrder;
+            return this.post(apiRoutes.API_ORDERS, data);
         }
     });
 }]);

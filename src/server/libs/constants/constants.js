@@ -35,6 +35,14 @@ module.exports = {
         STD_MEMBER: 'Standard Member',
         ADMIN: 'Admin'
     },
+    STATUS_TYPE : {
+    	SUBMITTED: "Submitted",
+    	SWAPPING: "Swapping",
+    	CONFIRMED: "Confirmed",
+    	PENDING: "Pending",
+    	CLEARED: "Cleared",
+    	CANCELED: "Canceled"
+    },
     // HOST: 'http://localhost:3000',
     HTTP_SUCCESS_CODE: 200,
     HTTP_FAILURE_CODE: 299

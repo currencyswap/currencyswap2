@@ -37,10 +37,22 @@
             ]
         },
         {
+            "route": "{API_CURRENCIES}",
+            "rules" : [
+                {
+                    "methods" : ["GET", "PUT", "POST"],
+                    "requiredPermissions": [
+                        "{VIEW_OWN_ORDERS}", "{MAINTAIN_OWN_ORDERS}"
+                    ],
+                    "isAlive": true
+                }
+            ]
+        },
+        {
             "route": "{API_ORDERS}",
             "rules" : [
                 {
-                    "methods" : ["GET", "PUT"],
+                    "methods" : ["GET", "PUT", "POST"],
                     "requiredPermissions": [
                         "{VIEW_OWN_ORDERS}", "{MAINTAIN_OWN_ORDERS}"
                     ],

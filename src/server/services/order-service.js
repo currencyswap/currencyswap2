@@ -11,5 +11,9 @@ exports.getOrderById = function (filter) {
 	return dbUtil.executeModelFn(app.models.Order, 'findOne', filter);
 };
 
+exports.saveOrder = function (newOrder) {
+	return dbUtil.executeModelFn(app.models.Order, 'create', newOrder);
+};
+
 
 
