@@ -242,23 +242,23 @@ exports.verifyResetPwdInfo = function (email, options, callback) {
                 if (err) {
                     return next(errorUtil.createAppError(errors.MEMBER_EMAIL_NOT_FOUND));
                 }
-                return next(null, email, options);
+                return next(null, email, user, options);
             });
         },
-        function (email, options, next) {
+        function (email, user, options, next) {
             // generate reset password code
             exports.generateRandomString(function (err, randomString) {
                 if (err) return next(err);
                 else {
-                    return next(null, randomString, email, options);
+                    return next(null, randomString, email, user, options);
                 }
             });
         },
-        function (randomString, email, options, next) {
+        function (randomString, email, user, options, next) {
             redis.set(email, randomString, constant.ONE_DAY_IN_SECONDS);
-            return next(null, randomString, email, options);
+            return next(null, randomString, email, user, options);
         },
-        function (randomString, email, options, next) {
+        function (randomString, email, user, options, next) {
             // construct mail options
             var senderInfo = appConfig.getMailSenderInfo();
             var resetLink = exports.constructResetUrl(randomString, email, options.protocolHostAndPort);
@@ -274,10 +274,12 @@ exports.verifyResetPwdInfo = function (email, options, callback) {
                 + '<title></title>'
                 + '</head>'
                 + '<body>'
-                + '<p>Please use the below link to reset your password</p>'
+                + '<p>Please use the below link to reset your password of account <b>' + user.username + '</b></p>'
                 + '<a href="' + resetLink + '">RESET LINK</a>'
+                + '<p>If you can not click on the link above, please help to copy below URL to your browser</p>'
+                + '<p><a href="' + resetLink + '">' + resetLink + '</a></p>'
                 + '<p>If you did not request this password change, please feel free to ignore it.</p>'
-                + '<p>If you have any comments or questions, please do not hesitate to reach us at <b><u>'+senderInfo.sender+'</u></b></p>'
+                + '<p>If you have any comments or questions, please do not hesitate to reach us at <b><u>' + senderInfo.sender + '</u></b></p>'
                 + '<p><br></p>'
                 + '<p>Thanks and best regards</p>'
                 + '<p>Currency Swap</p>'
@@ -301,26 +303,20 @@ exports.verifyResetPwdInfo = function (email, options, callback) {
 };
 
 exports.resetPassword = function (newPassword, requestResetCode, callback) {
+    try {
+        var emailAndRandomString = exports.extractEmailAndRandomString(requestResetCode);
+    } catch (err) {
+        return callback(err);
+    }
     async.waterfall([
         function (next) {
-            try {
-                var emailAndRandomString = exports.extractEmailAndRandomString(requestResetCode);
-            } catch (err) {
-                return next(err);
-            }
-            return next (null, newPassword, emailAndRandomString)
-        },
-        function (newPassword, emailAndRandomString, next) {
-            redis.checkResetCode(emailAndRandomString.email, emailAndRandomString.randomString, function (err, response) {
-                if (err) return next(err);
-                else return next(null, emailAndRandomString.email, newPassword);
-            });
-        },
-        function (email, newPassword, next) {
-            exports.updatePassword(email, newPassword, function (err) {
+            exports.updatePassword(emailAndRandomString.email, newPassword, function (err) {
                 if (err) return next (err);
                 else return next (null);
             })
+        }, function (next) {
+            redis.remove(emailAndRandomString.email);
+            return next (null);
         }
     ], function (err) {
         callback(err);
@@ -531,11 +527,12 @@ exports.createUserTransaction = function (callback) {
                 + '<title></title>'
                 + '</head>'
                 + '<body>'
-                + '<p>Welcome to Currency Swap!</p><br>'
-                + '<p>Please use the below link to process your registration with Currency Swap</p>'
-                + '<a href="' + activeLink + '">Active URL</a>'
+                + '<p>Please use the below link to process your registration with username <b>' + username + '</b></p>'
+                + '<a href="' + activeLink + '">Active URL</a><br>'
+                + '<p>If you can not click on the link above, please help to copy below URL to your browser</p>'
+                + '<p><a href="' +activeLink+'">' +activeLink+ '</a></p>'
                 + '<p>If you have not register to Currency Swap recently, please feel free to ignore it.</p>'
-                + '<p>If you have any comments or questions, please do not hesitate to reach us at <b><u>'+senderInfo.sender+'</u></b></p>'
+                + '<p>If you have any comments or questions, please do not hesitate to reach us at <b><u>' + senderInfo.sender + '</u></b></p>'
                 + '<p><br></p>'
                 + '<p>Thanks and best regards</p>'
                 + '<p>Currency Swap</p>'
@@ -595,17 +592,15 @@ exports.extractUsernameAndRandomString = function (requestActiveCode) {
 };
 
 exports.activeUserAccount = function (activeCode, callback) {
+    try {
+        var usernameAndRandomString = exports.extractUsernameAndRandomString(activeCode);
+    } catch (err) {
+        console.error(err);
+        return callback (errorUtil.createAppError(errors.COULD_NOT_DECRYPT_ACTIVE_ACC_CODE));
+    }
+
     async.waterfall([
         function (next) {
-            try {
-                var usernameAndRandomString = exports.extractUsernameAndRandomString(activeCode);
-                return next (null, usernameAndRandomString);
-            } catch (err) {
-                console.error(err);
-                return next (errorUtil.createAppError(errors.COULD_NOT_DECRYPT_ACTIVE_ACC_CODE));
-            }
-        },
-        function (usernameAndRandomString, next) {
             redis.checkActiveCode(usernameAndRandomString.username, usernameAndRandomString.randomString, function (err, response) {
                 if (err) return next(err);
                 else return next(null, usernameAndRandomString.username);
@@ -626,6 +621,9 @@ exports.activeUserAccount = function (activeCode, callback) {
                     return next (null)
                 }
             });
+        }, function (next) {
+            redis.remove(usernameAndRandomString.username);
+            return next (null);
         }
     ], function (err) {
         callback(err)
@@ -759,5 +757,18 @@ exports.deleteUserAndRelatedAddresses = function (userInstance, callback) {
         }
     ], function (err) {
         callback(err)
+    });
+};
+
+exports.checkResetPwdCode = function (resetCode, callback) {
+    try {
+        var emailAndRandomString = exports.extractEmailAndRandomString(resetCode);
+    } catch (err) {
+        return callback(err);
+    }
+
+    redis.checkResetCode(emailAndRandomString.email, emailAndRandomString.randomString, function (err, response) {
+        if (err) return callback(err);
+        else return callback(null);
     });
 };

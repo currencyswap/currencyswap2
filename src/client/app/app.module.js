@@ -38,10 +38,12 @@ angular.module('currencySwapApp', [
         }
 
         if ($location.search().resetCode) {
+            CookieService.cleanUpCookies();
             return $location.path(routes.FORGOT_PASSWORD_RESET);
         }
 
         if ($location.search().activeCode) {
+            CookieService.cleanUpCookies();
             return $location.path(routes.REGISTER);
         }
 
