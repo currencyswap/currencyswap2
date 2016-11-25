@@ -43,12 +43,12 @@ module.exports = {
 
 ],
 'messages': [
-             {'title': 'Request Swapping', 'message': 'Order: <a href="#">8bd675602e</a>', 'receiverId': '2', 'creatorId': '4'},
-             {'title': 'Request Swapping', 'message': 'Order: <a href="#">5d1fddf258</a>', 'receiverId': '2', 'creatorId': '4'},
-             {'title': 'Request Swapping', 'message': 'Order: <a href="#">52f0432deb</a>', 'receiverId': '2', 'creatorId': '4'},
-             {'title': 'Request Swapping', 'message': 'Order: <a href="#">b7bebd8fe7</a>', 'receiverId': '2', 'creatorId': '4'},
+             {'title': 'Request Swapping', 'message': 'Order: 8bd675602e', 'orderCode': '8bd675602e', 'receiverId': '2', 'creatorId': '4'},
+             {'title': 'Request Swapping', 'message': 'Order: 5d1fddf258', 'orderCode': '5d1fddf258', 'receiverId': '2', 'creatorId': '4'},
+             {'title': 'Request Swapping', 'message': 'Order: 52f0432deb', 'orderCode': '52f0432deb', 'receiverId': '2', 'creatorId': '4'},
+             {'title': 'Request Swapping', 'message': 'Order: b7bebd8fe7', 'orderCode': 'b7bebd8fe7', 'receiverId': '2', 'creatorId': '4'},
              
-             {'title': 'Request Swapping', 'message': 'Order: <a href="#">362fd6df47</a>', 'receiverId': '2', 'creatorId': '3'},
-             {'title': 'Request Swapping', 'message': 'Order: <a href="#">54c418eda4</a>', 'receiverId': '2', 'creatorId': '3'}
+             {'title': 'Request Swapping', 'message': 'Order: 362fd6df47', 'orderCode': '362fd6df47', 'receiverId': '2', 'creatorId': '3'},
+             {'title': 'Request Swapping', 'message': 'Order: 54c418eda4', 'orderCode': '54c418eda4', 'receiverId': '2', 'creatorId': '3'}
      ]
 }

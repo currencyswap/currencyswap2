@@ -5,16 +5,30 @@ button.tb-active {
 }
 
 .user-content {
- text-align: center;
- margin: 10px auto !important;
+    text-align: center;
+    margin: 10px auto !important;
 }
 .user-content .user-tabs {
- float: none;
- margin: auto;
- width: 80%;
+    float: none;
+    margin: auto;
+    width: 100%;
+}
+
+.user-content .user-status-0 {
+    color: #159d21;
+}
+
+.user-content .user-status-1{
+    color: #fea340;
+}
+.user-content .user-status-2{
+    color: #9d000e;
 }
 .support-content, .help-content, .notification-content, .createOrderPanel {
   margin: 10px auto;
+}
+.support-content, .createOrderPanel {
+  max-width: 800px;
 }
 .support-content textarea {
  min-height: 200px;
@@ -32,6 +46,14 @@ button.tb-active {
 .msg-issue {
  text-align: right;
  margin-top: -6px;
+}
+.msg-menu {
+}
+.msg-item {
+}
+.msg-new {
+ font-size: +1pt;
+ font-weight: bold;
 }
 @media screen and (max-width: 1024px) {
 }

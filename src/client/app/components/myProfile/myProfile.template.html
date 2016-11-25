@@ -1,12 +1,11 @@
-<div class="signuppanel">
-
-    <div class="col-sm-6 col-sm-offset-3">
+<div class="myprofilepanel">
+    <div class="col-sm-4 col-sm-offset-4">
         <form name="registerForm" style="background-color: white">
             <fieldset ng-disabled="!isEditting">
                 <div class="row">
                     <div class="col-sm-9">
                         <div class="row">
-                            <h2 class="nomargin"><b><u>{{model.fullName}}</u></b></h2>
+                            <h2 class="nomargin"><b>{{model.fullName}}</b></h2>
                         </div>
                         <br>
                         <div class="row">
@@ -31,13 +30,13 @@
                 </div>
                 <div class="row">
                     <div class="mb10">
-                        <label class="control-label"><b>Username</b></label>
+                        <label class="control-label">Username</label>
                         <input class="form-control" type="text" ng-model="model.username">
                     </div>
                 </div>
                 <div class="row">
                     <div class="mb10">
-                        <label class="control-label"><b>Birthday</b></label>
+                        <label class="control-label">Birthday</label>
                         <div class="input-group">
                             <input type="text" class="form-control"
                                    uib-datepicker-popup="{{format}}"
@@ -54,7 +53,7 @@
                 </div>
                 <div class="row">
                     <div class="mb10">
-                        <label class="control-label"><b>Register Date</b></label>
+                        <label class="control-label">Register Date</label>
                         <div class="input-group">
                             <input type="text" class="form-control" uib-datepicker-popup="{{format}}"
                                    datepicker-options="dateOptions" ng-required="true"
@@ -68,31 +67,31 @@
                 </div>
                 <div class="row">
                     <div class="mb10">
-                        <label class="control-label"><b>Expried Date</b></label>
+                        <label class="control-label">Expried Date</label>
                         <input class="form-control" type="text"  uib-datepicker-popup="{{format}}" ng-model="model.expiredDate" readonly>
                     </div>
                 </div>
                 <div class="row">
                     <div class="mb10">
-                        <label class="control-label"><b>Cell phone</b></label>
+                        <label class="control-label">Cell phone</label>
                         <input class="form-control" type="text" ng-model="model.cellphone">
                     </div>
                 </div>
                 <div class="row">
                     <div class="mb10">
-                        <label class="control-label"><b>Passport ID</b></label>
+                        <label class="control-label">Passport ID</label>
                         <input class="form-control" type="text" ng-model="model.nationalId">
                     </div>
                 </div>
                 <div class="row">
                     <div class="mb10">
-                        <label class="control-label"><b>Address</b></label>
+                        <label class="control-label">Address</label>
                         <input class="form-control" type="text" ng-model="model.address">
                     </div>
                 </div>
                 <div class="row">
                     <div class="mb10">
-                        <label class="control-label"><b>City</b></label>
+                        <label class="control-label">City</label>
                         <input class="form-control" type="text" ng-model="model.city">
                     </div>
                 </div>
@@ -101,67 +100,68 @@
                 </div>
                 <div class="row">
                     <div class="mb10">
-                        <label class="control-label"><b>Postcode</b></label>
+                        <label class="control-label">Postcode</label>
                         <input class="form-control" type="text" ng-model="model.postcode">
                     </div>
                 </div>
                 <div class="row">
                     <div class="mb10">
-                        <label class="control-label"><b>Profession</b></label>
+                        <label class="control-label">Profession</label>
                         <input class="form-control" type="text" ng-model="model.profession">
                     </div>
                 </div>
                 <br>
-                <div class="row">
-                    <h3>Bank Account</h3>
-                </div>
+                <hr>
+                <!--<div class="row">-->
+                    <!--<h3>Bank Account</h3>-->
+                <!--</div>-->
+                <h4 class="nomargin">Bank Account</h4>
                 <br>
                 <div class="row">
                     <div class="mb10">
-                        <label class="control-label"><b>Account Name</b></label>
+                        <label class="control-label">Account Name</label>
                         <input class="form-control" type="text" ng-model="model.bankAccountName">
                     </div>
                 </div>
                 <div class="row">
                     <div class="mb10">
-                        <label class="control-label"><b>Account Number</b></label>
+                        <label class="control-label">Account Number</label>
                         <input class="form-control" type="text" ng-model="model.bankAccountNumber">
                     </div>
                 </div>
                 <div class="row">
                     <div class="mb10">
-                        <label class="control-label"><b>Bank</b></label>
+                        <label class="control-label">Bank</label>
                         <input class="form-control" type="text" ng-model="model.bankName">
                     </div>
                 </div>
                 <div class="row">
                     <div class="mb10">
-                        <label class="control-label"><b>Country</b></label>
+                        <label class="control-label">Country</label>
                         <input class="form-control" type="text" ng-model="model.bankCountry">
                     </div>
                 </div>
                 <div ng-if="isEditting">
                     <br>
-                    <div class="row">
-                        <h3>Change Password</h3>
-                    </div>
+                    <hr>
+                    <h4 class="nomargin">Change Password</h4>
                     <br>
                     <div class="row">
                         <div class="mb10">
-                            <label class="control-label"><b>Current Password</b></label>
+                            <label class="control-label">Current Password</label>
                             <input class="form-control" type="password" ng-model="model.currentPwd">
                         </div>
                     </div>
                     <div class="row">
                         <div class="mb10" data-ng-class="{'has-error' : registerForm.password.$invalid && !registerForm.password.$pristine}">
-                            <label class="control-label"><b>New Password</b></label>
+                            <label class="control-label">New Password</label>
                             <input class="form-control" type="password" name="password" data-ng-model="model.newPwd" ng-minlength="8">
                             <p ng-show="registerForm.password.$error.minlength" class="help-block">Username is too short.</p>
                         </div>
                     </div>
                     <div class="row">
                         <div class="mb10" data-ng-class="{'has-error' : registerForm.passwordCompare.$invalid && !registerForm.passwordCompare.$pristine}">
-                            <label class="control-label"><b>Re-enter Password</b></label>
+                            <label class="control-label">Re-enter Password</label>
                             <input class="form-control" type="password" name="passwordCompare" data-ng-model="model.passwordCompare" data-ng-match="model.newPwd"/>
                             <span class="help-block" data-ng-show="registerForm.passwordCompare.$error.match">Passwords do not match.</span>
                         </div>

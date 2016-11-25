@@ -48,11 +48,17 @@
     },
     "rate": {
       "type": "number",
-      "required": true
+      "required": true,
+      "mysql":{
+         "dataType": "DOUBLE"
+      }
     },
     "give": {
       "type": "number",
-      "required": true
+      "required": true,
+      "mysql":{
+         "dataType": "DOUBLE"
+      }
     },
     "giveCurrencyId": {
       "type": "number",
@@ -60,7 +66,10 @@
     },
     "get": {
       "type": "number",
-      "required": true
+      "required": true,
+      "mysql":{
+         "dataType": "DOUBLE"
+      }
     },
     "getCurrencyId": {
       "type": "number",

@@ -1,11 +1,13 @@
 'use strict';
 
+var async = require('async');
+var util = require('util');
+
 var errors = require('../libs/errors/errors');
 var errorUtil = require('../libs/errors/error-util');
 var userService = require('../services/user-service');
-var async = require('async');
-var util = require('util');
 var constant = require('../libs/constants/constants');
+var supportService = require('../services/support-service');
 
 module.exports = function (app) {
     var router = app.loopback.Router();
@@ -38,8 +40,8 @@ module.exports = function (app) {
     });
 
     router.post('/:id', function (req, res) {
+        var admin = req.currentUser;
         var updatingUser = req.body;
-        console.log("updatingUser:",updatingUser);
         async.waterfall([
             function (next) {
                 userService.getUserByUsernameWithoutRelationModel(updatingUser, function (err, user) {
@@ -48,6 +50,15 @@ module.exports = function (app) {
                         return next (null, user);
                     }
                 });
+            },
+            function createMessage(user, next) {
+                if (user.status !== constant.USER_STATUSES.ACTIVATED && updatingUser.status === constant.USER_STATUSES.ACTIVATED) {
+                    var message = {'title': constant.MSG.APPROVAL_TITLE, 
+                            'message': constant.MSG.APPROVAL_CONTENT, 
+                            'creatorId': admin.id, 'receiverId': user.id};
+                    supportService.saveMessage(message);
+                }
+                return next (null, user);
             },
             function (user, next) {
                 if (updatingUser.addresses && updatingUser.addresses.length > 0  && (updatingUser.addresses[0].address

@@ -13,6 +13,7 @@ const Routes = {
     API_AUTHENTICATE : '/api/authenticate',
     API_USERS : '/api/users',    
     API_USERS_ID : '/api/users/:id',
+    API_CURRENCIES : '/api/currencies',
     API_ORDERS : '/api/orders',
     API_ORDERS_ID : '/api/orders/:id',
     API_ORDERS_SWAPPING : '/api/orders/swapping',

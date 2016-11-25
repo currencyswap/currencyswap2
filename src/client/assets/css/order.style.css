@@ -5,30 +5,77 @@
 .order-content .order-tabs {
  	float: none;
  	margin: auto;
- 	width: 98%;
+ 	width: 100%;
 }
 .order-content .order-status-1 {
-	color: blue;	
+	color: #6299e8;	
 }
 .order-content .order-status-2 {
-	color: green;
+	color: #159d21;
 }
 .order-content .order-status-3{
 	
-	color: #135970;
+	color: #366144;
 }
 .order-content .order-status-4{
-	color: green;
+	color: #b17197;
 }
 .order-content .order-status-5{
-	color: green;
+	color: #fea340;
 }
 .order-content .order-status-6{
-	color: green;
+	color: #ff0658;
 }
 .order-content .order-item-header {
 	background: #cccccc;
 }
 .order-content .order-item-content {
 	text-align: left;
+}
+.button-order-list {
+	float: left;
+	border-radius: 5px;
+	width: 60px;
+	padding: 2px 5px;
+	margin: 2px;
+	font-size: 12px;	
+}
+.order-content .order-item-content.order-date {
+	white-space: nowrap;
+}
+.button-order-list.button-cancel-swapping {
+	background: #fea340;
+	
+}
+.button-order-list.button-confirm-swapping {
+	background: #159d21;
+	color: #ffffff;
+}
+.button-order-list.button-cancel-confirm {
+	background: #fea340;
+	
+}
+.button-order-list.button-clear-confirm {
+	background: #366144;
+	color: #ffffff;
+}
+.button-order-list.button-cancel-submitted {
+	background: #fea340;
+	
+}
+.button-order-list.button-edit-submitted {
+	background: #ff0658;
+	color: #ffffff;
+}
+
+.order-action {
+	position: relative;
+	float: right;
+	width: 130px;
+}
+.order-row-0 {
+	background: white;
+}
+.order-row-1 {
+	background: #e6e6e6;
 }
