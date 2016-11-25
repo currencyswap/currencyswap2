@@ -5,8 +5,8 @@ button.tb-active {
 }
 
 .user-content {
- text-align: center;
- margin: 10px auto !important;
+    text-align: center;
+    margin: 10px auto !important;
 }
 .user-content .user-tabs {
  float: none;
@@ -54,3 +54,4 @@ button.tb-active {
 @media screen and (max-width: 320px) {
 
 }
+
