@@ -2,7 +2,6 @@
 
 var path = require('path');
 var nodeUtil = require('util');
-var util = require('util');
 var async = require('async');
 var exec = require('child_process').exec;
 

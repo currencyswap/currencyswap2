@@ -654,7 +654,7 @@ exports.updateUserInfo = function (user, filter, callback) {
     user.updateAttributes(filter, function (err, updatedUser) {
         if (err) return callback(errorUtil.createAppError(errors.SERVER_GET_PROBLEM));
         else {
-            if (oldUserStatus === constant.USER_STATUSES.PENDING_APPROVAL && updatedUser.status === constant.USER_STATUSES.ACTIVATED) {
+            if (oldUserStatus !== constant.USER_STATUSES.ACTIVATED && updatedUser.status === constant.USER_STATUSES.ACTIVATED) {
                 async.waterfall([
                     function (next) {
                         // construct mail options
