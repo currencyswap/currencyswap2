@@ -27,7 +27,7 @@
 								</tr>
 							</thead>
 							<tbody>
-								<tr ng-repeat="swappingOrder in swappingOrders">
+								<tr ng-repeat="swappingOrder in swappingOrders" class="order-row-{{$index % 2}}">
 									<td class="col-sm-1 order-item-content"><a ng-click="getOrderById(swappingOrder.id);">{{swappingOrder.code}}</a></td>
 									<td class="col-sm-1 order-item-content order-date">{{swappingOrder.created | filterDate}}</td>
 									<td class="col-sm-1 order-item-content order-date">{{swappingOrder.expired | filterDate}}</td>
@@ -39,7 +39,7 @@
 									<td class="col-sm-1 order-item-content">{{swappingOrder.accepter.username}}</td>
 									<td class="col-sm-1 order-item-content order-status-{{swappingOrder.statusId}}">{{swappingOrder.status.name}}</td>
 									<td class="col-sm-2">
-										<div style="position: relative;float: right;">
+										<div class="order-action">
 											<div class="button-order-list button-cancel-swapping">Cancel</div>
 											<div class="button-order-list button-confirm-swapping">Confirm</div>
 										</div>
@@ -67,7 +67,7 @@
 								</tr>
 							</thead>
 							<tbody>
-								<tr ng-repeat="confirmOrder in confirmOrders">
+								<tr ng-repeat="confirmOrder in confirmOrders" class="order-row-{{$index % 2}}">
 									<td class="col-sm-1 order-item-content">{{confirmOrder.code}}</td>
 									<td class="col-sm-1 order-item-content order-date">{{confirmOrder.created | filterDate}}</td>
 									<td class="col-sm-1 order-item-content order-date" >{{confirmOrder.expired | filterDate}}</td>
@@ -79,7 +79,7 @@
 									<td class="col-sm-1 order-item-content">{{confirmOrder.accepter.username}}</td>
 									<td class="col-sm-1 order-item-content order-status-{{confirmOrder.statusId}}">{{confirmOrder.status.name}}</td>
 									<td class="col-sm-2">
-										<div style="position: relative;float: right;">
+										<div class="order-action">
 											<div class="button-order-list button-cancel-confirm">Cancel</div>
 											<div class="button-order-list button-clear-confirm">Clear</div>
 										</div>
@@ -113,7 +113,7 @@
 								</tr>
 							</thead>
 							<tbody>
-								<tr ng-repeat="submittedOrder in submittedOrders">
+								<tr ng-repeat="submittedOrder in submittedOrders" class="order-row-{{$index % 2}}">
 									<td class="col-sm-1 order-item-content">{{submittedOrder.code}}</td>
 									<td class="col-sm-1 order-item-content order-date">{{submittedOrder.created | filterDate}}</td>
 									<td class="col-sm-1 order-item-content order-date">{{submittedOrder.expired | filterDate}}</td>
@@ -122,7 +122,7 @@
 									<td class="col-sm-1 order-item-content">{{submittedOrder.rate}}</td>
 									<td class="col-sm-1 order-item-content order-status-{{submittedOrder.statusId}}">{{submittedOrder.status.name}}</td>
 									<td class="col-sm-2">
-										<div style="position: relative;float: right;">
+										<div class="order-action">
 											<div class="button-order-list button-cancel-submitted">Delete</div>
 											<div class="button-order-list button-edit-submitted">Edit</div>
 										</div>
@@ -157,7 +157,7 @@
 								</tr>
 							</thead>
 							<tbody>
-								<tr ng-repeat="historyOrder in historyOrders">
+								<tr ng-repeat="historyOrder in historyOrders" class="order-row-{{$index % 2}}">
 									<td class="col-sm-1 order-item-content">{{historyOrder.code}}</td>
 									<td class="col-sm-1 order-item-content order-date">{{historyOrder.created | filterDate}}</td>
 									<td class="col-sm-1 order-item-content order-date">{{historyOrder.expired | filterDate}}</td>
