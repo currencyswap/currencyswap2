@@ -168,6 +168,18 @@
                 }
             ]
         },
+        {
+            "route": "{API_ORDERS_SUGGEST}",
+            "rules" : [
+                {
+                    "methods" : ["GET", "PUT"],
+                    "requiredPermissions": [
+                        "{VIEW_OWN_ORDERS}"
+                    ],
+                    "isAlive": true
+                }
+            ]
+        },
 		{
             "route": "{API_ORDERS_HISTORY}",
             "rules" : [
