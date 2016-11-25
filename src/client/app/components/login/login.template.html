@@ -6,13 +6,13 @@
                 <div class="logopanel">
                     <h1><span>[</span> {{title}} <span>]</span></h1>
                 </div><!-- logopanel -->
-                <strong>Not a member? <a href="" ng-click="onRegister()">Register</a></strong>
+                <strong>New member: <a href="" ng-click="onRegister()">Register</a></strong>
             </div><!-- signin0-info -->
         </div>
      </div>
     <div class="row">
         <div class="col-sm-4 col-sm-offset-4">
-            <form>
+            <form style="background-color: white">
                 <label class="error" ng-model="loginErrMsg">{{loginErrMsg}}</label>
                 <label class="error" ng-if="isExpired">Your acount is expired date. Please contact with admin: currencyswap@gmail.com</label>
                 <h4 class="nomargin">Sign In</h4>

@@ -1,9 +1,7 @@
-<div class="bloc-country form-group" style="margin-right: 5px ; margin-left: 5px">
+<div class="bloc-country form-group" style="margin-right: 5px ; margin-left: 5px;margin-bottom:0px">
     <div class="row">
-        <div class="col-sm-3">
-            <label for="country">{{countryLabel}}</label>
-        </div>
-        <div class="col-sm-9">
+        <div class="mb10">
+            <label for="country"><b>{{countryLabel}}</b></label>
             <select name="country" ng-change="selectCountry()" ng-model="country" required class="form-control">
                 <option ng-repeat="theCountry in countries track by $index" value="{{theCountry}}">{{theCountry}}</option>
             </select>
@@ -12,10 +10,8 @@
 </div>
 <div class="bloc-state form-group" style="margin-right: 5px ; margin-left: 5px">
     <div class="row">
-        <div class="col-sm-3">
-            <label for="state" ng-show="states">{{stateLabel}}</label>
-        </div>
-        <div class="col-sm-9">
+        <div class="mb10">
+            <label for="state" ng-show="states"><b>{{stateLabel}}</b></label>
             <select name="state" ng-model="state" ng-show="states" required class="form-control">
                 <option ng-repeat="optStates in states track by $index" value="{{optStates}}">{{optStates}}</option>
             </select>
