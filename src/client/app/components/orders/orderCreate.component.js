@@ -65,10 +65,10 @@ angular.module('orders')
         		getCurrenciesList();
         		
         		$scope.newOrder = {
-        				give : 1000,
-        				giveCurrencyCode : "USD",
-        				get : 10,
-        				getCurrencyCode : "EUR",
+        				give : 0,
+        				giveCurrencyCode : "",
+        				get : 0,
+        				getCurrencyCode : "",
         				rate : 0,
         				fixed : $scope.FIXED_VALUE.RATE,
         				expired : $scope.EXPIRED_VALUE[0].key,
