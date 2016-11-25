@@ -1,8 +1,28 @@
 <div class="header-right">
     <ul class="headermenu">
         <li ng-repeat="item in toolbarItems">
-            <div class="btn-group">
-                <a href="#!{{item.route}}" ng-if="!item.isMyProfile && !item.isLogout">
+            <div class="btn-group" ng-if="item.name == 'Notification'">
+              <button data-toggle="dropdown" class="btn btn-default dropdown-toggle tp-icon {{item.isActivated ? 'tb-active' : ''}}" title="{{item.name}}" data-placement="bottom">
+                <i class="{{item.icon}}"></i>
+                <span class="badge" ng-if="item.badge > 0">{{item.badge}}</span>
+              </button>
+              <div class="dropdown-menu dropdown-menu-head pull-right">
+                <h5 class="title">{{item.badge}} Newly messages</h5>
+                <ul class="dropdown-list user-list msg-menu">
+                  <li class="{{msg.isRead === true ? 'msg-new': ''}}" ng-repeat="msg in item.messages | limitTo: 5">
+                    <a href="{{msg.orderCode ? 'javascript:void(0)': 'javascript:void(0)'}}" class="msg-item" ng-click="readMessage(msg)">
+                      {{msg.title}} - {{msg.message}}
+                    </a>
+                  </li>
+                  <li ng-if="!item.messages || item.messages.length === 0">
+                    You have no message at this time!
+                  </li>
+                  <li class="msg-new"><a href="#!{{item.route}}">See All Messages</a></li>
+                </ul>
+              </div>
+            </div>
+            <div class="btn-group" ng-if="item.name != 'Notification'">
+                <a href="#!{{item.route}}" ng-if="!item.isMyProfile && !item.isLogout && item.name != 'Notification'">
                     <button class="btn btn-default tp-icon {{item.isActivated ? 'tb-active' : ''}}" data-toggle="tooltip" data-placement="bottom" title="{{item.name}}">
                         <i class="{{item.icon}}"></i>
                     </button>

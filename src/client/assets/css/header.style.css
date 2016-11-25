@@ -27,6 +27,9 @@ button.tb-active {
 .support-content, .help-content, .notification-content, .createOrderPanel {
   margin: 10px auto;
 }
+.support-content, .createOrderPanel {
+  max-width: 800px;
+}
 .support-content textarea {
  min-height: 200px;
 }
@@ -43,6 +46,14 @@ button.tb-active {
 .msg-issue {
  text-align: right;
  margin-top: -6px;
+}
+.msg-menu {
+}
+.msg-item {
+}
+.msg-new {
+ font-size: +1pt;
+ font-weight: bold;
 }
 @media screen and (max-width: 1024px) {
 }
@@ -65,4 +76,3 @@ button.tb-active {
 @media screen and (max-width: 320px) {
 
 }
-

@@ -14,20 +14,6 @@
     "validateUpsert": true
   },
   "properties": {
-    "title": {
-      "type": "string",
-      "length": 128,
-      "required": true
-    },
-    "message": {
-      "type": "string",
-      "length": 4096
-    },
-    "receiverId": {
-      "type": "number",
-      "required": true,
-      "default": 0
-    },
     "creatorId": {
       "type": "number",
       "required": true
@@ -37,10 +23,28 @@
       "required": true,
       "defaultFn": "now"
     },
+    "receiverId": {
+      "type": "number",
+      "required": true,
+      "default": 0
+    },
     "isGroupMessage": {
       "type": "boolean",
       "required": true,
       "default": false
+    },
+    "title": {
+      "type": "string",
+      "length": 128,
+      "required": true
+    },
+    "orderCode": {
+      "type": "string",
+      "length": "64"
+    },
+    "message": {
+      "type": "string",
+      "length": 4096
     }
   },
   "validations": [],

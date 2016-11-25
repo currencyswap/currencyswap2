@@ -22,6 +22,7 @@ angular.module('currencySwapApp', [
     'homePage',
     'navigation',
     'angularCountryState',
+    'ngSanitize',
     'ui.bootstrap',
 ]).run(function ($window, $rootScope, $location, CookieService, PermissionService, NavigationHelper) {
 

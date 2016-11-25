@@ -108,7 +108,7 @@ angular.module('navigation', []).factory('NavigationHelper', ['$rootScope', '$lo
                 var pattern = new UrlPattern( navItem.routePattern );
 
                 if (pattern.match($location.path())) {
-                    console.log('>>> %s', $location.path() );
+                    //console.log('>>> %s', $location.path() );
                     $rootScope.currentPage.name = navItem.name;
                     $rootScope.currentPage.icon = navItem.icon;
                     navItem.isActivated = true;
