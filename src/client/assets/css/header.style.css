@@ -13,7 +13,7 @@ button.tb-active {
  margin: auto;
  width: 80%;
 }
-.support-content, .help-content, .notification-content {
+.support-content, .help-content, .notification-content, .createOrderPanel {
   margin: 10px auto;
 }
 .support-content textarea {
