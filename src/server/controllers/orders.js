@@ -11,7 +11,23 @@ var util = require('util');
 
 module.exports = function (app) {
     var router = app.loopback.Router();
-    
+    var ownerRelation = {
+		'relation' : 'owner'
+	};
+    var accepterRelation = {
+    		'relation' : 'accepter'
+    	};
+
+	var giveCurrencyRelation = {
+		'relation' : 'giveCurrency'
+	};
+	var getCurrencyRelation = {
+		'relation' :'getCurrency'
+	}
+	
+	var statusRelation = {
+		'relation' : 'status'
+	};
     router.get('/swapping', function (req, res) {
     	var orders = [{
     		"code": "W321R3",
@@ -46,18 +62,19 @@ module.exports = function (app) {
     	var user = req.currentUser;
     	console.log(JSON.stringify(user.id));
 		var filter = {
-			where: {
+			'where': {
     			and: [{ or: [{'ownerId': user.id}, 
     			             {'accepterId': user.id}] 
     					},
     			      { statusId: 2 }
     			]
-    		}
+    		},
+    		'include' : [ ownerRelation, accepterRelation, giveCurrencyRelation, getCurrencyRelation, statusRelation]
 		}
         service.filterOrders(filter).then(function(resp){
-        	console.log(orders);
-        	return res.send(orders);
-//            return res.send(resp);
+        	console.log(resp);
+//        	return res.send(orders);
+            return res.send(resp);
         }, function(err){
             return res.status(500).send(errorUtil.createAppError(errors.SERVER_GET_PROBLEM));
         });
@@ -103,11 +120,12 @@ module.exports = function (app) {
     					},
     			      {or : [ {statusId: 3}, { statusId: 4} ]}
     			]
-    		}
+    		},
+    		'include' : [ ownerRelation, accepterRelation, giveCurrencyRelation, getCurrencyRelation, statusRelation]
 		}
         service.filterOrders(filter).then(function(resp){
-        	return res.send(orders);
-//          return res.send(resp);
+//        	return res.send(orders);
+          return res.send(resp);
 
         }, function(err){
             return res.status(500).send(errorUtil.createAppError(errors.SERVER_GET_PROBLEM));
@@ -136,12 +154,14 @@ module.exports = function (app) {
     			and: [{'ownerId': user.id}, 
     			      { statusId: 1 }
     			]
-    		}
+    		},
+    		'include' : [ ownerRelation, accepterRelation, giveCurrencyRelation, getCurrencyRelation, statusRelation]
+		
 		}
         service.filterOrders(filter).then(function(resp){
-        	console.log(orders);
-        	return res.send(orders);
-//            return res.send(resp);
+//        	console.log(orders);
+//        	return res.send(orders);
+            return res.send(resp);
         }, function(err){
             return res.status(500).send(errorUtil.createAppError(errors.SERVER_GET_PROBLEM));
         });
@@ -187,11 +207,12 @@ module.exports = function (app) {
     					},
     			      {or : [ {statusId: 5}, { statusId: 6} ]}
     			]
-    		}
+    		},
+    		'include' : [ ownerRelation, accepterRelation, giveCurrencyRelation, getCurrencyRelation, statusRelation]
 		}
         service.filterOrders(filter).then(function(resp){
-        	return res.send(orders);
-//          return res.send(resp);
+//        	return res.send(orders);
+          return res.send(resp);
 
         }, function(err){
             return res.status(500).send(errorUtil.createAppError(errors.SERVER_GET_PROBLEM));

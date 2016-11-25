@@ -1,15 +1,15 @@
-<div class="order-content row">
+<div class="row order-content">
     <div class="col-md-8 order-tabs">
-        <ul class="nav nav-tabs nav-justified">
+        <ul class="nav nav-tabs">
             <li class="active"><a data-toggle="tab" ng-click="getWorkingOrders();"><strong>Working Orders</strong></a></li>
             <li class=""><a data-toggle="tab" ng-click="getSubmittedOrders();"><strong>Submitted Orders</strong></a></li>
             <li class=""><a href="" data-toggle="tab" ng-click="getHistoryOrders();"><strong>History</strong></a></li>
         </ul>
-        <div class="tab-content disabled">
+        <div class="tab-content">
             <div id="workingOrders" class="tab-panel" ng-if="tab==1">
                 <div class="table-responsive">
 					<div id="swappingOrders" class="dataTables_wrapper no-footer" style="overflow: auto">
-						<div class="swapping-order-title" style="text-align: left; color: green; font-size: 18px;">Swapping Orders</div>
+						<div class="swapping-order-title" style="text-align: left; color: #159d21; font-size: 18px;">Swapping Orders</div>
 						<table class="table table-striped2">
 							<thead>
 								<tr>
@@ -28,31 +28,28 @@
 							</thead>
 							<tbody>
 								<tr ng-repeat="swappingOrder in swappingOrders">
-									<td class="col-sm-1 order-item-content"><a ng-click="getOrderById(1);">{{swappingOrder.code}}</a></td>
-									<td class="col-sm-1 order-item-content">{{swappingOrder.created | date:'MMM dd yyyy'}}</td>
-									<td class="col-sm-1 order-item-content">{{swappingOrder.expired | date:'MMM dd yyyy'}}</td>
-									<td class="col-sm-1 order-item-content">{{swappingOrder.get}}</td>
-									<td class="col-sm-1 order-item-content">{{swappingOrder.give}}</td>
+									<td class="col-sm-1 order-item-content"><a ng-click="getOrderById(swappingOrder.id);">{{swappingOrder.code}}</a></td>
+									<td class="col-sm-1 order-item-content order-date">{{swappingOrder.created | filterDate}}</td>
+									<td class="col-sm-1 order-item-content order-date">{{swappingOrder.expired | filterDate}}</td>
+									<td class="col-sm-1 order-item-content">{{swappingOrder.get}} {{swappingOrder.getCurrency.code}}</td>
+									<td class="col-sm-1 order-item-content">{{swappingOrder.give}} {{swappingOrder.giveCurrency.code}}</td>
 									<td class="col-sm-1 order-item-content">{{swappingOrder.rate}}</td>
 									
-									<td class="col-sm-1 order-item-content">{{swappingOrder.ownerId}}</td>
-									<td class="col-sm-1 order-item-content">{{swappingOrder.accepterId}}</td>
-									<td class="col-sm-1 order-item-content order-status-{{swappingOrder.statusId}}">{{status[swappingOrder.statusId - 1]}}</td>
+									<td class="col-sm-1 order-item-content">{{swappingOrder.owner.username}}</td>
+									<td class="col-sm-1 order-item-content">{{swappingOrder.accepter.username}}</td>
+									<td class="col-sm-1 order-item-content order-status-{{swappingOrder.statusId}}">{{swappingOrder.status.name}}</td>
 									<td class="col-sm-2">
-										<a href="javascript:" class="btn btn-default"  ng-click="" ng-if="true"> 
-										 	<span class="glyphicon glyphicon-pencil"></span> 
-										</a>
-										<a href="javascript:" class="btn btn-default"  ng-click="" ng-if="true"> 
-											<span class="glyphicon glyphicon-remove"></span>
-										</a>
-
+										<div style="position: relative;float: right;">
+											<div class="button-order-list button-cancel-swapping">Cancel</div>
+											<div class="button-order-list button-confirm-swapping">Confirm</div>
+										</div>
 									</td>
 								</tr>
 							</tbody>
 						</table>
 					</div>
 					<div id="confirmedOrders" class="dataTables_wrapper no-footer" style="overflow: auto">
-						<div class="confirmed-order-title" style="text-align: left; color: green; font-size: 18px;">Confirmed Orders</div>
+						<div class="confirmed-order-title" style="text-align: left; color: #366144; font-size: 18px;">Confirmed Orders</div>
 						<table class="table table-striped2">
 							<thead>
 								<tr>
@@ -72,23 +69,20 @@
 							<tbody>
 								<tr ng-repeat="confirmOrder in confirmOrders">
 									<td class="col-sm-1 order-item-content">{{confirmOrder.code}}</td>
-									<td class="col-sm-1 order-item-content">{{confirmOrder.created | date:'MMM dd yyyy'}}</td>
-									<td class="col-sm-1 order-item-content">{{confirmOrder.expired | date:'MMM dd yyyy'}}</td>
-									<td class="col-sm-1 order-item-content">{{confirmOrder.get}}</td>
-									<td class="col-sm-1 order-item-content">{{confirmOrder.give}}</td>
+									<td class="col-sm-1 order-item-content order-date">{{confirmOrder.created | filterDate}}</td>
+									<td class="col-sm-1 order-item-content order-date" >{{confirmOrder.expired | filterDate}}</td>
+									<td class="col-sm-1 order-item-content">{{confirmOrder.get}} {{confirmOrder.getCurrency.code}}</td>
+									<td class="col-sm-1 order-item-content">{{confirmOrder.give}} {{confirmOrder.giveCurrency.code}}</td>
 									<td class="col-sm-1 order-item-content">{{confirmOrder.rate}}</td>
 									
-									<td class="col-sm-1 order-item-content">{{confirmOrder.ownerId}}</td>
-									<td class="col-sm-1 order-item-content">{{confirmOrder.accepterId}}</td>
-									<td class="col-sm-1 order-item-content order-status-{{confirmOrder.statusId}}">{{status[confirmOrder.statusId - 1]}}</td>
+									<td class="col-sm-1 order-item-content">{{confirmOrder.owner.username}}</td>
+									<td class="col-sm-1 order-item-content">{{confirmOrder.accepter.username}}</td>
+									<td class="col-sm-1 order-item-content order-status-{{confirmOrder.statusId}}">{{confirmOrder.status.name}}</td>
 									<td class="col-sm-2">
-										<a href="javascript:" class="btn btn-default"  ng-click="" ng-if="true"> 
-										 	<span class="glyphicon glyphicon-pencil"></span> 
-										</a>
-										<a href="javascript:" class="btn btn-default"  ng-click="" ng-if="true"> 
-											<span class="glyphicon glyphicon-remove"></span>
-										</a>
-													
+										<div style="position: relative;float: right;">
+											<div class="button-order-list button-cancel-confirm">Cancel</div>
+											<div class="button-order-list button-clear-confirm">Clear</div>
+										</div>
 									</td>
 
 								</tr>
@@ -114,9 +108,6 @@
 									<th class="col-sm-1 order-item-header">Get</th>
 									<th class="col-sm-1 order-item-header">Give</th>
 									<th class="col-sm-1 order-item-header">Rate</th>
-									
-									<th class="col-sm-1 order-item-header">Initializer</th>
-									<th class="col-sm-1 order-item-header">Accepter</th>
 									<th class="col-sm-1 order-item-header">State</th>
 									<th class="col-sm-2 order-item-header"></th>
 								</tr>
@@ -124,23 +115,17 @@
 							<tbody>
 								<tr ng-repeat="submittedOrder in submittedOrders">
 									<td class="col-sm-1 order-item-content">{{submittedOrder.code}}</td>
-									<td class="col-sm-1 order-item-content">{{submittedOrder.created | date:'MMM dd yyyy'}}</td>
-									<td class="col-sm-1 order-item-content">{{submittedOrder.expired | date:'MMM dd yyyy'}}</td>
-									<td class="col-sm-1 order-item-content">{{submittedOrder.get}}</td>
-									<td class="col-sm-1 order-item-content">{{submittedOrder.give}}</td>
+									<td class="col-sm-1 order-item-content order-date">{{submittedOrder.created | filterDate}}</td>
+									<td class="col-sm-1 order-item-content order-date">{{submittedOrder.expired | filterDate}}</td>
+									<td class="col-sm-1 order-item-content">{{submittedOrder.get}} {{submittedOrder.getCurrency.code}}</td>
+									<td class="col-sm-1 order-item-content">{{submittedOrder.give}} {{submittedOrder.giveCurrency.code}}</td>
 									<td class="col-sm-1 order-item-content">{{submittedOrder.rate}}</td>
-									
-									<td class="col-sm-1">{{submittedOrder.ownerId}}</td>
-									<td class="col-sm-1">{{submittedOrder.accepterId}}</td>
-									<td class="col-sm-1 order-status-{{submittedOrder.statusId}}">{{status[submittedOrder.statusId - 1]}}</td>
+									<td class="col-sm-1 order-item-content order-status-{{submittedOrder.statusId}}">{{submittedOrder.status.name}}</td>
 									<td class="col-sm-2">
-										<a href="javascript:" class="btn btn-default"  ng-click="" ng-if="true"> 
-										 	<span class="glyphicon glyphicon-pencil"></span> 
-										</a>
-										<a href="javascript:" class="btn btn-default"  ng-click="" ng-if="true"> 
-											<span class="glyphicon glyphicon-remove"></span>
-										</a>
-
+										<div style="position: relative;float: right;">
+											<div class="button-order-list button-cancel-submitted">Delete</div>
+											<div class="button-order-list button-edit-submitted">Edit</div>
+										</div>
 									</td>
 								</tr>
 							</tbody>
@@ -174,15 +159,15 @@
 							<tbody>
 								<tr ng-repeat="historyOrder in historyOrders">
 									<td class="col-sm-1 order-item-content">{{historyOrder.code}}</td>
-									<td class="col-sm-1 order-item-content">{{historyOrder.created | date:'MMM dd yyyy'}}</td>
-									<td class="col-sm-1 order-item-content">{{historyOrder.expired | date:'MMM dd yyyy'}}</td>
-									<td class="col-sm-1 order-item-content">{{historyOrder.get}}</td>
-									<td class="col-sm-1 order-item-content">{{historyOrder.give}}</td>
+									<td class="col-sm-1 order-item-content order-date">{{historyOrder.created | filterDate}}</td>
+									<td class="col-sm-1 order-item-content order-date">{{historyOrder.expired | filterDate}}</td>
+									<td class="col-sm-1 order-item-content">{{historyOrder.get}} {{historyOrder.getCurrency.code}}</td>
+									<td class="col-sm-1 order-item-content">{{historyOrder.give}} {{historyOrder.giveCurrency.code}}</td>
 									<td class="col-sm-1 order-item-content">{{historyOrder.rate}}</td>
 									
-									<td class="col-sm-1 order-item-content">{{historyOrder.ownerId}}</td>
-									<td class="col-sm-1 order-item-content">{{historyOrder.accepterId}}</td>
-									<td class="col-sm-1 order-item-content order-status-{{historyOrder.statusId}}">{{status[historyOrder.statusId - 1]}}</td>
+									<td class="col-sm-1 order-item-content">{{historyOrder.owner.username}}</td>
+									<td class="col-sm-1 order-item-content">{{historyOrder.accepter.username}}</td>
+									<td class="col-sm-1 order-item-content order-status-{{historyOrder.statusId}}">{{historyOrder.status.name}}</td>
 								</tr>
 							</tbody>
 						</table>
