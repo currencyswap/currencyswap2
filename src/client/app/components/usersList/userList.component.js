@@ -201,17 +201,14 @@ angular.module('userList')
                     $scope.changeRole = function () {
                         $scope.errorSetOwnRole = false;
                     };
-
                     UserListService.saveUserDetail(resultUser, headers)
                         .then(function (response) {
-
                             $scope.isEditting = false;
                             if (response.status === GLOBAL_CONSTANT.HTTP_ERROR_STATUS_CODE) {
+                                $scope.gifLoading = false;
                                 if (response.data.code === serverErrors.CANNOT_SET_YOUR_OWN_ROLE) {
-                                    $scope.gifLoading = false;
                                     $scope.errorSetOwnRole = true;
                                 }
-
                                 if (response.data.code === serverErrors.UNKNOWN_GROUP
                                     || response.data.code === serverErrors.SERVER_GET_PROBLEM
                                     || response.data.code === serverErrors.CANNOT_FIND_ADDRESS_FOR_USER) {
@@ -223,11 +220,13 @@ angular.module('userList')
                                     $window.scrollTo(0, 0);
                                 }
                             } else {
+                                $scope.fullName = $scope.userDetail.fullName;
                                 $scope.isEditting = false;
                                 $window.scrollTo(0, 0);
                                 $scope.gifLoading = false;
                             }
                         }, function (error) {
+                            $scope.gifLoading = false;
                             $rootScope.error = {};
                             $rootScope.error.status = GLOBAL_CONSTANT.UNKNOWN_ERROR_STATUS;
                             $rootScope.error.message = GLOBAL_CONSTANT.UNKNOWN_ERROR_MSG;
@@ -349,10 +348,12 @@ angular.module('userList')
                 };
                 $scope.onBackStep = function(){
                     $scope.detailUserView = false;
+                    $scope.isEditting = false;
                     $scope.statusPage = $scope.STATUS_PAGE_VALUE.USERLIST;
                     $window.scrollTo(0, 0);
                 }
                 $scope.showUserDetail = function (userId) {
+                    $scope.isEditting = false;
                     $scope.statusPage = $scope.STATUS_PAGE_VALUE.USERINFO;
                     $scope.detailUserView = true;
                     var token = CookieService.getToken();
@@ -365,18 +366,25 @@ angular.module('userList')
                         .then(function (response) {
                             $scope.userDetail = {};
                             var userDetail = response.data;
-                            $scope.userDetail.id = userDetail.id;
-                            $scope.userDetail.birthday = new Date(userDetail.birthday);
-                            $scope.userDetail.expiredDate = new Date(userDetail.expiredDate);
-                            $scope.userDetail.username = userDetail.username;
-                            $scope.userDetail.fullname = userDetail.fullName;
-                            $scope.userDetail.addresses = userDetail.addresses;
-                            $scope.userDetail.cellphone = userDetail.cellphone;
-                            $scope.userDetail.email = userDetail.email;
-                            $scope.userDetail.nationalId = userDetail.nationalId;
-                            $scope.userDetail.profession = userDetail.profession;
-                            $scope.selectedStatus.selectedStatus = userDetail.status;
+                            $scope.getValueOfUserDetail(userDetail);
                         })
                 };
+
+                $scope.getValueOfUserDetail = function (userDetail) {
+                    console.log("userDetail.fullName;",userDetail.fullName);
+                    $scope.userDetail.id = userDetail.id;
+                    $scope.userDetail.birthday = new Date(userDetail.birthday);
+                    $scope.userDetail.expiredDate = new Date(userDetail.expiredDate);
+                    $scope.userDetail.username = userDetail.username;
+                    $scope.userDetail.fullName = userDetail.fullName;
+                    $scope.userDetail.addresses = userDetail.addresses;
+                    $scope.userDetail.cellphone = userDetail.cellphone;
+                    $scope.userDetail.email = userDetail.email;
+                    $scope.userDetail.nationalId = userDetail.nationalId;
+                    $scope.userDetail.profession = userDetail.profession;
+                    $scope.selectedStatus.selectedStatus = userDetail.status;
+
+                    $scope.fullName = $scope.userDetail.fullName;
+                }
             }]
     });

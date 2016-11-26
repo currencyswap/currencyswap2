@@ -249,7 +249,7 @@
     <div class="support-content" ng-show="statusPage == STATUS_PAGE_VALUE.USERINFO">
         <div class="panel panel-default">
             <div class="panel-heading">
-                <h4 class="panel-title">{{userDetail.fullname}}</h4>
+                <h4 class="panel-title">{{fullName}}</h4>
                 <br>
                 <fieldset ng-disabled="!isEditting">
                     <div class="panel-body panel-body-nopadding">
@@ -258,6 +258,16 @@
                                 <label class="control-label" for="userName">User Name</label>
                                 <input ng-model="userDetail.username" value="Read Only Input" id="userName"
                                        class="form-control" type="text">
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label" for="email">Email</label>
+                                <input ng-model="userDetail.email" id="email" class="form-control" readonly="readonly"
+                                       type="text">
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label" for="fullname">Full Name</label>
+                                <input ng-model="userDetail.fullName" id="fullname" class="form-control"
+                                       type="text">
                             </div>
                             <div class="form-group">
                                 <label class="control-label" for="dob" readonly="readonly">Date of birth</label>
@@ -281,17 +291,12 @@
                                 </span>
                                     </p>
                             </div>
-
                             <div class="form-group">
                                 <label class="control-label" for="cellPhone">Cell phone</label>
                                 <input ng-model="userDetail.cellphone" value="Read Only Input" id="cellPhone"
                                            class="form-control" type="text">
                             </div>
-                            <div class="form-group">
-                                <label class="control-label" for="email">Email</label>
-                                    <input ng-model="userDetail.email" id="email" class="form-control" readonly="readonly"
-                                           type="text">
-                            </div>
+
                             <div class="form-group">
                                 <label class="control-label" for="nationalId">Passport ID/National ID</label>
                                     <input ng-model="userDetail.nationalId" value="Read Only Input" id="nationalId"
@@ -348,17 +353,6 @@
                             </button>
                         </div>
                     </div>
-                    <!--<div class="col-sm-5" style="padding-left: 0px">-->
-                        <!--<div class="col-sm-5 pull-left" style="padding-left: 0px">-->
-                            <!--<button class="btn btn-warning btn-block nomagin" ng-click="onBackStep()">Back</button>-->
-                        <!--</div>-->
-                        <!--<div class="col-sm-5 pull-left">-->
-                            <!--<button class="btn btn-primary btn-block nomagin" ng-click="changeStateToEdit()" ng-if="!isEditting">Edit-->
-                            <!--</button>-->
-                            <!--<button class="btn btn-primary btn-block nomagin" ng-click="onSaveUserDetailData()" ng-if="isEditting">Save-->
-                            <!--</button>-->
-                        <!--</div>-->
-                    <!--</div>-->
                     <div class="loaders" align="center" ng-show="gifLoading">
                         <img src="../../../assets/images/loaders/loader1.gif" alt="">
                     </div>
