@@ -198,7 +198,7 @@
                 {
                     "methods" : ["GET"],
                     "requiredPermissions": [
-                        "{VIEW_ALL_ORDERS}"
+                        "{VIEW_OWN_ORDERS}", "{MAINTAIN_OWN_ORDERS}", "{VIEW_ALL_ORDERS}"
                     ],
                     "isAlive": true
                 },

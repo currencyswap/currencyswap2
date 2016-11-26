@@ -27,7 +27,7 @@ button.tb-active {
 .support-content, .help-content, .notification-content, .createOrderPanel {
   margin: 10px auto;
 }
-.support-content, .createOrderPanel {
+.support-content, .createOrderPanel1 {
   max-width: 800px;
 }
 .support-content textarea {
