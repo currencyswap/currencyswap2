@@ -171,6 +171,27 @@ module.exports = function (Member) {
         });
     };
 
+    Member.findUsersFollowStatus = function (status, callback) {
+        var where = {
+            status: status
+        };
+        var includeAddress = {
+            relation: 'addresses'
+        };
+
+        var filter = {
+            where: where,
+            include: includeAddress
+        };
+        Member.findOne(filter, function (err, user) {
+            if (err) return callback(errorUtil.createAppError(errors.SERVER_GET_PROBLEM));
+            else {
+                if (!user) return callback(errorUtil.createAppError(errors.NO_USER_FOUND_IN_DB));
+                return callback(null, user);
+            }
+        })
+    };
+
     Member.findUserDetailWithEmail = function (userId, callback) {
         var where = {
             id: userId

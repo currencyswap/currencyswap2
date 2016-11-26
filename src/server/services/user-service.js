@@ -566,6 +566,13 @@ exports.findAllUsers = function (callback) {
     })
 };
 
+exports.findUsersFollowStatus = function (status,callback) {
+    app.models.Member.findUsersFollowStatus(status,function (err, users) {
+        if (err) return callback(err);
+        else return callback(null, users);
+    })
+};
+
 exports.extractEmailAndRandomString = function (requestResetCode) {
     try {
         var decryptedString = stringUtil.decryptString(requestResetCode, constant.ENCRYPTION_ALGORITHM, constant.ENCRYPTION_PWD, 'hex', 'utf8');

@@ -26,6 +26,17 @@
 .order-content .order-status-6{
 	color: #ff0658;
 }
+
+.order-content .user-status-0 {
+	color: #159d21;
+}
+
+.order-content .user-status-1{
+	color: #fea340;
+}
+.order-content .user-status-2{
+	color: #9d000e;
+}
 .order-content .order-item-header {
 	background: #cccccc;
 }

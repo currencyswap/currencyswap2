@@ -16,6 +16,13 @@ module.exports = function (app) {
             else return res.status(200).send(users)
         })
     });
+    router.get('/:status', function (req, res) {
+        var status = req.params.status;
+        userService.findUsersFollowStatus(status,function (err, users) {
+            if (err) return res.status(299).send(err);
+            else return res.status(200).send(users)
+        })
+    });
 
     router.get('/:id', function (req, res) {
         var userId = req.params.id;
@@ -39,7 +46,6 @@ module.exports = function (app) {
 
     router.post('/:id', function (req, res) {
         var updatingUser = req.body;
-        console.log("updatingUser:",updatingUser);
         async.waterfall([
             function (next) {
                 userService.getUserByUsernameWithoutRelationModel(updatingUser, function (err, user) {

@@ -52,7 +52,7 @@ var navigation = [
     {
         route: routes.SUPPORT,
         name: 'Support',
-        requiredPermissions: [permissions.VIEW_OWN_ORDERS],
+        requiredPermissions: [permissions.VIEW_OWN_ORDERS, permissions.USER_MANAGEMENT],
         position: global.TOOLSBAR,
         icon : 'fa fa-support'
     },

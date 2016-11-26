@@ -121,12 +121,22 @@ angular.module('userList')
                     "USERINFO" : "USERINFO",
                     "USERLIST" : "USERLIST"
                 }
+
+                $scope.TABSELECTED = {
+                    "ALL" : "ALL",
+                    "ACTIVATED" : "ACTIVATED",
+                    "PENDING":"PENDING"
+                }
                 $scope.statusPage = $scope.STATUS_PAGE_VALUE.USERLIST;
+                $scope.tab = $scope.TABSELECTED.ALL;
                 $scope.sortType     = 'fullName'; // set the default sort type
                 $scope.sortReverse  = false;  // set the default sort order
 
                 $scope.users = [];
                 $scope.allUser = [];
+                $scope.usersAll = [];
+                $scope.usersActivated = [];
+                $scope.usersPending = [];
 
                 $scope.current = 1;
                 $scope.itemsPerPage = 5;
@@ -142,7 +152,6 @@ angular.module('userList')
                 $scope.userStatusesList.deactivated = GLOBAL_CONSTANT.DEACTIVATED_USER_STATUS;
 
                 $scope.selectedStatus = {};
-
                 $scope.onSaveUserDetailData = function () {
                     $scope.gifLoading = true;
                     var address, city, country, postcode, state = null;
@@ -199,10 +208,12 @@ angular.module('userList')
                     $scope.isEditting = true;
                 };
                 $scope.onAllClick = function () {
+                    $scope.tab = $scope.TABSELECTED.ALL;
                     $scope.isEditting = false;
                     $scope.detailUserView = false;
 
                     $scope.users = [];
+                    $scope.usersAll = [];
                     var token = CookieService.getToken();
                     var headers = {};
 
@@ -218,8 +229,9 @@ angular.module('userList')
                         .then(function (response) {
                             if (response.status === GLOBAL_CONSTANT.HTTP_SUCCESS_STATUS_CODE) {
                                 $scope.allUsers = response.data;
-                                $scope.users = $scope.allUsers;
-                                $scope.totalItems = $scope.users.length;
+                                $scope.usersAll = $scope.allUsers;
+                                $scope.totalItems = $scope.usersAll.length;
+                                $scope.$evalAsync();
                             } else {
                                 $rootScope.error = {};
                                 $rootScope.error.status = GLOBAL_CONSTANT.SERVER_GOT_PROBLEM_STATUS;
@@ -232,11 +244,11 @@ angular.module('userList')
                 $scope.onAllClick();
 
                 $scope.onActivatedClick = function () {
+                    $scope.tab = $scope.TABSELECTED.ACTIVATED;
                     $scope.detailUserView = false;
                     $scope.isEditting = false;
-                    $scope.users = [];
                     $scope.allUser = [];
-
+                    $scope.usersActivated = [];
                     var token = CookieService.getToken();
                     var headers = {};
 
@@ -249,12 +261,13 @@ angular.module('userList')
                                 $scope.allUsers = response.data;
                                 $scope.allUsers.forEach(function (user) {
                                     if (user.status === GLOBAL_CONSTANT.ACTIVATED_USER_STATUS) {
-                                        $scope.users.push(user);
+                                        $scope.usersActivated.push(user)
+                                        $scope.$evalAsync();
                                     } else {
                                         //do nothing
                                     }
                                 })
-                                $scope.totalItems = $scope.users.length;
+                                $scope.totalItems = $scope.usersActivated.length;
                             } else {
                                 $rootScope.error = {};
                                 $rootScope.error.status = GLOBAL_CONSTANT.SERVER_GOT_PROBLEM_STATUS;
@@ -265,11 +278,11 @@ angular.module('userList')
                 };
 
                 $scope.onPendingClick = function () {
+                    $scope.tab = $scope.TABSELECTED.PENDING;
                     $scope.detailUserView = false;
                     $scope.isEditting = false;
-                    $scope.users = [];
                     $scope.allUser = [];
-
+                    $scope.usersPending = [];
                     var token = CookieService.getToken();
                     var headers = {};
 
@@ -282,12 +295,13 @@ angular.module('userList')
                                 $scope.allUsers = response.data;
                                 $scope.allUsers.forEach(function (user) {
                                     if (user.status === GLOBAL_CONSTANT.PENDING_USER_STATUS) {
-                                        $scope.users.push(user);
+                                        $scope.usersPending.push(user);
+                                        $scope.$evalAsync();
                                     } else {
                                         //do nothing
                                     }
                                 })
-                                $scope.totalItems = $scope.users.length;
+                                $scope.totalItems = $scope.usersPending.length;
                             } else {
                                 $rootScope.error = {};
                                 $rootScope.error.status = GLOBAL_CONSTANT.SERVER_GOT_PROBLEM_STATUS;
@@ -299,6 +313,7 @@ angular.module('userList')
                 $scope.onBackStep = function(){
                     $scope.detailUserView = false;
                     $scope.statusPage = $scope.STATUS_PAGE_VALUE.USERLIST;
+                    $window.scrollTo(0, 0);
                 }
                 $scope.showUserDetail = function (userId) {
                     $scope.statusPage = $scope.STATUS_PAGE_VALUE.USERINFO;

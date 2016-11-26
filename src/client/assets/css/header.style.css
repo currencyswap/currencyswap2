@@ -24,7 +24,10 @@ button.tb-active {
 .user-content .user-status-2{
     color: #9d000e;
 }
-.support-content, .help-content, .notification-content, .createOrderPanel {
+.user-content  .user-item-header {
+    background: #cccccc;
+}
+.support-content, .help-content, .notification-content, .createOrderPanel, .user-content  {
   margin: 10px auto;
 }
 .support-content textarea {

@@ -13,6 +13,16 @@ angular.module('userList').factory('UserListService', ['$http', function ($http,
             };
             return $http(req);
         },
+        fetchUserFollowStatus: function (status, headers) {
+            var req = {
+                method: httpMethods.GET,
+                url: apiRoutes.API_USERS,
+                timeout : global.TIMEOUT,
+                headers: headers,
+                data: {}
+            };
+            return $http(req);
+        },
         getUserDetail: function (userId, headers) {
             var req = {
                 method: httpMethods.GET,
