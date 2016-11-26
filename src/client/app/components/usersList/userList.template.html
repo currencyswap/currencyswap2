@@ -1,5 +1,5 @@
 <div class="user-content row">
-    <div class="col-md-8 user-tabs">
+    <div class="col-md-8 user-tabs" ng-show="statusPage != STATUS_PAGE_VALUE.USERINFO">
         <ul class="nav nav-tabs nav-justified">
             <li class="active"><a data-toggle="tab" ng-click="onAllClick()"><strong>All</strong></a></li>
             <li class=""><a data-toggle="tab" ng-click="onActivatedClick()"><strong>Activated Users</strong></a></li>
@@ -84,137 +84,145 @@
                 </ul>
             </div>
         </div>
-            <div ng-if="detailUserView" class="panel panel-default">
-                <div class="panel-heading">
-                    <h3><b>{{userDetail.username}}</b></h3>
-                </div>
-                <br>
-                <fieldset ng-disabled="!isEditting">
-                <div class="panel-body panel-body-nopadding">
-                    <form class="form-horizontal" form-bordered>
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label" for="username">Username</label>
-                            <div class="col-sm-5">
-                                <input ng-model="userDetail.username" id="username" class="form-control" readonly="readonly"
-                                       type="text">
-                            </div>
+    </div>
+    <div ng-if="detailUserView" class="panel panel-default" ng-show="statusPage == STATUS_PAGE_VALUE.USERINFO">
+        <fieldset ng-disabled="!isEditting">
+            <div class="panel-body panel-body-nopadding">
+                <!--<form class="form-horizontal" form-bordered>-->
+                <form id="basicForm" action="form-validation.html" class="form-horizontal">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">{{userDetail.fullname}}</h4>
                         </div>
+                        <!--<div class="panel-body">-->
+                            <!--<div class="form-group">-->
+                                <!--<label class="col-sm-3 control-label" for="username">Username</label>-->
+                                <!--<div class="col-sm-9">-->
+                                    <!--<input ng-model="userDetail.username" id="username" class="form-control" readonly="readonly"-->
+                                           <!--type="text">-->
+                                <!--</div>-->
+                            <!--</div>-->
+                        <!--</div>&lt;!&ndash; panel-body &ndash;&gt;-->
+                    </div>
 
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label" for="dob" readonly="readonly">Date of birth</label>
-                            <div class="col-sm-5">
-                                <p class="input-group">
-                                    <input type="text" id="dob" class="form-control" uib-datepicker-popup="{{format}}" ng-model="userDetail.birthday"
-                                           is-open="popup2.opened" datepicker-options="dateOptions" ng-required="true"
-                                           close-text="Close" alt-input-formats="altInputFormats"/>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label" for="dob" readonly="readonly">Date of birth</label>
+                        <div class="col-sm-5">
+                            <p class="input-group">
+                                <input type="text" id="dob" class="form-control" uib-datepicker-popup="{{format}}" ng-model="userDetail.birthday"
+                                       is-open="popup2.opened" datepicker-options="dateOptions" ng-required="true"
+                                       close-text="Close" alt-input-formats="altInputFormats"/>
                                 <span class="input-group-addon" style="height: 40px">
                                    <i class="glyphicon glyphicon-calendar" ng-click="open2()"></i></button>
                                 </span>
-                                </p>
-                            </div>
-
+                            </p>
                         </div>
-                        <div class="form-group">
+                    </div>
+                    <div class="form-group">
 
-                            <label class="col-sm-3 control-label">Expired Date</label>
-                            <div class="col-sm-5">
-                                <!--<input ng-model="userDetail.expiredDate" id="expDate" class="form-control" type="text" readonly="readonly">-->
-                                <p class="input-group">
-                                    <input type="text" class="form-control" uib-datepicker-popup="{{format}}" ng-model="userDetail.expiredDate"
-                                           is-open="popup1.opened" datepicker-options="dateOptions" ng-required="true"
-                                           close-text="Close" alt-input-formats="altInputFormats"/>
+                        <label class="col-sm-3 control-label">Expired Date</label>
+                        <div class="col-sm-5">
+                            <!--<input ng-model="userDetail.expiredDate" id="expDate" class="form-control" type="text" readonly="readonly">-->
+                            <p class="input-group">
+                                <input type="text" class="form-control" uib-datepicker-popup="{{format}}" ng-model="userDetail.expiredDate"
+                                       is-open="popup1.opened" datepicker-options="dateOptions" ng-required="true"
+                                       close-text="Close" alt-input-formats="altInputFormats"/>
                                 <span class="input-group-addon" style="height: 40px">
                                    <i class="glyphicon glyphicon-calendar" ng-click="open1()"></i></button>
                                 </span>
-                                </p>
-                            </div>
+                            </p>
                         </div>
-
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label" for="cellPhone">Cell phone</label>
-                            <div class="col-sm-5">
-                                <input ng-model="userDetail.cellphone" value="Read Only Input" id="cellPhone"
-                                       class="form-control" type="text">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label" for="email">Email</label>
-                            <div class="col-sm-5">
-                                <input ng-model="userDetail.email" id="email" class="form-control" readonly="readonly"
-                                       type="text">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label" for="nationalId">Passport ID/National ID</label>
-                            <div class="col-sm-5">
-                                <input ng-model="userDetail.nationalId" value="Read Only Input" id="nationalId"
-                                       class="form-control" type="text">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label" for="address">Address</label>
-                            <div class="col-sm-5">
-                                <input ng-model="userDetail.addresses[0].address" id="address" class="form-control"
-                                       type="text">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label" for="city">City</label>
-                            <div class="col-sm-5">
-                                <input ng-model="userDetail.addresses[0].city" id="city" class="form-control" type="text">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <country-state-user country="userDetail.addresses[0].country" state="userDetail.addresses[0].state" userinfo="userDetail"></country-state-user>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label" for="postCode">Post code</label>
-                            <div class="col-sm-5">
-                                <input ng-model="userDetail.addresses[0].postcode" id="postCode" class="form-control"
-                                       type="text">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label" for="profession">Profession</label>
-                            <div class="col-sm-5">
-                                <input ng-model="userDetail.profession" id="profession" class="form-control" type="text">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label">Status</label>
-                            <div class="col-sm-5">
-                                <select name="singleSelect" ng-model="selectedStatus.selectedStatus" class="form-control">
-                                    <option value="{{userStatusesList.activated}}">{{userStatusesList.activated}}</option>
-                                    <option value="{{userStatusesList.blocked}}">{{userStatusesList.blocked}}</option>
-                                    <option value="{{userStatusesList.pending}}">{{userStatusesList.pending}}</option>
-                                    <!--<option value="{{userStatusesList.new}}">{{userStatusesList.new}}</option>-->
-                                    <!--<option value="{{userStatusesList.deactivated}}">{{userStatusesList.deactivated}}</option>-->
-                                </select>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label">Set Role</label>
-                            <div class="col-sm-5">
-                                <select name="singleSelect" ng-model="role" class="form-control">
-                                    <option value="Standard Member">Standard Member</option>
-                                    <option value="Admin">Admin</option>
-                                </select>
-                            </div>
-                        </div>
-                        <br>
-                    </form>
-                </div>
-                </fieldset>
-                <div class="panel-footer">
-                    <button class="btn btn-success center-block" ng-click="changeStateToEdit()" ng-if="!isEditting">EDIT
-                    </button>
-                    <button class="btn btn-success center-block" ng-click="onSaveUserDetailData()" ng-if="isEditting">SAVE
-                    </button>
-                    <div class="loaders" align="center" ng-show="gifLoading">
-                        <img src="../../../assets/images/loaders/loader1.gif" alt="">
                     </div>
-                </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label" for="cellPhone">Cell phone</label>
+                        <div class="col-sm-5">
+                            <input ng-model="userDetail.cellphone" value="Read Only Input" id="cellPhone"
+                                   class="form-control" type="text">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label" for="email">Email</label>
+                        <div class="col-sm-5">
+                            <input ng-model="userDetail.email" id="email" class="form-control" readonly="readonly"
+                                   type="text">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label" for="nationalId">Passport ID/National ID</label>
+                        <div class="col-sm-5">
+                            <input ng-model="userDetail.nationalId" value="Read Only Input" id="nationalId"
+                                   class="form-control" type="text">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label" for="address">Address</label>
+                        <div class="col-sm-5">
+                            <input ng-model="userDetail.addresses[0].address" id="address" class="form-control"
+                                   type="text">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label" for="city">City</label>
+                        <div class="col-sm-5">
+                            <input ng-model="userDetail.addresses[0].city" id="city" class="form-control" type="text">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <country-state-user country="userDetail.addresses[0].country" state="userDetail.addresses[0].state" userinfo="userDetail"></country-state-user>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label" for="postCode">Post code</label>
+                        <div class="col-sm-5">
+                            <input ng-model="userDetail.addresses[0].postcode" id="postCode" class="form-control"
+                                   type="text">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label" for="profession">Profession</label>
+                        <div class="col-sm-5">
+                            <input ng-model="userDetail.profession" id="profession" class="form-control" type="text">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">Status</label>
+                        <div class="col-sm-5">
+                            <select name="singleSelect" ng-model="selectedStatus.selectedStatus" class="form-control">
+                                <option value="{{userStatusesList.activated}}">{{userStatusesList.activated}}</option>
+                                <option value="{{userStatusesList.blocked}}">{{userStatusesList.blocked}}</option>
+                                <option value="{{userStatusesList.pending}}">{{userStatusesList.pending}}</option>
+                                <!--<option value="{{userStatusesList.new}}">{{userStatusesList.new}}</option>-->
+                                <!--<option value="{{userStatusesList.deactivated}}">{{userStatusesList.deactivated}}</option>-->
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">Set Role</label>
+                        <div class="col-sm-5">
+                            <select name="singleSelect" ng-model="role" class="form-control">
+                                <option value="Standard Member">Standard Member</option>
+                                <option value="Admin">Admin</option>
+                            </select>
+                        </div>
+                    </div>
+                    <br>
+                </form>
             </div>
+        </fieldset>
+        <div class="panel-footer">
+            <div class="col-sm-2 mr20">
+                <button class="btn btn-warning btn-block nomagin" ng-click="onBackStep()">Back</button>
+            </div>
+            <div class="col-sm-2">
+                <button class="btn btn-primary btn-block nomagin" ng-click="changeStateToEdit()" ng-if="!isEditting">Edit
+                </button>
+                <button class="btn btn-primary btn-block nomagin" ng-click="onSaveUserDetailData()" ng-if="isEditting">Save
+                </button>
+            </div>
+            <div class="loaders" align="center" ng-show="gifLoading">
+                <img src="../../../assets/images/loaders/loader1.gif" alt="">
+            </div>
+        </div>
     </div>
 </div>
 

@@ -117,7 +117,11 @@ angular.module('userList')
                     return '';
                 }
                 // =====Date picker - END=====
-
+                $scope.STATUS_PAGE_VALUE = {
+                    "USERINFO" : "USERINFO",
+                    "USERLIST" : "USERLIST"
+                }
+                $scope.statusPage = $scope.STATUS_PAGE_VALUE.USERLIST;
                 $scope.sortType     = 'fullName'; // set the default sort type
                 $scope.sortReverse  = false;  // set the default sort order
 
@@ -148,7 +152,6 @@ angular.module('userList')
                     if ($scope.userDetail.addresses[0] && $scope.userDetail.addresses[0].hasOwnProperty('country')) country = $scope.userDetail.addresses[0].country;
                     if ($scope.userDetail.addresses[0] && $scope.userDetail.addresses[0].hasOwnProperty('postcode')) postcode = $scope.userDetail.addresses[0].postcode;
 
-                    console.log("$scope.userDetail.addresses: ",$scope.userDetail.addresses);
                     var resultUser = {
                         id: $scope.userDetail.id,
                         username: $scope.userDetail.username,
@@ -181,7 +184,6 @@ angular.module('userList')
 
                     UserListService.saveUserDetail(resultUser, headers)
                         .then(function (response) {
-                            console.log("response:",response);
                             $scope.isEditting = false;
                             $window.scrollTo(0, 0);
                             $scope.gifLoading = false;
@@ -294,8 +296,12 @@ angular.module('userList')
                             }
                         });
                 };
-
+                $scope.onBackStep = function(){
+                    $scope.detailUserView = false;
+                    $scope.statusPage = $scope.STATUS_PAGE_VALUE.USERLIST;
+                }
                 $scope.showUserDetail = function (userId) {
+                    $scope.statusPage = $scope.STATUS_PAGE_VALUE.USERINFO;
                     $scope.detailUserView = true;
                     var token = CookieService.getToken();
                     var headers = {};
@@ -305,21 +311,20 @@ angular.module('userList')
 
                     UserListService.getUserDetail(userId, headers)
                         .then(function (response) {
-                            var address1, city1, country1, postcode1, state1 = null;
                             $scope.userDetail = {};
                             var userDetail = response.data;
                             $scope.userDetail.id = userDetail.id;
                             $scope.userDetail.birthday = new Date(userDetail.birthday);
                             $scope.userDetail.expiredDate = new Date(userDetail.expiredDate);
                             $scope.userDetail.username = userDetail.username;
+                            $scope.userDetail.fullname = userDetail.fullName;
                             $scope.userDetail.addresses = userDetail.addresses;
                             $scope.userDetail.cellphone = userDetail.cellphone;
                             $scope.userDetail.email = userDetail.email;
                             $scope.userDetail.nationalId = userDetail.nationalId;
                             $scope.userDetail.profession = userDetail.profession;
                             $scope.selectedStatus.selectedStatus = userDetail.status;
-                            $scope.userDetailclone = $scope.userDetail;
-                           })
+                        })
                 };
             }]
     });
