@@ -22,6 +22,7 @@ angular.module('register')
                 if ($location.search().activeCode) {
                     $scope.startRegister = false;
                     $scope.registerSuccess = false;
+                    CookieService.cleanUpCookies();
 
                     var activeCode = $location.search().activeCode;
                     RegisterService.sendActiveRequest(activeCode)

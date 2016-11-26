@@ -45,5 +45,8 @@
     "INVALID_PASSWORD": "Invalid password",
     "NATIONAL_ID_EXISTED": "NationalId/Passport is existed",
     "ACCOUNT_IS_EXPIRED": "Your account is expired",
-    "INVALID_PARAMETER_INPUT": "Invalid parameters"
+    "INVALID_PARAMETER_INPUT": "Invalid parameters",
+    "UNKNOWN_GROUP": "Unknown group",
+    "CANNOT_SET_YOUR_OWN_ROLE": "You can not set your own role",
+    "CANNOT_FIND_ADDRESS_FOR_USER": "Can not find address for user"
 }
