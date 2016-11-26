@@ -361,17 +361,16 @@ angular.module('userList')
 
                     headers[httpHeader.CONTENT_TYPE] = contentTypes.JSON;
                     headers[httpHeader.AUTHORIZARION] = autheticateType.BEARER + token;
-
                     UserListService.getUserDetail(userId, headers)
                         .then(function (response) {
                             $scope.userDetail = {};
                             var userDetail = response.data;
+                            console.log("response;",response);
                             $scope.getValueOfUserDetail(userDetail);
                         })
                 };
 
                 $scope.getValueOfUserDetail = function (userDetail) {
-                    console.log("userDetail.fullName;",userDetail.fullName);
                     $scope.userDetail.id = userDetail.id;
                     $scope.userDetail.birthday = new Date(userDetail.birthday);
                     $scope.userDetail.expiredDate = new Date(userDetail.expiredDate);

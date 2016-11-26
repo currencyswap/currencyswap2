@@ -18,7 +18,7 @@ module.exports = function (app) {
             else return res.status(200).send(users)
         })
     });
-    router.get('/:status', function (req, res) {
+    router.get('/status/:status', function (req, res) {
         var status = req.params.status;
         userService.findUsersFollowStatus(status,function (err, users) {
             if (err) return res.status(299).send(err);
