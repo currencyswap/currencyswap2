@@ -7,10 +7,16 @@ var dbUtil = require('../libs/utilities/db-util');
 var constant = require('../libs/constants/constants');
 
 var ownerRelation = {
-        'relation' : 'owner'
+        'relation' : 'owner',
+        'scope' : {
+            'fields' : [ 'id', 'username', 'email', 'fullName' ],
+        }
 };
 var accepterRelation = {
-        'relation' : 'accepter'
+        'relation' : 'accepter',
+        'scope' : {
+            'fields' : [ 'id', 'username', 'email', 'fullName' ],
+        }
 };
 
 var giveCurrencyRelation = {
@@ -54,7 +60,7 @@ exports.getUserSwappingOrders = function (userId) {
             and: [{ or: [{'ownerId': userId}, 
                          {'accepterId': userId}] 
                             },
-                  { statusId: constant.STATUS_TYPE.SUBMITTED_ID }
+                  { statusId: constant.STATUS_TYPE.SWAPPING_ID }
             ]
     },
     'include' : [ ownerRelation, accepterRelation, giveCurrencyRelation, getCurrencyRelation, statusRelation]
