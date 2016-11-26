@@ -9,7 +9,7 @@
               <div class="dropdown-menu dropdown-menu-head pull-right">
                 <h5 class="title">{{item.badge}} Newly messages</h5>
                 <ul class="dropdown-list user-list msg-menu">
-                  <li class="{{msg.isRead === true ? 'msg-new': ''}}" ng-repeat="msg in item.messages | limitTo: 5">
+                  <li class="msg-quick {{msg.reads.length === 0 ? 'msg-new mgs-bgnew': ''}}" ng-repeat="msg in item.messages | limitTo: 5">
                     <a href="javascript:void(0)" class="msg-item" ng-click="readMessage(msg)">
                       {{msg.title}} - {{msg.message}}
                     </a>

@@ -246,6 +246,18 @@
                     "isAlive": true
                 }
             ]
+        },
+        {
+            "route": "{API_SUPPORTS_MARKREAD}",
+            "rules" : [
+                {
+                    "methods" : ["POST"],
+                    "requiredPermissions": [
+                        "{VIEW_OWN_PERMISSION}", "{VIEW_OWN_NOTIFICATIONS}"
+                    ],
+                    "isAlive": true
+                }
+            ]
         }
     ]
 }

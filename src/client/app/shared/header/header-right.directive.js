@@ -38,7 +38,8 @@ angular.module('appHeader').directive('headerRight', function () {
             };
           
           $scope.readMessage = function(msg) {
-            console.log('read message', msg);
+            NotiService.markRead(msg.id);
+            msg.reads.push({'created': new Date()});
           };
           
           $scope.updateNotification = function() {
@@ -53,7 +54,7 @@ angular.module('appHeader').directive('headerRight', function () {
                   console.log('No notification attachpoint found!');
                   return;
               }
-              NotiService.getMessages().then(function(resp){
+              NotiService.getQuickMessages().then(function(resp){
                   $timeout(function(){
                       notiObj.messages = resp.messages;
                       notiObj.badge = 3;

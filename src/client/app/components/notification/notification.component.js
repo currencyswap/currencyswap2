@@ -23,6 +23,11 @@ angular.module('notification')
                     });
                 };
                 
+                $scope.readMessage = function(msg) {
+                    NotiService.markRead(msg.id);
+                    msg.reads.push({'created': new Date()});
+                  };
+                  
                 $scope.init();
             }]
     });

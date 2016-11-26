@@ -10,21 +10,29 @@ module.exports = function (app) {
     var router = app.loopback.Router();
 
     router.get('/creator', function (req, res, next) {
-        var username = req.query.username;
-        if (!username) {
-            return res.status(404).send(errorUtil.createAppError(errors.INVALID_PARAMETER_INPUT));
-        }
-        var user = req.currentUser;
-        service.getCreator(username).then(function(resp){
+        console.log('req.currentUser', req.currentUser);
+        service.getCreatorById(req.currentUser.id).then(function(resp){
             return res.send(resp);
         }, function(err){
             return res.status(500).send(errorUtil.createAppError(errors.SERVER_GET_PROBLEM));
         });
     });
     router.get('/', function (req, res, next) {
-        service.getMessages().then(function(resp){
-            res.send({'isSuccessful': true, 'messages': resp});
-        }, function(e){
+        var limit = req.query.limit;
+        var skip = req.query.skip;
+        var isUnreadCount = req.query.isUnreadCount;
+        service.getCreatorById(req.currentUser.id).then(function(user){
+            var groups = null;
+            if (user) {
+                user = user.toJSON();
+                groups = user.groups;
+            }
+            service.getMessages(req.currentUser.id, groups, limit, skip, isUnreadCount).then(function(resp){
+                res.send({'isSuccessful': true, 'messages': resp});
+            }, function(e){
+                return res.status(500).send(errorUtil.createAppError(errors.SERVER_GET_PROBLEM));
+            });
+        }, function(err){
             return res.status(500).send(errorUtil.createAppError(errors.SERVER_GET_PROBLEM));
         });
     });
@@ -54,6 +62,18 @@ module.exports = function (app) {
             });
         }
     });
+    
+    router.post('/markRead', function (req, res, next) {
+        var messageId = req.body.messageId;
+        if (messageId != parseInt(messageId) || messageId <= 0) {
+            return res.status(404).send(errorUtil.createAppError(errors.INVALID_PARAMETER_INPUT));
+        }
+        service.markReadMessage(messageId, req.currentUser.id).then(function(message){
+            return res.send({'isSuccessful': true});
+        }, function(message){
+            return res.status(500).send(errorUtil.createAppError(message||errors.SERVER_GET_PROBLEM));
+        });
+    })
 
     return router;
 };

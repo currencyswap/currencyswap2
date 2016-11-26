@@ -59,7 +59,7 @@
       "model": "Member",
       "foreignKey": "creatorId"
     },
-    "readers": {
+    "reads": {
       "type": "hasMany",
       "model": "MessageRead",
       "foreignKey": "messageId"

@@ -7,14 +7,24 @@ var errors = require('../libs/errors/errors');
 var dbUtil = require('../libs/utilities/db-util');
 var app = require('../server');
 
+var MAX_QUICK_NUM = 5;
+var creatorRelation = {
+        'relation' : 'creator',
+        'scope' : {
+            'fields' : [ 'id', 'username', 'email', 'fullName' ]
+        }
+      };
+var groupRelation = {
+        'relation' : 'groups',
+        'scope' : {
+            'fields' : [ 'id', 'name' ]
+        }
+      };
 exports.getCreator = function(username) {
-    var groupRelation = {
-            'relation' : 'groups',
-            'scope' : {
-                'fields' : [ 'id', 'name' ],
-            }
-          };
     return dbUtil.executeModelFn(app.models.Member, 'findOne', {'where': {"username": username}, 'include': [groupRelation]});
+};
+exports.getCreatorById = function(id) {
+    return dbUtil.executeModelFn(app.models.Member, 'findOne', {'where': {"id": id}, 'include': [groupRelation]});
 };
 
 exports.getGroups = function() {
@@ -57,13 +67,42 @@ exports.messageToGroup = function(input) {
     });
 };
 
-exports.getMessages = function() {
-    var creatorRelation = {
-            'relation' : 'creator',
+exports.getMessages = function(userId, groups, limit, skip, isUnreadCount) {
+    var readersRelation = {
+            'relation' : 'reads',
             'scope' : {
-                'fields' : [ 'id', 'username', 'email', 'fullName' ],
+                'where' : {'readerId': userId},
+                'fields' : [ 'readerId', 'created' ]
             }
-          };
-    return dbUtil.executeModelFn(app.models.Message, 'find', {'include': [creatorRelation], 'order': 'id DESC'});
+    };
+    var condition = {'receiverId': userId};
+
+    if (groups && groups.length > 0) {
+        var orConds = [{'receiverId': userId}];
+        for (var i=0; i<groups.length; i++) {
+            orConds.push({and : [{'isGroupMessage': true}, {'receiverId': groups[i].id}]});
+        }
+        condition = { or : orConds };
+    }
+    var filter = {'include': [creatorRelation, readersRelation], 'order': 'id DESC', 'where': condition};
+    if (limit == parseInt(limit) && limit > 0) {
+        filter['limit'] = limit;
+    }
+    if (skip == parseInt(skip) && skip >= 0) {
+        filter['skip'] = skip;
+    }
+    return dbUtil.executeModelFn(app.models.Message, 'find', filter);
 };
 
+exports.markReadMessage = function(messageId, readerId) {
+    var dto = {
+            messageId: messageId,
+            readerId: readerId,
+            created: new Date()
+    };
+    var condition = { 'where': {
+            and : [{'readerId': readerId}, {'messageId': messageId}]
+        }
+    };
+    return dbUtil.executeModelFn(app.models.MessageRead, 'findOrCreate', condition, dto);
+};

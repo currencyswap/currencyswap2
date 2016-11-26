@@ -4,19 +4,23 @@
   <h4 class="panel-title">Your messages</h4>
   <div class="panel-body">
 
-<div>
-<div class="results-list" ng-repeat="item in messages">
+<div class="msg-list">
+<div data-ng-repeat="item in messages" class="results-list {{item.reads.length === 0 ? 'msg-new mgs-bgnew': ''}}">
 <div class="media">
   <div class="media-body">
+    <a data-ng-click="readMessage(item)" href="javascript:void(0)">
     <h4 class="filename text-primary">{{item.title}}</h4>
     <p class="msg-content">{{item.message}}</p>
     <div class="msg-issue">
     <small class="text-muted">Sender: <strong>{{item.creator.username}}</strong></small>
     <small class="text-muted"> - {{item.created | date : 'MMM dd, yyyy hh:mm a'}}</small><br>
     </div>
+    </a>
   </div>
 </div>
 </div>
+
+<div class="alert alert-info" ng-if="messages.length === 0">You have no message at this time</div>
 </div>
 
 </div>

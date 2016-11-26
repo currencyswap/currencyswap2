@@ -6,6 +6,12 @@ angular.module('notification').factory('NotiService', ['ConnectorService', funct
     return $.extend({}, ConnectorService, {
         getMessages: function() {
             return this.get(apiRoutes.API_SUPPORTS);
+        },
+        getQuickMessages: function() {
+            return this.get(apiRoutes.API_SUPPORTS, {'limit': 5, 'isUnreadCount': true});
+        },
+        markRead: function(messageId) {
+            return this.post(apiRoutes.API_SUPPORTS_MARKREAD, {'messageId': messageId});
         }
    });
 }]);

@@ -49,7 +49,7 @@ angular.module('loginForm')
                                                 NavigationHelper.initNavigationBar();
                                                 if (!$rootScope.user) {
                                                     $rootScope.getCreator().then(function(resp){
-                                                        console.log('Success: Current User Info', resp);
+                                                        //console.log('Success: Current User Info', resp);
                                                     }, function(e){
                                                         console.log(e);
                                                     });

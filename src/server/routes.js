@@ -31,6 +31,7 @@ const Routes = {
     API_PERMISSIONS: '/api/permissions',
     API_SUPPORTS : '/api/supports',
     API_SUPPORTS_CREATOR: '/api/supports/creator',
+    API_SUPPORTS_MARKREAD: '/api/supports/markRead',
     API_FORGOT_PASSWORD_VERIFY: '/api/forgotpassword/verify',
     API_FORGOT_PASSWORD_RESET: '/api/forgotpassword/reset',
     API_REGISTER: '/api/register'

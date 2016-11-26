@@ -58,6 +58,15 @@ button.tb-active {
  font-size: +1pt;
  font-weight: bold;
 }
+.mgs-bgnew {
+ background-color: #E8FDFD !important;
+}
+.msg-quick {
+ display:block; 
+ white-space: nowrap;
+ overflow: hidden;
+ text-overflow: ellipsis;
+}
 @media screen and (max-width: 1024px) {
 }
 
