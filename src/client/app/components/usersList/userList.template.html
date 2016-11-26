@@ -273,8 +273,8 @@
                                 <label class="control-label" for="dob" readonly="readonly">Date of birth</label>
                                     <p class="input-group">
                                         <input type="text" id="dob" class="form-control" uib-datepicker-popup="{{format}}" ng-model="userDetail.birthday"
-                                               is-open="popup2.opened" datepicker-options="dateOptions" ng-required="true"
-                                               close-text="Close" alt-input-formats="altInputFormats"/>
+                                               is-open="popup2.opened" datepicker-options="dateOptions" show-button-bar="false" ng-required="true"
+                                               close-text="Close" alt-input-formats="altInputFormats" />
                                 <span class="input-group-addon" style="height: 40px">
                                    <i class="glyphicon glyphicon-calendar" ng-click="open2()"></i></button>
                                 </span>
@@ -284,7 +284,7 @@
                                 <label class="control-label">Expired Date</label>
                                     <p class="input-group">
                                         <input type="text" class="form-control" uib-datepicker-popup="{{format}}" ng-model="userDetail.expiredDate"
-                                               is-open="popup1.opened" datepicker-options="dateOptions" ng-required="true"
+                                               is-open="popup1.opened" datepicker-options="dateOptions" show-button-bar="false" ng-required="true"
                                                close-text="Close" alt-input-formats="altInputFormats"/>
                                 <span class="input-group-addon" style="height: 40px">
                                    <i class="glyphicon glyphicon-calendar" ng-click="open1()"></i></button>
