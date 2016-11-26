@@ -51,6 +51,26 @@ module.exports = function (app) {
                     }
                 });
             },
+            function (user, next) {
+                if (!updatingUser.group) {
+                    return next (null, user);
+                } else {
+                    // update role for user
+
+                    // do not let admin update role for himself
+                    var currentAdminId = admin.id;
+                    if (user.id === parseInt(currentAdminId)) {
+                        return next (errorUtil.createAppError(errors.CANNOT_SET_YOUR_OWN_ROLE));
+                    }
+                    else {
+                        var updatingRole = updatingUser.group;
+                        userService.updateRoleForUser(user, updatingRole, function (err) {
+                            if (err) return next (err);
+                            else return next (null, user);
+                        });
+                    }
+                }
+            },
             function createMessage(user, next) {
                 if (user.status !== constant.USER_STATUSES.ACTIVATED && updatingUser.status === constant.USER_STATUSES.ACTIVATED) {
                     var message = {'title': constant.MSG.APPROVAL_TITLE, 
@@ -81,12 +101,12 @@ module.exports = function (app) {
                                 })
                             } else {
                                 app.models.Address.findById(addresses[0].id, function (err, address) {
-                                    if (err) return next(err);
+                                    if (err) return next(errorUtil.createAppError(errors.SERVER_GET_PROBLEM));
                                     else {
-                                        if (!address) return next(err);
+                                        if (!address) return next(errorUtil.createAppError(errors.CANNOT_FIND_ADDRESS_FOR_USER));
                                         else {
                                             address.updateAttributes(updatingUser.addresses[0], function (err, updatedAddresses) {
-                                                if (err) return next(err);
+                                                if (err) return next(errorUtil.createAppError(errors.SERVER_GET_PROBLEM));
                                                 else {
                                                     var filter = {};
                                                     for (var prop in updatingUser) {
@@ -96,7 +116,7 @@ module.exports = function (app) {
                                                     }
 
                                                     user.updateAttributes(filter, function (err, updatedUser) {
-                                                        if (err) return next (err);
+                                                        if (err) return next (errorUtil.createAppError(errors.SERVER_GET_PROBLEM));
                                                         else {
                                                             return next (null);
                                                         }
@@ -118,9 +138,8 @@ module.exports = function (app) {
                     }
 
                     user.updateAttributes(filter, function (err, updatedUser) {
-                        if (err) return next (err);
+                        if (err) return next (errorUtil.createAppError(errors.SERVER_GET_PROBLEM));
                         else {
-                            console.log('updatedUser: ', updatedUser);
                             return next (null);
                         }
                     })

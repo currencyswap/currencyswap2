@@ -63,7 +63,6 @@ exports.createUser = function (user, callback) {
                 }
                 return next(err, txObject, instance);
             });
-
         },
         function (txObject, instance, next) {
             if (!user.groups || user.groups.lengh <= 0) {
@@ -618,7 +617,14 @@ exports.activeUserAccount = function (activeCode, callback) {
             user.updateAttribute(constant.STATUS_FIELD, constant.USER_STATUSES.PENDING_APPROVAL, function (err, response) {
                 if (err) return next (errorUtil.createAppError(errors.SERVER_GET_PROBLEM));
                 else {
-                    return next (null)
+                    return next (null, user);
+                }
+            });
+        }, function (user, next) {
+            exports.updateRoleForUser(user, constant.USER_GROUPS.STANDARD_USER_GR, function (err) {
+                if (err) return next (errorUtil.createAppError(errors.SERVER_GET_PROBLEM));
+                else {
+                    return next (null);
                 }
             });
         }, function (next) {
@@ -771,4 +777,30 @@ exports.checkResetPwdCode = function (resetCode, callback) {
         if (err) return callback(err);
         else return callback(null);
     });
+};
+
+exports.updateRoleForUser = function (user, updatingRole, callback) {
+    user.groups(function (err, groupsOfMember) {
+        app.models.Group.findById(groupsOfMember[0].groupId, function (err, currentGroup) {
+            if (updatingRole === currentGroup.name) {
+                return callback(null);
+            } else {
+                groupService.findGroupByName(updatingRole, function (err, group) {
+                    if (err) return callback (errorUtil.createAppError(errors.SERVER_GET_PROBLEM));
+                    if (!group) return callback (errorUtil.createAppError(errors.UNKNOWN_GROUP));
+
+                    app.models.MemberGroup.findById(groupsOfMember[0].id, function (err, memGrp) {
+                        if (err) return callback(errorUtil.createAppError(errors.SERVER_GET_PROBLEM));
+
+                        memGrp.updateAttribute(constant.MEMBER_GROUP_MODEL_FIELD.GROUP_ID, group.id, function (err, updatedGrpMember) {
+                            if (err) {
+                                return callback(errorUtil.createAppError(errors.SERVER_GET_PROBLEM));
+                            }
+                            return callback(null, updatedGrpMember);
+                        })
+                    });
+                })
+            }
+        });
+    })
 };
