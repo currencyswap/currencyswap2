@@ -80,18 +80,19 @@ angular.module('orders')
         				console.log("getSuggestionOrders err: " + JSON.stringify(err));
         			});
         		}
-        		
-        		$scope.newOrder = {
-        				give : 0,
-        				giveCurrencyCode : "",
-        				get : 0,
-        				getCurrencyCode : "",
-        				rate : 0,
-        				fixed : $scope.FIXED_VALUE.RATE,
-        				expired : $scope.EXPIRED_VALUE[0].key,
-        				expiredDate : new Date(),
-        				dayLive : 0
-        		};
+        		if(!$scope.newOrder){
+	        		$scope.newOrder = {
+	        				give : "",
+	        				giveCurrencyCode : "",
+	        				get : "",
+	        				getCurrencyCode : "",
+	        				rate : "",
+	        				fixed : $scope.FIXED_VALUE.RATE,
+	        				expired : $scope.EXPIRED_VALUE[0].key,
+	        				expiredDate : new Date(),
+	        				dayLive : 0
+	        		};
+        		}
         		console.log("orderCreateController ....");
         		
         		if($rootScope.newOrderSave){

@@ -84,8 +84,92 @@
                 }
             ]
         },
+		{
+            "route": "{API_ORDERS_CONFIRMED_CANCEL}",
+            "rules" : [
+                {
+                    "methods" : ["GET", "PUT", "DELETE", "POST"],
+                    "requiredPermissions": [
+                        "{VIEW_OWN_ORDERS}"
+                    ],
+                    "isAlive": true
+                }
+            ]
+        },
+        {
+            "route": "{API_ORDERS_CONFIRMED_CLEAR}",
+            "rules" : [
+                {
+                    "methods" : ["GET", "PATCH", "PUT", "DELETE", "POST"],
+                    "requiredPermissions": [
+                        "{VIEW_OWN_ORDERS}"
+                    ],
+                    "isAlive": true
+                }
+            ]
+        },
+        {
+            "route": "{API_ORDERS_SWAPPING_CANCEL}",
+            "rules" : [
+                {
+                    "methods" : ["GET", "PUT"],
+                    "requiredPermissions": [
+                        "{VIEW_OWN_ORDERS}"
+                    ],
+                    "isAlive": true
+                }
+            ]
+        },
+		{
+            "route": "{API_ORDERS_SWAPPING_CONFIRM}",
+            "rules" : [
+                {
+                    "methods" : ["GET", "PATCH", "PUT", "DELETE", "POST"],
+                    "requiredPermissions": [
+                        "{VIEW_OWN_ORDERS}"
+                    ],
+                    "isAlive": true
+                }
+            ]
+        },
+        {
+            "route": "{API_ORDERS_SUBMITTED_CANCEL}",
+            "rules" : [
+                {
+                    "methods" : ["GET", "PATCH", "PUT", "DELETE", "POST"],
+                    "requiredPermissions": [
+                        "{VIEW_OWN_ORDERS}"
+                    ],
+                    "isAlive": true
+                }
+            ]
+        },
+        {
+            "route": "{API_ORDERS_SUBMITTED_EDIT}",
+            "rules" : [
+                {
+                    "methods" : ["GET", "PATCH", "PUT", "DELETE", "POST"],
+                    "requiredPermissions": [
+                        "{VIEW_OWN_ORDERS}"
+                    ],
+                    "isAlive": true
+                }
+            ]
+        },
         {
             "route": "{API_ORDERS_SUBMITTED}",
+            "rules" : [
+                {
+                    "methods" : ["GET", "PUT"],
+                    "requiredPermissions": [
+                        "{VIEW_OWN_ORDERS}"
+                    ],
+                    "isAlive": true
+                }
+            ]
+        },
+        {
+            "route": "{API_ORDERS_SUGGEST}",
             "rules" : [
                 {
                     "methods" : ["GET", "PUT"],
@@ -114,7 +198,7 @@
                 {
                     "methods" : ["GET"],
                     "requiredPermissions": [
-                        "{VIEW_ALL_ORDERS}"
+                        "{VIEW_OWN_ORDERS}", "{MAINTAIN_OWN_ORDERS}", "{VIEW_ALL_ORDERS}"
                     ],
                     "isAlive": true
                 },
