@@ -8,7 +8,8 @@ angular.module('verifyInfo')
             '$location',
             '$http',
             '$window',
-            function verifyInfoController($scope, $rootScope, $location, $http, $window) {
+            'GLOBAL_CONSTANT',
+            function verifyInfoController($scope, $rootScope, $location, $http, $window, GLOBAL_CONSTANT) {
                 $scope.title = appConfig.title;
                 $scope.isSubmitEmailForm = true;
                 $scope.gifLoading = false;
@@ -16,6 +17,10 @@ angular.module('verifyInfo')
 
                 $scope.backToLogin = function () {
                     $location.url(routes.LOGIN);
+                };
+
+                $scope.onTextBoxChange = function () {
+                    $scope.isEmailNotFound = false; // remove error validation
                 };
 
                 $scope.submitEmail = function () {
@@ -37,12 +42,24 @@ angular.module('verifyInfo')
 
                     return $http(req)
                         .then(function (response) {
-                            $scope.gifLoading = false;
-                            $scope.isSubmitEmailForm = false;
-                            $scope.isSubmitSuccess = true;
-                            $window.scrollTo(0, 0);
+                            if (response.status === GLOBAL_CONSTANT.HTTP_SUCCESS_STATUS_CODE) {
+                                $scope.gifLoading = false;
+                                $scope.isSubmitEmailForm = false;
+                                $scope.isSubmitSuccess = true;
+                                $window.scrollTo(0, 0);
+                            } else {
+                                if (response.data.code === serverErrors.MEMBER_EMAIL_NOT_FOUND) {
+                                    $scope.gifLoading = false;
+                                    $scope.isEmailNotFound = true;
+                                    $window.scrollTo(0, 0);
+                                }
+                            }
                         }, function (error) {
                             $scope.gifLoading = false;
+                            $rootScope.error = {};
+                            $rootScope.error.status = GLOBAL_CONSTANT.UNKNOWN_ERROR_STATUS;
+                            $rootScope.error.message = GLOBAL_CONSTANT.UNKNOWN_ERROR_MSG;
+                            $window.scrollTo(0, 0);
                         });
                 }
             }]

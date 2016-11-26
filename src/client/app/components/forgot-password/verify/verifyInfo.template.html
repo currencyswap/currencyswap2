@@ -35,8 +35,7 @@
                 <div class="form-group" ng-class="{ 'has-error' : (userForm.email.$invalid && !userForm.email.$pristine) || (isEmailNotFound && !userForm.email.$pristine)}">
                     <input placeholder="example@gmail.com" type="email" name="email" class="form-control" ng-model="verification.submittedEmail" ng-change="onTextBoxChange()">
                     <p ng-show="userForm.email.$invalid && !userForm.email.$pristine" class="help-block">Enter a valid email.</p>
-                    <p ng-show="(isEmailNotFound)" class="help-block">
-                        Your email was not found.</p>
+                    <p ng-show="(isEmailNotFound)" class="help-block">Your email was not found.</p>
                 </div>
                 <button type="submit" class="btn btn-block btn-success" ng-disabled="userForm.$invalid">RESET</button>
                 <div class="loaders" align="center" ng-show="gifLoading">
@@ -94,7 +93,7 @@
                 <h3 class="panel-title">Your email was verified successfully</h3>
             </div>
             <div class="panel-body">
-                We sent you an email with the active url to further process of password reset, please help to check your email and click the link within 24 hours inbox
+                We sent you an email with the active url to further process of password reset for account <b>{{userDetail.username}}</b>>, please help to check your email and click the link within 24 hours inbox
             </div>
             <div align="center"><a ng-click="backToLogin()" href="">BACK TO LOGIN PAGE</a></div>
         </div>

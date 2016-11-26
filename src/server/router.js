@@ -15,9 +15,6 @@ module.exports = function (app) {
     app.use(routes.API_FORGOT_PASSWORD_RESET, require('./controllers/forgotpassword-reset')(app));
     app.use(routes.API_REGISTER, require('./controllers/register')(app));
 
-    app.use(routes.API_HELLO, require('./controllers/hello')(app));
-    
-
     // LOGIN REQUIRED
     app.use(auth.authenticateByToken);
     app.use(checker.checkPermission);
@@ -25,6 +22,7 @@ module.exports = function (app) {
     //
     app.use(routes.API_USERS, require('./controllers/users')(app));
     app.use(routes.API_ORDERS, require('./controllers/orders')(app));
+    app.use(routes.API_CURRENCIES, require('./controllers/currencies')(app));
     app.use(routes.API_MY_PROFILE, require('./controllers/profile')(app));
     app.use(routes.API_PERMISSIONS, require('./controllers/permissions')(app));
     app.use(routes.API_SUPPORTS, require('./controllers/supports')(app));

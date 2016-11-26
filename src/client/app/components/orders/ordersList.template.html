@@ -40,8 +40,8 @@
 									<td class="col-sm-1 order-item-content order-status-{{swappingOrder.statusId}}">{{swappingOrder.status.name}}</td>
 									<td class="col-sm-2">
 										<div class="order-action">
-											<div class="button-order-list button-cancel-swapping">Cancel</div>
-											<div class="button-order-list button-confirm-swapping">Confirm</div>
+											<div class="button-order-list button-cancel-swapping" ng-click="cancelSwappingOrder(swappingOrder.id);">Cancel</div>
+											<div class="button-order-list button-confirm-swapping" ng-click="confirmSwappingOrder(swappingOrder.id);">Confirm</div>
 										</div>
 									</td>
 								</tr>
@@ -80,8 +80,8 @@
 									<td class="col-sm-1 order-item-content order-status-{{confirmOrder.statusId}}">{{confirmOrder.status.name}}</td>
 									<td class="col-sm-2">
 										<div class="order-action">
-											<div class="button-order-list button-cancel-confirm">Cancel</div>
-											<div class="button-order-list button-clear-confirm">Clear</div>
+											<div class="button-order-list button-cancel-confirm" ng-click="cancelConfirmedOrder(confirmOrder.id);">Cancel</div>
+											<div class="button-order-list button-clear-confirm" ng-click="clearConfirmedOrder(confirmOrder.id);">Clear</div>
 										</div>
 									</td>
 
@@ -123,8 +123,8 @@
 									<td class="col-sm-1 order-item-content order-status-{{submittedOrder.statusId}}">{{submittedOrder.status.name}}</td>
 									<td class="col-sm-2">
 										<div class="order-action">
-											<div class="button-order-list button-cancel-submitted">Delete</div>
-											<div class="button-order-list button-edit-submitted">Edit</div>
+											<div class="button-order-list button-cancel-submitted" ng-click="cancelSubmittedOrder(submittedOrder.id);">Delete</div>
+											<div class="button-order-list button-edit-submitted" ng-click="editSubmittedOrder(submittedOrder.id);">Edit</div>
 										</div>
 									</td>
 								</tr>

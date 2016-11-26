@@ -352,13 +352,14 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="form-group">
+                                <div class="form-group" ng-class="{ 'has-error' : errorSetOwnRole }">
                                     <label class="col-sm-3 control-label">Set Role</label>
                                     <div class="col-sm-5">
-                                        <select name="singleSelect" ng-model="role" class="form-control">
+                                        <select name="singleSelect" ng-model="userDetail.groupMember" class="form-control" ng-change="changeRole()">
                                             <option value="Standard Member">Standard Member</option>
                                             <option value="Admin">Admin</option>
                                         </select>
+                                        <p ng-show="errorSetOwnRole" class="help-block">Can not set your own role</p>
                                     </div>
                                 </div>
                                 <br>
@@ -395,7 +396,7 @@
                         <!--<div class="loaders" align="center" ng-show="gifLoading">-->
                         <!--<img src="../../../assets/images/loaders/loader1.gif" alt="">-->
                         <!--</div>-->
-                    </div>
+                        </div>
                 </div>
             </div>
         </div>

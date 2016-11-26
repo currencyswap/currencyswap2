@@ -137,6 +137,8 @@ angular.module('userList')
                 $scope.usersAll = [];
                 $scope.usersActivated = [];
                 $scope.usersPending = [];
+                $scope.userDetail = {};
+                $scope.userDetail.groupMember = "Standard Member";
 
                 $scope.current = 1;
                 $scope.itemsPerPage = 5;
@@ -152,7 +154,10 @@ angular.module('userList')
                 $scope.userStatusesList.deactivated = GLOBAL_CONSTANT.DEACTIVATED_USER_STATUS;
 
                 $scope.selectedStatus = {};
+                $scope.errorSetOwnRole = false;
+
                 $scope.onSaveUserDetailData = function () {
+
                     $scope.gifLoading = true;
                     var address, city, country, postcode, state = null;
                     if ($scope.userDetail.addresses[0] && $scope.userDetail.addresses[0].hasOwnProperty('address')) address = $scope.userDetail.addresses[0].address;
@@ -160,6 +165,7 @@ angular.module('userList')
                     if ($scope.userDetail.addresses[0] && $scope.userDetail.addresses[0].hasOwnProperty('state')) state = $scope.userDetail.addresses[0].state;
                     if ($scope.userDetail.addresses[0] && $scope.userDetail.addresses[0].hasOwnProperty('country')) country = $scope.userDetail.addresses[0].country;
                     if ($scope.userDetail.addresses[0] && $scope.userDetail.addresses[0].hasOwnProperty('postcode')) postcode = $scope.userDetail.addresses[0].postcode;
+                    if ($scope.userDetail.groupMember && $scope.userDetail.groupMember === 'Standard Member') $scope.userDetail.groupMember = GLOBAL_CONSTANT.STANDARD_USER;
 
                     var resultUser = {
                         id: $scope.userDetail.id,
@@ -181,7 +187,8 @@ angular.module('userList')
                         profession: $scope.userDetail.profession,
                         cellphone: $scope.userDetail.cellphone,
                         nationalId: $scope.userDetail.nationalId,
-                        status: $scope.selectedStatus.selectedStatus
+                        status: $scope.selectedStatus.selectedStatus,
+                        group: $scope.userDetail.groupMember
                     };
 
 
@@ -191,12 +198,41 @@ angular.module('userList')
                     headers[httpHeader.CONTENT_TYPE] = contentTypes.JSON;
                     headers[httpHeader.AUTHORIZARION] = autheticateType.BEARER + token;
 
+                    $scope.changeRole = function () {
+                        $scope.errorSetOwnRole = false;
+                    };
+
                     UserListService.saveUserDetail(resultUser, headers)
                         .then(function (response) {
+
                             $scope.isEditting = false;
+                            if (response.status === GLOBAL_CONSTANT.HTTP_ERROR_STATUS_CODE) {
+                                if (response.data.code === serverErrors.CANNOT_SET_YOUR_OWN_ROLE) {
+                                    $scope.gifLoading = false;
+                                    $scope.errorSetOwnRole = true;
+                                }
+
+                                if (response.data.code === serverErrors.UNKNOWN_GROUP
+                                    || response.data.code === serverErrors.SERVER_GET_PROBLEM
+                                    || response.data.code === serverErrors.CANNOT_FIND_ADDRESS_FOR_USER) {
+
+                                    $rootScope.isLoading = false;
+                                    $rootScope.error = {};
+                                    $rootScope.error.status = GLOBAL_CONSTANT.SERVER_GOT_PROBLEM_STATUS;
+                                    $rootScope.error.message = GLOBAL_CONSTANT.SERVER_GOT_PROBLEM_MSG;
+                                    $window.scrollTo(0, 0);
+                                }
+                            } else {
+                                $scope.isEditting = false;
+                                $window.scrollTo(0, 0);
+                                $scope.gifLoading = false;
+                            }
+                        }, function (error) {
+                            $rootScope.error = {};
+                            $rootScope.error.status = GLOBAL_CONSTANT.UNKNOWN_ERROR_STATUS;
+                            $rootScope.error.message = GLOBAL_CONSTANT.UNKNOWN_ERROR_MSG;
                             $window.scrollTo(0, 0);
-                            $scope.gifLoading = false;
-                        })
+                        });
 
                 };
                 $scope.listStatus = [GLOBAL_CONSTANT.ACTIVATED_USER_STATUS,GLOBAL_CONSTANT.PENDING_USER_STATUS,GLOBAL_CONSTANT.BLOCKED_USER_STATUS];
@@ -209,6 +245,7 @@ angular.module('userList')
                 };
                 $scope.onAllClick = function () {
                     $scope.tab = $scope.TABSELECTED.ALL;
+                    $scope.errorSetOwnRole = false;
                     $scope.isEditting = false;
                     $scope.detailUserView = false;
 
@@ -221,10 +258,10 @@ angular.module('userList')
                     headers[httpHeader.AUTHORIZARION] = autheticateType.BEARER + token;
                     var  success = function () {
                         console.log("success");
-                    }
+                    };
                     var  failed = function () {
                         console.log("failed");
-                    }
+                    };
                     UserListService.fetchAllUser(headers,success,failed)
                         .then(function (response) {
                             if (response.status === GLOBAL_CONSTANT.HTTP_SUCCESS_STATUS_CODE) {

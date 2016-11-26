@@ -35,6 +35,23 @@ module.exports = {
         STD_MEMBER: 'Standard Member',
         ADMIN: 'Admin'
     },
+    STATUS_TYPE : {
+        SUBMITTED: "Submitted",
+        SWAPPING: "Swapping",
+        CONFIRMED: "Confirmed",
+        PENDING: "Pending",
+        CLEARED: "Cleared",
+        CANCELED: "Canceled",
+        SUBMITTED_ID: 1,
+        SWAPPING_ID: 2,
+        CONFIRMED_ID: 3,
+        PENDING_ID: 4,
+        CLEARED_ID: 5,
+        CANCELED_ID: 6
+    },
+    MEMBER_GROUP_MODEL_FIELD: {
+        GROUP_ID: 'groupId'
+    },
     // HOST: 'http://localhost:3000',
     HTTP_SUCCESS_CODE: 200,
     HTTP_FAILURE_CODE: 299

@@ -186,5 +186,17 @@
     "ACCOUNT_IS_EXPIRED": {
         "code": 87,
         "message": "{ACCOUNT_IS_EXPIRED}"
+    },
+    "UNKNOWN_GROUP": {
+        "code": 88,
+        "message": "{UNKNOWN_GROUP}"
+    },
+    "CANNOT_SET_YOUR_OWN_ROLE": {
+        "code": 89,
+        "message": "{CANNOT_SET_YOUR_OWN_ROLE}"
+    },
+    "CANNOT_FIND_ADDRESS_FOR_USER": {
+        "code": 90,
+        "message": "{CANNOT_FIND_ADDRESS_FOR_USER}"
     }
 }

@@ -28,7 +28,8 @@ exports.saveMessage = function(input) {
             created: new Date(),
             isGroupMessage: (input.group? true : false),
             creatorId: input.creatorId,
-            receiverId: input.receiverId
+            receiverId: input.receiverId,
+            orderCode: input.orderCode
     };
     return dbUtil.executeModelFn(app.models.Message, 'create', dto);
 };

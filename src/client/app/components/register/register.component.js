@@ -6,20 +6,24 @@ angular.module('register')
         controller: ['$scope',
             '$rootScope',
             'RegisterService',
+            'CookieService',
             '$location',
             '$http',
             '$window',
             'GLOBAL_CONSTANT',
-            function registerController($scope, $rootScope, RegisterService, $location, $http, $window, GLOBAL_CONSTANT) {
+            function registerController($scope, $rootScope, RegisterService, CookieService, $location, $http, $window, GLOBAL_CONSTANT) {
                 $scope.showPopover = function () {
                     $('[data-toggle="popover"]').popover();
                 };
+
                 $scope.init = function() {
                     $scope.showPopover();
                 };
                 if ($location.search().activeCode) {
                     $scope.startRegister = false;
                     $scope.registerSuccess = false;
+                    CookieService.cleanUpCookies();
+
                     var activeCode = $location.search().activeCode;
                     RegisterService.sendActiveRequest(activeCode)
                         .then(function (response) {
@@ -86,8 +90,10 @@ angular.module('register')
                                     || response.data.code === serverErrors.COULD_NOT_SAVE_USER_GR_TO_DB
                                     || response.data.code === serverErrors.ERROR_TX_ROLLBACK
                                     || response.data.code === serverErrors.ERROR_TX_COMMIT
-                                    || response.data.code === serverErrors.ERR_COULD_NOT_SEND_MAIL) {
+                                    || response.data.code === serverErrors.ERR_COULD_NOT_SEND_MAIL
+                                    || response.data.code === serverErrors.ACTIVE_ACC_CODE_NOT_FOUND) {
 
+                                    $rootScope.isLoading = false;
                                     $rootScope.error = {};
                                     $rootScope.error.status = GLOBAL_CONSTANT.SERVER_GOT_PROBLEM_STATUS;
                                     $rootScope.error.message = GLOBAL_CONSTANT.SERVER_GOT_PROBLEM_MSG;

@@ -70,14 +70,70 @@ angular.module('orders')
         		}
         		var getOrderById = function(orderId){
 	                OrdersService.getOrderById(orderId).then(function(resp){
-	            		alert(JSON.stringify(resp));
 	            		$scope.$evalAsync();
                     }, function(err){
                         console.log('Failure in saving your message');
                     });
         		};
-        		$scope.getOrderById = function(orderId){
-        			getOrderById(orderId);
-        		}
+        		$scope.getOrderById = getOrderById;
+        		// Cancel swapping order        		
+        		var cancelSwappingOrder = function(orderId){
+	                OrdersService.cancelSwappingOrder(orderId).then(function(resp){
+	            		$scope.$evalAsync();
+                    }, function(err){
+                        console.log('Failure in saving your message');
+                    });
+
+        		};
+        		$scope.cancelSwappingOrder = cancelSwappingOrder;
+        		// Confirm swapping order
+        		var confirmSwappingOrder = function(orderId){
+	                OrdersService.confirmSwappingOrder(orderId).then(function(resp){
+//	            		$scope.$evalAsync();
+                    }, function(err){
+                        console.log('Failure in saving your message');
+                    });
+
+        		};
+        		$scope.confirmSwappingOrder = confirmSwappingOrder;
+        		// Cancel confirmed order        		
+        		var cancelConfirmedOrder = function(orderId){
+	                OrdersService.cancelConfirmedOrder(orderId).then(function(resp){
+	            		
+                    }, function(err){
+                        console.log('Failure in saving your message');
+                    });
+
+        		};
+        		$scope.cancelConfirmedOrder = cancelConfirmedOrder;
+        		// Clear confirmed order
+        		var clearConfirmedOrder = function(orderId){
+	                OrdersService.clearConfirmedOrder(orderId).then(function(resp){
+	            		
+                    }, function(err){
+                        console.log('Failure in saving your message');
+                    });
+
+        		};
+        		$scope.clearConfirmedOrder = clearConfirmedOrder;
+        		// Cancel submitted order
+        		var cancelSubmittedOrder = function(orderId){
+	                OrdersService.cancelSubmittedOrder(orderId).then(function(resp){
+                    }, function(err){
+                        console.log('Failure in saving your message');
+                    });
+
+        		};
+        		$scope.cancelSubmittedOrder = cancelSubmittedOrder;
+        		// Edit submitted order
+        		var editSubmittedOrder = function(orderId){
+	                OrdersService.editSubmittedOrder(orderId).then(function(resp){
+                    }, function(err){
+                        console.log('Failure in saving your message');
+                    });
+
+        		};
+        		$scope.editSubmittedOrder = editSubmittedOrder;
+
             }]
     });

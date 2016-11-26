@@ -12,54 +12,87 @@ angular.module('orders')
             'GLOBAL_CONSTANT',
             function orderCreateController($scope, $rootScope, OrdersService, $location, $http, $window, GLOBAL_CONSTANT) {
         		
-	        	$rootScope.currencies = [
-	        	    {
-						"code" : "USD",
-						"name" : "US Dollar"
-					}, {
-						"code" : "EUR",
-						"name" : "Euro"
-					}, {
-						"code" : "GBP",
-						"name" : "British Pound"
-					}, {
-						"code" : "INR",
-						"name" : "Indian Rupee"
-					}, {
-						"code" : "AUD",
-						"name" : "Australian Dollar"
-					}, {
-						"code" : "CAD",
-						"name" : "Canadian Dollar"
-					}, {
-						"code" : "SGD",
-						"name" : "Singapore Dollar"
-					}
+	        	$scope.currencies = [
+//	        	    {
+//						"code" : "USD",
+//						"name" : "US Dollar"
+//					}, {
+//						"code" : "EUR",
+//						"name" : "Euro"
+//					}, {
+//						"code" : "GBP",
+//						"name" : "British Pound"
+//					}, {
+//						"code" : "INR",
+//						"name" : "Indian Rupee"
+//					}, {
+//						"code" : "AUD",
+//						"name" : "Australian Dollar"
+//					}, {
+//						"code" : "CAD",
+//						"name" : "Canadian Dollar"
+//					}, {
+//						"code" : "SGD",
+//						"name" : "Singapore Dollar"
+//					}
 				];
         		
-        		$scope.currencies = $rootScope.currencies;
         		$scope.FIXED_VALUE = GLOBAL_CONSTANT.ORDER_FIXED_VALUE;
         		$scope.EXPIRED_VALUE = GLOBAL_CONSTANT.ORDER_EXPIRED_VALUE;
         		
         		$scope.currentDate = new Date();
+        		
+        		$scope.suggestOrders = [];
         		
         		$scope.STATUS_PAGE_VALUE = {
         				"CREATE" : "CREATE",
         				"INITIALIZED" : "INITIALIZED"
         		}
         		
+        		$scope.submitLoading = false;
+        		
         		$scope.statusPage = $scope.STATUS_PAGE_VALUE.CREATE;
         		
-        		$scope.newOrder = {
-        				give : 1000,
-        				giveCurrencyCode : $scope.currencies[0].code,
-        				get : 10,
-        				getCurrencyCode : $scope.currencies[1].code,
-        				rate : 0,
-        				fixed : $scope.FIXED_VALUE.RATE,
-        				expired : $scope.EXPIRED_VALUE[0].key,
-        				expiredDate : new Date()
-        		};
+        		var getCurrenciesList = function(){
+        			OrdersService.getCurrenciesList().then(function(data){
+        				console.log("getCurrenciesList success: " + JSON.stringify(data));
+        				$scope.$apply(function(){
+        					$scope.currencies = data;
+        					if($scope.currencies.length > 2){
+        						$scope.newOrder.giveCurrencyCode = $scope.currencies[0].code;
+        						$scope.newOrder.getCurrencyCode = $scope.currencies[1].code;
+        					}
+        				});
+        			},function(err){
+        				console.log("getCurrenciesList err: " + JSON.stringify(err));
+        			});
+        		}
+        		
+        		getCurrenciesList();
+        		
+        		var getSuggestionOrders = function(){
+        			OrdersService.getSuggetOrders().then(function(data1){
+        				console.log("getSuggestionOrders : " + JSON.stringify(data1));
+        				$scope.$apply(function(){
+        					$scope.suggestionOrders = data1;
+        				});
+        			},function(err){
+        				console.log("getSuggestionOrders err: " + JSON.stringify(err));
+        			});
+        		}
+        		if(!$scope.newOrder){
+	        		$scope.newOrder = {
+	        				give : "",
+	        				giveCurrencyCode : "",
+	        				get : "",
+	        				getCurrencyCode : "",
+	        				rate : "",
+	        				fixed : $scope.FIXED_VALUE.RATE,
+	        				expired : $scope.EXPIRED_VALUE[0].key,
+	        				expiredDate : new Date(),
+	        				dayLive : 0
+	        		};
+        		}
         		console.log("orderCreateController ....");
         		
         		if($rootScope.newOrderSave){
@@ -96,16 +129,49 @@ angular.module('orders')
         			var dayLive = getExpiredDate();
         			var expiredDate = new Date();
         			expiredDate.setDate(expiredDate.getDate() + dayLive);
+        			
+        			$scope.newOrder.dayLive = dayLive;
         			$scope.newOrder.expiredDate = expiredDate;
         			$scope.statusPage = $scope.STATUS_PAGE_VALUE.INITIALIZED;
+        			$scope.submitLoading = false;
+        			getSuggestionOrders();
             	}
         		
         		$scope.onBackStep = function(){
         			$scope.statusPage = $scope.STATUS_PAGE_VALUE.CREATE;
+        			$scope.submitLoading = false;
             	}
         		
         		$scope.onSubmit = function(){
-        			$scope.statusPage = $scope.STATUS_PAGE_VALUE.CREATE;
+        			$scope.submitLoading = true;
+        			
+        			var newOrderRequest = {};
+        			
+        			newOrderRequest.give = $scope.newOrder.give;
+        			newOrderRequest.get = $scope.newOrder.get;
+        			newOrderRequest.rate = $scope.newOrder.rate;
+        			newOrderRequest.dayLive = $scope.newOrder.dayLive;
+        			newOrderRequest.getCurrencyid = 0;
+        			newOrderRequest.giveCurrencyid = 0;
+        			
+        			for(var i in  $scope.currencies){
+        				if($scope.newOrder.getCurrencyCode == $scope.currencies[i].code){
+        					newOrderRequest.getCurrencyId = $scope.currencies[i].id;
+        				}
+        				
+        				if($scope.newOrder.giveCurrencyCode == $scope.currencies[i].code){
+        					newOrderRequest.giveCurrencyId = $scope.currencies[i].id;
+        				}
+        			}
+        			
+        			OrdersService.postSaveNewOrders(newOrderRequest).then(function(data){
+        				$scope.submitLoading = false;
+        				console.log("postSaveNewOrders success: " + JSON.stringify(data));
+        				location.href = "/#!/orders";
+        			},function(err){
+        				$scope.submitLoading = false;
+        				console.log("postSaveNewOrders err: " + JSON.stringify(err));
+        			});
             	}
         		
         		$scope.checkEqualCurrency = function(){
