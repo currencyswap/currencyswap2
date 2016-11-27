@@ -481,8 +481,7 @@ exports.createUserTransaction = function (callback) {
         function createMessage(savedUser, options, next) {
             supportService.messageToGroup({'title': constant.MSG.NEW_MEMBER_TITLE, 
                 'message': constant.MSG.NEW_MEMBER_CONTENT, 
-                'group': true, 
-                'isAdmin': true,
+                'groupName': 'Admin', 
                 'creatorId': savedUser.id});
             return next(null, savedUser.username, savedUser.email, options);
         },

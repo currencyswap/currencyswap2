@@ -36,7 +36,7 @@ exports.saveMessage = function(input) {
             title: input.title,
             message: input.message,
             created: new Date(),
-            isGroupMessage: (input.group? true : false),
+            isGroupMessage: input.isGroupMessage,
             creatorId: input.creatorId,
             receiverId: input.receiverId,
             orderCode: input.orderCode
@@ -48,12 +48,7 @@ exports.messageToGroup = function(input) {
     return exports.getGroups().then(function(groups){
         // get the group receiver
         for (var i=0; i<groups.length; i++) {
-            if (input.isAdmin) {
-                if (groups[i].name === 'Admin') {
-                    input.receiverId = groups[i].id;
-                    break;
-                }
-            } else if (groups[i].name){
+            if (groups[i].name === input.groupName) {
                 input.receiverId = groups[i].id;
                 break;
             }
@@ -61,13 +56,15 @@ exports.messageToGroup = function(input) {
         if (!input.receiverId) {
             return {'message': 'Could not save message due to system is laking of groups setting'};
         }
+        input.isGroupMessage = true;
+        delete input.groupName;
         return exports.saveMessage(input);
     }, function(){
         return {'message': 'Could not save message due to system issue'};
     });
 };
 
-exports.getMessages = function(userId, groups, limit, skip, isUnreadCount) {
+exports.getMessages = function(userId, groups, limit, skip) {
     var readersRelation = {
             'relation' : 'reads',
             'scope' : {
@@ -75,10 +72,10 @@ exports.getMessages = function(userId, groups, limit, skip, isUnreadCount) {
                 'fields' : [ 'readerId', 'created' ]
             }
     };
-    var condition = {'receiverId': userId};
+    var condition = {and : [{'isGroupMessage': false}, {'receiverId': userId}]};
 
     if (groups && groups.length > 0) {
-        var orConds = [{'receiverId': userId}];
+        var orConds = [condition];
         for (var i=0; i<groups.length; i++) {
             orConds.push({and : [{'isGroupMessage': true}, {'receiverId': groups[i].id}]});
         }
@@ -92,6 +89,23 @@ exports.getMessages = function(userId, groups, limit, skip, isUnreadCount) {
         filter['skip'] = skip;
     }
     return dbUtil.executeModelFn(app.models.Message, 'find', filter);
+};
+exports.countUnreadMessages = function(userId, groups) {
+    var sql = 'SELECT DISTINCT M.id FROM Message M LEFT JOIN MessageRead R ON M.id = R.messageId WHERE ';
+    var condition = '(M.isGroupMessage = 0 AND M.receiverId = '+ userId +')';
+
+    if (groups && groups.length > 0) {
+        var orConds = condition;
+        for (var i=0; i<groups.length; i++) {
+            orConds += ' OR (M.isGroupMessage = 1 AND M.receiverId = '+ groups[i].id +')';
+        }
+        condition = '('+ orConds +')';
+    }
+    condition += ' AND (R.readerId IS NULL OR R.readerId <> '+ userId +')';
+    sql += condition;
+    sql = 'SELECT COUNT(id) as num FROM ('+ sql +') as F WHERE id NOT IN (SELECT messageId FROM MessageRead X WHERE X.readerId = ' + userId + ')';
+    console.log('sql......', sql);
+    return dbUtil.executeSQL(app.models.Message, sql, []);
 };
 
 exports.markReadMessage = function(messageId, readerId) {

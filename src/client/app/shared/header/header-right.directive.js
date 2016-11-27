@@ -57,7 +57,7 @@ angular.module('appHeader').directive('headerRight', function () {
               NotiService.getQuickMessages().then(function(resp){
                   $timeout(function(){
                       notiObj.messages = resp.messages;
-                      notiObj.badge = 3;
+                      notiObj.badge = resp.unreads;
                   });
                   $rootScope.notiMessages = resp.messages;
               });
