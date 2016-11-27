@@ -91,7 +91,7 @@ exports.getMessages = function(userId, groups, limit, skip) {
     return dbUtil.executeModelFn(app.models.Message, 'find', filter);
 };
 exports.countUnreadMessages = function(userId, groups) {
-    var sql = 'SELECT DISTINCT M.id FROM Message M LEFT JOIN MessageRead R ON M.id = R.messageId WHERE ';
+    var sql = 'SELECT M.id FROM Message M WHERE ';
     var condition = '(M.isGroupMessage = 0 AND M.receiverId = '+ userId +')';
 
     if (groups && groups.length > 0) {
@@ -101,10 +101,9 @@ exports.countUnreadMessages = function(userId, groups) {
         }
         condition = '('+ orConds +')';
     }
-    condition += ' AND (R.readerId IS NULL OR R.readerId <> '+ userId +')';
     sql += condition;
     sql = 'SELECT COUNT(id) as num FROM ('+ sql +') as F WHERE id NOT IN (SELECT messageId FROM MessageRead X WHERE X.readerId = ' + userId + ')';
-    console.log('sql......', sql);
+    //console.log('sql......', sql);
     return dbUtil.executeSQL(app.models.Message, sql, []);
 };
 
