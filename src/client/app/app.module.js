@@ -147,7 +147,7 @@ angular.module('currencySwapApp', [
         code: 410,
         status: 'RESET URL IS EXPIRED',
         message: 'Your active URL is expired and removed from our system. Please help to try to register again '
-    }
+    },
     ACTIVATED_USER_STATUS: 'Activated',
     BLOCKED_USER_STATUS: 'Blocked',
     PENDING_USER_STATUS: 'Pending Approval',
