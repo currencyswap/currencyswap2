@@ -141,7 +141,7 @@ angular.module('userList')
                 $scope.userDetail.groupMember = "Standard Member";
 
                 $scope.current = 1;
-                $scope.itemsPerPage = 5;
+                $scope.itemsPerPage = 24;
                 $scope.maxSize = 1;
 
                 $scope.detailUserView = false;

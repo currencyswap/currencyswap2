@@ -21,7 +21,7 @@ angular.module('myProfile')
                 var currentUser = CookieService.getCurrentUser();
                 $scope.randomNumImg = 0;
 
-                $scope.formats = ['dd-MMMM-yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate'];
+                $scope.formats = ['MMM dd,yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate'];
                 $scope.format = $scope.formats[0];
                 $scope.altInputFormats = ['M!/d!/yyyy'];
 
@@ -146,7 +146,7 @@ angular.module('myProfile')
                         currentPwd: $scope.model.currentPwd,
                         newPwd: $scope.model.newPwd
                     };
-
+                    console.log("$scope.model.profession",$scope.model.profession);
                     var headersSave = {};
 
                     headersSave[httpHeader.CONTENT_TYPE] = contentTypes.JSON;

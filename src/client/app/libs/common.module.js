@@ -30,7 +30,7 @@ angular.module('common', ['ngRoute', 'cookieManager', 'permission', 'navigation'
         var skParams = {
                 host: ('ws://'+(location.host || location.hostname)),
                 skOptions : {
-                  'transports':[ 'websocket' ]
+                  'transports':[ 'websocket', 'flashsocket', 'htmlfile', 'xhr-polling', 'jsonp-polling' ]
                   , 'force new connection': true
                 },
                 cmdOptions : {

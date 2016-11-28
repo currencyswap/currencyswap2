@@ -36,7 +36,10 @@ angular.module('appHeader').directive('headerRight', function () {
                 $location.path(routes.LOGIN);
                 $window.location.reload();
             };
-          
+
+            $scope.solidClazName = function(item) {
+              return item.name.toLowerCase().replace(/[\s]+/, '-');
+            };
           $scope.readMessage = function(msg) {
             NotiService.markRead(msg.id);
             msg.reads.push({'created': new Date()});
