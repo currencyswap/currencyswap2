@@ -32,12 +32,6 @@ angular.module('currencySwapApp', [
     $rootScope.error = null;
     $rootScope.currentPage = {};
 
-    if ($location.search().activeCode) {
-        $rootScope.isLoading = false;
-        CookieService.cleanUpCookies();
-        return $location.path(routes.REGISTER);
-    }
-
     if (!token) {
         $rootScope.isLoading = false;
 
@@ -49,6 +43,11 @@ angular.module('currencySwapApp', [
         if ($location.search().resetCode) {
             CookieService.cleanUpCookies();
             return $location.path(routes.FORGOT_PASSWORD_RESET);
+        }
+
+        if ($location.search().activeCode) {
+            $rootScope.isLoading = false;
+            return $location.path(routes.REGISTER);
         }
 
         if ($location.path() != routes.LOGIN) {
@@ -173,6 +172,12 @@ angular.module('currencySwapApp', [
         code: 400,
         status: 'RESET PASSWORD URL DOES NOT EXIST',
         message: 'Your reset password URL does not exist in our system, maybe something wrong happens when clicking on the URL. Please try again '
+    },
+    "NO_PERMISSION": {
+        name: 'NO_PERMISSION',
+        code: 400,
+        status: 'NO PERMISSION',
+        message: 'You have no permission to access this page '
     },
     ACTIVATED_USER_STATUS: 'Activated',
     BLOCKED_USER_STATUS: 'Blocked',
