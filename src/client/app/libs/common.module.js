@@ -4,7 +4,7 @@
  * @author Viet Nghiem
  */
 'use strict';
-angular.module('common', ['ngRoute', 'cookieManager', 'permission', 'navigation', 'ui.bootstrap']).run(function($rootScope, $q, CookieService, SupportService){
+angular.module('common', ['ngRoute', 'cookieManager', 'permission', 'navigation', 'ui.bootstrap']).run(function($rootScope, $q, $uibModal, CookieService, SupportService){
     $rootScope.getCreator = function() {
         var def = $q.defer();
         var user = CookieService.getCurrentUser();
@@ -52,6 +52,34 @@ angular.module('common', ['ngRoute', 'cookieManager', 'permission', 'navigation'
 //            $.publish('/send/ping', [{'message': 'Hello new time: ' + Math.round(Math.random()*1000)}]);
 //          }, 2000);
     };
+    $rootScope.createModel = function(templateUrl, controller, inputData, callbackOk, callbackCancel, size, inputTitle) {
+        var modalForm = $uibModal.open({
+            animation: true,
+            templateUrl: templateUrl,
+            controller: controller,
+            size: size,
+            resolve: {
+            inputData: inputData,
+            inputTitle: inputTitle
+            }
+          });
+
+          modalForm.result.then(callbackOk||function(newData){
+            console.log('Modal output with: ', newData);
+          }, callbackCancel||function () {
+            console.log('Modal dismissed at: ', new Date());
+          });
+          return modalForm;
+    };
+    $rootScope.openMessageModel = function (item) {
+          $rootScope.createModel('app/components/notification/notification.detail.template.html', function($scope, $timeout, $uibModalInstance, inputData){
+              $scope.item = inputData;
+              $scope.cancel = function() {
+                  console.log('No thing change');
+                  $uibModalInstance.dismiss();
+                };
+          }, item);
+        };
     var _retreiveUser = function() {
         if (!$rootScope.user) {
             $rootScope.getCreator().then(function(resp){

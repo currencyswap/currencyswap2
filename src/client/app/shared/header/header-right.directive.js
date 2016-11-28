@@ -38,6 +38,13 @@ angular.module('appHeader').directive('headerRight', function () {
           $scope.readMessage = function(msg) {
             NotiService.markRead(msg.id);
             msg.reads.push({'created': new Date()});
+            if (msg.orderCode) {
+                $timeout(function(){
+                    $location.path( routes.ORDERS + msg.orderCode );
+                });
+            } else {
+                $rootScope.openMessageModel(msg);
+            }
           };
           
           $scope.updateNotification = function() {
