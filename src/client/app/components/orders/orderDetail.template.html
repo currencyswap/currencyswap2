@@ -1,0 +1,73 @@
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<div class="createOrderPanel">
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			<h4 class="panel-title">Order {{order.code}}</h4>
+			<div class="panel-body">
+				<div class="row row-initialized nomargin row-order-status">
+					
+				</div>
+				<div class="row row-initialized nomargin">
+					<div class="col form-inline">
+						<div class="row mb10 row-order-time">
+							<label class="control-label col-md-3"><span>Created on </span> {{order.created | filterDate}}</label> 
+							<label class="control-label col-md-3"><span>Updated on </span> {{order.updated | filterDate}}</label> 
+						</div>
+						<div class="row mb10 row-order-actor">
+							<label class="control-label col-md-3"><span>Initializer </span> {{order.owner.fullName}}</label> 
+							<label class="control-label col-md-3" ng-if="order.accepterId"><span>Accepter </span> {{order.accepter.fullName}}</label> 
+						</div>
+						<div class="row mb10">
+							<label class="control-label col-md-2">Give</label> 
+							<label class="control-label">{{order.give}} {{order.giveCurrency.code}} </label>
+						</div>
+
+						<div class="row mb10">
+							<label class="control-label col-md-2">Get</label> 
+							<label class="control-label">{{order.get}} {{order.getCurrency.code}} </label>
+						</div>
+
+						<div class="row mb10">
+							<label class="control-label col-md-2">Rate Exchange</label> 
+							<label class="control-label">{{order.rate}} </label>
+						</div>
+
+						<div class="row mb10">
+							<label class="control-label col-md-2">Expried Date</label> 
+							<label class="control-label">{{order.expired | filterDate}} </label>
+						</div>
+
+					</div>
+
+				</div>
+				<!-- panel-body -->
+
+				<div class="panel-footer">
+					<div class="row">
+						<div class="row mb10">
+							<div class="col-sm-1">
+								<button class="btn btn-warning btn-md nomagin"
+									ng-click="onBackStep();">Back</button>
+							</div>
+							<div class="col-sm-2">
+								<button class="btn btn-primary btn-md nomagin"
+									ng-click="onSubmit();">Submit</button>
+							</div>
+						</div>
+
+						<div class="loaders" align="center" ng-show="submitLoading">
+							<img src="../../../assets/images/loaders/loader1.gif" alt="">
+						</div>
+
+					</div>
+				</div>
+				<!-- panel-footer -->
+			</div>
+		</div>
+		<footer></footer>
+
+
+	</div>
+</div>

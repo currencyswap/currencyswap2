@@ -103,9 +103,9 @@ module.exports = function (app) {
             return res.status(500).send(errorUtil.createAppError(errors.SERVER_GET_PROBLEM));
         });
     });
-    router.get('/:id', function (req, res) {
-        var orderId = req.params.id;
-        service.getOrderById(orderId).then(function(resp){
+    router.get('/:code', function (req, res) {
+        var orderCode = req.params.code;
+        service.getOrderByCode(orderCode).then(function(resp){
           return res.send(resp);
         }, function(err){
             return res.status(500).send(errorUtil.createAppError(errors.SERVER_GET_PROBLEM));
