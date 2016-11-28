@@ -40,7 +40,9 @@ angular.module('currencySwapApp', [
 
     if (!token) {
         $rootScope.isLoading = false;
+
         if ($location.path() === routes.FORGOT_PASSWORD_VERIFY) {
+            CookieService.cleanUpCookies();
             return $location.path(routes.FORGOT_PASSWORD_VERIFY);
         }
 
@@ -52,6 +54,18 @@ angular.module('currencySwapApp', [
         if ($location.path() != routes.LOGIN) {
             return $location.path(routes.LOGIN);
         } else return;
+    } else {
+        $rootScope.isLoading = false;
+
+        if ($location.path() === routes.FORGOT_PASSWORD_VERIFY) {
+            CookieService.cleanUpCookies();
+            return $location.path(routes.FORGOT_PASSWORD_VERIFY);
+        }
+
+        if ($location.search().resetCode) {
+            CookieService.cleanUpCookies();
+            return $location.path(routes.FORGOT_PASSWORD_RESET);
+        }
     }
 
     $rootScope.$on("$routeChangeStart", function (event, next, current) {
@@ -147,6 +161,18 @@ angular.module('currencySwapApp', [
         code: 410,
         status: 'RESET URL IS EXPIRED',
         message: 'Your active URL is expired and removed from our system. Please help to try to register again '
+    },
+    EMAIL_COULD_NOT_BE_SENT: {
+        name: 'EMAIL_COULD_NOT_BE_SENT',
+        code: 503,
+        status: 'EMAIL COULD NOT BE SENT',
+        message: 'Something wrong happens when sending reset URL to your email, please try again '
+    },
+    COULD_NOT_DECRYPT_RESET_PWD_CODE_ERROR: {
+        name: 'COULD_NOT_DECRYPT_RESET_PWD_CODE_ERROR',
+        code: 400,
+        status: 'RESET PASSWORD URL DOES NOT EXIST',
+        message: 'Your reset password URL does not exist in our system, maybe something wrong happens when clicking on the URL. Please try again '
     },
     ACTIVATED_USER_STATUS: 'Activated',
     BLOCKED_USER_STATUS: 'Blocked',
