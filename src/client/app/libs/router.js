@@ -14,7 +14,8 @@ var routes = {
     REGISTER: '/register',
     NOTIFICATIONS: '/notifications',
     FORGOT_PASSWORD_VERIFY: '/forgotpassword/verify',
-    FORGOT_PASSWORD_RESET: '/forgotpassword/reset/'
+    FORGOT_PASSWORD_RESET: '/forgotpassword/reset/',
+    ERROR_PAGE: '/error'
 };
 
 var navigation = [

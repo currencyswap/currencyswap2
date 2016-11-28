@@ -165,7 +165,7 @@ angular.module('userList')
                     if ($scope.userDetail.addresses[0] && $scope.userDetail.addresses[0].hasOwnProperty('state')) state = $scope.userDetail.addresses[0].state;
                     if ($scope.userDetail.addresses[0] && $scope.userDetail.addresses[0].hasOwnProperty('country')) country = $scope.userDetail.addresses[0].country;
                     if ($scope.userDetail.addresses[0] && $scope.userDetail.addresses[0].hasOwnProperty('postcode')) postcode = $scope.userDetail.addresses[0].postcode;
-                    if ($scope.userDetail.groupMember && $scope.userDetail.groupMember === 'Standard Member') $scope.userDetail.groupMember = GLOBAL_CONSTANT.STANDARD_USER;
+                    if ($scope.userDetail.groupMember && $scope.userDetail.groupMember === 'Standard Member') $scope.userDetail.groupMember = GLOBAL_CONSTANT.STANDARD_USER_ROLE;
 
                     var resultUser = {
                         id: $scope.userDetail.id,

@@ -16,7 +16,7 @@ module.exports = {
     RESET_CODE_DELIMITER: '|',
     SLASH: '/',
     CLIENT_RESET_PWD_PATH: '/forgotpassword/reset',
-    CLIENT_ACTIVE_ACC_PATH: '/register/active',
+    CLIENT_ACTIVE_ACC_PATH: '/register',
     RESET_CODE_PARAM: 'resetCode',
     ACTIVE_REGISTER_PARAM: 'activeCode',
     QUESTION_MARK: '?',

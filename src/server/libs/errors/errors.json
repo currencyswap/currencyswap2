@@ -198,5 +198,65 @@
     "CANNOT_FIND_ADDRESS_FOR_USER": {
         "code": 90,
         "message": "{CANNOT_FIND_ADDRESS_FOR_USER}"
+    },
+    "USERNAME_EXCEED_MAX_LENGTH": {
+        "code": 91,
+        "message": "{USERNAME_EXCEED_MAX_LENGTH}"
+    },
+    "PASSWORD_EXCEED_MAX_LENGTH": {
+        "code": 92,
+        "message": "{PASSWORD_EXCEED_MAX_LENGTH}"
+    },
+    "EMAIL_EXCEED_MAX_LENGTH": {
+        "code": 93,
+        "message": "{EMAIL_EXCEED_MAX_LENGTH}"
+    },
+    "REQUEST_NO_USERNAME": {
+        "code": 94,
+        "message": "{REQUEST_NO_USERNAME}"
+    },
+    "USERNAME_IS_NOT_STRING": {
+        "code": 95,
+        "message": "{USERNAME_IS_NOT_STRING}"
+    },
+    "REQUEST_NO_PASSWORD": {
+        "code": 96,
+        "message": "{REQUEST_NO_PASSWORD}"
+    },
+    "PASSWORD_IS_NOT_STRING": {
+        "code": 97,
+        "message": "{PASSWORD_IS_NOT_STRING}"
+    },
+    "REQUEST_NO_EMAIL": {
+        "code": "98",
+        "message": "{REQUEST_NO_EMAIL}"
+    },
+    "EMAIL_IS_NOT_STRING": {
+        "code": 99,
+        "message": "{EMAIL_IS_NOT_STRING}"
+    },
+    "EMAIL_IS_INVALID": {
+        "code": 100,
+        "message": "{EMAIL_IS_INVALID}"
+    },
+    "FULLNAME_IS_NOT_STRING": {
+        "code": 101,
+        "message": "{FULLNAME_IS_NOT_STRING}"
+    },
+    "FULLNAME_EXCEED_MAX_LENGTH": {
+        "code": 102,
+        "message": "{FULLNAME_EXCEED_MAX_LENGTH}"
+    },
+    "CELLPHONE_EXCEED_MAX_LENGTH": {
+        "code": 103,
+        "message": "{CELLPHONE_EXCEED_MAX_LENGTH}"
+    },
+    "PROFESSION_EXCEED_MAX_LENGTH": {
+        "code": 104,
+        "message": "{PROFESSION_EXCEED_MAX_LENGTH}"
+    },
+    "NATIONALID_EXCEED_MAX_LENGTH": {
+        "code": 105,
+        "message": "{NATIONALID_EXCEED_MAX_LENGTH}"
     }
 }

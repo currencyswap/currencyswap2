@@ -3,6 +3,7 @@
 var userService = require('../services/user-service');
 var userConverter = require('../converters/user-converter');
 var constant = require('../libs/constants/constants');
+var userValidation = require('../validation/user-validation');
 
 module.exports = function (app) {
     var router = app.loopback.Router();
@@ -12,8 +13,12 @@ module.exports = function (app) {
         if (req.body.activeCode) {
             var activeCode = req.body.activeCode;
             userService.activeUserAccount(activeCode, function (err, response) {
-                if (err) return res.status(299).send(err);
-                else return res.status(200).send({});
+                if (err) {
+                    return res.status(constant.HTTP_FAILURE_CODE).send(err);
+                }
+                else {
+                    return res.status(constant.HTTP_SUCCESS_CODE).send({});
+                }
             });
         } else {
             // handle register request
@@ -21,7 +26,14 @@ module.exports = function (app) {
             options.protocolHostAndPort = protocolHostAndPort;
 
             var clientUserData = req.body.newUser;
-            var serverUserData = userConverter.convertUserData(clientUserData);
+
+            try {
+                userValidation.validateRequestObject(clientUserData);
+                var serverUserData = userConverter.convertUserData(clientUserData);
+            } catch (err) {
+                console.log('ERROR: ', err);
+                return res.status(constant.HTTP_FAILURE_CODE).send(err);
+            }
 
             userService.registerUser(serverUserData, options, function (err) {
                 if (err) {

@@ -48,5 +48,18 @@
     "INVALID_PARAMETER_INPUT": "Invalid parameters",
     "UNKNOWN_GROUP": "Unknown group",
     "CANNOT_SET_YOUR_OWN_ROLE": "You can not set your own role",
-    "CANNOT_FIND_ADDRESS_FOR_USER": "Can not find address for user"
+    "CANNOT_FIND_ADDRESS_FOR_USER": "Can not find address for user",
+    "USERNAME_EXCEED_MAX_LENGTH": "Your username exceeds the maximum of length",
+    "PASSWORD_EXCEED_MAX_LENGTH": "Your password exceeds the maximum of length",
+    "EMAIL_EXCEED_MAX_LENGTH": "Your email exceeds the maximum of length",
+    "REQUEST_NO_USERNAME": "Your request has no username",
+    "USERNAME_IS_NOT_STRING": "Your username is not a string",
+    "REQUEST_NO_PASSWORD": "Your request has no password",
+    "PASSWORD_IS_NOT_STRING": "Your password is not string",
+    "EMAIL_IS_NOT_STRING": "Your email is not string",
+    "EMAIL_IS_INVALID": "Your email is invalid email form",
+    "FULLNAME_IS_NOT_STRING": "Your fullname is not a string",
+    "FULLNAME_EXCEED_MAX_LENGTH": "Your username exceeds the maximum of length",
+    "CELLPHONE_EXCEED_MAX_LENGTH": "Your cellphone exceeds the maximum of length",
+    "PROFESSION_EXCEED_MAX_LENGTH": "Your profession exceeds maximum of length"
 }

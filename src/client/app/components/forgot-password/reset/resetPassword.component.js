@@ -59,6 +59,7 @@ angular.module('resetPassword')
 
                 if ($location.search().resetCode) {
                     var resetCode = $location.search().resetCode;
+                    CookieService.cleanUpCookies();
                     var headers = {};
 
                     headers[httpHeader.CONTENT_TYPE] = contentTypes.JSON;
@@ -81,12 +82,6 @@ angular.module('resetPassword')
                                     $window.scrollTo(0, 0);
                                 }
 
-                                if (response.data.code === serverErrors.RESET_PWD_CODE_DOES_NOT_MATCH) {
-                                    $rootScope.error = {};
-                                    $rootScope.error.status = GLOBAL_CONSTANT.UNKNOWN_ERROR_STATUS;
-                                    $rootScope.error.message = GLOBAL_CONSTANT.UNKNOWN_ERROR_MSG;
-                                    $window.scrollTo(0, 0);
-                                }
                             }
                         }, function (error) {
                             $rootScope.error = {};
