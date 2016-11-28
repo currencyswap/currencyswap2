@@ -14,7 +14,7 @@ angular.module('currencySwapApp').config(['$locationProvider', '$routeProvider',
         }).when(routes.USERS, {
             template: '<user-list></user-list>'
         }).when(routes.USER, {
-            template: '<user-detail></user-detail>'
+            template: '<user-info></user-info>'
         }).when(routes.MYPROFILE, {
             template: '<my-profile></my-profile>'
         }).when(routes.ORDERS, {

@@ -70,7 +70,7 @@ angular.module('userList')
                 };
 
                 $scope.role = "Standard Member";
-                $scope.formats = ['dd-MMMM-yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate'];
+                $scope.formats = ['MMM dd,yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate'];
                 $scope.format = $scope.formats[0];
                 $scope.altInputFormats = ['M!/d!/yyyy'];
 
@@ -127,6 +127,11 @@ angular.module('userList')
                     "ACTIVATED" : "ACTIVATED",
                     "PENDING":"PENDING"
                 }
+
+                $scope.UserRole = {
+                    "StandardMember" : "Standard Member",
+                    "Admin": "Admin"
+                }
                 $scope.statusPage = $scope.STATUS_PAGE_VALUE.USERLIST;
                 $scope.tab = $scope.TABSELECTED.ALL;
                 $scope.sortType     = 'fullName'; // set the default sort type
@@ -138,7 +143,6 @@ angular.module('userList')
                 $scope.usersActivated = [];
                 $scope.usersPending = [];
                 $scope.userDetail = {};
-                $scope.userDetail.groupMember = "Standard Member";
 
                 $scope.current = 1;
                 $scope.itemsPerPage = 5;
@@ -165,7 +169,7 @@ angular.module('userList')
                     if ($scope.userDetail.addresses[0] && $scope.userDetail.addresses[0].hasOwnProperty('state')) state = $scope.userDetail.addresses[0].state;
                     if ($scope.userDetail.addresses[0] && $scope.userDetail.addresses[0].hasOwnProperty('country')) country = $scope.userDetail.addresses[0].country;
                     if ($scope.userDetail.addresses[0] && $scope.userDetail.addresses[0].hasOwnProperty('postcode')) postcode = $scope.userDetail.addresses[0].postcode;
-                    if ($scope.userDetail.groupMember && $scope.userDetail.groupMember === 'Standard Member') $scope.userDetail.groupMember = GLOBAL_CONSTANT.STANDARD_USER;
+                    if ($scope.userDetail.groupMember && $scope.userDetail.groupMember === 'Standard Member') $scope.userDetail.groupMember = 'User';
 
                     var resultUser = {
                         id: $scope.userDetail.id,
@@ -190,8 +194,6 @@ angular.module('userList')
                         status: $scope.selectedStatus.selectedStatus,
                         group: $scope.userDetail.groupMember
                     };
-
-
                     var token = CookieService.getToken();
                     var headers = {};
 
@@ -365,8 +367,8 @@ angular.module('userList')
                         .then(function (response) {
                             $scope.userDetail = {};
                             var userDetail = response.data;
-                            console.log("response;",response);
                             $scope.getValueOfUserDetail(userDetail);
+                            $location.path('users/'+ userId);
                         })
                 };
 
@@ -382,8 +384,8 @@ angular.module('userList')
                     $scope.userDetail.nationalId = userDetail.nationalId;
                     $scope.userDetail.profession = userDetail.profession;
                     $scope.selectedStatus.selectedStatus = userDetail.status;
-
                     $scope.fullName = $scope.userDetail.fullName;
+                    // $scope.userDetail.groupMember = $scope.UserRole.StandardMember;
                 }
             }]
     });

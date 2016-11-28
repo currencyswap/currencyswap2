@@ -12,6 +12,7 @@ angular.module('currencySwapApp', [
     'resetPassword',
     'register',
     'userList',
+    'userInfo',
     'common',
     'help',
     'support',

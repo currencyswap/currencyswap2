@@ -4,7 +4,7 @@ angular.module('permission', []).factory('PermissionService', ['$http', '$q', fu
     return {
         getCurrentPermission: function (token) {
             var headers = {};
-
+            
             headers[httpHeader.CONTENT_TYPE] = contentTypes.JSON;
             headers[httpHeader.AUTHORIZARION] = autheticateType.BEARER + token;
 

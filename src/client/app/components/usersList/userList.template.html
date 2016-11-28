@@ -334,10 +334,11 @@
                             <div class="form-group" ng-class="{ 'has-error' : errorSetOwnRole }">
                                 <label class="control-label">Set Role</label>
                                     <select name="singleSelect" ng-model="userDetail.groupMember" class="form-control" ng-change="changeRole()">
-                                        <option value="Standard Member">Standard Member</option>
-                                        <option value="Admin">Admin</option>
+                                        <option value="{{UserRole.StandardMember}}">{{UserRole.StandardMember}}</option>
+                                        <option value="{{UserRole.Admin}}">{{UserRole.Admin}}</option>
                                     </select>
                                     <p ng-show="errorSetOwnRole" class="help-block">Can not set your own role</p>
+                                <h4>{{userDetail.groupMember}}</h4>
                             </div>
                             <br>
                         </form>
@@ -359,6 +360,14 @@
                 </div><!-- panel-footer -->
             </div>
         </div>
+        <script>
+            $('form :input').change(function(){
+                alert("Form changed");
+            });
+            $('#Form input').on( 'input', function() {
+                alert("Form changed");
+            });
+        </script>
     </div>
 </section>
 

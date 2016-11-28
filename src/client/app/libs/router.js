@@ -5,7 +5,7 @@ var routes = {
     ORDERS: '/orders/',
     ORDER_CREATE: '/orders/create',
     USERS: '/users/',
-    USER: 'user/:userid',
+    USER: 'users/:id',
     MYPROFILE: '/profile',
     SUPPORT: '/support',
     HELP: '/help',
@@ -43,6 +43,12 @@ var navigation = [
         icon : 'fa fa-users'
     },
     {
+        route: routes.USER,
+        name: 'User Detail',
+        requiredPermissions: [permissions.USER_MANAGEMENT],
+        icon : 'fa fa-users'
+    },
+    {
         route: routes.ORDER_CREATE,
         name: 'Create Order',
         requiredPermissions: [permissions.MAINTAIN_OWN_ORDERS],
@@ -52,7 +58,7 @@ var navigation = [
     {
         route: routes.SUPPORT,
         name: 'Support',
-        requiredPermissions: [permissions.VIEW_OWN_ORDERS, permissions.USER_MANAGEMENT],
+        requiredPermissions: [permissions.VIEW_OWN_ORDERS, ],
         position: global.TOOLSBAR,
         icon : 'fa fa-support'
     },

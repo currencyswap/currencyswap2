@@ -78,17 +78,17 @@ angular.module('navigation', []).factory('NavigationHelper', ['$rootScope', '$lo
                 if (!checkValidPermission($rootScope.permissions, navItem.requiredPermissions)) {
                     continue;
                 }
-
+                console.log("navItem.route===",navItem.route);
                 var pattern = new UrlPattern(navItem.route);
-
+                console.log('ROUTER MAP:',pattern, "====",$location.path());
                 if (pattern.match($location.path())) {
                     currNavItem = navItem;
                     break;
                 }
-
             }
 
             if (!currNavItem) {
+                console.log('currNavItem === false');
                 $rootScope.error = {
                     status: 404,
                     code: 0,
