@@ -4,6 +4,7 @@ var routes = {
     HOME: '/',
     ORDERS: '/orders/',
     ORDER_CREATE: '/orders/create',
+    ORDER_DETAIL: '/orders/:orderCode',
     USERS: '/users/',
     USER: 'user/:userid',
     MYPROFILE: '/profile',
