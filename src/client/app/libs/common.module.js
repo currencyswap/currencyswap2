@@ -10,7 +10,7 @@ angular.module('common', ['ngRoute', 'cookieManager', 'permission', 'navigation'
         var user = CookieService.getCurrentUser();
         if (user.username) {
             SupportService.getCreator(user.username).then(function(userInst){
-                if (userInst.username) {
+                if (userInst && userInst.username) {
                     $rootScope.user = userInst;
                     $rootScope.startSocket(userInst);
                     def.resolve(userInst);

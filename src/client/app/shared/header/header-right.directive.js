@@ -16,13 +16,8 @@ angular.module('appHeader').directive('headerRight', function () {
             // Init Menu Item
             $scope.toolbarItems = $rootScope.toolsBar;
 
-            var currUser = CookieService.getCurrentUser();
-
-            $scope.currUser = {
-                username: currUser.username,
-                fullName: currUser.fullName,
-                avatarUrl: currUser.avatarUrl ? currUser.avatarUrl : global.DEF_AVATAR
-            };
+            var cookUser = CookieService.getCurrentUser();
+            $scope.user = $.extend({'avatarUrl': global.DEF_AVATAR, 'username': '', 'fullName': ''}, cookUser, $rootScope.user);
 
             $scope.onMyProfile = function () {
                 $rootScope.isLoading = false;

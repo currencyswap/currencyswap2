@@ -48,7 +48,6 @@ button.tb-active {
 }
 .msg-issue {
  text-align: right;
- margin-top: -6px;
 }
 .msg-menu {
 }
@@ -57,6 +56,8 @@ button.tb-active {
 .msg-new {
  font-size: +1pt;
  font-weight: bold;
+ padding-left:6px;
+ padding-right:6px;
 }
 .mgs-bgnew {
  background-color: #E8FDFD !important;
