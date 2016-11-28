@@ -64,7 +64,6 @@ angular.module('loginForm')
                                     if (response.data.code === serverErrors.INVALID_HTTP_HEADER
                                         || response.data.code === serverErrors.INVALID_AUTHORIZATION_HEADER
                                         || response.data.code === serverErrors.REDIS_SERVER_GET_PROBLEM
-                                        || response.data.code === serverErrors.MISSING_REDIS_KEY
                                         || response.data.code === serverErrors.INVALID_TOKEN_API_KEY
                                         || response.data.code === serverErrors.SERVER_GOT_PROBLEM) {
 
