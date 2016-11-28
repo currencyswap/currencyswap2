@@ -36,8 +36,10 @@ angular.module('appHeader').directive('headerRight', function () {
               return item.name.toLowerCase().replace(/[\s]+/, '-');
             };
           $scope.readMessage = function(msg) {
+              $.publish('/read/headMessage', [{'id': msg.id, 'isRead': msg.reads.length}]);
             NotiService.markRead(msg.id);
             msg.reads.push({'created': new Date()});
+
             if (msg.orderCode) {
                 $timeout(function(){
                     $location.path( routes.ORDERS + msg.orderCode );
@@ -47,7 +49,7 @@ angular.module('appHeader').directive('headerRight', function () {
             }
           };
           
-          $scope.updateNotification = function() {
+          var getNotiInst = function(){
               var notiObj = null;
               for (var i=0; i<$scope.toolbarItems.length; i++) {
                   if ($scope.toolbarItems[i].name === 'Notification') {
@@ -59,6 +61,11 @@ angular.module('appHeader').directive('headerRight', function () {
                   console.log('No notification attachpoint found!');
                   return;
               }
+              return notiObj;
+          }
+          
+          $scope.updateNotification = function() {
+              var notiObj = getNotiInst();
               NotiService.getQuickMessages().then(function(resp){
                   $timeout(function(){
                       notiObj.messages = resp.messages;
@@ -71,6 +78,9 @@ angular.module('appHeader').directive('headerRight', function () {
           $scope.updateNotification();
           // update notification if have the new messages
           $.subscribe('/receive/supportUpdate', function(data) {
+              $scope.updateNotification();
+          });
+          $.subscribe('/read/notiMessage', function(msg) {
               $scope.updateNotification();
           });
         }
