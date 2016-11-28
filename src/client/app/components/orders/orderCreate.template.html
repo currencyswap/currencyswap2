@@ -16,18 +16,18 @@
 								<label class="control-label">Give</label> <span class="asterisk">*</span>
 								<div class="form-inline">
 									<div class="input-group mr20 col-md-2">
-										<input type="number" name="give" class="form-control" ng-model="newOrder.give" ng-change="onChangeValue();" ng-disabled="newOrder.fixed == FIXED_VALUE.GIVE" focus-me="focusGive" required>
+										<input type="number" name="give" class="form-control" ng-model="newOrder.give" ng-change="onChangeValue(FIXED_VALUE.GIVE);"  focus-me="focusGive" required>
 									</div>
 									<div class="input-group mr20 col-md-4">
 										<div class="form-group">
-											<select name="giveCurrency" ng-model="newOrder.giveCurrencyCode" ng-change="onChangeValue();" class="form-control" required>
+											<select name="giveCurrency" ng-model="newOrder.giveCurrencyCode" class="form-control" required>
 												<option ng-repeat="currency in currencies" value="{{currency.code}}">{{currency.code}} - {{currency.name}}</option>
 											</select>
 										</div>
 									</div>
 									<div class="input-group mr20">
 										<div class="form-group">
-											<label class="radio-inline"> <input type="radio" name="fixed" ng-model="newOrder.fixed" ng-change="onChangeValue();" value="{{FIXED_VALUE.GIVE}}">
+											<label class="radio-inline"> <input type="radio" name="fixed" ng-model="newOrder.fixed" value="{{FIXED_VALUE.GIVE}}">
 												fixed
 											</label>
 										</div>
@@ -42,18 +42,18 @@
 									<label class="control-label">Get</label> <span class="asterisk">*</span>
 									<div class="form-inline">
 										<div class="input-group mr20 col-md-2">
-											<input type="number" name="get" class="form-control" ng-model="newOrder.get" ng-change="onChangeValue();" ng-disabled="newOrder.fixed == FIXED_VALUE.GET" focus-me="focusGet" required>
+											<input type="number" name="get" class="form-control" ng-model="newOrder.get" ng-change="onChangeValue(FIXED_VALUE.GET);" focus-me="focusGet" required>
 										</div>
 										<div class="input-group mr20 col-md-4">
 											<div class="form-group">
-												<select name="getCurrency" ng-model="newOrder.getCurrencyCode" ng-change="onChangeValue();" class="form-control" required>
+												<select name="getCurrency" ng-model="newOrder.getCurrencyCode" class="form-control" required>
 													<option ng-repeat="currency in currencies" value="{{currency.code}}">{{currency.code}} - {{currency.name}}</option>
 												</select>
 											</div>
 										</div>
 										<div class="input-group mr20">
 											<div class="form-group">
-												<label class="radio-inline"> <input type="radio" name="fixed" ng-model="newOrder.fixed" ng-change="onChangeValue();" value="{{FIXED_VALUE.GET}}">
+												<label class="radio-inline"> <input type="radio" name="fixed" ng-model="newOrder.fixed" value="{{FIXED_VALUE.GET}}">
 													fixed
 												</label>
 											</div>
@@ -70,12 +70,12 @@
 									<label class="control-label">Rate</label> <span
 										class="asterisk">*</span>
 									<div class="form-inline">
-										<div class="input-group mr20 col-md-6">
-											<input type="number" name="rate" class="form-control" ng-model="newOrder.rate" ng-change="onChangeValue();" ng-disabled="newOrder.fixed == FIXED_VALUE.RATE" focus-me="focusRate" required>
+										<div class="input-group mr40 col-md-6">
+											<input type="number" name="rate" class="form-control" ng-model="newOrder.rate" ng-change="onChangeValue(FIXED_VALUE.RATE);" focus-me="focusRate" required>
 										</div>
-										<div class="input-group mr20 ml20">
+										<div class="input-group mr20">
 											<div class="form-group">
-												<label class="radio-inline"> <input type="radio" name="fixed" ng-model="newOrder.fixed" ng-change="onChangeValue();" value="{{FIXED_VALUE.RATE}}">
+												<label class="radio-inline"> <input type="radio" name="fixed" ng-model="newOrder.fixed" value="{{FIXED_VALUE.RATE}}">
 													fixed
 												</label>
 											</div>
@@ -90,7 +90,7 @@
 									<label class="control-label">Alive Period</label> <span class="asterisk">*</span>
 									<div class="form-group">
 										<label class="radio-inline mr20" ng-repeat="expiredValue in EXPIRED_VALUE"> 
-										<input type="radio" name="expired" ng-model="newOrder.expired" value="{{expiredValue.key}}"> {{expiredValue.value}}
+											<input type="radio" name="expired" ng-model="newOrder.expired" value="{{expiredValue.key}}"> {{expiredValue.value}}
 										</label>
 									</div>
 								</div>
@@ -142,11 +142,9 @@
 						</div>
 						<div class="row mb10"
 							ng-if="statusPage == STATUS_PAGE_VALUE.INITIALIZED">
-							<div class="col-sm-1">
+							<div class="col">
 								<button class="btn btn-warning btn-md nomagin"
 									ng-click="onBackStep();">Back</button>
-							</div>
-							<div class="col-sm-2">
 								<button class="btn btn-primary btn-md nomagin"
 									ng-click="onSubmit();">Submit</button>
 							</div>
@@ -161,7 +159,7 @@
 				<!-- panel-footer -->
 
 				<div class="table-responsive"
-					ng-if="statusPage == STATUS_PAGE_VALUE.INITIALIZED">
+					ng-if="statusPage == STATUS_PAGE_VALUE.INITIALIZED && (suggestionOrders && suggestionOrders.length)">
 					<div class="dataTables_wrapper no-footer" style="overflow: auto">
 						<table class="table table-striped2">
 							<thead>

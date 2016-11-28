@@ -12,30 +12,7 @@ angular.module('orders')
             'GLOBAL_CONSTANT',
             function orderCreateController($scope, $rootScope, OrdersService, $location, $http, $window, GLOBAL_CONSTANT) {
         		
-	        	$scope.currencies = [
-//	        	    {
-//						"code" : "USD",
-//						"name" : "US Dollar"
-//					}, {
-//						"code" : "EUR",
-//						"name" : "Euro"
-//					}, {
-//						"code" : "GBP",
-//						"name" : "British Pound"
-//					}, {
-//						"code" : "INR",
-//						"name" : "Indian Rupee"
-//					}, {
-//						"code" : "AUD",
-//						"name" : "Australian Dollar"
-//					}, {
-//						"code" : "CAD",
-//						"name" : "Canadian Dollar"
-//					}, {
-//						"code" : "SGD",
-//						"name" : "Singapore Dollar"
-//					}
-				];
+	        	$scope.currencies = [];
         		
         		$scope.FIXED_VALUE = GLOBAL_CONSTANT.ORDER_FIXED_VALUE;
         		$scope.EXPIRED_VALUE = GLOBAL_CONSTANT.ORDER_EXPIRED_VALUE;
@@ -87,7 +64,7 @@ angular.module('orders')
 	        				get : "",
 	        				getCurrencyCode : "",
 	        				rate : "",
-	        				fixed : $scope.FIXED_VALUE.RATE,
+	        				fixed : $scope.FIXED_VALUE.GIVE,
 	        				expired : $scope.EXPIRED_VALUE[0].key,
 	        				expiredDate : new Date(),
 	        				dayLive : 0
@@ -99,17 +76,33 @@ angular.module('orders')
         			$scope.newOrder = $rootScope.newOrderSave;
         		}
         		
-        		$scope.onChangeValue = function(){
-        			if($scope.newOrder.fixed == $scope.FIXED_VALUE.GET){
-        				$scope.newOrder.get = $scope.newOrder.give * $scope.newOrder.rate;
-        			}else if($scope.newOrder.fixed == $scope.FIXED_VALUE.GIVE){
-        				if($scope.newOrder.rate){
-        					$scope.newOrder.give = $scope.newOrder.get / $scope.newOrder.rate;
+        		$scope.onChangeValue = function(fieldChange){
+        			if($scope.newOrder.fixed == $scope.FIXED_VALUE.GIVE){
+        				if(fieldChange == $scope.FIXED_VALUE.RATE){
+        					$scope.newOrder.get = $scope.newOrder.give * $scope.newOrder.rate;
+        				}else{
+        					if($scope.newOrder.give){
+            					$scope.newOrder.rate = $scope.newOrder.get / $scope.newOrder.give;
+            				}
+        				}
+        			}else if($scope.newOrder.fixed == $scope.FIXED_VALUE.GET){
+        				if(fieldChange == $scope.FIXED_VALUE.RATE){
+        					if($scope.newOrder.rate){
+        						$scope.newOrder.give = $scope.newOrder.get / $scope.newOrder.rate;
+        					}
+        				}else{
+        					if($scope.newOrder.give){
+            					$scope.newOrder.rate = $scope.newOrder.get / $scope.newOrder.give;
+            				}
         				}
         			}else{
         				$scope.newOrder.fixed = $scope.FIXED_VALUE.RATE;
-        				if($scope.newOrder.give){
-        					$scope.newOrder.rate = $scope.newOrder.get / $scope.newOrder.give;
+        				if(fieldChange == $scope.FIXED_VALUE.GIVE){
+        					$scope.newOrder.get = $scope.newOrder.give * $scope.newOrder.rate;
+        				}else{
+        					if($scope.newOrder.rate){
+            					$scope.newOrder.give = $scope.newOrder.get / $scope.newOrder.rate;
+            				}
         				}
         			}
         		}

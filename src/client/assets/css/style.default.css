@@ -4110,6 +4110,10 @@ div.error label.error:before {
     margin-right: 30px;
 }
 
+.mr40 {
+    margin-right: 40px;
+}
+
 .ml5 {
     margin-left: 5px;
 }

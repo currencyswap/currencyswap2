@@ -173,7 +173,7 @@ angular.module('currencySwapApp', [
         status: 'RESET PASSWORD URL DOES NOT EXIST',
         message: 'Your reset password URL does not exist in our system, maybe something wrong happens when clicking on the URL. Please try again '
     },
-    "NO_PERMISSION": {
+    NO_PERMISSION: {
         name: 'NO_PERMISSION',
         code: 400,
         status: 'NO PERMISSION',
@@ -197,7 +197,23 @@ angular.module('currencySwapApp', [
 		{"key" : "ON_3_DAY","value" : "on 3 days", "dayLive" : 3},
 		{"key" : "ON_7_DAY","value" : "on 7 days", "dayLive" : 7},
 		{"key" : "ON_2_WEEKS","value" : "on 2 weeks", "dayLive" : 14}
-	]
+	],
+	STATUS_TYPE : {
+        SUBMITTED: "Submitted",
+        SWAPPING: "Swapping",
+        CONFIRMED: "Confirmed",
+        PENDING: "Pending",
+        CLEARED: "Cleared",
+        CANCELED: "Canceled",
+        EXPIRED: "Expired",
+        SUBMITTED_ID: 1,
+        SWAPPING_ID: 2,
+        CONFIRMED_ID: 3,
+        PENDING_ID: 4,
+        CLEARED_ID: 5,
+        CANCELED_ID: 6,
+        EXPIRED_ID: 7
+    }
 }).filter('filterDate', function($filter){
 	return function (date, format) {
 	    if (!format) format = 'MMM dd, yyyy';
