@@ -10,6 +10,7 @@ module.exports = function() {
     };
     
     var init = function() {
+        console.log('CronJob expired-orders-checker::init', new Date());
         var startTime = new Date();
         startTime.setSeconds(startTime.getSeconds()+10);
         var jobOnce = new CronJob(startTime, function() {
