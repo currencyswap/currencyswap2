@@ -60,7 +60,7 @@ angular.module('loginForm')
                                                     $location.path(routes.HOME);
 
                                                     if ($rootScope.permissions && $rootScope.permissions.USER_MANAGEMENT) {
-                                                        $location.path(routes.USERS);
+                                                        $location.path(routes.USER_LIST);
                                                     }
 
                                                     if ($rootScope.permissions && $rootScope.permissions.MAINTAIN_OWN_ORDERS) {
