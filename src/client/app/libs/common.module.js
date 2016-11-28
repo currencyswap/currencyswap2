@@ -9,12 +9,13 @@ angular.module('common', ['ngRoute', 'cookieManager', 'permission', 'navigation'
         var def = $q.defer();
         var user = CookieService.getCurrentUser();
         if (user.username) {
-            SupportService.getCreator(user.username).then(function(resp){
-                if (resp.username) {
-                    $rootScope.user = resp;
-                    def.resolve(resp);
+            SupportService.getCreator(user.username).then(function(userInst){
+                if (userInst.username) {
+                    $rootScope.user = userInst;
+                    $rootScope.startSocket(userInst);
+                    def.resolve(userInst);
                 } else {
-                    def.reject('Error: Current User Info', resp);
+                    def.reject('Error: Current User Info', userInst);
                 }
             }, function(err){
                 def.reject('Error: Current User Info', err);
@@ -24,10 +25,37 @@ angular.module('common', ['ngRoute', 'cookieManager', 'permission', 'navigation'
         }
         return def.promise;
     };
+    $rootScope.startSocket = function(initData) {
+        console.log('Starting Socket IO');
+        var skParams = {
+                host: ('ws://'+(location.host || location.hostname)),
+                skOptions : {
+                  'transports':[ 'websocket' ]
+                  , 'force new connection': true
+                },
+                cmdOptions : {
+                  '/server/init': {'message': initData}
+                }
+              };
+            $.WebSocketHandler(skParams);
+            // below statement is for testing purpose only, this will be remove if on production
+            $rootScope.testSocket();
+    };
+    $rootScope.stopSocket = function() {
+        $.forceToDisconnectSK();
+    };
+    $rootScope.testSocket = function() {
+        $.subscribe('/receive/pong', function(data) {
+            console.log('/receive/pong', JSON.stringify(data));
+          });
+//          setInterval(function(){
+//            $.publish('/send/ping', [{'message': 'Hello new time: ' + Math.round(Math.random()*1000)}]);
+//          }, 2000);
+    };
     var _retreiveUser = function() {
         if (!$rootScope.user) {
             $rootScope.getCreator().then(function(resp){
-                console.log('Success: Current User Info', resp);
+                //console.log('Success: Current User Info', resp);
             }, function(e){
                 console.log(e);
                 //setTimeout(_retreiveUser, 2000);

@@ -4,9 +4,9 @@
  */
 var Q = require('q');
 
-exports.executeSQL = function(ds, sql, params) {
+exports.executeSQL = function(dbModal, sql, params) {
     var def = Q.defer();
-    ds.connector.execute( sql, params, function(err, resp) {
+    dbModal.dataSource.connector.execute( sql, params, function(err, resp) {
             if (err) {
                 def.reject(err);
             } else {

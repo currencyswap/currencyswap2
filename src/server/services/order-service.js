@@ -31,17 +31,17 @@ var statusRelation = {
 };
 
 exports.filterOrders = function (filter) {
-        return dbUtil.executeModelFn(app.models.Order, 'find', filter);
+    return dbUtil.executeModelFn(app.models.Order, 'find', filter);
 };
-exports.getOrderById = function (orderId) {
+exports.getOrderByCode = function (orderCode) {
     var filter = {
-            'where': { 'id': orderId },
+            'where': { 'code': orderCode },
             'include' : [ ownerRelation, accepterRelation, giveCurrencyRelation, getCurrencyRelation, statusRelation]
     };
-        return dbUtil.executeModelFn(app.models.Order, 'findOne', filter);
+    return dbUtil.executeModelFn(app.models.Order, 'findOne', filter);
 };
 exports.updateOrder = function (where, obj) {
-        return dbUtil.executeModelFn(app.models.Order, 'updateAll', where, obj);
+    return dbUtil.executeModelFn(app.models.Order, 'updateAll', where, obj);
 };
 exports.removeOrder = function(orderId) {
         return execModelFn(Order, 'destroyById', orderId);
@@ -110,6 +110,18 @@ exports.getSuggestOrders = function (userId, give, get, rate, fixed) {
             'where': {
             and: [
                   {'ownerId': {'neq': userId}},
+                  { 'statusId': constant.STATUS_TYPE.SUBMITTED_ID }
+            ]
+    },
+    'include' : [ ownerRelation, accepterRelation, giveCurrencyRelation, getCurrencyRelation, statusRelation]
+    };
+    return dbUtil.executeModelFn(app.models.Order, 'find', filter);
+};
+exports.getExpiredOrders = function (time) {
+    var filter = {
+            'where': {
+            and: [
+                  {'expired': {'lt': time}},
                   { 'statusId': constant.STATUS_TYPE.SUBMITTED_ID }
             ]
     },

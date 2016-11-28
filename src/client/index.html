@@ -12,6 +12,7 @@
     <link href="assets/css/header.style.css" rel="stylesheet">
     <link href="assets/css/style.default.css" rel="stylesheet">
     <link href="assets/css/order.style.css" rel="stylesheet">
+
     <script src="bower_components/angular/angular.min.js"></script>
     <script src="bower_components/angular-sanitize/angular-sanitize.min.js"></script>
     <script src="bower_components/angular-resource/angular-resource.min.js"></script>
@@ -79,7 +80,6 @@
     <script src="assets/js/angular-country-state.min.js"></script>
     <script src="assets/js/country_directive.js"></script>
 
-
     <script src="app/components/help/help.module.js"></script>
     <script src="app/components/help/help.component.js"></script>
 
@@ -94,6 +94,7 @@
     <script src="app/components/orders/ordersList.module.js"></script>
     <script src="app/components/orders/ordersList.component.js"></script>
     <script src="app/components/orders/orderCreate.component.js"></script>
+    <script src="app/components/orders/orderDetail.component.js"></script>
     <script src="app/components/orders/orders.service.js"></script>
 
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -103,7 +104,7 @@
     <![endif]-->
 </head>
 
-<body class="horizontal-menu">
+<body class="{{loggedIn ? 'horizontal-menu' : 'signin' }}">
 <!-- Preloader -->
 <div id="preloader">
     <div id="status"><i class="fa fa-spinner fa-spin"></i></div>
@@ -115,14 +116,13 @@
 
     <left-panel ng-if="loggedIn"></left-panel>
 
-    <div class="mainpanel">
-
-        <div class="headerbar" ng-if="loggedIn">
+    <div class="mainpanel" ng-if="loggedIn">
+        <div class="headerbar">
             <header-left></header-left>
             <header-right></header-right>
         </div><!-- headerbar -->
 
-        <page-header ng-if="loggedIn"></page-header>
+        <page-header></page-header>
 
         <div class="container-fluid contentpanel">
             <!-- content goes here... -->
@@ -130,6 +130,9 @@
             <div ng-view ng-if="!isLoading && !error"></div>
         </div>
     </div><!-- mainpanel -->
+
+    <div ng-view ng-if="!loggedIn && !isLoading && !error"></div>
+
 </section>
 
 <script src="assets/js/jquery-1.11.1.min.js"></script>
@@ -145,5 +148,8 @@
 <script src="assets/js/jquery.datatables.min.js"></script>
 <script src="assets/js/select2.min.js"></script>
 
+<script src="/socket.io/socket.io.js"></script>
+<script src="assets/js/sub_pub.js"></script>
+<script src="assets/js/WebSocketHandler.js"></script>
 </body>
 </html>

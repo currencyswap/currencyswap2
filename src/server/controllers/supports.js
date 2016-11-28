@@ -27,8 +27,17 @@ module.exports = function (app) {
                 user = user.toJSON();
                 groups = user.groups;
             }
-            service.getMessages(req.currentUser.id, groups, limit, skip, isUnreadCount).then(function(resp){
-                res.send({'isSuccessful': true, 'messages': resp});
+            service.getMessages(req.currentUser.id, groups, limit, skip).then(function(messages){
+                if (isUnreadCount) {
+                    service.countUnreadMessages(req.currentUser.id, groups).then(function(counter){
+                        var num = counter[0].num;
+                        return res.send({'isSuccessful': true, 'messages': messages, 'unreads': num});
+                    }, function(e){
+                        return res.send({'isSuccessful': true, 'messages': messages, 'unreads': 0});
+                    });
+                } else {
+                    return res.send({'isSuccessful': true, 'messages': messages});
+                }
             }, function(e){
                 return res.status(500).send(errorUtil.createAppError(errors.SERVER_GET_PROBLEM));
             });
@@ -42,7 +51,7 @@ module.exports = function (app) {
             return res.status(404).send(errorUtil.createAppError(errors.INVALID_PARAMETER_INPUT));
         }
 
-        if (input.group) {
+        if (input.groupName) {
             service.messageToGroup(input).then(function(message){
                 if (!message || !message.id) {
                     return res.status(500).send(errorUtil.createAppError(message||errors.SERVER_GET_PROBLEM));

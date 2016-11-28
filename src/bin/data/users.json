@@ -2,7 +2,7 @@
     "superadmin": {
         "username": "admin",
         "fullName": "Administrator",
-        "email": "admin@example.com",
+        "email": "admin@vsii.com",
         "birthday" : "2016-10-13",
         "registeredDate" : "2016-11-29",
         "password": "p@55word",
@@ -15,7 +15,7 @@
         "birthday" : "2016-10-01",
         "registeredDate" : "2016-11-29",
         "expiredDate" : "2017-06-30",
-        "email": "demo.cs@example.com",
+        "email": "demo@vsii.com",
         "password": "qwerty12",
         "status" : "Activated",
         "addresses" : [{
@@ -28,11 +28,11 @@
     },
     "demouser2": {
         "username": "vietnv",
-        "fullName": "Demo CS",
+        "fullName": "vietnghiem",
         "birthday" : "2016-10-01",
         "registeredDate" : "2016-11-29",
         "expiredDate" : "2017-06-30",
-        "email": "demo.cs2@example.com",
+        "email": "vietnv@vsii.com",
         "password": "qwerty12",
         "status" : "Activated",
         "addresses" : [{
@@ -45,11 +45,11 @@
     },
     "demouser3": {
         "username": "siemdt",
-        "fullName": "Demo CS",
+        "fullName": "siemdam",
         "birthday" : "2016-10-01",
         "registeredDate" : "2016-11-29",
         "expiredDate" : "2017-06-30",
-        "email": "demo.cs3@example.com",
+        "email": "siemdt@vsii.com",
         "password": "qwerty12",
         "status" : "Activated",
         "addresses" : [{
@@ -59,5 +59,25 @@
             "postcode": "130634"
         }],
         "groups" : ["{USER}"]
+    },
+    "superadmin2": {
+        "username": "admin2",
+        "fullName": "Administrator2",
+        "email": "admin2@vsii.com",
+        "birthday" : "2016-10-13",
+        "registeredDate" : "2016-11-29",
+        "password": "p@55word",
+        "status" : "Activated",
+        "groups" : ["{ADMIN}"]
+    },
+    "superadmin3": {
+        "username": "admin3",
+        "fullName": "Administrator3",
+        "email": "admin3@vsii.com",
+        "birthday" : "2016-10-13",
+        "registeredDate" : "2016-11-29",
+        "password": "p@55word",
+        "status" : "Activated",
+        "groups" : ["{ADMIN}"]
     }
 }

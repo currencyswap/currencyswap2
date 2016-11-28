@@ -3,7 +3,9 @@ module.exports = {
         NEW_MEMBER_TITLE : 'New member registered',
         NEW_MEMBER_CONTENT : 'The New member has just joint the application',
         APPROVAL_TITLE : 'Welcome new member',
-        APPROVAL_CONTENT : 'You have just been approved to use this application'
+        APPROVAL_CONTENT : 'You have just been approved to use this application',
+        ORDER_SWAP_TITLE : 'Request Swapping',
+        ORDER_EXPIRE_SOON_TITLE : 'Your Order Expiring Soon'
     },
     PASSWORD_FIELD: 'password',
     STATUS_FIELD: 'status',
@@ -42,12 +44,14 @@ module.exports = {
         PENDING: "Pending",
         CLEARED: "Cleared",
         CANCELED: "Canceled",
+        EXPIRED: "Expired",
         SUBMITTED_ID: 1,
         SWAPPING_ID: 2,
         CONFIRMED_ID: 3,
         PENDING_ID: 4,
         CLEARED_ID: 5,
-        CANCELED_ID: 6
+        CANCELED_ID: 6,
+        EXPIRED_ID: 7
     },
     MEMBER_GROUP_MODEL_FIELD: {
         GROUP_ID: 'groupId'

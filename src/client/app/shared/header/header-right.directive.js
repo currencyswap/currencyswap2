@@ -57,13 +57,17 @@ angular.module('appHeader').directive('headerRight', function () {
               NotiService.getQuickMessages().then(function(resp){
                   $timeout(function(){
                       notiObj.messages = resp.messages;
-                      notiObj.badge = 3;
+                      notiObj.badge = resp.unreads;
                   });
                   $rootScope.notiMessages = resp.messages;
               });
           };
           // get first list
           $scope.updateNotification();
+          // update notification if have the new messages
+          $.subscribe('/receive/supportUpdate', function(data) {
+              $scope.updateNotification();
+          });
         }
     };
 });
