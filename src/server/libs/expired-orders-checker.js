@@ -7,7 +7,7 @@ var CronJob = require('cron').CronJob;
 var orderService = require('../services/order-service');
 var supportService = require('../services/support-service');
 var constant = require('../libs/constants/constants');
-var config = require('./app-config');
+var config = require('../global-config');
 
 module.exports = function Checker() {
     var checkExpiredOnes = function() {
@@ -35,7 +35,7 @@ module.exports = function Checker() {
             if (orders.length === 0) {
                 return;
             }
-            supportService.getCreator(config.getSuperUsername()).then(function(adminUser){
+            supportService.getCreator((config.superUsername || 'admin')).then(function(adminUser){
                 var adminId = (adminUser.id || 1);
                 for (var i=0; i<orders.length; i++) {
                     var order = orders[i];
@@ -62,19 +62,20 @@ module.exports = function Checker() {
         // run only 1 time at starting app
         var jobOnce = new CronJob(startTime, function() {
             checkExpiredOnes();
-                jobOnce.stop();
+            //notifyUser();
+            jobOnce.stop();
           }, function () {
               jobEveryHourAtXXMins.start();
               jobEveryDayAtXXHours.start();
               console.log('CronJob Checker::checkExpiredOnes is completed', new Date());
           }, true);
-        var jobEveryHourAtXXMins = new CronJob('00 00,10,20,30,40,50 * * * *', function() {
+        var jobEveryHourAtXXMins = new CronJob((config.scheduleCheckOrderExpired||'00 00,10,20,30,40,50 * * * *'), function() {
             checkExpiredOnes();
           }, function () {
               console.log('CronJob Checker::checkExpiredOnes is completed', new Date());
           }
         );
-        var jobEveryDayAtXXHours = new CronJob('00 00 08 * * *', function() {
+        var jobEveryDayAtXXHours = new CronJob((config.scheduleNotifyOrderExpire||'00 00 08 * * *'), function() {
             notifyUser();
           }, function () {
               console.log('CronJob Checker::notifyUser is completed', new Date());
