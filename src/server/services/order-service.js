@@ -33,6 +33,15 @@ var statusRelation = {
 exports.filterOrders = function (filter) {
     return dbUtil.executeModelFn(app.models.Order, 'find', filter);
 };
+
+exports.getOrderById = function (id) {
+    var filter = {
+            'where': { 'id': id },
+            'include' : [ ownerRelation, accepterRelation, giveCurrencyRelation, getCurrencyRelation, statusRelation]
+    };
+    return dbUtil.executeModelFn(app.models.Order, 'findOne', filter);
+};
+
 exports.getOrderByCode = function (orderCode) {
     var filter = {
             'where': { 'code': orderCode },
