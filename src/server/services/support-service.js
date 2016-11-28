@@ -41,6 +41,11 @@ exports.saveMessage = function(input) {
             receiverId: input.receiverId,
             orderCode: input.orderCode
     };
+
+    if (!dto.isGroupMessage && dto.receiverId) {
+        app.SocketMessage.sendSupportUpdate('support'+dto.receiverId, {'message': 'You have a new support message'});
+    }
+
     return dbUtil.executeModelFn(app.models.Message, 'create', dto);
 };
 
@@ -56,6 +61,9 @@ exports.messageToGroup = function(input) {
         if (!input.receiverId) {
             return {'message': 'Could not save message due to system is laking of groups setting'};
         }
+
+        app.SocketMessage.sendSupportUpdate(input.groupName, {'message': 'You have a new support message'});
+
         input.isGroupMessage = true;
         delete input.groupName;
         return exports.saveMessage(input);

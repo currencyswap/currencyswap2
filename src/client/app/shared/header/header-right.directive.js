@@ -64,6 +64,10 @@ angular.module('appHeader').directive('headerRight', function () {
           };
           // get first list
           $scope.updateNotification();
+          // update notification if have the new messages
+          $.subscribe('/receive/supportUpdate', function(data) {
+              $scope.updateNotification();
+          });
         }
     };
 });

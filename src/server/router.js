@@ -1,11 +1,12 @@
 'use strict';
 var express = require('express');
 var path = require('path');
+
 var auth = require('./libs/authentication');
 var routes = require('./routes').routes;
 var checker = require('./security/permission-checker');
-module.exports = function (app) {
 
+module.exports = function (app) {
     app.use( routes.HOME, express.static(path.join(__dirname , '../client')));
     // app.use( routes.CLIENT, express.static(path.join(__dirname , '../client/app')));
 
@@ -26,4 +27,13 @@ module.exports = function (app) {
     app.use(routes.API_MY_PROFILE, require('./controllers/profile')(app));
     app.use(routes.API_PERMISSIONS, require('./controllers/permissions')(app));
     app.use(routes.API_SUPPORTS, require('./controllers/supports')(app));
+
+//  catching for any unknown error
+//    process.on('uncaughtException', function(err) {
+//      console.error((new Date).toUTCString() + ' uncaughtException:', err.message);
+//      console.error(err.stack);
+//      if (process.env.NODE_ENV == 'development') {
+//          process.exit(1);
+//      }
+//    });
 };
