@@ -208,10 +208,17 @@ module.exports = function (Member) {
 
         Member.findOne(filter, function (err, user) {
             if (err) return callback(errorUtil.createAppError(errors.SERVER_GET_PROBLEM));
-            else {
-                if (!user) return callback(errorUtil.createAppError(errors.NO_USER_FOUND_IN_DB));
-                return callback(null, user);
+
+            if (!user)  {
+
+                var appError = errorUtil.createAppError( errors.MEMBER_INVALID_USERID );
+
+                appError.message = util.format(appError.message, userId);
+
+                return callback( appError );
             }
+
+            return callback(null, user);
         })
     };
 

@@ -31,11 +31,11 @@ angular.module('userDetails').component('userDetails', {
                     $scope.user.birthday = new Date( $scope.user.birthday );
                     $scope.user.expiredDate = new Date( $scope.user.expiredDate );
                 }, function ( err ) {
-                    console.error("ERROR : %s", err );
+                    console.error("ERROR : %s", JSON.stringify( err ) );
                     $rootScope.error = {
-                        status: error.status,
-                        code: err.code,
-                        message: err.message
+                        status: err.status,
+                        code: err.data.code,
+                        message: err.data.message
                     };
                 });
         }]

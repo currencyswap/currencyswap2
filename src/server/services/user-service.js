@@ -644,8 +644,7 @@ exports.activeUserAccount = function (activeCode, callback) {
 
 exports.getUserDetail = function (userId, callback) {
     app.models.Member.findUserDetailWithEmail(userId, function (err, user) {
-        if (err) return callback(err);
-        else return callback(null, user)
+        callback( err, user);
     })
 };
 
