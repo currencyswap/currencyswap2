@@ -9,7 +9,8 @@ var global = {
     NONE : '',
     DEF_AVATAR: 'assets/images/photos/profile.png',
     USER_EMAIL: 'userEmail',
-    TIME_OUT: 1
+    TIME_OUT: 1,
+    NUMBER_PAGING: 24
 };
 
 var permissions = {
