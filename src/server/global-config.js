@@ -7,6 +7,7 @@ module.exports = {
         'isProd': (process.env.NODE_ENV == 'production'),
         'title' : process.env.APP_NAME || 'Currency Swap',
         'footer' : process.env.APP_FOOTER || 'Copyright &copy; 2016',
+        'superUsername': process.env.ADMIN_USERNAME || 'admin',
         'host': process.env.APP_HOST || 'http://localhost:3000',
         'redis': {
             'host': process.env.REDIS_HOST || 'localhost',

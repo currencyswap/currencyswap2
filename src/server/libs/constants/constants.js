@@ -4,8 +4,8 @@ module.exports = {
         NEW_MEMBER_CONTENT : 'The New member has just joint the application',
         APPROVAL_TITLE : 'Welcome new member',
         APPROVAL_CONTENT : 'You have just been approved to use this application',
-        SWAP_TITLE : 'Request Swapping',
-        SWAP_CONTENT : 'Order: CODE'
+        ORDER_SWAP_TITLE : 'Request Swapping',
+        ORDER_EXPIRE_SOON_TITLE : 'Your Order Expiring Soon'
     },
     PASSWORD_FIELD: 'password',
     STATUS_FIELD: 'status',

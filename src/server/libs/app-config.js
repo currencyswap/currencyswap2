@@ -36,11 +36,15 @@ exports.getDateFormat = function () {
 }
     ;
 exports.getTitle = function () {
-    return config.title ? config.title : '';
+    return config.title || '';
 };
 
 exports.getFooter = function () {
-    return config.footer ? config.footer : '';
+    return config.footer || '';
+};
+
+exports.getSuperUsername = function () {
+    return config.superUsername || 'admin';
 };
 
 exports.getRedis = function () {

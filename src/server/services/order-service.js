@@ -117,3 +117,15 @@ exports.getSuggestOrders = function (userId, give, get, rate, fixed) {
     };
     return dbUtil.executeModelFn(app.models.Order, 'find', filter);
 };
+exports.getExpiredOrders = function (time) {
+    var filter = {
+            'where': {
+            and: [
+                  {'expired': {'lt': time}},
+                  { 'statusId': constant.STATUS_TYPE.SUBMITTED_ID }
+            ]
+    },
+    'include' : [ ownerRelation, accepterRelation, giveCurrencyRelation, getCurrencyRelation, statusRelation]
+    };
+    return dbUtil.executeModelFn(app.models.Order, 'find', filter);
+};
