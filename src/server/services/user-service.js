@@ -290,7 +290,7 @@ exports.verifyResetPwdInfo = function (email, options, callback) {
         },
         function (mailOptions, options, next) {
             mailSender.sendMail(mailOptions, function (err, info) {
-                if (err) return next(err);
+                if (err) return next(errorUtil.createAppError(errors.COULD_NOT_SEND_MAIL));
                 else {
                     return next(null);
                 }

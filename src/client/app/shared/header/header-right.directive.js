@@ -16,13 +16,8 @@ angular.module('appHeader').directive('headerRight', function () {
             // Init Menu Item
             $scope.toolbarItems = $rootScope.toolsBar;
 
-            var currUser = CookieService.getCurrentUser();
-
-            $scope.currUser = {
-                username: currUser.username,
-                fullName: currUser.fullName,
-                avatarUrl: currUser.avatarUrl ? currUser.avatarUrl : global.DEF_AVATAR
-            };
+            var cookUser = CookieService.getCurrentUser();
+            $scope.user = $.extend({'avatarUrl': global.DEF_AVATAR, 'username': '', 'fullName': ''}, cookUser, $rootScope.user);
 
             $scope.onMyProfile = function () {
                 $rootScope.isLoading = false;
@@ -36,10 +31,20 @@ angular.module('appHeader').directive('headerRight', function () {
                 $location.path(routes.LOGIN);
                 $window.location.reload();
             };
-          
+
+            $scope.solidClazName = function(item) {
+              return item.name.toLowerCase().replace(/[\s]+/, '-');
+            };
           $scope.readMessage = function(msg) {
             NotiService.markRead(msg.id);
             msg.reads.push({'created': new Date()});
+            if (msg.orderCode) {
+                $timeout(function(){
+                    $location.path( routes.ORDERS + msg.orderCode );
+                });
+            } else {
+                $rootScope.openMessageModel(msg);
+            }
           };
           
           $scope.updateNotification = function() {

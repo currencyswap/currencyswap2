@@ -58,6 +58,10 @@ angular.module('appHeader').directive('headerLeft', function () {
             if ($location.path() === routes.USERS) {
                 $location.path(routes.USERS);
             }
+            
+            $scope.solidClazName = function(item) {
+                return item.name.toLowerCase().replace(/[\s]+/, '-');
+            };
         }
     };
 });

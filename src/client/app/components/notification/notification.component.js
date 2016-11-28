@@ -8,12 +8,13 @@ angular.module('notification')
         controller: ['$scope',
             '$rootScope',
             '$timeout',
+            '$location',
             'CookieService',
             'NotiService',
             'PermissionService',
             'NavigationHelper',
             'GLOBAL_CONSTANT',
-            function notiController($scope, $rootScope, $timeout, CookieService, NotiService, PermissionService, NavigationHelper, GLOBAL_CONSTANT) {
+            function notiController($scope, $rootScope, $timeout, $location, CookieService, NotiService, PermissionService, NavigationHelper, GLOBAL_CONSTANT) {
                 $scope.messages = [];
                 $scope.init = function() {
                     NotiService.getMessages().then(function(resp){
@@ -26,6 +27,13 @@ angular.module('notification')
                 $scope.readMessage = function(msg) {
                     NotiService.markRead(msg.id);
                     msg.reads.push({'created': new Date()});
+                    if (msg.orderCode) {
+                        $timeout(function(){
+                            $location.path( routes.ORDERS + msg.orderCode );
+                        });
+                    } else {
+                        $rootScope.openMessageModel(msg);
+                    }
                   };
                   
                 $scope.init();

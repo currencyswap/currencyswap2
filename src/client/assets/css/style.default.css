@@ -395,6 +395,16 @@ hr {
     margin-bottom: 0;
 }
 
+.menu-item-create-order, .menu-item-support,
+.menu-item-guideline-information, .menu-item-notification,
+.menu-item-profile, .menu-item-my-profile-name,
+.menu-item-logout, .menu-item-orders, .menu-item-users {
+ display: '' !important;;
+}
+.menu-item-my-profile-name {
+ white-space: nowrap;
+}
+
 .dropdown-list li {
     padding: 15px;
     overflow: hidden;
@@ -4195,9 +4205,9 @@ select {
 /********** 18. MEDIA QUERIES **********/
 /***************************************/
 
-
+/* body {border:1px solid red !important;} */
 @media screen and (max-width: 1024px) {
-
+/* body {border:1px solid green !important;} */
     body {
         position: relative;
     }
@@ -4308,15 +4318,18 @@ select {
 }
 
 @media screen and (max-width: 767px) {
-
+/* body {border:1px solid blue !important;} */
+.menu-item-my-profile-name {
+ display: none !important;;
+}
     .searchform {
         position: relative;
     }
 
-    .headermenu li:nth-child(4) {
+/*     .headermenu li:nth-child(4) {
         display: none;
     }
-
+ */
     .leftpanel .searchform,
     .leftpanel .userlogged {
         display: block;
@@ -4326,10 +4339,10 @@ select {
         display: none;
     }
 
-    .headermenu .dropdown-menu:after {
+/*     .headermenu .dropdown-menu:after {
         display: none;
     }
-
+ */
     .rightpanel .nav-tabs.nav-justified > li > a,
     .rightpanel .nav-justified > li > a {
         margin-bottom: 0;
@@ -4341,6 +4354,10 @@ select {
 }
 
 @media screen and (max-width: 640px) {
+/* body {border:1px solid yellow !important;} */
+.menu-item-my-profile-name {
+ display:none !important;; 
+}
 
     .notfoundpanel {
         width: auto;
@@ -4473,7 +4490,11 @@ select {
 }
 
 @media screen and (max-width: 480px) {
-
+/* body {border:1px solid black !important;} */
+.menu-item-profile, .menu-item-my-profile-name,
+.menu-item-logout, .menu-item-orders, .menu-item-users {
+ display: none !important;
+}
     .signinpanel,
     .signuppanel {
         width: 326px;
@@ -4602,6 +4623,11 @@ select {
 }
 
 @media screen and (max-width: 360px) {
+/* body {border:1px solid orange !important;} */
+.menu-item-profile, .menu-item-my-profile-name,
+.menu-item-logout, .menu-item-orders, .menu-item-users {
+ display: none !important;
+}
 
     .pageheader h2 span {
         display: none;
@@ -4677,6 +4703,11 @@ select {
 }
 
 @media screen and (max-width: 320px) {
+/* body {border:1px solid cyan !important;} */
+.menu-item-profile, .menu-item-my-profile-name,
+.menu-item-logout, .menu-item-orders, .menu-item-users {
+ display: none !important;
+}
 
     .signinpanel,
     .signuppanel {
