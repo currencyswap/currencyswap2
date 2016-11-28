@@ -1,6 +1,6 @@
 <div class="header-right">
     <ul class="headermenu">
-        <li ng-repeat="item in toolbarItems">
+        <li ng-repeat="item in toolbarItems" class="menu-item-{{solidClazName(item)}}">
             <div class="btn-group" ng-if="item.name == 'Notification'">
               <button data-toggle="dropdown" class="btn btn-default dropdown-toggle tp-icon {{item.isActivated ? 'tb-active' : ''}}" title="{{item.name}}" data-placement="bottom">
                 <i class="{{item.icon}}"></i>
@@ -31,7 +31,7 @@
                 <a href="#!{{item.route}}" ng-if="item.isMyProfile">
                     <button ng-click="onMyProfile()" type="button" class="btn btn-default dropdown-toggle {{item.isActivated ? 'tb-active' : ''}}" data-toggle="dropdown" data-placement="bottom" title="{{item.name}}">
                         <img ng-src="{{currUser.avatarUrl}}" alt=""/>
-                        {{currUser.fullName}}
+                        <span class="menu-item-my-profile-name">{{currUser.fullName}}</span>
                     </button>
                 </a>
                 <!-- My Logout -->
