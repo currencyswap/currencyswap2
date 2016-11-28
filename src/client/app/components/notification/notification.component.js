@@ -25,6 +25,7 @@ angular.module('notification')
                 };
                 
                 $scope.readMessage = function(msg) {
+                    $.publish('/read/notiMessage', [{'id': msg.id, 'isRead': msg.reads.length}]);
                     NotiService.markRead(msg.id);
                     msg.reads.push({'created': new Date()});
                     if (msg.orderCode) {
@@ -35,7 +36,18 @@ angular.module('notification')
                         $rootScope.openMessageModel(msg);
                     }
                   };
-                  
+                
+                  $.subscribe('/read/headMessage', function(msg) {
+                      for (var i=0; i<$scope.messages.length; i++) {
+                          if ($scope.messages[i].id === msg.id) {
+                              if ($scope.messages[i].reads.length === 0)
+                              $timeout(function(){
+                                  $scope.messages[i].reads.push({'created': new Date()});
+                              });
+                              break;
+                          }
+                      }
+                  });
                 $scope.init();
             }]
     });
