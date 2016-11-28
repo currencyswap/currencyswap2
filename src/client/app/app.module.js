@@ -33,6 +33,24 @@ angular.module('currencySwapApp', [
     $rootScope.error = null;
     $rootScope.currentPage = {};
 
+    var redirectToDefaultPath = function () {
+
+        if ($location.path() == routes.LOGIN || 
+            $location.path() == routes.ROOT || 
+            $location.path() == routes.HOME ) {
+
+            var defaultPath = routes.HOME;
+
+            if ( $rootScope.permissions && $rootScope.permissions.USER_MANAGEMENT ) {
+                defaultPath = routes.USER_LIST;
+            } else if ( $rootScope.permissions && $rootScope.permissions.MAINTAIN_OWN_ORDERS ) {
+                defaultPath = routes.ORDERS;
+            }
+            
+            return $location.path( defaultPath );
+        }
+    }
+
     if (!token) {
         $rootScope.isLoading = false;
 
@@ -55,14 +73,15 @@ angular.module('currencySwapApp', [
             return $location.path(routes.LOGIN);
         } else return;
     } else {
-        $rootScope.isLoading = false;
 
         if ($location.path() === routes.FORGOT_PASSWORD_VERIFY) {
+            $rootScope.isLoading = false;
             CookieService.cleanUpCookies();
             return $location.path(routes.FORGOT_PASSWORD_VERIFY);
         }
 
         if ($location.search().resetCode) {
+            $rootScope.isLoading = false;
             CookieService.cleanUpCookies();
             return $location.path(routes.FORGOT_PASSWORD_RESET);
         }
@@ -70,6 +89,8 @@ angular.module('currencySwapApp', [
 
     $rootScope.$on("$routeChangeStart", function (event, next, current) {
         if ( !$rootScope.loggedIn || !$rootScope.permissions ) return;
+
+        redirectToDefaultPath();
 
         if ( ! NavigationHelper.checkPermission() ) {
             return;
@@ -96,7 +117,7 @@ angular.module('currencySwapApp', [
 
                 NavigationHelper.initNavigationBar();
 
-                if ($location.path() == routes.LOGIN) return $location.path(routes.HOME);
+                redirectToDefaultPath();
             }
 
 

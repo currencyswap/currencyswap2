@@ -1,6 +1,7 @@
 'use strict';
 
 var routes = {
+    ROOT: '',
     HOME: '/',
     ORDERS: '/orders/',
     ORDER_CREATE: '/orders/create',
