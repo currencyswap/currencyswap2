@@ -44,12 +44,6 @@ var navigation = [
         icon : 'fa fa-users'
     },
     {
-        route: routes.USER,
-        name: 'User Detail',
-        requiredPermissions: [permissions.USER_MANAGEMENT],
-        icon : 'fa fa-users'
-    },
-    {
         route: routes.ORDER_CREATE,
         name: 'Create Order',
         requiredPermissions: [permissions.MAINTAIN_OWN_ORDERS],
