@@ -36,10 +36,13 @@ module.exports = function (app) {
         }
         userService.getUserDetail(userId, function (err, user) {
             if (err) {
-                if (err.code === errorUtil.createAppError(errors.SERVER_GET_PROBLEM).code
-                    || err.code === errorUtil.createAppError(errors.NO_USER_FOUND_IN_DB).code) {
-                    return res.status(299).send(err);
+
+                if (err.code === errorUtil.createAppError(errors.SERVER_GET_PROBLEM).code ) {
+                    return res.status( 500 ).send(err);
                 }
+
+                return res.status( 400 ).send(err);
+
             } else {
                 return res.status(200).send(user)
             }

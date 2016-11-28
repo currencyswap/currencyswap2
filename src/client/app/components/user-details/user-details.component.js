@@ -45,11 +45,11 @@ angular.module('userDetails').component('userDetails', {
                     $scope.fullName = $scope.user.fullName;
                     $scope.selectedStatus.selectedStatus = $scope.user.status;
                 }, function ( err ) {
-                    console.error("ERROR : %s", err );
+                    console.error("ERROR : %s", JSON.stringify( err ) );
                     $rootScope.error = {
-                        status: error.status,
-                        code: err.code,
-                        message: err.message
+                        status: err.status,
+                        code: err.data.code,
+                        message: err.data.message
                     };
                 });
             $scope.changeStateToEdit = function () {
