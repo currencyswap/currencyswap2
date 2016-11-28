@@ -84,6 +84,9 @@
     <script src="app/components/support/support.component.js"></script>
     <script src="app/components/support/support.service.js"></script>
 
+    <script src="app/shared/error-page/error-page.module.js"></script>
+    <script src="app/shared/error-page/error-page.directive.js"></script>
+
     <script src="app/components/notification/notification.module.js"></script>
     <script src="app/components/notification/notification.component.js"></script>
     <script src="app/components/notification/notification.service.js"></script>
@@ -123,12 +126,12 @@
 
         <div class="container-fluid contentpanel">
             <!-- content goes here... -->
-            <error-page ng-if="error"></error-page>
+            <!--<error-page ng-if="error"></error-page>-->
             <div ng-view ng-if="!isLoading && !error"></div>
         </div>
     </div><!-- mainpanel -->
 
-    <div ng-view ng-if="!loggedIn && !isLoading && !error"></div>
+    <div ng-view ng-if="!loggedIn && !isLoading"></div>
 
 </section>
 

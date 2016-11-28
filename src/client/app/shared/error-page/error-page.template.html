@@ -1,5 +1,7 @@
-  <div class="notfoundpanel">
-    <h1>{{status}}!</h1>
-    <h3>{{message}}!</h3>
-    <h4>Please try to comeback later.</h4>
-  </div><!-- notfoundpanel -->
+<div class="notfoundpanel">
+    <h1>{{error.code}}!</h1>
+    <h3>{{error.status}}!</h3>
+    <h4>{{error.message}}!</h4>
+    <a ng-show="activeLinkExpiredError" ng-click="backToRegister()" href="">BACK TO REGISTER PAGE</a>
+    <a ng-hide="activeLinkExpiredError" ng-click="backToLogin()" href="">BACK TO LOGIN PAGE</a>
+</div><!-- notfoundpanel -->

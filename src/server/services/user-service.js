@@ -158,9 +158,9 @@ exports.login = function (user, callback) {
     async.waterfall([
         function (next) {
             app.models.Member.findByUsername(user.username, true, function (err, userObj) {
-                if (err) return next(errorUtil.createAppError(errors.SERVER_GET_PROBLEM));
+                if (err) return next(err);
                 else {
-                    if (!userObj) return next(errorUtil.createAppError(errors.MEMBER_INVALID_USERNAME));
+                    if (!userObj) return next(err);
 
                     var password = md5(user.password);
 

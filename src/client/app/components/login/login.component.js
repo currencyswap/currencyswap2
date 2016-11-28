@@ -21,13 +21,14 @@ angular.module('loginForm')
                 if (token) return $location.path(routes.HOME);
 
                 $scope.onSubmit = function () {
-
                     LoginService.authenticate($scope.user)
                         .then(function (response) {
                             if (response.data.expire === "expired") {
+                                console.log('response.data.expire: ', response.data.expire);
                                 $scope.isExpired = true;
                             } else {
                                 if (response.status === GLOBAL_CONSTANT.HTTP_SUCCESS_STATUS_CODE) {
+                                    console.log('SUCCESS !!!');
                                     var newToken = response.data.token;
                                     CookieService.setUpCookies(newToken);
 
@@ -49,7 +50,6 @@ angular.module('loginForm')
                                                 NavigationHelper.initNavigationBar();
                                                 if (!$rootScope.user) {
                                                     $rootScope.getCreator().then(function(resp){
-                                                        //console.log('Success: Current User Info', resp);
                                                     }, function(e){
                                                         console.log(e);
                                                     });
@@ -60,30 +60,37 @@ angular.module('loginForm')
                                             }
                                         );
                                 } else {
+
                                     if (response.data.code === serverErrors.INVALID_HTTP_HEADER
                                         || response.data.code === serverErrors.INVALID_AUTHORIZATION_HEADER
                                         || response.data.code === serverErrors.REDIS_SERVER_GET_PROBLEM
                                         || response.data.code === serverErrors.MISSING_REDIS_KEY
-                                        || response.data.code === serverErrors.INVALID_TOKEN_API_KEY) {
+                                        || response.data.code === serverErrors.INVALID_TOKEN_API_KEY
+                                        || response.data.code === serverErrors.SERVER_GOT_PROBLEM) {
 
                                         $rootScope.error = {};
                                         $rootScope.error.status = GLOBAL_CONSTANT.SERVER_GOT_PROBLEM_STATUS;
                                         $rootScope.error.message = GLOBAL_CONSTANT.SERVER_GOT_PROBLEM_MSG;
                                         $window.scrollTo(0, 0);
-                                    } else {
-                                        if (response.data.code === serverErrors.MEMBER_INVALID_PASSWORD
-                                            || response.data.code === serverErrors.MEMBER_INVALID_USERNAME) {
-                                            $scope.loginErrMsg = GLOBAL_CONSTANT.INVALID_USER_NAME_OR_PWD_MSG;
-                                        }
-
-                                        if (response.data.code === serverErrors.ACCOUNT_IS_NOT_ACTIVATED) {
-                                            $scope.loginErrMsg = GLOBAL_CONSTANT.ACCOUNT_IS_NOT_ACTIVATED_MSG;
-                                        }
-
-                                        if (response.data.code === serverErrors.ACCOUNT_IS_EXPIRED) {
-                                            $scope.loginErrMsg = GLOBAL_CONSTANT.ACCOUNT_IS_EXPIRED;
-                                        }
                                     }
+
+                                    if (response.data.code === serverErrors.MEMBER_INVALID_PASSWORD
+                                        || response.data.code === serverErrors.MEMBER_INVALID_USERNAME) {
+
+                                        $scope.loginErrMsg = GLOBAL_CONSTANT.INVALID_USER_NAME_OR_PWD_MSG;
+                                    }
+
+                                    if (response.data.code === serverErrors.ACCOUNT_IS_NOT_ACTIVATED) {
+
+                                        $scope.loginErrMsg = GLOBAL_CONSTANT.ACCOUNT_IS_NOT_ACTIVATED_MSG;
+                                    }
+
+                                    if (response.data.code === serverErrors.ACCOUNT_IS_EXPIRED) {
+
+                                        $scope.loginErrMsg = GLOBAL_CONSTANT.ACCOUNT_IS_EXPIRED;
+                                    }
+
+
                                 }
                             }
                         })

@@ -4,6 +4,8 @@ var exports = module.exports;
 var appConfig = require('../libs/app-config');
 var dateFormat = require('dateformat');
 var constant = require('../libs/constants/constants');
+var errorUtils = require('../libs/errors/error-util');
+var errors = require('../libs/errors/errors');
 
 exports.convertUserToUserJSON = function (user) {
 
@@ -65,6 +67,7 @@ exports.convertUserData = function (requestUser) {
     //Default for new registration user
     resultUser.group = constant.USER_GROUPS.BLOCKED_USER_GR;
     resultUser.status = constant.USER_STATUSES.NEW;
+
     resultUser.expiredDate = new Date(Date.now()).toISOString();
     resultUser.registeredDate = new Date(Date.now()).toISOString();
 

@@ -32,6 +32,12 @@ angular.module('currencySwapApp', [
     $rootScope.error = null;
     $rootScope.currentPage = {};
 
+    if ($location.search().activeCode) {
+        $rootScope.isLoading = false;
+        CookieService.cleanUpCookies();
+        return $location.path(routes.REGISTER);
+    }
+
     if (!token) {
         $rootScope.isLoading = false;
         if ($location.path() === routes.FORGOT_PASSWORD_VERIFY) {
@@ -41,11 +47,6 @@ angular.module('currencySwapApp', [
         if ($location.search().resetCode) {
             CookieService.cleanUpCookies();
             return $location.path(routes.FORGOT_PASSWORD_RESET);
-        }
-
-        if ($location.search().activeCode) {
-            CookieService.cleanUpCookies();
-            return $location.path(routes.REGISTER);
         }
 
         if ($location.path() != routes.LOGIN) {
@@ -111,14 +112,47 @@ angular.module('currencySwapApp', [
 }).constant('GLOBAL_CONSTANT', {
     HTTP_SUCCESS_STATUS_CODE: 200, // returned status from server for success case
     HTTP_ERROR_STATUS_CODE: 299, // returned status from server for error case (2xx not to get browser shows the errors)
-    SERVER_GOT_PROBLEM_MSG: 'Server got problem',
-    SERVER_GOT_PROBLEM_STATUS: 'ERROR',
-    UNKNOWN_ERROR_MSG: 'Unknown error',
-    UNKNOWN_ERROR_STATUS: 'Unknown',
+    ACTIVE_CODE_EXPIRED_ERROR: {
+        name: 'ACTIVE_CODE_EXPIRED_ERROR',
+        code: 410,
+        status: 'ACTIVE URL IS EXPIRED',
+        message: 'Your active URL is expired and removed from our system. Please help to try to register again '
+    },
+    COULD_NOT_DECRYPT_ACTIVE_ACC_CODE_ERROR: {
+        name: 'COULD_NOT_DECRYPT_ACTIVE_ACC_CODE_ERROR',
+        code: 400,
+        status: 'ACTIVE URL DOES NOT EXIST',
+        message: 'Your active URL does not exist in our system, maybe something wrong happens when clicking on the URL. Please try again  '
+    },
+    SERVER_GOT_PROBLEM_ERROR: {
+        name: 'SERVER_GOT_PROBLEM_ERROR',
+        code: 500,
+        status: 'SERVER GOT PROBLEM',
+        message: 'Something wrong happens with our server, please try again or come back later '
+    },
+    UNKNOWN_ERROR: {
+        name: 'UNKNOWN_ERROR',
+        code: 500,
+        status: 'UNKNOWN ERROR',
+        message: 'System got an unknown error, please try again or come back later'
+    },
+    BAD_REQUEST_ERROR: {
+        name: 'BAD_REQUEST_ERROR',
+        code: 400,
+        status: 'BAD REQUEST',
+        message: 'Something wrong with your request, please try again'
+    },
+    RESET_CODE_EXPIRED_ERROR: {
+        name: 'RESET_CODE_EXPIRED_ERROR',
+        code: 410,
+        status: 'RESET URL IS EXPIRED',
+        message: 'Your active URL is expired and removed from our system. Please help to try to register again '
+    },
     ACTIVATED_USER_STATUS: 'Activated',
     BLOCKED_USER_STATUS: 'Blocked',
     PENDING_USER_STATUS: 'Pending Approval',
     NEW_USER_STATUS: 'New',
+    STANDARD_USER_ROLE: 'User',
     DEACTIVATED_USER_STATUS: 'Deactivated',
     INVALID_USER_NAME_OR_PWD_MSG: 'Invalid username/password',
     ACCOUNT_IS_NOT_ACTIVATED_MSG: 'Account is not activated',
