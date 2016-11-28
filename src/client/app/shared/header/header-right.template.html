@@ -30,8 +30,8 @@
                 <!-- My Profile -->
                 <a href="#!{{item.route}}" ng-if="item.isMyProfile">
                     <button ng-click="onMyProfile()" type="button" class="btn btn-default dropdown-toggle {{item.isActivated ? 'tb-active' : ''}}" data-toggle="dropdown" data-placement="bottom" title="{{item.name}}">
-                        <img ng-src="{{currUser.avatarUrl}}" alt=""/>
-                        <span class="menu-item-my-profile-name">{{currUser.fullName}}</span>
+                        <img ng-src="{{user.avatarUrl}}" alt=""/>
+                        <span class="menu-item-my-profile-name">{{user.fullName}}</span>
                     </button>
                 </a>
                 <!-- My Logout -->
