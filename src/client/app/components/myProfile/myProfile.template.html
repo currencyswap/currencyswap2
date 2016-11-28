@@ -2,29 +2,27 @@
     <div class="support-content">
         <div class="panel panel-default">
             <div class="panel-heading">
-                <div class="row">
+                <div class="form-group my-profile">
+                    <form class="form-vertical">
+                        <div class="pull-left  formAvatar">
+                            <div class="row">
+                                <img class="avatar-size avatar-align" ng-src="/config/media/{{model.username}}?{{randomNumImg}}" alt="Mountain View">
+                            </div>
+                            <div class="row">
+                                <a class = "avatar-align" type="file" ngf-select="uploadFiles($file, $invalidFiles)"
+                                   accept="image/*" ngf-max-height="1000" ngf-max-size="1MB">
+                                    Change Avatar
+                                </a>
+                            </div>
+                        </div>
+                    </form>
                     <div class="col-sm-1 pull-left">
                         <div class="row">
                             <h4 class="panel-title">{{model.fullName}}</h4>
                             <a href="#">{{model.email}}</a>
                         </div>
                       </div>
-                    <form class="form-vertical">
-                        <div class="col-sm-3 pull-right">
-                            <div class="row">
-                                <img ng-src="/config/media/{{model.username}}?{{randomNumImg}}" alt="Mountain View"
-                                     style="width:100px;height:120px;" class="pull-right">
-                            </div>
-                            <div class="row">
-                                <a type="file" ngf-select="uploadFiles($file, $invalidFiles)"
-                                   accept="image/*" ngf-max-height="1000" ngf-max-size="1MB" class="pull-right">
-                                    Change Avatar
-                                </a>
-                            </div>
-                        </div>
-                    </form>
                 </div>
-                <br>
                 <fieldset ng-disabled="!isEditting">
                     <div class="panel-body panel-body-nopadding">
                         <form id="msgForm" name="msgForm" novalidate="novalidate">
