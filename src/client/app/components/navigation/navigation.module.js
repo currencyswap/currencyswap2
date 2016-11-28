@@ -79,9 +79,13 @@ angular.module('navigation', []).factory('NavigationHelper', ['$rootScope', '$lo
                     continue;
                 }
 
+                console.log(">>> checkPermission %s", navItem.route );
+                console.log(">>> location.path %s", $location.path() );
+
                 var pattern = new UrlPattern(navItem.route);
 
                 if (pattern.match($location.path())) {
+                    console.log("MATCH");
                     currNavItem = navItem;
                     break;
                 }
