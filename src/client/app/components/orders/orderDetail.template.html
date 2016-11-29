@@ -85,10 +85,10 @@
 					<div class="row">
 						<div class="row mb10">
 							<div class="col"> 
-								<button class="btn btn-danger btn-md nomagin" ng-click="onCancel();" ng-if="orderStatus != statusType.CLEARED && orderStatus != statusType.CANCELED">Cancel</button>
-								<button class="btn btn-primary btn-md nomagin" ng-click="onEdit();" ng-if="orderStatus == statusType.SUBMITTED && isOwnerOrder">Edit</button>
-								<button class="btn btn-success btn-md nomagin" ng-click="onConfirm();" ng-if="orderStatus == statusType.SWAPPING && isOwnerOrder">Confirm</button>
-								<button class="btn btn-warning btn-md nomagin" ng-click="onClear();" ng-if="orderStatus == statusType.CONFIRMED || orderStatus == statusType.PENDING">Clear</button>
+								<button class="btn btn-danger btn-md nomagin" ng-click="onCancel(order.id);" ng-if="orderStatus != statusType.CLEARED && orderStatus != statusType.CANCELED">Cancel</button>
+								<!-- <button class="btn btn-primary btn-md nomagin" ng-click="onEdit(order.id);" ng-if="orderStatus == statusType.SUBMITTED && isOwnerOrder">Edit</button> -->
+								<button class="btn btn-success btn-md nomagin" ng-click="onConfirm(order.id);" ng-if="orderStatus == statusType.SWAPPING && isOwnerOrder">Confirm</button>
+								<button class="btn btn-warning btn-md nomagin" ng-click="onClear(order.id);" ng-if="orderStatus == statusType.CONFIRMED || orderStatus == statusType.PENDING">Clear</button>
 							</div>
 						</div>
 

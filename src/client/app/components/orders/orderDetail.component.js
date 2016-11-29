@@ -41,5 +41,59 @@ angular.module('orders')
         		if(orderCode){
         			getOrderDetail(orderCode);
         		}
+        		
+        		var goToOrderList = function(){
+        			location.href = "/#!/orders/";
+        		}
+        		
+        		// Cancel swapping order        		
+        		$scope.onCancel = function(orderId){
+            		var cancelOrder = $window.confirm('Are you sure you want to cancel the Order?');
+            	    if(cancelOrder){
+            	    	if($scope.orderStatus == $scope.statusType.SWAPPING){
+            	    		OrdersService.cancelSwappingOrder(orderId).then(function(resp){
+            	    			goToOrderList();
+    	                    }, function(err){
+    	                        console.log('Failure in saving your message');
+    	                    });
+            	    	}else if($scope.orderStatus == $scope.statusType.CONFIRMED){
+            	    		OrdersService.cancelConfirmedOrder(orderId).then(function(resp){
+            	    			goToOrderList();
+    	                    }, function(err){
+    	                        console.log('Failure in saving your message');
+    	                    });
+            	    	}else if($scope.orderStatus == $scope.statusType.SUBMITTED){
+            	    		OrdersService.cancelSubmittedOrder(orderId).then(function(resp){
+            	    			goToOrderList();
+                            }, function(err){
+                                console.log('Failure in saving your message');
+                            });
+            	    	}
+            	    }
+        		};
+        		
+        		// Confirm swapping order
+        		$scope.onConfirm = function(orderId){
+            		var swappingOrder = $window.confirm('Are you sure you want to clear the Order?');
+            	    if(swappingOrder){
+		                OrdersService.confirmSwappingOrder(orderId).then(function(resp){
+		                	goToOrderList();
+	                    }, function(err){
+	                        console.log('Failure in saving your message');
+	                    });
+            	    }
+        		};
+        		
+        		// Clear confirmed order
+        		$scope.onClear = function(orderId){
+            		var clearOrder = $window.confirm('Are you sure you want to clear the Order?');
+            	    if(clearOrder){
+		                OrdersService.clearConfirmedOrder(orderId).then(function(resp){
+		                	goToOrderList();
+	                    }, function(err){
+	                        console.log('Failure in saving your message');
+	                    });
+            	    }
+        		};
             }]
     });
