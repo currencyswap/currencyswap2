@@ -10,6 +10,15 @@ angular.module('userDetails').factory('UserDetailsServive', ['$http', function (
                 headers: headers
             };
             return $http(req);
+        },
+        saveUserDetail: function (user, headers) {
+            var req = {
+                method: httpMethods.POST,
+                url: apiRoutes.API_USERS + '/' + user.id,
+                headers: headers,
+                data: user
+            };
+            return $http(req);
         }
     }
 }]);
