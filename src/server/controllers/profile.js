@@ -11,10 +11,12 @@ var md5 = require('js-md5');
 var async = require('async');
 var constant = require('../libs/constants/constants');
 var appRoot = require('app-root-path');
+var appConfig = require('../libs/app-config');
 
 var storage = multer.diskStorage({
     destination: function (req, file, cb) {
-        cb(null, appRoot + '/server/libs/media/')
+        console.log("Media Folder : %s", appConfig.getMediaFolder() );
+        cb(null, appConfig.getMediaFolder() )
     },
     filename: function (req, file, cb) {
         cb(null, req.currentUser.username + ".png");

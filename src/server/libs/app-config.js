@@ -13,6 +13,8 @@ exports.DATETIME_FORMAT = 'yyyy-mm-dd HH:MM:ss';
 exports.DATETIME_MS_FORMAT = 'yyyy-mm-ss HH:MM:ss L';
 exports.TIME_FORMAT = 'HH:MM:ss';
 
+const SLASH_CHAR = '/';
+
 var DEFAULT_REDIS_CONF = {
         host: 'localhost',
         port: 6379,
@@ -67,6 +69,16 @@ exports.getTokenExpired = function () {
 exports.getLogsFolder = function () {
     return config.logs;
 };
+
+
+exports.getMediaFolder = function () {
+
+    if ( config.mediaFolder.slice(-1) != SLASH_CHAR) {
+        return config.mediaFolder + SLASH_CHAR;
+    } 
+    return config.mediaFolder;
+};
+
 
 exports.getSMTPOptions = function () {
 
