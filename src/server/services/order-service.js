@@ -124,7 +124,7 @@ exports.getUserHistoryOrders = function (userId) {
     };
     return dbUtil.executeModelFn(app.models.Order, 'find', filter);
 };
-exports.getSuggestOrders = function (userId, value, fixed) {
+exports.get-Orders = function (userId, value, fixed) {
 	var min = value * (1 - constant.SUGGETION_LIST_CONFIG.ROTATE_SUGGETION);
 	var max = value * (1 + constant.SUGGETION_LIST_CONFIG.ROTATE_SUGGETION);
 	
@@ -150,7 +150,7 @@ exports.getSuggestOrders = function (userId, value, fixed) {
 	}else if(fixed == constant.FIXED_VALUE.GET){
 		filter.where.and.push({'get' : { 'lte' : max}});
     	filter.where.and.push({'get' : {'gte' : min}});
-    	filter.order = "give DESC";
+    	filter.order = "get DESC";
 	}else{
 		filter.where.and.push({'rate' : { 'lte' : max}});
     	filter.where.and.push({'rate' : {'gte' : min}});
