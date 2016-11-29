@@ -100,6 +100,7 @@
 }
 .detailOrderPanel .panel .panel-body .row-order-status{
 	display: inline-flex;
+	margin-bottom: 20px;
 }
 
 .detailOrderPanel .panel .panel-body .row-order-status .col-order-status .order-status-label {
