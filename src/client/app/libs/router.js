@@ -54,6 +54,12 @@ var navigation = [
         icon : 'fa fa-plus'
     },
     {
+        route: routes.ORDER_DETAIL,
+        name: 'Order Detail',
+        requiredPermissions: [permissions.MAINTAIN_OWN_ORDERS],
+        icon : 'fa fa-plus'
+    },
+    {
         route: routes.SUPPORT,
         name: 'Support',
         requiredPermissions: [permissions.VIEW_OWN_ORDERS, permissions.USER_MANAGEMENT],

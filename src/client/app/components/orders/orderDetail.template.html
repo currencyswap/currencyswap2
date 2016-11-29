@@ -1,5 +1,5 @@
-<link rel="stylesheet"
-	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<!-- <link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> -->
 
 <div class="detailOrderPanel">
 	<div class="panel panel-default">
@@ -28,19 +28,21 @@
 					<div class="col col-order-line" ng-class="{'col-order-line-pass' : orderStatusId > statusType.CONFIRMED_ID}">
 						<div class="order-line"></div>
 					</div>
-					<div ng-if="orderStatus != statusType.CANCELED">
-						<div class="col col-order-status order-status-4" ng-class="{'order-status-current' : orderStatus == statusType.PENDING}">
-							<div class="order-status-item"></div>
-							<div class="order-status-label">Pending</div>
-						</div>
-						<div class="col col-order-line" ng-class="{'col-order-line-pass' : orderStatusId > statusType.PENDING_ID}">
-							<div class="order-line"></div>
-						</div>
-						<div class="col col-order-status order-status-5" ng-class="{'order-status-current' : orderStatus == statusType.CLEARED}">
-							<div class="order-status-item"></div>
-							<div class="order-status-label">Cleared</div>
-						</div>
+					
+					<!-- Not CANCELER status -->
+					<div ng-if="orderStatus != statusType.CANCELED" class="col col-order-status order-status-4" ng-class="{'order-status-current' : orderStatus == statusType.PENDING}">
+						<div class="order-status-item"></div>
+						<div class="order-status-label">Pending</div>
 					</div>
+					<div ng-if="orderStatus != statusType.CANCELED" class="col col-order-line" ng-class="{'col-order-line-pass' : orderStatusId > statusType.PENDING_ID}">
+						<div class="order-line"></div>
+					</div>
+					<div ng-if="orderStatus != statusType.CANCELED" class="col col-order-status order-status-5" ng-class="{'order-status-current' : orderStatus == statusType.CLEARED}">
+						<div class="order-status-item"></div>
+						<div class="order-status-label">Cleared</div>
+					</div>
+					
+					<!-- CANCELER status -->
 					<div ng-if="orderStatus == statusType.CANCELED">
 						<div class="col col-order-status order-status-6" ng-class="{'order-status-current' : orderStatus == statusType.CANCELED}">
 							<div class="order-status-item"></div>

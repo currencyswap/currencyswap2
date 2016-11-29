@@ -6,18 +6,17 @@ angular.module('orders')
         controller: ['$scope',
             '$rootScope',
             '$route',
+            '$routeParams',
             'OrdersService',
             'CookieService',
             '$location',
             '$http',
             '$window',
             'GLOBAL_CONSTANT',
-            function orderDetailController($scope, $rootScope, $route, OrdersService, CookieService, $location, $http, $window, GLOBAL_CONSTANT) {
+            function orderDetailController($scope, $rootScope, $route,$routeParams, OrdersService, CookieService, $location, $http, $window, GLOBAL_CONSTANT) {
         		console.log("orderDetailController ....");
-        		var orderCode = undefined;
-        		if($route.current.params){
-        			orderCode = $route.current.params.orderCode;
-        		}
+        		var orderCode = $routeParams.orderCode;
+        		//orderCode = $route.current.params.orderCode;
         		var currentUser = CookieService.getCurrentUser();
         		
         		$scope.statusType = GLOBAL_CONSTANT.STATUS_TYPE;
