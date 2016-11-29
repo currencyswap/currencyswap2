@@ -38,8 +38,7 @@ exports.filterOrders = function (filter) {
 
 exports.getOrderById = function (id) {
     var filter = {
-            'where': { 'id': id },
-            'include' : [ ownerRelation, accepterRelation, giveCurrencyRelation, getCurrencyRelation, statusRelation, activitiesRelation]
+            'where': { 'id': id }
     };
     return dbUtil.executeModelFn(app.models.Order, 'findOne', filter);
 };
@@ -160,4 +159,24 @@ exports.getOrderActivity = function (orderId) {
             }
     };
     return dbUtil.executeModelFn(app.models.OrderActivity, 'find', filter);
+};
+exports.getPartnerOrderOfUser = function(orderId, userId){
+    var filter = {
+		'where' : {
+			and : [ 
+			       {'orderId' : orderId}, 
+			       {'creatorId' : {'neq' : userId}} 
+			   ]
+		}
+    };
+    return dbUtil.executeModelFn(app.models.OrderActivity, 'find', filter);
+
+};
+exports.getUserAllOrders = function (userId) {
+    var filter = {
+    		'where': { or: [{'ownerId': userId}, 
+                            {'accepterId': userId}] 
+            }
+    };
+    return dbUtil.executeModelFn(app.models.Order, 'find', filter);
 };

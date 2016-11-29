@@ -1,8 +1,8 @@
 <div class="row order-content">
     <div class="col-md-8 order-tabs">
         <ul class="nav nav-tabs">
-            <li class="active"><a data-toggle="tab" ng-click="getWorkingOrders();"><strong>Working Orders</strong></a></li>
-            <li class=""><a data-toggle="tab" ng-click="getSubmittedOrders();"><strong>Submitted Orders</strong></a></li>
+            <li class="active"><a href="" data-toggle="tab" ng-click="getWorkingOrders();"><strong>Working Orders</strong></a></li>
+            <li class=""><a href="" data-toggle="tab" ng-click="getSubmittedOrders();"><strong>Submitted Orders</strong></a></li>
             <li class=""><a href="" data-toggle="tab" ng-click="getHistoryOrders();"><strong>History</strong></a></li>
         </ul>
         <div class="tab-content">
@@ -40,8 +40,8 @@
 									<td class="col-sm-1 order-item-content order-status-{{swappingOrder.statusId}}">{{swappingOrder.status.name}}</td>
 									<td class="col-sm-2">
 										<div class="order-action">
-											<div class="button-order-list button-cancel-swapping" ng-click="cancelSwappingOrder(swappingOrder.id);">Cancel</div>
-											<div class="button-order-list button-confirm-swapping" ng-if="currentUser.username==swappingOrder.owner.username" ng-click="confirmSwappingOrder(swappingOrder.id);">Confirm</div>
+											<div class="btn button-order-list button-cancel-swapping" ng-click="cancelSwappingOrder(swappingOrder.id);">Cancel</div>
+											<div class="btn button-order-list button-confirm-swapping" ng-if="currentUser.username==swappingOrder.owner.username" ng-click="confirmSwappingOrder(swappingOrder.id);">Confirm</div>
 										</div>
 									</td>
 								</tr>
@@ -68,7 +68,7 @@
 							</thead>
 							<tbody>
 								<tr ng-repeat="confirmOrder in confirmOrders" class="order-row-{{$index % 2}}">
-									<td class="col-sm-1 order-item-content"><a href="/#!/orders/{{swappingOrder.code}}">{{confirmOrder.code}} - {{confirmOrder.id}}</a></td>
+									<td class="col-sm-1 order-item-content"><a href="/#!/orders/{{confirmOrder.code}}/">{{confirmOrder.code}}</a></td>
 									<td class="col-sm-1 order-item-content order-date">{{confirmOrder.created | filterDate}}</td>
 									<td class="col-sm-1 order-item-content order-date" >{{confirmOrder.expired | filterDate}}</td>
 									<td class="col-sm-1 order-item-content">{{confirmOrder.get}} {{confirmOrder.getCurrency.code}}</td>
@@ -80,8 +80,8 @@
 									<td class="col-sm-1 order-item-content order-status-{{confirmOrder.statusId}}">{{confirmOrder.status.name}}</td>
 									<td class="col-sm-2">
 										<div class="order-action">
-											<div class="button-order-list button-cancel-confirm"  ng-if="(confirmOrder.statusId == 3) || currentUser.username!=confirmOrder.owner.username" ng-click="cancelConfirmedOrder(confirmOrder.id);">Cancel</div>
-											<div class="button-order-list button-clear-confirm" ng-if="(confirmOrder.statusId == 3) || !checkStatusCurrentUserInActivity(confirmOrder.activities)" ng-click="clearConfirmedOrder(confirmOrder.id);">Clear</div>
+											<div class="btn button-order-list button-cancel-confirm"  ng-if="(confirmOrder.statusId == 3) || currentUser.username!=confirmOrder.owner.username" ng-click="cancelConfirmedOrder(confirmOrder.id);">Cancel</div>
+											<div class="btn button-order-list button-clear-confirm" ng-if="(confirmOrder.statusId == 3) || !checkStatusCurrentUserInActivity(confirmOrder.activities)" ng-click="clearConfirmedOrder(confirmOrder.id);">Clear</div>
 										</div>
 									</td>
 
@@ -123,8 +123,8 @@
 									<td class="col-sm-1 order-item-content order-status-{{submittedOrder.statusId}}">{{submittedOrder.status.name}}</td>
 									<td class="col-sm-2">
 										<div class="order-action">
-											<div class="button-order-list button-cancel-submitted" ng-click="cancelSubmittedOrder(submittedOrder.id);">Cancel</div>
-											<div class="button-order-list button-edit-submitted" ng-click="editSubmittedOrder(submittedOrder.id);">Edit</div>
+											<div class="btn button-order-list button-cancel-submitted" ng-click="cancelSubmittedOrder(submittedOrder.id);">Cancel</div>
+											<div class="btn button-order-list button-edit-submitted" ng-click="editSubmittedOrder(submittedOrder.id);">Edit</div>
 										</div>
 									</td>
 								</tr>

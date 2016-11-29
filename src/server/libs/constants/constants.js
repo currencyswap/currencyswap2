@@ -8,7 +8,14 @@ module.exports = {
         ORDER_EXPIRE_SOON_TITLE : 'Your Order Expiring Soon',
         USER_EDITED_PROFILE: 'has updated his/her profile: user sent to admin',
         ADMIN_EDITED_PROFILE_CONTENT: 'Your profile has been updated by administrator: admin edit profile',
-        ADMIN_EDITED_PROFILE_TITLE: 'Updated profile'
+        ADMIN_EDITED_PROFILE_TITLE: 'Updated profile',
+        CONFIRM_ORDER_TITLE: "Request Confirm",
+        CLEAR_ORDER_TITLE: "Request Clear",
+        CANCEL_ORDER_TITLE: "Request Cancel",
+        SWAPPING_ORDER_CONTENT : "Swapping Order",
+        CONFIRM_ORDER_CONTENT : "Confirm Order",
+        CLEAR_ORDER_CONTENT : "Clear Order",
+        CANCEL_ORDER_CONTENT : "Cancel Order"
     },
     PASSWORD_FIELD: 'password',
     STATUS_FIELD: 'status',
