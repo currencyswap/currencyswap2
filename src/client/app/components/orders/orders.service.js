@@ -37,8 +37,8 @@ angular.module('orders').factory('OrdersService', ['ConnectorService', function 
         getCurrenciesList: function(){
             return this.get(apiRoutes.API_CURRENCIES);
         },
-        getSuggetOrders: function() { // status = 1 
-            return this.get(apiRoutes.API_ORDERS_SUGGEST);
+        getSuggetOrders: function(data) { // status = 1 
+            return this.get(apiRoutes.API_ORDERS_SUGGEST, data);
         },
         postSaveNewOrders: function(newOrder){
         	var data = newOrder;
@@ -61,6 +61,9 @@ angular.module('orders').factory('OrdersService', ['ConnectorService', function 
 		},
 		editSubmittedOrder: function(orderId){
 			return this.get(apiRoutes.API_ORDERS_SUBMITTED_EDIT.replace(":id",orderId));
-		}
+		},
+		swapSubmittedOrder:function(orderId){
+			return this.get(apiRoutes.API_ORDERS_SUBMITTED_SWAP.replace(":id",orderId));
+		},
     });
 }]);

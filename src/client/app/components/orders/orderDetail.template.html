@@ -85,10 +85,10 @@
 					<div class="row">
 						<div class="row mb10">
 							<div class="col"> 
-								<button class="btn btn-danger btn-md nomagin" ng-click="onCancel(order.id);" ng-if="orderStatus != statusType.CLEARED && orderStatus != statusType.CANCELED">Cancel</button>
-								<!-- <button class="btn btn-primary btn-md nomagin" ng-click="onEdit(order.id);" ng-if="orderStatus == statusType.SUBMITTED && isOwnerOrder">Edit</button> -->
-								<button class="btn btn-success btn-md nomagin" ng-click="onConfirm(order.id);" ng-if="orderStatus == statusType.SWAPPING && isOwnerOrder">Confirm</button>
-								<button class="btn btn-warning btn-md nomagin" ng-click="onClear(order.id);" ng-if="orderStatus == statusType.CONFIRMED || orderStatus == statusType.PENDING">Clear</button>
+								<button class="btn btn-danger btn-md nomagin" ng-click="onCancel(order.id);" ng-if="orderStatus != statusType.CLEARED && orderStatus != statusType.CANCELED" ng-disabled="submitLoading">Cancel</button>
+								<!-- <button class="btn btn-primary btn-md nomagin" ng-click="onEdit(order.id);" ng-if="orderStatus == statusType.SUBMITTED && isOwnerOrder" ng-disabled="submitLoading">Edit</button> -->
+								<button class="btn btn-success btn-md nomagin" ng-click="onConfirm(order.id);" ng-if="orderStatus == statusType.SWAPPING && isOwnerOrder" ng-disabled="submitLoading">Confirm</button>
+								<button class="btn btn-warning btn-md nomagin" ng-click="onClear(order.id);" ng-if="orderStatus == statusType.CONFIRMED || orderStatus == statusType.PENDING" ng-disabled="submitLoading">Clear</button>
 							</div>
 						</div>
 
@@ -96,6 +96,16 @@
 							<img src="../../../assets/images/loaders/loader1.gif" alt="">
 						</div>
 
+					</div>
+					<div class="row row-activities">
+						<h2 class="row-activities-title">Activity</h2>
+						<div class="row" ng-repeat="activity in order.activities" ng-if="activity.statusId > 1">
+							<div class="col">
+								<span class="activity-time mr20">{{activity.created | filterDate}}</span>
+								<span class="activity-creator mr10" ng-class="{'other-user-action' : activity.creator.username != currentUser}">{{activity.creator.username}}</span>
+								<span class="activity-creator">{{activity.description}}</span>
+							</div>
+						</div>
 					</div>
 				</div>
 				<!-- panel-footer -->

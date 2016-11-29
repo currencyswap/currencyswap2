@@ -39,7 +39,7 @@
 }
 .order-content .order-item-header {
 	background: #cccccc;
-	white-space: nowrap;;
+	white-space: nowrap;
 }
 .order-content .order-item-content {
 	text-align: left;
@@ -201,6 +201,18 @@
 .detailOrderPanel .panel .panel-body .row-initialized .row-rate .row-title-rate{
 	font-weight: bold;
 	color: #fea340;
+}
+
+.detailOrderPanel .row-activities .row-activities-title{
+	font-weight: bold;
+}
+
+.detailOrderPanel .row-activities .activity-time{
+	font-weight: bold;
+}
+
+.detailOrderPanel .row-activities .activity-creator.other-user-action{
+	color: #6299e8;
 }
 
 /*Order detail end*/

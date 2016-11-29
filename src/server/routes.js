@@ -27,6 +27,7 @@ const Routes = {
     API_ORDERS_SWAPPING_CONFIRM : '/api/orders/swapping/confirm/:id',
     API_ORDERS_SUBMITTED_CANCEL : '/api/orders/submitted/cancel/:id',
     API_ORDERS_SUBMITTED_EDIT : '/api/orders/submitted/edit/:id',
+    API_ORDERS_SUBMITTED_SWAP : '/api/orders/submitted/swap/:id',
     API_MY_PROFILE: '/api/profile',
     API_PERMISSIONS: '/api/permissions',
     API_SUPPORTS : '/api/supports',
