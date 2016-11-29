@@ -4,6 +4,7 @@
 var errors = require('../libs/errors/errors');
 var errorUtil = require('../libs/errors/error-util');
 var userService = require('../services/user-service');
+var supportService = require('../services/support-service');
 var userConverter = require('../converters/user-converter');
 var multer  = require('multer');
 var md5 = require('js-md5');
@@ -48,6 +49,7 @@ module.exports = function (app) {
     });
 
     router.put('/', function (req, res, next) {
+        var currentUser = req.currentUser;
         var updatingUser = req.body;
         async.waterfall([
             function (next) {
@@ -58,8 +60,19 @@ module.exports = function (app) {
                         return next(null, user);
                     }
                 });
+            },function createMessage(user, next) {
+                if(JSON.stringify(updatingUser) !== JSON.stringify(currentUser)) {
+                    var message = {'title': updatingUser.username + constant.MSG.USER_EDITED_PROFILE_TITLE,
+                        'message': updatingUser.username + constant.MSG.USER_EDITED_PROFILE_CONTENT,
+                        'groupName': 'Admin',
+                        'creatorId': user.id};
+                    console.log("message",message);
+                    supportService.messageToGroup(message);
+                }
+                return next (null, user);
             },
             function (user, next) {
+                console.log("==================");
                 if (updatingUser.addresses && updatingUser.addresses.length > 0  && (updatingUser.addresses[0].address
                     || updatingUser.addresses[0].city
                     || updatingUser.addresses[0].postcode
