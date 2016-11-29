@@ -127,3 +127,9 @@ exports.markReadMessage = function(messageId, readerId) {
     };
     return dbUtil.executeModelFn(app.models.MessageRead, 'findOrCreate', condition, dto);
 };
+exports.existExpiredOrderMessage = function(receiverId, title, message) {
+    var filter = {'where': {
+        and : [{'receiverId': receiverId}, {'title': title}, {'message': message}]
+    }};
+    return dbUtil.executeModelFn(app.models.Message, 'findOne', filter);
+};

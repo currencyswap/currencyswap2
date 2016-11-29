@@ -30,7 +30,7 @@ var statusRelation = {
         'relation' : 'status'
 };
 var activitiesRelation = {
-		'relation' : 'activities'
+                'relation' : 'activities'
 };
 exports.filterOrders = function (filter) {
     return dbUtil.executeModelFn(app.models.Order, 'find', filter);
@@ -134,7 +134,7 @@ exports.getExpiredOrders = function (time) {
                   { 'statusId': constant.STATUS_TYPE.SUBMITTED_ID }
             ]
     },
-    'include' : [ ownerRelation, accepterRelation, giveCurrencyRelation, getCurrencyRelation, statusRelation]
+    'include' : [ ownerRelation, giveCurrencyRelation, getCurrencyRelation]
     };
     return dbUtil.executeModelFn(app.models.Order, 'find', filter);
 };
@@ -144,20 +144,19 @@ exports.deleteOrder = function(orderId, userId) {
     return dbUtil.executeModelFn(app.models.Order, 'destroyAll', where);
 };
 exports.updateOrderActivity = function (orderId, creatorId, statusId) {
-	var where = {and: [{'orderId' : orderId},
-	                   {'creatorId': creatorId}
-					]};
+        var where = {and: [{'orderId' : orderId},
+                           {'creatorId': creatorId}
+                                        ]};
     return dbUtil.executeModelFn(app.models.OrderActivity, 'updateAll', where, {'statusId': statusId});
 };
 exports.createOrderActivity = function (orderId, creatorId, statusId) {
-	var newOrder = {'orderId' : orderId,'creatorId': creatorId, 'statusId': statusId};
+        var newOrder = {'orderId' : orderId,'creatorId': creatorId, 'statusId': statusId};
     return dbUtil.executeModelFn(app.models.OrderActivity, 'create', newOrder);
 };
 exports.getOrderActivity = function (orderId) {
-	console.log('---->', orderId);
     var filter = {
             'where': {
-            	'orderId': orderId,
+                'orderId': orderId,
             }
     };
     return dbUtil.executeModelFn(app.models.OrderActivity, 'find', filter);

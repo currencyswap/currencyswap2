@@ -7,7 +7,7 @@ angular.module('appHeader').directive('headerRight', function () {
             name: '@'
         },
         templateUrl: 'app/shared/header/header-right.template.html',
-        controller: function ($rootScope, $window, $location, $scope, $element, $timeout, CookieService, NotiService) {
+        controller: function ($rootScope, $scope, $window, $location, $element, $timeout, CookieService, NotiService) {
 
             $scope.user = {
                 permissions: $rootScope.permissions
@@ -17,7 +17,7 @@ angular.module('appHeader').directive('headerRight', function () {
             $scope.toolbarItems = $rootScope.toolsBar;
 
             var cookUser = CookieService.getCurrentUser();
-            $scope.user = $.extend({'avatarUrl': global.DEF_AVATAR, 'username': '', 'fullName': ''}, cookUser, $rootScope.user);
+            $scope.user = $.extend({'avatarUrl': global.DEF_AVATAR, 'username': cookUser.username, 'fullName': ''}, $rootScope.user);
 
             $scope.onMyProfile = function () {
                 $rootScope.isLoading = false;
@@ -33,12 +33,14 @@ angular.module('appHeader').directive('headerRight', function () {
             };
 
             $scope.solidClazName = function(item) {
-              return item.name.toLowerCase().replace(/[\s]+/, '-');
+              return item.id.toLowerCase().replace(/[\s]+/, '-');
             };
           $scope.readMessage = function(msg) {
-              $.publish('/read/headMessage', [{'id': msg.id, 'isRead': msg.reads.length}]);
-            NotiService.markRead(msg.id);
-            msg.reads.push({'created': new Date()});
+              $.publish('/cs/read/headMessage', [{'id': msg.id, 'isRead': msg.reads.length}]);
+              if (msg.reads.length === 0) {
+                  NotiService.markRead(msg.id);
+                  msg.reads.push({'created': new Date()});
+              }
 
             if (msg.orderCode) {
                 $timeout(function(){
@@ -48,7 +50,7 @@ angular.module('appHeader').directive('headerRight', function () {
                 $rootScope.openMessageModel(msg);
             }
           };
-          
+
           var getNotiInst = function(){
               var notiObj = null;
               for (var i=0; i<$scope.toolbarItems.length; i++) {
@@ -80,9 +82,15 @@ angular.module('appHeader').directive('headerRight', function () {
           $.subscribe('/receive/supportUpdate', function(data) {
               $scope.updateNotification();
           });
-          $.subscribe('/read/notiMessage', function(msg) {
+          $.subscribe('/cs/read/notiMessage', function(msg) {
               $scope.updateNotification();
           });
+          $.subscribe('/cs/user/update', function(user) {
+              $timeout(function(){
+                  $scope.user = $.extend({'avatarUrl': global.DEF_AVATAR, 'username': '', 'fullName': ''}, $scope.user, user);
+              });
+          });
+
         }
     };
 });

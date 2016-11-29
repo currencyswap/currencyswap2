@@ -47,7 +47,8 @@ angular.module('navigation', []).factory('NavigationHelper', ['$rootScope', '$lo
                     routePattern : navItem.route,
                     name: navItem.name,
                     icon: navItem.icon,
-                    isActivated: isActivated
+                    isActivated: isActivated,
+                    id: navItem.id
                 };
 
                 if ( item.route == routes.MYPROFILE) {
@@ -79,13 +80,9 @@ angular.module('navigation', []).factory('NavigationHelper', ['$rootScope', '$lo
                     continue;
                 }
 
-                console.log(">>> checkPermission %s", navItem.route );
-                console.log(">>> location.path %s", $location.path() );
-
                 var pattern = new UrlPattern(navItem.route);
 
                 if (pattern.match($location.path())) {
-                    console.log("MATCH");
                     currNavItem = navItem;
                     break;
                 }

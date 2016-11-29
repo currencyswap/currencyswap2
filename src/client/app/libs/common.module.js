@@ -14,6 +14,7 @@ angular.module('common', ['ngRoute', 'cookieManager', 'permission', 'navigation'
                     $rootScope.user = userInst;
                     $rootScope.startSocket(userInst);
                     def.resolve(userInst);
+                    $.publish('/cs/user/update', [userInst]);
                 } else {
                     def.reject('Error: Current User Info', userInst);
                 }
@@ -28,7 +29,7 @@ angular.module('common', ['ngRoute', 'cookieManager', 'permission', 'navigation'
     $rootScope.startSocket = function(initData) {
         console.log('Starting Socket IO');
         var skParams = {
-                host: ('ws://'+(location.host || location.hostname)),
+                host: ('//'+(location.host || location.hostname)),
                 skOptions : {
                   'transports':[ 'websocket', 'flashsocket', 'htmlfile', 'xhr-polling', 'jsonp-polling' ]
                   , 'force new connection': true
