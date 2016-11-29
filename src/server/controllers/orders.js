@@ -23,13 +23,30 @@ module.exports = function (app) {
 
     var updateOrderStatus = function (req, res, statusId){
         var orderId = req.params.id;
+        var creatorId = req.currentUser.id
         service.updateOrderStatus(orderId, statusId).then(function(resp){
+        	updateOrderActivity(req, res, orderId, creatorId, statusId);
             return res.send(resp);
           }, function(err){
               return res.status(500).send(errorUtil.createAppError(errors.SERVER_GET_PROBLEM));
           });
     };
-
+    var updateOrderActivity = function (req, res, orderId, creatorId, statusId){
+    	console.log('updateOrderActivity');
+        service.updateOrderActivity(orderId, creatorId, statusId).then(function(resp){
+        }, function(err){
+        });
+    };    
+    var cancelSubmittedOrder = function(req, res){
+    	var orderId = req.params.id;
+    	var userId = 	req.currentUser.id
+        service.deleteOrder(orderId, userId).then(function(resp){
+            return res.send(resp);
+          }, function(err){
+              return res.status(500).send(errorUtil.createAppError(errors.SERVER_GET_PROBLEM));
+          });
+    	
+    };
     router.get('/genOrderCode', function (req, res) {
         res.send(generateCode(req.currentUser.id + req.currentUser.username));
     });
@@ -41,7 +58,6 @@ module.exports = function (app) {
         newOrder.code = clientOrderData.code||generateCode(req.currentUser.id + req.currentUser.username);
         newOrder.statusId = constant.STATUS_TYPE.SUBMITTED_ID;
         console.log("saving new order : " + JSON.stringify(clientOrderData));
-
         service.saveOrder(newOrder).then(function (dataSave) {
             return res.status(200).send({dataSave : dataSave, newOrder : newOrder});
             },function (err) {
@@ -81,10 +97,48 @@ module.exports = function (app) {
     router.get('/confirmed/cancel/:id', function (req, res) {
         return updateOrderStatus(req, res, constant.STATUS_TYPE.SUBMITTED_ID);
     });
-    router.get('/confirmed/clear/:id', function (req, res) {
-        return updateOrderStatus(req, res, constant.STATUS_TYPE.CLEARED_ID);
-    });
+    var countUserCleared = function(userId, orderId, statusId){
+    	var count = -1;
+    	service.getOrderActivity(orderId).then(function(activities){
+			if(activities){
+				for(var i = 0; i < activities.length; i++){
+    				var activity = activities[i];
+    				if(activity.statusId == statusId){
+    					count +=1;
+    				}
+    			}
+			}
+    	}, function(err){
+    		return count;
+    	});
+    	return count; 
+    }
+//    var clearConfirmOrder = function(req, res, statusId){
+//    	var orderId = req.params.id;
+//    	var userId = req.currentUser.id;
+//    	var count = countUserCleared(userId, orderId, statusId);
+//    	if(count == 0){
+//    		service.updateOrderActivity(orderId, userId, constant.STATUS_TYPE.PENDING_ID).then(function(resp){
+//				return updateOrderStatus(req, res, constant.STATUS_TYPE.PENDING_ID);
+//			}, function(err){
+//	            return res.status(500).send(errorUtil.createAppError(errors.SERVER_GET_PROBLEM));
+//	        });
+//    	} else if(count == 1){
+//    		return updateOrderStatus(req, res, constant.STATUS_TYPE.CLEARED_ID);
+//    	} else {
+//    		return res.status(500).send(errorUtil.createAppError(errors.SERVER_GET_PROBLEM));
+//    	}
+//    }
 
+    router.get('/confirmed/clear/:id', function (req, res) {
+    	return updateOrderStatus(req, res, constant.STATUS_TYPE.CLEARED_ID);
+    });
+    router.get('/submitted/cancel/:id', function (req, res) {
+        return cancelSubmittedOrder(req, res);
+    });
+    router.get('/submitted/edit/:id', function (req, res) {
+//        return updateOrderStatus(req, res, constant.STATUS_TYPE.CLEARED_ID);
+    });
     router.get('/suggest', function (req, res) {
         var give = req.query.give;
         var get = req.query.get;
