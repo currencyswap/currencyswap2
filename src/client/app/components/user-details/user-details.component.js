@@ -222,7 +222,6 @@ angular.module('userDetails').component('userDetails', {
                         $rootScope.error = {};
                         $rootScope.error.status = GLOBAL_CONSTANT.UNKNOWN_ERROR_STATUS;
                         $rootScope.error.message = GLOBAL_CONSTANT.UNKNOWN_ERROR_MSG;
-                        $window.scrollTo(0, 0);
                     });
 
             };

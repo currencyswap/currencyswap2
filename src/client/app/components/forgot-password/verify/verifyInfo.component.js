@@ -42,6 +42,7 @@ angular.module('verifyInfo')
 
                     return $http(req)
                         .then(function (response) {
+                            console.log("response",response);
                             if (response.status === GLOBAL_CONSTANT.HTTP_ERROR_STATUS_CODE) {
                                 if (response.data.code === serverErrors.MEMBER_EMAIL_NOT_FOUND) {
                                     $scope.gifLoading = false;
