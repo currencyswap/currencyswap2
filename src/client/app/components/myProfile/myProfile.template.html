@@ -10,7 +10,7 @@
                             </div>
                             <div class="row">
                                 <a class = "avatar-align" type="file" ngf-select="uploadFiles($file, $invalidFiles)"
-                                   accept="image/*" ngf-max-height="1000" ngf-max-size="1MB">
+                                   accept="image/*" ngf-max-height="1000" ngf-max-size="1MB" ng-disabled="!isEditting">
                                     Change Avatar
                                 </a>
                             </div>
