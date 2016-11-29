@@ -14,18 +14,18 @@
 						<form id="orderCreateFormId" name="orderCreateForm" novalidate="novalidate">
 							<div class="form-group mb10" ng-class="{ 'has-error' : (orderCreateForm.give.$invalid && !orderCreateForm.give.$pristine) || (orderCreateForm.giveCurrency.$invalid && !orderCreateForm.giveCurrency.$pristine)}">
 								<label class="control-label">Give</label> <span class="asterisk">*</span>
-								<div class="form-inline">
-									<div class="input-group mr20 col-md-2">
+								<div class="form-inline give-row">
+									<div class="input-group">
 										<input type="number" name="give" class="form-control" ng-model="newOrder.give" ng-change="onChangeValue(FIXED_VALUE.GIVE);"  focus-me="focusGive" required>
 									</div>
-									<div class="input-group mr20 col-md-4">
+									<div class="input-group">
 										<div class="form-group">
 											<select name="giveCurrency" ng-model="newOrder.giveCurrencyCode" class="form-control" required>
 												<option ng-repeat="currency in currencies" value="{{currency.code}}">{{currency.code}} - {{currency.name}}</option>
 											</select>
 										</div>
 									</div>
-									<div class="input-group mr20">
+									<div class="input-group">
 										<div class="form-group">
 											<label class="radio-inline"> <input type="radio" name="fixed" ng-model="newOrder.fixed" value="{{FIXED_VALUE.GIVE}}">
 												fixed
@@ -40,18 +40,18 @@
 							<div class="form-group" ng-class="{ 'has-error' : (orderCreateForm.get.$invalid && !orderCreateForm.get.$pristine) || (orderCreateForm.getCurrency.$invalid && !orderCreateForm.getCurrency.$pristine)}">
 								<div class="mb10">
 									<label class="control-label">Get</label> <span class="asterisk">*</span>
-									<div class="form-inline">
-										<div class="input-group mr20 col-md-2">
+									<div class="form-inline get-row">
+										<div class="input-group">
 											<input type="number" name="get" class="form-control" ng-model="newOrder.get" ng-change="onChangeValue(FIXED_VALUE.GET);" focus-me="focusGet" required>
 										</div>
-										<div class="input-group mr20 col-md-4">
+										<div class="input-group">
 											<div class="form-group">
 												<select name="getCurrency" ng-model="newOrder.getCurrencyCode" class="form-control" required>
 													<option ng-repeat="currency in currencies" value="{{currency.code}}">{{currency.code}} - {{currency.name}}</option>
 												</select>
 											</div>
 										</div>
-										<div class="input-group mr20">
+										<div class="input-group">
 											<div class="form-group">
 												<label class="radio-inline"> <input type="radio" name="fixed" ng-model="newOrder.fixed" value="{{FIXED_VALUE.GET}}">
 													fixed
@@ -69,11 +69,11 @@
 								<div class="mb10">
 									<label class="control-label">Rate</label> <span
 										class="asterisk">*</span>
-									<div class="form-inline">
-										<div class="input-group mr40 col-md-6">
+									<div class="form-inline rate-row">
+										<div class="input-group">
 											<input type="number" name="rate" class="form-control" ng-model="newOrder.rate" ng-change="onChangeValue(FIXED_VALUE.RATE);" focus-me="focusRate" required>
 										</div>
-										<div class="input-group mr20">
+										<div class="input-group">
 											<div class="form-group">
 												<label class="radio-inline"> <input type="radio" name="fixed" ng-model="newOrder.fixed" value="{{FIXED_VALUE.RATE}}">
 													fixed
@@ -89,7 +89,7 @@
 								<div class="mb10">
 									<label class="control-label">Alive Period</label> <span class="asterisk">*</span>
 									<div class="form-group">
-										<label class="radio-inline mr20" ng-repeat="expiredValue in EXPIRED_VALUE"> 
+										<label class="radio-inline" ng-repeat="expiredValue in EXPIRED_VALUE"> 
 											<input type="radio" name="expired" ng-model="newOrder.expired" value="{{expiredValue.key}}"> {{expiredValue.value}}
 										</label>
 									</div>
@@ -148,6 +148,10 @@
 								<button class="btn btn-primary btn-md nomagin"
 									ng-click="onSubmit();" ng-disabled="submitLoading">Submit</button>
 							</div>
+						</div>
+						
+						<div class="row submit-error" align="center" ng-if="statusPage == STATUS_PAGE_VALUE.INITIALIZED" ng-show="hasError">
+							{{errorMessage}}
 						</div>
 
 						<div class="loaders" align="center" ng-show="submitLoading">

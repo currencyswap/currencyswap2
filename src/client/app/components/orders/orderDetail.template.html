@@ -3,7 +3,10 @@
 
 <div class="detailOrderPanel">
 	<div class="panel panel-default">
-		<div class="panel-heading">
+		<div class="panel-heading" ng-if="orderNotExisted">
+			<h4 class="panel-title-error">Order does not exist</h4>
+		</div>
+		<div class="panel-heading" ng-if="!orderNotExisted">
 			<h4 class="panel-title">Order {{order.code}}</h4>
 			<div class="panel-body">
 				<div class="row row-initialized nomargin row-order-status">

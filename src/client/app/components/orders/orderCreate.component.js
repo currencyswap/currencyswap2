@@ -27,6 +27,7 @@ angular.module('orders')
         		}
         		
         		$scope.submitLoading = false;
+        		$scope.hasError = false;
         		
         		$scope.statusPage = $scope.STATUS_PAGE_VALUE.CREATE;
         		
@@ -143,12 +144,14 @@ angular.module('orders')
         			$scope.newOrder.expiredDate = expiredDate;
         			$scope.statusPage = $scope.STATUS_PAGE_VALUE.INITIALIZED;
         			$scope.submitLoading = false;
+        			$scope.hasError = false;
         			getSuggestionOrders();
             	}
         		
         		$scope.onBackStep = function(){
         			$scope.statusPage = $scope.STATUS_PAGE_VALUE.CREATE;
         			$scope.submitLoading = false;
+        			$scope.hasError = false;
             	}
         		
         		var goToOrderList = function(){
@@ -157,7 +160,7 @@ angular.module('orders')
         		
         		$scope.onSubmit = function(){
         			$scope.submitLoading = true;
-        			
+        			$scope.hasError = false;
         			var newOrderRequest = {};
         			
         			newOrderRequest.give = $scope.newOrder.give;
@@ -182,7 +185,8 @@ angular.module('orders')
         				goToOrderList();
         			},function(err){
         				$scope.submitLoading = false;
-        				$window.alert("postSaveNewOrders err: " + JSON.stringify(err));
+        				$scope.hasError = true;
+        				$scope.errorMessage = GLOBAL_CONSTANT.SERVER_GOT_PROBLEM_ERROR.message;
         			});
             	}
         		
