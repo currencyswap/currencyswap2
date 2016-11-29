@@ -395,13 +395,18 @@ hr {
     margin-bottom: 0;
 }
 
-.menu-item-create-order, .menu-item-support,
-.menu-item-guideline-information, .menu-item-notification,
-.menu-item-profile, .menu-item-my-profile-name,
-.menu-item-logout, .menu-item-orders, .menu-item-users {
- display: '' !important;;
+.toolbar-create-order,
+.toolbar-support,
+.toolbar-help,
+.toolbar-noti,
+.toolbar-profile,
+.toolbar-signout,
+.toolbar-my-profile-name,
+.menubar-orders,
+.menubar-users {
+ display: '' !important;
 }
-.menu-item-my-profile-name {
+.toolbar-my-profile-name {
  white-space: nowrap;
 }
 
@@ -4323,8 +4328,10 @@ select {
 
 @media screen and (max-width: 767px) {
 /* body {border:1px solid blue !important;} */
-.menu-item-my-profile-name {
- display: none !important;;
+.toolbar-my-profile-name,
+header-left .menubar-orders,
+header-left .menubar-users {
+ display: none !important;
 }
     .searchform {
         position: relative;
@@ -4359,8 +4366,10 @@ select {
 
 @media screen and (max-width: 640px) {
 /* body {border:1px solid yellow !important;} */
-.menu-item-my-profile-name {
- display:none !important;; 
+.toolbar-my-profile-name,
+header-left .menubar-orders,
+header-left .menubar-users {
+ display: none !important;
 }
 
     .notfoundpanel {
@@ -4495,8 +4504,11 @@ select {
 
 @media screen and (max-width: 480px) {
 /* body {border:1px solid black !important;} */
-.menu-item-profile, .menu-item-my-profile-name,
-.menu-item-logout, .menu-item-orders, .menu-item-users {
+.toolbar-profile,
+.toolbar-signout,
+.toolbar-my-profile-name,
+header-left .menubar-orders,
+header-left .menubar-users {
  display: none !important;
 }
     .signinpanel,
@@ -4628,8 +4640,11 @@ select {
 
 @media screen and (max-width: 360px) {
 /* body {border:1px solid orange !important;} */
-.menu-item-profile, .menu-item-my-profile-name,
-.menu-item-logout, .menu-item-orders, .menu-item-users {
+.toolbar-profile,
+.toolbar-signout,
+.toolbar-my-profile-name,
+header-left .menubar-orders,
+header-left .menubar-users {
  display: none !important;
 }
 
@@ -4708,8 +4723,11 @@ select {
 
 @media screen and (max-width: 320px) {
 /* body {border:1px solid cyan !important;} */
-.menu-item-profile, .menu-item-my-profile-name,
-.menu-item-logout, .menu-item-orders, .menu-item-users {
+.toolbar-profile,
+.toolbar-signout,
+.toolbar-my-profile-name,
+header-left .menubar-orders,
+header-left .menubar-users {
  display: none !important;
 }
 
