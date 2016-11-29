@@ -130,29 +130,33 @@ exports.getSuggestOrders = function (userId, value, fixed) {
 	
 	var filterFixed = {};
 	var order = "";
-	if(fixed == constant.FIXED_VALUE.GIVE){
-		filterFixed = {'give' : { 'lte' : max, 'gte' : min}};
-		order = "give DESC";
-	}else if(fixed == constant.FIXED_VALUE.GET){
-		filterFixed = {'get' : { 'lte' : max, 'gte' : min}};
-		order = "get DESC";
-	}else{
-		filterFixed = {'rate' : { 'lte' : max, 'gte' : min}};
-		order = "rate DESC";
-	}
 	
     var filter = {
-    		'limit' : constant.SUGGETION_LIST_CONFIG.LIMIT_NUMBER,
-    		'order' : order,
-            'where': {
-            and: [
-                  filterFixed,
-                  {'ownerId': {'neq': userId}},
-                  { 'statusId': constant.STATUS_TYPE.SUBMITTED_ID }
-            ]
-    },
-    'include' : [ ownerRelation, accepterRelation, giveCurrencyRelation, getCurrencyRelation, statusRelation, activitiesRelation]
+	    		'limit' : constant.SUGGETION_LIST_CONFIG.LIMIT_NUMBER,
+	    		'order' : order,
+	            'where': {
+	            and: [
+	                  //{'ownerId': {'neq': userId}},
+	                  //{ 'statusId': constant.STATUS_TYPE.SUBMITTED_ID }
+	            ]
+            },
+            'include' : [ ownerRelation, accepterRelation, giveCurrencyRelation, getCurrencyRelation, statusRelation, activitiesRelation]
     };
+    
+    if(fixed == constant.FIXED_VALUE.GIVE){
+    	filter.where.and.push({'give' : { 'lte' : max}});
+    	filter.where.and.push({'give' : {'gte' : min}});
+    	filter.order = "give DESC";
+	}else if(fixed == constant.FIXED_VALUE.GET){
+		filter.where.and.push({'get' : { 'lte' : max}});
+    	filter.where.and.push({'get' : {'gte' : min}});
+    	filter.order = "give DESC";
+	}else{
+		filter.where.and.push({'rate' : { 'lte' : max}});
+    	filter.where.and.push({'rate' : {'gte' : min}});
+    	filter.order = "rate DESC";
+	}
+    
     return dbUtil.executeModelFn(app.models.Order, 'find', filter);
 };
 exports.getExpiredOrders = function (time) {
