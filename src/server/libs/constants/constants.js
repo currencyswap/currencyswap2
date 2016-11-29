@@ -5,7 +5,10 @@ module.exports = {
         APPROVAL_TITLE : 'Welcome new member',
         APPROVAL_CONTENT : 'You have just been approved to use this application',
         ORDER_SWAP_TITLE : 'Request Swapping',
-        ORDER_EXPIRE_SOON_TITLE : 'Your Order Expiring Soon'
+        ORDER_EXPIRE_SOON_TITLE : 'Your Order Expiring Soon',
+        USER_EDITED_PROFILE: 'has updated his/her profile: user sent to admin',
+        ADMIN_EDITED_PROFILE_CONTENT: 'Your profile has been updated by administrator: admin edit profile',
+        ADMIN_EDITED_PROFILE_TITLE: 'Updated profile'
     },
     PASSWORD_FIELD: 'password',
     STATUS_FIELD: 'status',

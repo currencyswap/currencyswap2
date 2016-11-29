@@ -87,6 +87,13 @@ module.exports = function (app) {
                             'message': constant.MSG.APPROVAL_CONTENT, 
                             'creatorId': admin.id, 'receiverId': user.id};
                     supportService.saveMessage(message);
+                }else {
+                    if(updatingUser.status !== constant.USER_STATUSES.BLOCKED && JSON.stringify(updatingUser) !== JSON.stringify(user)) {
+                        var message = {'title': constant.MSG.ADMIN_EDITED_PROFILE_TITLE,
+                            'message': constant.MSG.ADMIN_EDITED_PROFILE_CONTENT,
+                            'creatorId': admin.id, 'receiverId': user.id};
+                        supportService.saveMessage(message);
+                    }
                 }
                 return next (null, user);
             },
