@@ -15,9 +15,12 @@ angular.module('orders')
             'GLOBAL_CONSTANT',
             function orderDetailController($scope, $rootScope, $route,$routeParams, OrdersService, CookieService, $location, $http, $window, GLOBAL_CONSTANT) {
         		console.log("orderDetailController ....");
+        		
+        		$scope.submitLoading = false;
+        		
         		var orderCode = $routeParams.orderCode;
         		//orderCode = $route.current.params.orderCode;
-        		var currentUser = CookieService.getCurrentUser();
+        		$scope.currentUser = CookieService.getCurrentUser();
         		
         		$scope.statusType = GLOBAL_CONSTANT.STATUS_TYPE;
         		$scope.orderStatus = "";
@@ -28,7 +31,7 @@ angular.module('orders')
         				console.log("getOrderDetail success: " + JSON.stringify(data));
         				$scope.$apply(function(){
         					$scope.order = data;
-        					if($scope.order.owner.username == currentUser.username){
+        					if($scope.order.owner.username == $scope.currentUser.username){
         						$scope.isOwnerOrder = true;
         					}
         					$scope.orderStatus = $scope.order.status.name;
@@ -50,23 +53,30 @@ angular.module('orders')
         		$scope.onCancel = function(orderId){
             		var cancelOrder = $window.confirm('Are you sure you want to cancel the Order?');
             	    if(cancelOrder){
+            	    	$scope.submitLoading = true;
             	    	if($scope.orderStatus == $scope.statusType.SWAPPING){
             	    		OrdersService.cancelSwappingOrder(orderId).then(function(resp){
+            	    			$scope.submitLoading = false;
             	    			goToOrderList();
     	                    }, function(err){
-    	                        console.log('Failure in saving your message');
+    	                    	$scope.submitLoading = false;
+    	                        $window.alert('Failure to cancel action!');
     	                    });
             	    	}else if($scope.orderStatus == $scope.statusType.CONFIRMED){
             	    		OrdersService.cancelConfirmedOrder(orderId).then(function(resp){
+            	    			$scope.submitLoading = false;
             	    			goToOrderList();
     	                    }, function(err){
-    	                        console.log('Failure in saving your message');
+    	                    	$scope.submitLoading = false;
+    	                    	$window.alert('Failure to cancel action!');
     	                    });
             	    	}else if($scope.orderStatus == $scope.statusType.SUBMITTED){
             	    		OrdersService.cancelSubmittedOrder(orderId).then(function(resp){
+            	    			$scope.submitLoading = false;
             	    			goToOrderList();
                             }, function(err){
-                                console.log('Failure in saving your message');
+                            	$scope.submitLoading = false;
+                            	$window.alert('Failure to cancel action!');
                             });
             	    	}
             	    }
@@ -74,12 +84,15 @@ angular.module('orders')
         		
         		// Confirm swapping order
         		$scope.onConfirm = function(orderId){
-            		var swappingOrder = $window.confirm('Are you sure you want to clear the Order?');
-            	    if(swappingOrder){
+            		var confirmOrder = $window.confirm('Are you sure you want to confirm the Order?');
+            	    if(confirmOrder){
+            	    	$scope.submitLoading = true;
 		                OrdersService.confirmSwappingOrder(orderId).then(function(resp){
+		                	$scope.submitLoading = false;
 		                	goToOrderList();
 	                    }, function(err){
-	                        console.log('Failure in saving your message');
+	                    	$scope.submitLoading = false;
+	                    	$window.alert('Failure to confirm action!');
 	                    });
             	    }
         		};
@@ -88,10 +101,13 @@ angular.module('orders')
         		$scope.onClear = function(orderId){
             		var clearOrder = $window.confirm('Are you sure you want to clear the Order?');
             	    if(clearOrder){
+            	    	$scope.submitLoading = true;
 		                OrdersService.clearConfirmedOrder(orderId).then(function(resp){
+		                	$scope.submitLoading = false;
 		                	goToOrderList();
 	                    }, function(err){
-	                        console.log('Failure in saving your message');
+	                    	$scope.submitLoading = false;
+	                    	$window.alert('Failure to clear action!');
 	                    });
             	    }
         		};

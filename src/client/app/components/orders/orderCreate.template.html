@@ -146,7 +146,7 @@
 								<button class="btn btn-warning btn-md nomagin"
 									ng-click="onBackStep();">Back</button>
 								<button class="btn btn-primary btn-md nomagin"
-									ng-click="onSubmit();">Submit</button>
+									ng-click="onSubmit();" ng-disabled="submitLoading">Submit</button>
 							</div>
 						</div>
 
@@ -182,7 +182,7 @@
 									<td class="col-sm-1 order-item-content">{{suggestionOrder.rate}}</td>
 									<td class="col-sm-3 text-left">
 										<div class="order-action">
-											<div class="button-order-list button-confirm-swapping">swapping</div>
+											<div class="btn button-order-list button-confirm-swapping" ng-click = "onSwap(suggestionOrder.id)">Swap</div>
 										</div>
 									</td>
 								</tr>

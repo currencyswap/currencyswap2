@@ -36,7 +36,7 @@ module.exports = function (app) {
         var orderId = req.params.id;
         var creatorId = req.currentUser.id
         service.updateOrderStatus(orderId, statusId).then(function(resp){
-        	updateOrderActivity(req, res, orderId, creatorId, statusId);
+        	createOrderActivity(orderId, creatorId, statusId);
         	service.getOrderById(orderId).then(function(data){
         		var ownerId = data.ownerId;
         	    var accepterId = data.accepterId;
@@ -53,16 +53,28 @@ module.exports = function (app) {
               return res.status(500).send(errorUtil.createAppError(errors.SERVER_GET_PROBLEM));
           });
     };
-    var updateOrderActivity = function (req, res, orderId, creatorId, statusId){
-    	console.log('updateOrderActivity');
-        service.updateOrderActivity(orderId, creatorId, statusId).then(function(resp){
+    var createOrderActivity = function (orderId, creatorId, statusId){
+        service.createOrderActivity(orderId, creatorId, statusId).then(function(resp){
+        	console.log('createOrderActivity success');
         }, function(err){
+        	console.log('createOrderActivity error : ' + JSON.stringify(err));
         });
     };    
     var cancelSubmittedOrder = function(req, res){
     	var orderId = req.params.id;
     	var userId = 	req.currentUser.id
         service.deleteOrder(orderId, userId).then(function(resp){
+            return res.send(resp);
+          }, function(err){
+              return res.status(500).send(errorUtil.createAppError(errors.SERVER_GET_PROBLEM));
+          });
+    	
+    };
+    var swapSubmittedOrder = function(req, res){
+    	var orderId = req.params.id;
+    	var userId = 	req.currentUser.id
+        service.swapSubmittedOrder(orderId, userId, constant.STATUS_TYPE.SWAPPING_ID).then(function(resp){
+        	createOrderActivity(orderId, userId, constant.STATUS_TYPE.SWAPPING_ID)
             return res.send(resp);
           }, function(err){
               return res.status(500).send(errorUtil.createAppError(errors.SERVER_GET_PROBLEM));
@@ -150,12 +162,14 @@ module.exports = function (app) {
     router.get('/submitted/edit/:id', function (req, res) {
 //        return updateOrderStatus(req, res, constant.STATUS_TYPE.CLEARED_ID, constant.MSG.CANCEL_ORDER_TITLE, constant.MSG.CANCEL_ORDER_MESSAGE);
     });
+    router.get('/submitted/swap/:id', function (req, res) {
+        return swapSubmittedOrder(req, res);
+    });
     router.get('/suggest', function (req, res) {
-        var give = req.query.give;
-        var get = req.query.get;
-        var rate = req.query.rate;
+        var value = req.query.value;
         var fixed = req.query.fixed;// fixed = 1 (give) , 2 (get), 3 (rate)
-        service.getSuggestOrders(req.currentUser.id, give, get, rate, fixed).then(function(resp){
+        
+        service.getSuggestOrders(req.currentUser.id, value, fixed).then(function(resp){
             return res.send(resp);
         }, function(err){
             return res.status(500).send(errorUtil.createAppError(errors.SERVER_GET_PROBLEM));

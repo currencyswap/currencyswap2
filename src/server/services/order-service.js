@@ -29,8 +29,14 @@ var getCurrencyRelation = {
 var statusRelation = {
         'relation' : 'status'
 };
+var creatorRelation = {
+        'relation' : 'creator'
+};
 var activitiesRelation = {
-                'relation' : 'activities'
+		'relation' : 'activities',
+		'scope' : {
+			'include' : [creatorRelation]
+		}
 };
 exports.filterOrders = function (filter) {
     return dbUtil.executeModelFn(app.models.Order, 'find', filter);
@@ -62,6 +68,11 @@ exports.updateOrderStatus = function (orderId, statusId) {
     var where = { 'id': orderId };
     return dbUtil.executeModelFn(app.models.Order, 'updateAll', where, order);
 };
+exports.swapSubmittedOrder = function(orderId, userId, statusId){
+	var order = { 'statusId': statusId , 'accepterId' : userId};
+    var where = { 'id': orderId };
+    return dbUtil.executeModelFn(app.models.Order, 'updateAll', where, order);
+}
 exports.getUserSwappingOrders = function (userId) {
     var filter = {
             'where': {
@@ -113,10 +124,29 @@ exports.getUserHistoryOrders = function (userId) {
     };
     return dbUtil.executeModelFn(app.models.Order, 'find', filter);
 };
-exports.getSuggestOrders = function (userId, give, get, rate, fixed) {
+exports.getSuggestOrders = function (userId, value, fixed) {
+	var min = value * (1 - constant.SUGGETION_LIST_CONFIG.ROTATE_SUGGETION);
+	var max = value * (1 + constant.SUGGETION_LIST_CONFIG.ROTATE_SUGGETION);
+	
+	var filterFixed = {};
+	var order = "";
+	if(fixed == constant.FIXED_VALUE.GIVE){
+		filterFixed = {'give' : { 'lte' : max, 'gte' : min}};
+		order = "give DESC";
+	}else if(fixed == constant.FIXED_VALUE.GET){
+		filterFixed = {'get' : { 'lte' : max, 'gte' : min}};
+		order = "get DESC";
+	}else{
+		filterFixed = {'rate' : { 'lte' : max, 'gte' : min}};
+		order = "rate DESC";
+	}
+	
     var filter = {
+    		'limit' : constant.SUGGETION_LIST_CONFIG.LIMIT_NUMBER,
+    		'order' : order,
             'where': {
             and: [
+                  filterFixed,
                   {'ownerId': {'neq': userId}},
                   { 'statusId': constant.STATUS_TYPE.SUBMITTED_ID }
             ]
@@ -149,8 +179,8 @@ exports.updateOrderActivity = function (orderId, creatorId, statusId) {
     return dbUtil.executeModelFn(app.models.OrderActivity, 'updateAll', where, {'statusId': statusId});
 };
 exports.createOrderActivity = function (orderId, creatorId, statusId) {
-        var newOrder = {'orderId' : orderId,'creatorId': creatorId, 'statusId': statusId};
-    return dbUtil.executeModelFn(app.models.OrderActivity, 'create', newOrder);
+        var newItem = {'orderId' : orderId,'creatorId': creatorId, 'statusId': statusId};
+    return dbUtil.executeModelFn(app.models.OrderActivity, 'create', newItem);
 };
 exports.getOrderActivity = function (orderId) {
     var filter = {
@@ -159,6 +189,26 @@ exports.getOrderActivity = function (orderId) {
             }
     };
     return dbUtil.executeModelFn(app.models.OrderActivity, 'find', filter);
+};
+exports.getPartnerOrderOfUser = function(orderId, userId){
+    var filter = {
+		'where' : {
+			and : [ 
+			       {'orderId' : orderId}, 
+			       {'creatorId' : {'neq' : userId}} 
+			   ]
+		}
+    };
+    return dbUtil.executeModelFn(app.models.OrderActivity, 'find', filter);
+
+};
+exports.getUserAllOrders = function (userId) {
+    var filter = {
+    		'where': { or: [{'ownerId': userId}, 
+                            {'accepterId': userId}] 
+            }
+    };
+    return dbUtil.executeModelFn(app.models.Order, 'find', filter);
 };
 exports.getPartnerOrderOfUser = function(orderId, userId){
     var filter = {

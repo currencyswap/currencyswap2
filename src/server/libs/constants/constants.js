@@ -64,6 +64,15 @@ module.exports = {
         CANCELED_ID: 6,
         EXPIRED_ID: 7
     },
+    FIXED_VALUE : {
+        GIVE: "GIVE",
+        GET: "GET",
+        RATE: "RATE"
+    },
+    SUGGETION_LIST_CONFIG : {
+    	LIMIT_NUMBER : 10,
+    	ROTATE_SUGGETION : 0.2, // var * (1+ROTATE_SUGGETION) >=  value >= var * (1-ROTATE_SUGGETION),     0 < ROTATE_SUGGETION < 1
+    },
     MEMBER_GROUP_MODEL_FIELD: {
         GROUP_ID: 'groupId'
     },
