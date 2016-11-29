@@ -156,84 +156,6 @@ angular.module('userList')
                 $scope.selectedStatus = {};
                 $scope.errorSetOwnRole = false;
 
-                $scope.onSaveUserDetailData = function () {
-
-                    $scope.gifLoading = true;
-                    var address, city, country, postcode, state = null;
-                    if ($scope.userDetail.addresses[0] && $scope.userDetail.addresses[0].hasOwnProperty('address')) address = $scope.userDetail.addresses[0].address;
-                    if ($scope.userDetail.addresses[0] && $scope.userDetail.addresses[0].hasOwnProperty('city')) city = $scope.userDetail.addresses[0].city;
-                    if ($scope.userDetail.addresses[0] && $scope.userDetail.addresses[0].hasOwnProperty('state')) state = $scope.userDetail.addresses[0].state;
-                    if ($scope.userDetail.addresses[0] && $scope.userDetail.addresses[0].hasOwnProperty('country')) country = $scope.userDetail.addresses[0].country;
-                    if ($scope.userDetail.addresses[0] && $scope.userDetail.addresses[0].hasOwnProperty('postcode')) postcode = $scope.userDetail.addresses[0].postcode;
-                    if ($scope.userDetail.groupMember && $scope.userDetail.groupMember === 'Standard Member') $scope.userDetail.groupMember = GLOBAL_CONSTANT.STANDARD_USER_ROLE;
-
-                    var resultUser = {
-                        id: $scope.userDetail.id,
-                        username: $scope.userDetail.username,
-                        birthday: $scope.userDetail.birthday,
-                        email: $scope.userDetail.email,
-                        expiredDate: $scope.userDetail.expiredDate,
-                        fullName: $scope.userDetail.fullName,
-                        registeredDate: $scope.userDetail.registeredDate,
-                        addresses: [
-                            {
-                                address: address,
-                                city: city,
-                                country: country,
-                                postcode: postcode,
-                                state: state
-                            }
-                        ],
-                        profession: $scope.userDetail.profession,
-                        cellphone: $scope.userDetail.cellphone,
-                        nationalId: $scope.userDetail.nationalId,
-                        status: $scope.selectedStatus.selectedStatus,
-                        group: $scope.userDetail.groupMember
-                    };
-
-
-                    var token = CookieService.getToken();
-                    var headers = {};
-
-                    headers[httpHeader.CONTENT_TYPE] = contentTypes.JSON;
-                    headers[httpHeader.AUTHORIZARION] = autheticateType.BEARER + token;
-
-                    $scope.changeRole = function () {
-                        $scope.errorSetOwnRole = false;
-                    };
-                    UserListService.saveUserDetail(resultUser, headers)
-                        .then(function (response) {
-                            $scope.isEditting = false;
-                            if (response.status === GLOBAL_CONSTANT.HTTP_ERROR_STATUS_CODE) {
-                                $scope.gifLoading = false;
-                                if (response.data.code === serverErrors.CANNOT_SET_YOUR_OWN_ROLE) {
-                                    $scope.errorSetOwnRole = true;
-                                }
-                                if (response.data.code === serverErrors.UNKNOWN_GROUP
-                                    || response.data.code === serverErrors.SERVER_GET_PROBLEM
-                                    || response.data.code === serverErrors.CANNOT_FIND_ADDRESS_FOR_USER) {
-
-                                    $rootScope.isLoading = false;
-                                    $rootScope.error = {};
-                                    $rootScope.error.status = GLOBAL_CONSTANT.SERVER_GOT_PROBLEM_STATUS;
-                                    $rootScope.error.message = GLOBAL_CONSTANT.SERVER_GOT_PROBLEM_MSG;
-                                    $window.scrollTo(0, 0);
-                                }
-                            } else {
-                                $scope.fullName = $scope.userDetail.fullName;
-                                $scope.isEditting = false;
-                                $window.scrollTo(0, 0);
-                                $scope.gifLoading = false;
-                            }
-                        }, function (error) {
-                            $scope.gifLoading = false;
-                            $rootScope.error = {};
-                            $rootScope.error.status = GLOBAL_CONSTANT.UNKNOWN_ERROR_STATUS;
-                            $rootScope.error.message = GLOBAL_CONSTANT.UNKNOWN_ERROR_MSG;
-                            $window.scrollTo(0, 0);
-                        });
-
-                };
                 $scope.listStatus = [GLOBAL_CONSTANT.ACTIVATED_USER_STATUS,GLOBAL_CONSTANT.PENDING_USER_STATUS,GLOBAL_CONSTANT.BLOCKED_USER_STATUS];
                 $scope.formatDate = function(date){
                     var dateOut = new Date(date);
@@ -346,44 +268,6 @@ angular.module('userList')
                             }
                         });
                 };
-                $scope.onBackStep = function(){
-                    $scope.detailUserView = false;
-                    $scope.isEditting = false;
-                    $scope.statusPage = $scope.STATUS_PAGE_VALUE.USERLIST;
-                    $window.scrollTo(0, 0);
-                }
-                $scope.showUserDetail = function (userId) {
-                    $scope.isEditting = false;
-                    $scope.statusPage = $scope.STATUS_PAGE_VALUE.USERINFO;
-                    $scope.detailUserView = true;
-                    var token = CookieService.getToken();
-                    var headers = {};
 
-                    headers[httpHeader.CONTENT_TYPE] = contentTypes.JSON;
-                    headers[httpHeader.AUTHORIZARION] = autheticateType.BEARER + token;
-                    UserListService.getUserDetail(userId, headers)
-                        .then(function (response) {
-                            $scope.userDetail = {};
-                            var userDetail = response.data;
-                            console.log("response;",response);
-                            $scope.getValueOfUserDetail(userDetail);
-                        })
-                };
-
-                $scope.getValueOfUserDetail = function (userDetail) {
-                    $scope.userDetail.id = userDetail.id;
-                    $scope.userDetail.birthday = new Date(userDetail.birthday);
-                    $scope.userDetail.expiredDate = new Date(userDetail.expiredDate);
-                    $scope.userDetail.username = userDetail.username;
-                    $scope.userDetail.fullName = userDetail.fullName;
-                    $scope.userDetail.addresses = userDetail.addresses;
-                    $scope.userDetail.cellphone = userDetail.cellphone;
-                    $scope.userDetail.email = userDetail.email;
-                    $scope.userDetail.nationalId = userDetail.nationalId;
-                    $scope.userDetail.profession = userDetail.profession;
-                    $scope.selectedStatus.selectedStatus = userDetail.status;
-
-                    $scope.fullName = $scope.userDetail.fullName;
-                }
             }]
     });

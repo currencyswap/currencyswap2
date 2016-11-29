@@ -6,7 +6,7 @@
                     <form class="form-vertical">
                         <div class="pull-left  formAvatar">
                             <div class="row">
-                                <img class="avatar-size avatar-align" ng-src="/config/media/{{model.username}}?{{randomNumImg}}" alt="Mountain View">
+                                <img class="avatar-size avatar-align" ng-src="/config/media/{{model.username}}?{{randomNumImg}}" alt="Avatar Image">
                             </div>
                             <div class="row">
                                 <a class = "avatar-align" type="file" ngf-select="uploadFiles($file, $invalidFiles)"
@@ -16,7 +16,7 @@
                             </div>
                         </div>
                     </form>
-                    <div class="col-sm-1 pull-left">
+                    <div class="pull-left">
                         <div class="row">
                             <h4 class="panel-title">{{fullName}}</h4>
                             <a href="#">{{model.email}}</a>
@@ -33,7 +33,7 @@
                             <div class="form-group">
                                 <label class="control-label" for="fullname">Full Name</label>
                                 <input ng-model="model.fullName" id="fullname" class="form-control"
-                                       type="text">
+                                       type="text" maxlength="60">
                             </div>
                             <div class="form-group">
                                 <label class="control-label">Birthday</label>
@@ -69,30 +69,30 @@
                             </div>
                             <div class="form-group">
                                 <label class="control-label">Cell phone</label>
-                                <input class="form-control" type="text" ng-model="model.cellphone">
+                                <input class="form-control" type="text" ng-model="model.cellphone" maxlength="20">
                             </div>
                             <div class="form-group">
                                 <label class="control-label">Passport ID</label>
-                                <input class="form-control" type="text" ng-model="model.nationalId">
+                                <input class="form-control" type="text" ng-model="model.nationalId" maxlength="20">
                             </div>
                             <div class="form-group">
                                 <label class="control-label">Address</label>
-                                <input class="form-control" type="text" ng-model="model.address">
+                                <input class="form-control" type="text" ng-model="model.address" maxlength="80">
                             </div>
                             <div class="form-group">
                                 <label class="control-label">City</label>
-                                <input class="form-control" type="text" ng-model="model.city">
+                                <input class="form-control" type="text" ng-model="model.city" maxlength="20">
                             </div>
                             <div class="form-group">
                                 <country-state-user country="model.country" state="model.state"></country-state-user>
                             </div>
                             <div class="form-group">
                                 <label class="control-label">Postcode</label>
-                                <input class="form-control" type="text" ng-model="model.postcode">
+                                <input class="form-control" type="text" ng-model="model.postcode" maxlength="20">
                             </div>
                             <div class="form-group">
                                 <label class="control-label">Profession</label>
-                                <input class="form-control" type="text" ng-model="model.profession">
+                                <input class="form-control" type="text" ng-model="model.profession" maxlength="30">
                             </div>
                         </form>
                         <div class="mb30"></div>
@@ -103,15 +103,15 @@
 
                             <div class="form-group">
                                 <label class="control-label">Account Number</label>
-                                <input class="form-control" type="text" ng-model="model.bankAccountNumber">
+                                <input class="form-control" type="text" ng-model="model.bankAccountNumber" maxlength="50">
                             </div>
                             <div class="form-group">
                                 <label class="control-label">Bank</label>
-                                <input class="form-control" type="text" ng-model="model.bankName">
+                                <input class="form-control" type="text" ng-model="model.bankName"  maxlength="50">
                             </div>
                             <div class="form-group">
                                 <label class="control-label">Country</label>
-                                <input class="form-control" type="text" ng-model="model.bankCountry">
+                                <input class="form-control" type="text" ng-model="model.bankCountry" maxlength="20">
                             </div>
                         </form>
                         <div ng-if="isEditting">

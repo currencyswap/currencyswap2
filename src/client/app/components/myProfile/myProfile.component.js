@@ -74,7 +74,7 @@ angular.module('myProfile')
                     });
 
                 $scope.uploadFiles = function(file, errFiles) {
-                    $scope.randomNumImg = parseInt(Math.floor(Number.MAX_SAFE_INTEGER * Math.random()));
+
                     $scope.f = file;
                     $scope.errFile = errFiles && errFiles[0];
 
@@ -89,6 +89,7 @@ angular.module('myProfile')
                         });
 
                         file.upload.then(function (response) {
+                            $scope.randomNumImg = parseInt(Math.floor(Number.MAX_SAFE_INTEGER * Math.random()));
                             $timeout(function () {
                                 file.result = response.data;
                             });
@@ -148,7 +149,6 @@ angular.module('myProfile')
                         currentPwd: $scope.model.currentPwd,
                         newPwd: $scope.model.newPwd
                     };
-                    console.log("$scope.model.profession",$scope.model.profession);
                     var headersSave = {};
 
                     headersSave[httpHeader.CONTENT_TYPE] = contentTypes.JSON;

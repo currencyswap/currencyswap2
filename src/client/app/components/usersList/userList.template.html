@@ -1,6 +1,6 @@
 
 <section>
-    <div class="panel panel-default" ng-show="statusPage != STATUS_PAGE_VALUE.USERINFO">
+    <div class="panel panel-default">
         <div class="contentpanel">
             <div class="row order-content">
                 <div class="col-md-8 order-tabs" style="padding: 0px">
@@ -9,7 +9,7 @@
                         <li class=""><a data-toggle="tab" ng-click="onActivatedClick()"><strong>Activated</strong></a></li>
                         <li class=""><a href="" data-toggle="tab" ng-click="onPendingClick()"><strong>Pending</strong></a></li>
                     </ul>
-                    <div ng-if="!detailUserView" class="tab-content disabled">
+                    <div class="tab-content disabled">
                         <div id="allUser" class="tab-panel" ng-if="tab==TABSELECTED.ALL">
                             <div class="table-responsive">
                                 <div id="table1_wrapper" class="dataTables_wrapper no-footer" style="overflow: auto">
@@ -243,120 +243,6 @@
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
-    </div>
-    <div class="support-content" ng-show="statusPage == STATUS_PAGE_VALUE.USERINFO">
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <h4 class="panel-title">{{fullName}}</h4>
-                <br>
-                <fieldset ng-disabled="!isEditting">
-                    <div class="panel-body panel-body-nopadding">
-                        <form id="msgForm" name="msgForm" novalidate="novalidate">
-                            <div class="form-group">
-                                <label class="control-label" for="userName">User Name</label>
-                                <input ng-model="userDetail.username" value="Read Only Input" id="userName"
-                                       class="form-control" type="text">
-                            </div>
-                            <div class="form-group">
-                                <label class="control-label" for="email">Email</label>
-                                <input ng-model="userDetail.email" id="email" class="form-control" readonly="readonly"
-                                       type="text">
-                            </div>
-                            <div class="form-group">
-                                <label class="control-label" for="fullname">Full Name</label>
-                                <input ng-model="userDetail.fullName" id="fullname" class="form-control"
-                                       type="text">
-                            </div>
-                            <div class="form-group">
-                                <label class="control-label" for="dob" readonly="readonly">Date of birth</label>
-                                    <p class="input-group">
-                                        <input type="text" id="dob" class="form-control" uib-datepicker-popup="{{format}}" ng-model="userDetail.birthday"
-                                               is-open="popup2.opened" datepicker-options="dateOptions" ng-required="true"
-                                               close-text="Close" alt-input-formats="altInputFormats"/>
-                                <span class="input-group-addon" style="height: 40px">
-                                   <i class="glyphicon glyphicon-calendar" ng-click="open2()"></i></button>
-                                </span>
-                                    </p>
-                            </div>
-                            <div class="form-group">
-                                <label class="control-label">Expired Date</label>
-                                    <p class="input-group">
-                                        <input type="text" class="form-control" uib-datepicker-popup="{{format}}" ng-model="userDetail.expiredDate"
-                                               is-open="popup1.opened" datepicker-options="dateOptions" ng-required="true"
-                                               close-text="Close" alt-input-formats="altInputFormats"/>
-                                <span class="input-group-addon" style="height: 40px">
-                                   <i class="glyphicon glyphicon-calendar" ng-click="open1()"></i></button>
-                                </span>
-                                    </p>
-                            </div>
-                            <div class="form-group">
-                                <label class="control-label" for="cellPhone">Cell phone</label>
-                                <input ng-model="userDetail.cellphone" value="Read Only Input" id="cellPhone"
-                                           class="form-control" type="text">
-                            </div>
-
-                            <div class="form-group">
-                                <label class="control-label" for="nationalId">Passport ID/National ID</label>
-                                    <input ng-model="userDetail.nationalId" value="Read Only Input" id="nationalId"
-                                           class="form-control" type="text">
-                            </div>
-                            <div class="form-group">
-                                <label class="control-label" for="address">Address</label>
-                                    <input ng-model="userDetail.addresses[0].address" id="address" class="form-control"
-                                           type="text">
-                            </div>
-                            <div class="form-group">
-                                <label class="control-label" for="city">City</label>
-                                    <input ng-model="userDetail.addresses[0].city" id="city" class="form-control" type="text">
-                            </div>
-                            <div class="form-group">
-                                <country-state-user country="userDetail.addresses[0].country" state="userDetail.addresses[0].state" userinfo="userDetail"></country-state-user>
-                            </div>
-                            <div class="form-group">
-                                <label class="control-label" for="postCode">Post code</label>
-                                    <input ng-model="userDetail.addresses[0].postcode" id="postCode" class="form-control"
-                                           type="text">
-                            </div>
-                            <div class="form-group">
-                                <label class="control-label" for="profession">Profession</label>
-                                    <input ng-model="userDetail.profession" id="profession" class="form-control" type="text">
-                            </div>
-                            <div class="form-group">
-                                <label class="control-label">Status</label>
-                                    <select name="singleSelect" ng-model="selectedStatus.selectedStatus" class="form-control">
-                                        <option value="{{userStatusesList.activated}}">{{userStatusesList.activated}}</option>
-                                        <option value="{{userStatusesList.blocked}}">{{userStatusesList.blocked}}</option>
-                                        <option value="{{userStatusesList.pending}}">{{userStatusesList.pending}}</option>
-                                    </select>
-                            </div>
-                            <div class="form-group" ng-class="{ 'has-error' : errorSetOwnRole }">
-                                <label class="control-label">Set Role</label>
-                                    <select name="singleSelect" ng-model="userDetail.groupMember" class="form-control" ng-change="changeRole()">
-                                        <option value="Standard Member">Standard Member</option>
-                                        <option value="Admin">Admin</option>
-                                    </select>
-                                    <p ng-show="errorSetOwnRole" class="help-block">Can not set your own role</p>
-                            </div>
-                            <br>
-                        </form>
-                    </div>
-                </fieldset>
-                <div class="panel-footer">
-                    <div class="row">
-                        <div class="col-sm-6 col-sm-offset-0">
-                            <button class="btn btn-warning" ng-click="onBackStep()">Back</button>
-                            <button class="btn btn-primary" ng-click="changeStateToEdit()" ng-if="!isEditting">Edit
-                            </button>
-                            <button class="btn btn-primary" ng-click="onSaveUserDetailData()" ng-if="isEditting">Save
-                            </button>
-                        </div>
-                    </div>
-                    <div class="loaders" align="center" ng-show="gifLoading">
-                        <img src="../../../assets/images/loaders/loader1.gif" alt="">
-                    </div>
-                </div><!-- panel-footer -->
             </div>
         </div>
     </div>
