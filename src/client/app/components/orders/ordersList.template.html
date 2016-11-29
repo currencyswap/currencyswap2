@@ -28,7 +28,7 @@
 							</thead>
 							<tbody>
 								<tr ng-repeat="swappingOrder in swappingOrders" class="order-row-{{$index % 2}}">
-									<td class="col-sm-1 order-item-content"><a ng-click="getOrderById(swappingOrder.id);">{{swappingOrder.code}}</a></td>
+									<td class="col-sm-1 order-item-content"><a href="/#!/orders/{{swappingOrder.code}}">{{swappingOrder.code}}</a></td>
 									<td class="col-sm-1 order-item-content order-date">{{swappingOrder.created | filterDate}}</td>
 									<td class="col-sm-1 order-item-content order-date">{{swappingOrder.expired | filterDate}}</td>
 									<td class="col-sm-1 order-item-content">{{swappingOrder.get}} {{swappingOrder.getCurrency.code}}</td>
@@ -41,7 +41,7 @@
 									<td class="col-sm-2">
 										<div class="order-action">
 											<div class="button-order-list button-cancel-swapping" ng-click="cancelSwappingOrder(swappingOrder.id);">Cancel</div>
-											<div class="button-order-list button-confirm-swapping" ng-click="confirmSwappingOrder(swappingOrder.id);">Confirm</div>
+											<div class="button-order-list button-confirm-swapping" ng-if="currentUser.username==swappingOrder.owner.username" ng-click="confirmSwappingOrder(swappingOrder.id);">Confirm</div>
 										</div>
 									</td>
 								</tr>
@@ -68,7 +68,7 @@
 							</thead>
 							<tbody>
 								<tr ng-repeat="confirmOrder in confirmOrders" class="order-row-{{$index % 2}}">
-									<td class="col-sm-1 order-item-content">{{confirmOrder.code}}</td>
+									<td class="col-sm-1 order-item-content"><a href="/#!/orders/{{swappingOrder.code}}">{{confirmOrder.code}} - {{confirmOrder.id}}</a></td>
 									<td class="col-sm-1 order-item-content order-date">{{confirmOrder.created | filterDate}}</td>
 									<td class="col-sm-1 order-item-content order-date" >{{confirmOrder.expired | filterDate}}</td>
 									<td class="col-sm-1 order-item-content">{{confirmOrder.get}} {{confirmOrder.getCurrency.code}}</td>
@@ -80,8 +80,8 @@
 									<td class="col-sm-1 order-item-content order-status-{{confirmOrder.statusId}}">{{confirmOrder.status.name}}</td>
 									<td class="col-sm-2">
 										<div class="order-action">
-											<div class="button-order-list button-cancel-confirm" ng-click="cancelConfirmedOrder(confirmOrder.id);">Cancel</div>
-											<div class="button-order-list button-clear-confirm" ng-click="clearConfirmedOrder(confirmOrder.id);">Clear</div>
+											<div class="button-order-list button-cancel-confirm"  ng-if="(confirmOrder.statusId == 3) || currentUser.username!=confirmOrder.owner.username" ng-click="cancelConfirmedOrder(confirmOrder.id);">Cancel</div>
+											<div class="button-order-list button-clear-confirm" ng-if="(confirmOrder.statusId == 3) || !checkStatusCurrentUserInActivity(confirmOrder.activities)" ng-click="clearConfirmedOrder(confirmOrder.id);">Clear</div>
 										</div>
 									</td>
 
@@ -114,7 +114,7 @@
 							</thead>
 							<tbody>
 								<tr ng-repeat="submittedOrder in submittedOrders" class="order-row-{{$index % 2}}">
-									<td class="col-sm-1 order-item-content">{{submittedOrder.code}}</td>
+									<td class="col-sm-1 order-item-content"><a href="/#!/orders/{{submittedOrder.code}}">{{submittedOrder.code}}</a></td>
 									<td class="col-sm-1 order-item-content order-date">{{submittedOrder.created | filterDate}}</td>
 									<td class="col-sm-1 order-item-content order-date">{{submittedOrder.expired | filterDate}}</td>
 									<td class="col-sm-1 order-item-content">{{submittedOrder.get}} {{submittedOrder.getCurrency.code}}</td>
@@ -123,7 +123,7 @@
 									<td class="col-sm-1 order-item-content order-status-{{submittedOrder.statusId}}">{{submittedOrder.status.name}}</td>
 									<td class="col-sm-2">
 										<div class="order-action">
-											<div class="button-order-list button-cancel-submitted" ng-click="cancelSubmittedOrder(submittedOrder.id);">Delete</div>
+											<div class="button-order-list button-cancel-submitted" ng-click="cancelSubmittedOrder(submittedOrder.id);">Cancel</div>
 											<div class="button-order-list button-edit-submitted" ng-click="editSubmittedOrder(submittedOrder.id);">Edit</div>
 										</div>
 									</td>
@@ -158,13 +158,12 @@
 							</thead>
 							<tbody>
 								<tr ng-repeat="historyOrder in historyOrders" class="order-row-{{$index % 2}}">
-									<td class="col-sm-1 order-item-content">{{historyOrder.code}}</td>
+									<td class="col-sm-1 order-item-content"><a href="/#!/orders/{{submittedOrder.code}}">{{historyOrder.code}}</a></td>
 									<td class="col-sm-1 order-item-content order-date">{{historyOrder.created | filterDate}}</td>
 									<td class="col-sm-1 order-item-content order-date">{{historyOrder.expired | filterDate}}</td>
 									<td class="col-sm-1 order-item-content">{{historyOrder.get}} {{historyOrder.getCurrency.code}}</td>
 									<td class="col-sm-1 order-item-content">{{historyOrder.give}} {{historyOrder.giveCurrency.code}}</td>
 									<td class="col-sm-1 order-item-content">{{historyOrder.rate}}</td>
-									
 									<td class="col-sm-1 order-item-content">{{historyOrder.owner.username}}</td>
 									<td class="col-sm-1 order-item-content">{{historyOrder.accepter.username}}</td>
 									<td class="col-sm-1 order-item-content order-status-{{historyOrder.statusId}}">{{historyOrder.status.name}}</td>
