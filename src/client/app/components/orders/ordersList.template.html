@@ -158,7 +158,7 @@
 							</thead>
 							<tbody>
 								<tr ng-repeat="historyOrder in historyOrders" class="order-row-{{$index % 2}}">
-									<td class="col-sm-1 order-item-content"><a href="/#!/orders/{{submittedOrder.code}}">{{historyOrder.code}}</a></td>
+									<td class="col-sm-1 order-item-content"><a href="/#!/orders/{{historyOrder.code}}">{{historyOrder.code}}</a></td>
 									<td class="col-sm-1 order-item-content order-date">{{historyOrder.created | filterDate}}</td>
 									<td class="col-sm-1 order-item-content order-date">{{historyOrder.expired | filterDate}}</td>
 									<td class="col-sm-1 order-item-content">{{historyOrder.get}} {{historyOrder.getCurrency.code}}</td>
