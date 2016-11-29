@@ -19,11 +19,9 @@
 										<input type="number" name="give" class="form-control" ng-model="newOrder.give" ng-change="onChangeValue(FIXED_VALUE.GIVE);"  focus-me="focusGive" required>
 									</div>
 									<div class="input-group">
-										<div class="form-group">
-											<select name="giveCurrency" ng-model="newOrder.giveCurrencyCode" class="form-control" required>
-												<option ng-repeat="currency in currencies" value="{{currency.code}}">{{currency.code}} - {{currency.name}}</option>
-											</select>
-										</div>
+										<select name="giveCurrency" ng-model="newOrder.giveCurrencyCode" class="form-control" required>
+											<option ng-repeat="currency in currencies" value="{{currency.code}}">{{currency.code}} - {{currency.name}}</option>
+										</select>
 									</div>
 									<div class="input-group">
 										<div class="form-group">
@@ -45,11 +43,9 @@
 											<input type="number" name="get" class="form-control" ng-model="newOrder.get" ng-change="onChangeValue(FIXED_VALUE.GET);" focus-me="focusGet" required>
 										</div>
 										<div class="input-group">
-											<div class="form-group">
-												<select name="getCurrency" ng-model="newOrder.getCurrencyCode" class="form-control" required>
-													<option ng-repeat="currency in currencies" value="{{currency.code}}">{{currency.code}} - {{currency.name}}</option>
-												</select>
-											</div>
+											<select name="getCurrency" ng-model="newOrder.getCurrencyCode" class="form-control" required>
+												<option ng-repeat="currency in currencies" value="{{currency.code}}">{{currency.code}} - {{currency.name}}</option>
+											</select>
 										</div>
 										<div class="input-group">
 											<div class="form-group">
