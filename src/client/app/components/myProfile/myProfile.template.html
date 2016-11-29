@@ -44,9 +44,10 @@
                                            datepicker-options="dateOptions"
                                            ng-model="model.birthday"
                                            close-text="Close"
-                                           alt-input-formats="altInputFormats">
+                                           alt-input-formats="altInputFormats"
+                                           show-button-bar="false">
                             <span class="input-group-addon" style="height: 40px">
-                                   <i class="glyphicon glyphicon-calendar" ng-click="openCalendar()"></i>
+                                   <i class="glyphicon glyphicon-calendar"  ng-click="openCalendar()" ></i>
                                 </span>
                                 </div>
                             </div>
@@ -58,7 +59,7 @@
                                            ng-model="model.registeredDate"
                                            close-text="Close" alt-input-formats="altInputFormats" readonly>
                             <span class="input-group-addon" style="height: 40px">
-                                   <i class="glyphicon glyphicon-calendar"></i>
+                                   <i class="glyphicon glyphicon-calendar" ng-disabled="!isEditting"></i>
                                 </span>
                                 </div>
                             </div>

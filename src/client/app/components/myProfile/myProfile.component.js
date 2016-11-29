@@ -109,11 +109,11 @@ angular.module('myProfile')
 
                 $scope.birthday = new Date();
                 $scope.openCalendar = function() {
-                    $scope.calendarPicker.opened = true;
+                    if($scope.isEditting)$scope.calendarPicker.opened = true;
                 };
 
                 $scope.openCalendar1 = function() {
-                    $scope.calendarPicker.opened1 = true;
+                    if($scope.isEditting)$scope.calendarPicker.opened1 = true;
                 };
 
                 $scope.changeStateToEdit = function () {

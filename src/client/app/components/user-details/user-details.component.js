@@ -54,11 +54,11 @@ angular.module('userDetails').component('userDetails', {
             $scope.toggleMin();
 
             $scope.open1 = function() {
-                $scope.popup1.opened = true;
+                if($scope.isEditting)$scope.popup1.opened = true;
             };
 
             $scope.open2 = function() {
-                $scope.popup2.opened = true;
+                if($scope.isEditting)$scope.popup2.opened = true;
             };
 
             $scope.setDate = function(year, month, day) {
