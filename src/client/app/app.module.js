@@ -26,15 +26,59 @@ angular.module('currencySwapApp', [
     'ngSanitize',
     'ui.bootstrap',
 ]).run(function ($window, $rootScope, $location, CookieService, PermissionService, NavigationHelper) {
-
     var token = CookieService.getToken();
     $rootScope.loggedIn = false;
     $rootScope.isLoading = true;
     $rootScope.error = null;
     $rootScope.currentPage = {};
+    
+    var init = function() {
+        $rootScope.$on("$routeChangeStart", routeChanged);
+        //$rootScope.$on("$locationChangeStart", routeChanged);
 
+        if (!token) {
+            $rootScope.isLoading = false;
+
+            if ($location.path() === routes.FORGOT_PASSWORD_VERIFY) {
+                CookieService.cleanUpCookies();
+                return $location.path(routes.FORGOT_PASSWORD_VERIFY);
+            }
+
+            if ($location.search().resetCode) {
+                CookieService.cleanUpCookies();
+                return $location.path(routes.FORGOT_PASSWORD_RESET);
+            }
+
+            if ($location.search().activeCode) {
+                $rootScope.isLoading = false;
+                return $location.path(routes.REGISTER);
+            }
+
+            if ($location.path() != routes.LOGIN) {
+                return $location.path(routes.LOGIN);
+            } else {
+                console.log('Unknown action, nothing need to be done at this point');
+                return;
+            }
+        } else {
+            if ($location.path() === routes.FORGOT_PASSWORD_VERIFY) {
+                $rootScope.isLoading = false;
+                CookieService.cleanUpCookies();
+                return $location.path(routes.FORGOT_PASSWORD_VERIFY);
+            }
+
+            if ($location.search().resetCode) {
+                $rootScope.isLoading = false;
+                CookieService.cleanUpCookies();
+                return $location.path(routes.FORGOT_PASSWORD_RESET);
+            }
+        }
+        
+        retreiveUserPerm();
+    };
+    
+    
     var redirectToDefaultPath = function () {
-
         if ($location.path() == routes.LOGIN || 
             $location.path() == routes.ROOT || 
             $location.path() == routes.HOME ) {
@@ -49,45 +93,9 @@ angular.module('currencySwapApp', [
             
             return $location.path( defaultPath );
         }
-    }
+    };
 
-    if (!token) {
-        $rootScope.isLoading = false;
-
-        if ($location.path() === routes.FORGOT_PASSWORD_VERIFY) {
-            CookieService.cleanUpCookies();
-            return $location.path(routes.FORGOT_PASSWORD_VERIFY);
-        }
-
-        if ($location.search().resetCode) {
-            CookieService.cleanUpCookies();
-            return $location.path(routes.FORGOT_PASSWORD_RESET);
-        }
-
-        if ($location.search().activeCode) {
-            $rootScope.isLoading = false;
-            return $location.path(routes.REGISTER);
-        }
-
-        if ($location.path() != routes.LOGIN) {
-            return $location.path(routes.LOGIN);
-        } else return;
-    } else {
-
-        if ($location.path() === routes.FORGOT_PASSWORD_VERIFY) {
-            $rootScope.isLoading = false;
-            CookieService.cleanUpCookies();
-            return $location.path(routes.FORGOT_PASSWORD_VERIFY);
-        }
-
-        if ($location.search().resetCode) {
-            $rootScope.isLoading = false;
-            CookieService.cleanUpCookies();
-            return $location.path(routes.FORGOT_PASSWORD_RESET);
-        }
-    }
-
-    $rootScope.$on("$routeChangeStart", function (event, next, current) {
+    var routeChanged = function (event, next, current) {
         if ( !$rootScope.loggedIn || !$rootScope.permissions ) return;
 
         redirectToDefaultPath();
@@ -98,52 +106,56 @@ angular.module('currencySwapApp', [
 
         NavigationHelper.updateNavigationBar();
 
-    });
+    };
 
-    PermissionService.getCurrentPermission(token).then(
-        function (response) {
-            if (response.status === 299) {
-                if (response.data.code == serverErrors.INVALID_TOKEN_API_KEY
-                    || response.data.code == serverErrors.INVALID_TOKEN_API_KEY_FOR_USER) {
+    var retreiveUserPerm = function() {
+        PermissionService.getCurrentPermission(token).then(
+                function (response) {
+                    if (response.status === 299) {
+                        if (response.data.code == serverErrors.INVALID_TOKEN_API_KEY
+                            || response.data.code == serverErrors.INVALID_TOKEN_API_KEY_FOR_USER) {
 
+                            $rootScope.isLoading = false;
+                            CookieService.cleanUpCookies();
+                            $location.path(routes.LOGIN);
+                        }
+                    } else {
+                        $rootScope.permissions = response.data;
+                        $rootScope.loggedIn = true;
+                        $rootScope.isLoading = false;
+
+                        NavigationHelper.initNavigationBar();
+
+                        redirectToDefaultPath();
+                    }
+
+
+                }, function (error) {
+                    //var err = error.data;
+                    console.error('ERROR [%s] : %s.', err.code, err.message);
                     $rootScope.isLoading = false;
-                    CookieService.cleanUpCookies();
-                    $location.path(routes.LOGIN);
+
+                    $rootScope.error = {};
+                    $rootScope.error.status = 'Unknown';
+                    $rootScope.error.message = 'Unknown error';
+                    $window.scrollTo(0, 0);
+                    /*if (err.code == serverErrors.INVALID_TOKEN_API_KEY ||
+                        err.code == serverErrors.INVALID_TOKEN_API_KEY_FOR_USER) {
+                        CookieService.cleanUpCookies();
+                        $location.path(routes.LOGIN);
+                    } else {
+                        $rootScope.error = {
+                            status: error.status,
+                            code: err.code,
+                            message: err.message
+                        };
+                    }*/
                 }
-            } else {
-                $rootScope.permissions = response.data;
-                $rootScope.loggedIn = true;
-                $rootScope.isLoading = false;
+            );
+    };
 
-                NavigationHelper.initNavigationBar();
-
-                redirectToDefaultPath();
-            }
-
-
-        }, function (error) {
-            //var err = error.data;
-            console.error('ERROR [%s] : %s.', err.code, err.message);
-            $rootScope.isLoading = false;
-
-            $rootScope.error = {};
-            $rootScope.error.status = 'Unknown';
-            $rootScope.error.message = 'Unknown error';
-            $window.scrollTo(0, 0);
-            /*if (err.code == serverErrors.INVALID_TOKEN_API_KEY ||
-                err.code == serverErrors.INVALID_TOKEN_API_KEY_FOR_USER) {
-                CookieService.cleanUpCookies();
-                $location.path(routes.LOGIN);
-            } else {
-                $rootScope.error = {
-                    status: error.status,
-                    code: err.code,
-                    message: err.message
-                };
-            }*/
-        }
-    );
-
+    // running initialize
+    init();
 }).constant('GLOBAL_CONSTANT', {
     HTTP_SUCCESS_STATUS_CODE: 200, // returned status from server for success case
     HTTP_ERROR_STATUS_CODE: 299, // returned status from server for error case (2xx not to get browser shows the errors)

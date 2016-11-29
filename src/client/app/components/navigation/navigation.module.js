@@ -27,7 +27,6 @@ angular.module('navigation', []).factory('NavigationHelper', ['$rootScope', '$lo
             $rootScope.currentPage = {};
 
             navigation.forEach(function (navItem) {
-
                 if (!navItem.position || navItem.position == global.NONE) return;
                 if (!checkValidPermission($rootScope.permissions, navItem.requiredPermissions)) return;
 
@@ -43,7 +42,7 @@ angular.module('navigation', []).factory('NavigationHelper', ['$rootScope', '$lo
                 }
 
                 var item = {
-                    route: pattern.stringify(),
+                    route: navItem.route,
                     routePattern : navItem.route,
                     name: navItem.name,
                     icon: navItem.icon,
@@ -67,6 +66,9 @@ angular.module('navigation', []).factory('NavigationHelper', ['$rootScope', '$lo
                 }
 
             });
+            if (!$rootScope.currentPage.name) {
+                this.updateNavigationBar();
+            }
         },
         checkPermission: function () {
             $rootScope.error = null;
@@ -104,20 +106,28 @@ angular.module('navigation', []).factory('NavigationHelper', ['$rootScope', '$lo
             if (!$rootScope.permissions) return;
             if (!$rootScope.navigationBar || $rootScope.navigationBar.length == 0) return;
 
+            var notFound = true;
             $rootScope.navigationBar.forEach( function ( navItem ) {
-                
                 var pattern = new UrlPattern( navItem.routePattern );
-
                 if (pattern.match($location.path())) {
-                    //console.log('>>> %s', $location.path() );
                     $rootScope.currentPage.name = navItem.name;
                     $rootScope.currentPage.icon = navItem.icon;
                     navItem.isActivated = true;
+                    notFound = false;
                 } else {
                     navItem.isActivated = false;
                 }
-
             });
+            if (notFound) {
+                navigation.forEach(function (navItem) {
+                    var pattern = new UrlPattern(navItem.route);
+                    var isActivated = pattern.match($location.path());
+                    if (isActivated) {
+                        $rootScope.currentPage.name = navItem.name;
+                        $rootScope.currentPage.icon = navItem.icon;
+                    }
+                });
+            }
         }
 
     }

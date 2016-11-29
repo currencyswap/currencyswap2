@@ -10,6 +10,7 @@ angular.module('appHeader').directive('pageHeader', function () {
         controller: function ($scope, $rootScope, $element) {
             $scope.title = appConfig.title;
             $scope.currentPage = $rootScope.currentPage;
+            $.buildCSLeftPanelMenu();
         }
     };
 });

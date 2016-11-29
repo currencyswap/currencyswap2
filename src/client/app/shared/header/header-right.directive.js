@@ -19,9 +19,9 @@ angular.module('appHeader').directive('headerRight', function () {
             var cookUser = CookieService.getCurrentUser();
             $scope.user = $.extend({'avatarUrl': global.DEF_AVATAR, 'username': cookUser.username, 'fullName': ''}, $rootScope.user);
 
-            $scope.onMyProfile = function () {
+            $scope.accessMenuItem = function(item) {
+                $location.path(item.route);
                 $rootScope.isLoading = false;
-                $location.path(routes.MYPROFILE);
             };
 
             $scope.onLogout = function () {

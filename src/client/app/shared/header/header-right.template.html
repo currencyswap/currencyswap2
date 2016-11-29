@@ -2,7 +2,7 @@
     <ul class="headermenu">
         <li data-ng-repeat="item in toolbarItems" class="{{solidClazName(item)}}">
             <div class="btn-group" data-ng-if="item.name == 'Notification'">
-              <button data-toggle="dropdown" class="btn btn-default dropdown-toggle tp-icon {{item.isActivated ? 'tb-active' : ''}}" title="{{item.name}}" data-placement="bottom">
+              <button data-toggle="dropdown" class="btn btn-default hand-over dropdown-toggle tp-icon {{item.isActivated ? 'tb-active' : ''}}" title="{{item.name}}" data-placement="bottom">
                 <i class="{{item.icon}}"></i>
                 <span class="badge" data-ng-if="item.badge > 0">{{item.badge}}</span>
               </button>
@@ -22,20 +22,20 @@
               </div>
             </div>
             <div class="btn-group" data-ng-if="item.name != 'Notification'">
-                <a href="#!{{item.route}}" data-ng-if="!item.isMyProfile && !item.isLogout && item.name != 'Notification'">
+                <a class="hand-over" data-ng-click="accessMenuItem(item)" data-ng-if="!item.isMyProfile && !item.isLogout && item.name != 'Notification'">
                     <button class="btn btn-default tp-icon {{item.isActivated ? 'tb-active' : ''}}" data-toggle="tooltip" data-placement="bottom" title="{{item.name}}">
                         <i class="{{item.icon}}"></i>
                     </button>
                 </a>
                 <!-- My Profile -->
-                <a href="#!{{item.route}}" data-ng-if="item.isMyProfile">
-                    <button data-ng-click="onMyProfile()" type="button" class="btn btn-default dropdown-toggle {{item.isActivated ? 'tb-active' : ''}}" data-toggle="dropdown" data-placement="bottom" title="{{item.name}}">
+                <a class="hand-over" data-ng-click="accessMenuItem(item)" data-ng-if="item.isMyProfile">
+                    <button type="button" class="btn btn-default dropdown-toggle {{item.isActivated ? 'tb-active' : ''}}" data-toggle="dropdown" data-placement="bottom" title="{{item.name}}">
                         <img data-ng-src="{{user.avatarUrl}}" alt=""/>
                         <span class="toolbar-my-profile-name">{{user.fullName}}</span>
                     </button>
                 </a>
                 <!-- My Logout -->
-                <a href="" data-ng-if="item.isLogout">
+                <a class="hand-over" data-ng-if="item.isLogout">
                     <button class="btn btn-default dropdown-toggle tp-icon {{item.isActivated ? 'tb-active' : ''}}"
                             data-ng-click="onLogout();" data-placement="bottom" title="{{item.name}}">
                         <i class="{{item.icon}}"></i>

@@ -17,10 +17,8 @@ angular.module('appHeader').directive('headerLeft', function () {
         },
         templateUrl: 'app/shared/header/header-left.template.html',
         controller: function ($rootScope, $cookies, $location, $scope, $element) {
-            
             $scope.title = appConfig.title;
-
-            // Init Menu Item
+            $scope.currentPage = $rootScope.currentPage;
             $scope.menuItems = $rootScope.menuBar;
 
             if ($location.path() === routes.USERS) {

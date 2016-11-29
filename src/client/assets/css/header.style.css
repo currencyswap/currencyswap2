@@ -68,6 +68,9 @@ button.tb-active {
  overflow: hidden;
  text-overflow: ellipsis;
 }
+.hand-over {
+cursor: pointer;
+}
 @media screen and (max-width: 1024px) {
 }
 

@@ -409,6 +409,21 @@ hr {
 .toolbar-my-profile-name {
  white-space: nowrap;
 }
+.headerbar .toptitle {
+    float: left;
+    margin: 0;
+    color: #666;
+    font-family: "LatoBold",sans-serif;
+    font-size: 12px;
+    text-transform: uppercase;
+    padding: 15px 15px 12px;
+    border-radius: 0;
+    display: none;
+    text-decoration: none;
+}
+.pageheader {
+display: '' !important;
+}
 
 .dropdown-list li {
     padding: 15px;
@@ -4217,6 +4232,16 @@ select {
 /* body {border:1px solid red !important;} */
 @media screen and (max-width: 1024px) {
 /* body {border:1px solid green !important;} */
+header-left .menubar-orders,
+header-left .menubar-users {
+ display: none !important;
+}
+.headerbar .toptitle {
+ display: block;
+}
+.pageheader {
+display: none !important;
+}
     body {
         position: relative;
     }
@@ -4333,6 +4358,13 @@ header-left .menubar-orders,
 header-left .menubar-users {
  display: none !important;
 }
+.headerbar .toptitle {
+ display: block;
+}
+.pageheader {
+display: none !important;
+}
+
     .searchform {
         position: relative;
     }
@@ -4366,10 +4398,18 @@ header-left .menubar-users {
 
 @media screen and (max-width: 640px) {
 /* body {border:1px solid yellow !important;} */
+.toolbar-profile,
+.toolbar-signout,
 .toolbar-my-profile-name,
 header-left .menubar-orders,
 header-left .menubar-users {
  display: none !important;
+}
+.headerbar .toptitle {
+ display: block;
+}
+.pageheader {
+display: none !important;
 }
 
     .notfoundpanel {
@@ -4511,6 +4551,13 @@ header-left .menubar-orders,
 header-left .menubar-users {
  display: none !important;
 }
+.headerbar .toptitle {
+ display: block;
+}
+.pageheader {
+display: none !important;
+}
+
     .signinpanel,
     .signuppanel {
         width: 326px;
@@ -4647,6 +4694,12 @@ header-left .menubar-orders,
 header-left .menubar-users {
  display: none !important;
 }
+.headerbar .toptitle {
+ display: block;
+}
+.pageheader {
+display: none !important;
+}
 
     .pageheader h2 span {
         display: none;
@@ -4729,6 +4782,12 @@ header-left .menubar-users {
 header-left .menubar-orders,
 header-left .menubar-users {
  display: none !important;
+}
+.headerbar .toptitle {
+ display: block;
+}
+.pageheader {
+display: none !important;
 }
 
     .signinpanel,
