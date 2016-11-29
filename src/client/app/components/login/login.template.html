@@ -17,8 +17,8 @@
                 <label class="error" ng-if="isExpired">Your acount is expired date. Please contact with admin: currencyswap@gmail.com</label>
                 <h4 class="nomargin">Sign In</h4>
                 <p class="mt5 mb20">Login to access your account.</p>
-                <input type="text" class="form-control uname" placeholder="Username" ng-model="user.username"/>
-                <input type="password" class="form-control pword" placeholder="Password" ng-model="user.password"/>
+                <input ng-change="onUsernameChange()" type="text" class="form-control uname" placeholder="Username" ng-model="user.username"/>
+                <input ng-change="onPasswordChange()" type="password" class="form-control pword" placeholder="Password" ng-model="user.password"/>
                 <a href="" ng-click="onForgotPassword()">
                     <small>Forgot Your Password?</small>
                 </a>

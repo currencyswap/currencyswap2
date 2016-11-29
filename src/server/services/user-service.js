@@ -800,8 +800,10 @@ exports.updateRoleForUser = function (user, updatingRole, callback) {
                         memGrp.updateAttribute(constant.MEMBER_GROUP_MODEL_FIELD.GROUP_ID, group.id, function (err, updatedGrpMember) {
                             if (err) {
                                 return callback(errorUtil.createAppError(errors.SERVER_GET_PROBLEM));
+                            } else {
+                                redis.removeUserInfo(user.username);
+                                return callback(null, updatedGrpMember);
                             }
-                            return callback(null, updatedGrpMember);
                         })
                     });
                 })

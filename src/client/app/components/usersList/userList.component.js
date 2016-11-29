@@ -224,7 +224,7 @@ angular.module('userList')
                                     } else {
                                         //do nothing
                                     }
-                                })
+                                });
                                 $scope.totalItems = $scope.usersActivated.length;
                             } else {
                                 $rootScope.error = {};
@@ -258,7 +258,7 @@ angular.module('userList')
                                     } else {
                                         //do nothing
                                     }
-                                })
+                                });
                                 $scope.totalItems = $scope.usersPending.length;
                             } else {
                                 $rootScope.error = {};

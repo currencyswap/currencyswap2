@@ -20,6 +20,14 @@ angular.module('loginForm')
 
                 if (token) return $location.path(routes.HOME);
 
+                $scope.onUsernameChange = function () {
+                    $scope.loginErrMsg = null;
+                };
+
+                $scope.onPasswordChange = function () {
+                    $scope.loginErrMsg = null;
+                };
+
                 $scope.onSubmit = function () {
                     LoginService.authenticate($scope.user)
                         .then(function (response) {
