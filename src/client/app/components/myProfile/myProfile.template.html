@@ -122,20 +122,20 @@
                             <hr>
                             <div class="mb30"></div>
                             <h4 class="nomargin">Change Password</h4>
-                            <form id="msgFormChangePass" name="msgForm" novalidate="novalidate">
+                            <form id="msgFormChangePass" name="pswForm" novalidate="novalidate">
                                 <div class="form-group">
                                         <label class="control-label">Current Password</label>
                                         <input class="form-control" type="password" ng-model="model.currentPwd">
                                 </div>
-                                <div class="form-group" data-ng-class="{'has-error' : registerForm.password.$invalid && !registerForm.password.$pristine}">
-                                        <label class="control-label">New Password</label>
+                                <div class="form-group" data-ng-class="{'has-error' : pswForm.password.$invalid && !pswForm.password.$pristine}">
+                                        <label for="password">New Password</label>
                                         <input class="form-control" type="password" name="password" data-ng-model="model.newPwd" ng-minlength="8">
-                                        <p ng-show="registerForm.password.$error.minlength" class="help-block">Username is too short.</p>
+                                        <p ng-show="pswForm.password.$error.minlength" class="help-block">Username is too short.</p>
                                 </div>
-                                <div class="form-group" data-ng-class="{'has-error' : registerForm.passwordCompare.$invalid && !registerForm.passwordCompare.$pristine}">
-                                        <label class="control-label">Re-enter Password</label>
+                                <div class="form-group" data-ng-class="{'has-error' : pswForm.passwordCompare.$invalid && !pswForm.passwordCompare.$pristine}">
+                                        <label for="passwordCompare">Re-enter Password</label>
                                         <input class="form-control" type="password" name="passwordCompare" data-ng-model="model.passwordCompare" data-ng-match="model.newPwd"/>
-                                        <span class="help-block" data-ng-show="registerForm.passwordCompare.$error.match">Passwords do not match.</span>
+                                        <span class="help-block" data-ng-show="pswForm.passwordCompare.$error.match">Passwords do not match.</span>
                                     </div>
                             </form>
                         </div>
