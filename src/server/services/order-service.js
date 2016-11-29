@@ -214,23 +214,3 @@ exports.getUserAllOrders = function (userId) {
     };
     return dbUtil.executeModelFn(app.models.Order, 'find', filter);
 };
-exports.getPartnerOrderOfUser = function(orderId, userId){
-    var filter = {
-		'where' : {
-			and : [ 
-			       {'orderId' : orderId}, 
-			       {'creatorId' : {'neq' : userId}} 
-			   ]
-		}
-    };
-    return dbUtil.executeModelFn(app.models.OrderActivity, 'find', filter);
-
-};
-exports.getUserAllOrders = function (userId) {
-    var filter = {
-    		'where': { or: [{'ownerId': userId}, 
-                            {'accepterId': userId}] 
-            }
-    };
-    return dbUtil.executeModelFn(app.models.Order, 'find', filter);
-};
