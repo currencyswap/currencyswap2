@@ -11,7 +11,7 @@ var orderConverter = require('../converters/order-converter');
 var appConfig = require('../libs/app-config');
 var util = require('util');
 var cryptoUtil = require('../libs/utilities/crypto_util'); 
-
+var supportService = require('../services/support-service');
 var CODE_LENGTH = 10;
 module.exports = function (app) {
     var router = app.loopback.Router();
@@ -21,11 +21,33 @@ module.exports = function (app) {
         return cryptoUtil.createHash(key).substring(0, CODE_LENGTH);
     }
 
-    var updateOrderStatus = function (req, res, statusId){
+
+
+    
+    var saveMessage = function(title, content, adminId, userId, orderCode){
+//      Send 1 message to 1 user
+    	var message = {'title': title, 
+            'message': content, 
+            'creatorId': adminId, 'receiverId': userId, 'orderCode': orderCode}
+    	console.log(message);
+        supportService.saveMessage(message);   	
+    }
+    var updateOrderStatus = function (req, res, statusId, title, message){
         var orderId = req.params.id;
         var creatorId = req.currentUser.id
         service.updateOrderStatus(orderId, statusId).then(function(resp){
         	updateOrderActivity(req, res, orderId, creatorId, statusId);
+        	service.getOrderById(orderId).then(function(data){
+        		var ownerId = data.ownerId;
+        	    var accepterId = data.accepterId;
+        	    var userId= ownerId;
+        	    if(creatorId == userId){
+        	    	userId = accepterId
+        	    }
+        	    saveMessage(title, message, creatorId, userId, data.code);
+        	},function(err){
+        		
+        	});
             return res.send(resp);
           }, function(err){
               return res.status(500).send(errorUtil.createAppError(errors.SERVER_GET_PROBLEM));
@@ -64,7 +86,13 @@ module.exports = function (app) {
                     return res.status(500).send(errorUtil.createAppError(errors.SERVER_GET_PROBLEM));
             });
     });
-
+    router.get('/', function (req, res) {
+        service.getUserAllOrders(req.currentUser.id).then(function(resp){
+            return res.send(resp);
+        }, function(err){
+            return res.status(500).send(errorUtil.createAppError(errors.SERVER_GET_PROBLEM));
+        });
+    });
     router.get('/swapping', function (req, res) {
         service.getUserSwappingOrders(req.currentUser.id).then(function(resp){
             return res.send(resp);
@@ -88,14 +116,14 @@ module.exports = function (app) {
     });
     
     router.get('/swapping/cancel/:id', function (req, res) {
-        return updateOrderStatus(req, res, constant.STATUS_TYPE.SUBMITTED_ID);
+        return updateOrderStatus(req, res, constant.STATUS_TYPE.SUBMITTED_ID, constant.MSG.CANCEL_ORDER_TITLE, constant.MSG.CANCEL_ORDER_CONTENT);
     });
     router.get('/swapping/confirm/:id', function (req, res) {
-        return updateOrderStatus(req, res, constant.STATUS_TYPE.CONFIRMED_ID);
+        return updateOrderStatus(req, res, constant.STATUS_TYPE.CONFIRMED_ID, constant.MSG.CONFIRM_ORDER_TITLE, constant.MSG.CONFIRM_ORDER_CONTENT);
     });
 
     router.get('/confirmed/cancel/:id', function (req, res) {
-        return updateOrderStatus(req, res, constant.STATUS_TYPE.SUBMITTED_ID);
+        return updateOrderStatus(req, res, constant.STATUS_TYPE.SUBMITTED_ID, constant.MSG.CANCEL_ORDER_TITLE, constant.MSG.CANCEL_ORDER_CONTENT);
     });
     var countUserCleared = function(userId, orderId, statusId){
     	var count = -1;
@@ -113,31 +141,14 @@ module.exports = function (app) {
     	});
     	return count; 
     }
-//    var clearConfirmOrder = function(req, res, statusId){
-//    	var orderId = req.params.id;
-//    	var userId = req.currentUser.id;
-//    	var count = countUserCleared(userId, orderId, statusId);
-//    	if(count == 0){
-//    		service.updateOrderActivity(orderId, userId, constant.STATUS_TYPE.PENDING_ID).then(function(resp){
-//				return updateOrderStatus(req, res, constant.STATUS_TYPE.PENDING_ID);
-//			}, function(err){
-//	            return res.status(500).send(errorUtil.createAppError(errors.SERVER_GET_PROBLEM));
-//	        });
-//    	} else if(count == 1){
-//    		return updateOrderStatus(req, res, constant.STATUS_TYPE.CLEARED_ID);
-//    	} else {
-//    		return res.status(500).send(errorUtil.createAppError(errors.SERVER_GET_PROBLEM));
-//    	}
-//    }
-
     router.get('/confirmed/clear/:id', function (req, res) {
-    	return updateOrderStatus(req, res, constant.STATUS_TYPE.CLEARED_ID);
+    	return updateOrderStatus(req, res, constant.STATUS_TYPE.CLEARED_ID, constant.MSG.CLEAR_ORDER_TITLE, constant.MSG.CLEAR_ORDER_CONTENT);
     });
     router.get('/submitted/cancel/:id', function (req, res) {
         return cancelSubmittedOrder(req, res);
     });
     router.get('/submitted/edit/:id', function (req, res) {
-//        return updateOrderStatus(req, res, constant.STATUS_TYPE.CLEARED_ID);
+//        return updateOrderStatus(req, res, constant.STATUS_TYPE.CLEARED_ID, constant.MSG.CANCEL_ORDER_TITLE, constant.MSG.CANCEL_ORDER_MESSAGE);
     });
     router.get('/suggest', function (req, res) {
         var give = req.query.give;

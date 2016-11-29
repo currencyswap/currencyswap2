@@ -39,6 +39,7 @@
 }
 .order-content .order-item-header {
 	background: #cccccc;
+	white-space: nowrap;;
 }
 .order-content .order-item-content {
 	text-align: left;

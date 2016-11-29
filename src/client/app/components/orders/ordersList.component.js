@@ -20,12 +20,12 @@ angular.module('orders')
         		$scope.submittedOrders = [];
         		$scope.currentUser = $rootScope.user;
         		
-//        		alert(JSON.stringify($rootScope.user ));
         		$scope.status = ["Submitted", "Swapping", "Confirmed", "Pending", "Cleared", "Canceled"];
         		$scope.tab = 1;
         		var getSwappingOrders = function () {
 	                OrdersService.getSwappingOrders().then(function(resp){
 	            		$scope.swappingOrders = resp;
+	            		redirectToNewOrder();
 	            		$scope.$evalAsync();
                     }, function(err){
                         console.log('Failure in saving your message');
@@ -34,6 +34,7 @@ angular.module('orders')
         		var getConfirmedOrders = function () {
 	                OrdersService.getConfirmedOrders().then(function(resp){
 	            		$scope.confirmOrders = resp;
+	            		redirectToNewOrder();
 	            		$scope.$evalAsync();
                     }, function(err){
                         console.log('Failure in saving your message');
@@ -44,11 +45,11 @@ angular.module('orders')
         			getSwappingOrders();
         			getConfirmedOrders();
         		};
-        		$scope.getWorkingOrders();
+        		
         		var getSubmittedOrders = function(){
-        			
 	                OrdersService.getSumittedOrders().then(function(resp){
 	            		$scope.submittedOrders = resp;
+	            		redirectToNewOrder();
 	            		$scope.$evalAsync();
                     }, function(err){
                         console.log('Failure in saving your message');
@@ -61,6 +62,7 @@ angular.module('orders')
         		var getHistoryOrders = function(){
 	                OrdersService.getHistoryOrders().then(function(resp){
 	            		$scope.historyOrders = resp;
+	            		redirectToNewOrder();
 	            		$scope.$evalAsync();
                     }, function(err){
                         console.log('Failure in saving your message');
@@ -70,6 +72,18 @@ angular.module('orders')
         			$scope.tab = 3;
         			getHistoryOrders();
         		}
+        		
+        		var redirectToNewOrder = function(){
+        			if(($scope.swappingOrders && $scope.swappingOrders.length > 0) ||
+        					($scope.confirmOrders && $scope.confirmOrders.length > 0) ||
+        					($scope.submittedOrders && $scope.submittedOrders.length > 0) ||
+        					($scope.historyOrders && $scope.historyOrders.length > 0)){
+//        				$location.path(routes.ORDER_CREATE);
+        			}
+        		}
+        		$scope.getWorkingOrders();
+        		getHistoryOrders();
+        		getSubmittedOrders();
         		var getOrderById = function(orderId){
 	                OrdersService.getOrderById(orderId).then(function(resp){
 	            		$scope.$evalAsync();
@@ -132,6 +146,7 @@ angular.module('orders')
             		var cancelOrder = $window.confirm('Are you sure you want to cancel the Order?');
             	    if(cancelOrder){
     	                OrdersService.cancelSubmittedOrder(orderId).then(function(resp){
+    	                	getSubmittedOrders();
                         }, function(err){
                             console.log('Failure in saving your message');
                         });
