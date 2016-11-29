@@ -30,37 +30,31 @@ angular.module('appHeader').directive('headerLeft', function () {
             };
 
             $rootScope.menuToggle = function () {
-                $rootScope.hasLeftMenuToggle = true;
                 var body = $('body');
                 var bodypos = body.css('position');
 
-                if (bodypos != 'relative') {
-
-                    if (!body.hasClass('leftpanel-collapsed')) {
-                        body.addClass('leftpanel-collapsed');
-                        $('.nav-bracket ul').attr('style', '');
-
-                        $(this).addClass('menu-collapsed');
-
-                    } else {
-                        body.removeClass('leftpanel-collapsed chat-view');
-                        $('.nav-bracket li.active ul').css({ display: 'block' });
-
-                        $(this).removeClass('menu-collapsed');
-
-                    }
-                } else {
-
+                if (bodypos == 'relative') {
+                    $rootScope.hasLeftMenuToggle = true;
                     if (body.hasClass('leftpanel-show'))
                         body.removeClass('leftpanel-show');
                     else
                         body.addClass('leftpanel-show');
 
                     adjustmainpanelheight();
+                } else {
+                    if (!body.hasClass('leftpanel-collapsed')) {
+                        body.addClass('leftpanel-collapsed');
+                        $('.nav-bracket ul').attr('style', '');
+                        $(this).addClass('menu-collapsed');
+                    } else {
+                        body.removeClass('leftpanel-collapsed chat-view');
+                        $('.nav-bracket li.active ul').css({ display: 'block' });
+                        $(this).removeClass('menu-collapsed');
+                    }
                 }
             };
             $scope.accessMenuItem = function(item) {
-                if ($rootScope.hasLeftMenuToggle) {
+                if ($('body').css('position') == 'relative') {
                     $rootScope.menuToggle();
                 }
                 $location.path(item.route);

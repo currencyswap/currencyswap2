@@ -7,7 +7,7 @@
 <div class="msg-list">
 <div data-ng-repeat="item in messages" class="results-list {{item.reads.length === 0 ? 'msg-new mgs-bgnew': ''}}">
 <div class="media">
-  <div class="media-body" data-ng-click="readMessage(item)">
+  <div class="media-body hand-over" data-ng-click="readMessage(item)">
     <h4 class="filename text-primary">{{item.title}}</h4>
     <p class="msg-content msg-quick">{{item.message}}</p>
     <div class="msg-issue">

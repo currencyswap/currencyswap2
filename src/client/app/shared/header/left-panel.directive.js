@@ -21,7 +21,7 @@ angular.module('appHeader').directive('leftPanel', function () {
             };
             
             $scope.accessMenuItem = function(item) {
-                if ($rootScope.hasLeftMenuToggle) {
+                if ($('body').css('position') == 'relative') {
                     $rootScope.menuToggle();
                 }
                 $location.path(item.route);
