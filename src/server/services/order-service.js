@@ -124,7 +124,7 @@ exports.getUserHistoryOrders = function (userId) {
     };
     return dbUtil.executeModelFn(app.models.Order, 'find', filter);
 };
-exports.get-Orders = function (userId, value, fixed) {
+exports.getSuggestOrders = function (userId, value, fixed) {
 	var min = value * (1 - constant.SUGGETION_LIST_CONFIG.ROTATE_SUGGETION);
 	var max = value * (1 + constant.SUGGETION_LIST_CONFIG.ROTATE_SUGGETION);
 	
@@ -182,8 +182,8 @@ exports.updateOrderActivity = function (orderId, creatorId, statusId) {
                                         ]};
     return dbUtil.executeModelFn(app.models.OrderActivity, 'updateAll', where, {'statusId': statusId});
 };
-exports.createOrderActivity = function (orderId, creatorId, statusId) {
-        var newItem = {'orderId' : orderId,'creatorId': creatorId, 'statusId': statusId};
+exports.createOrderActivity = function (orderId, creatorId, statusId, description) {
+        var newItem = {'orderId' : orderId,'creatorId': creatorId, 'statusId': statusId, 'description': description};
     return dbUtil.executeModelFn(app.models.OrderActivity, 'create', newItem);
 };
 exports.getOrderActivity = function (orderId) {

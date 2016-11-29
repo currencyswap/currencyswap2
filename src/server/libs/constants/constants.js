@@ -14,8 +14,8 @@ module.exports = {
         CLEAR_ORDER_TITLE: "Request Clear",
         CANCEL_ORDER_TITLE: "Request Cancel",
         SWAPPING_ORDER_CONTENT : "Swapping Order",
-        CONFIRM_ORDER_CONTENT : "Confirm Order",
-        CLEAR_ORDER_CONTENT : "Clear Order",
+        CONFIRM_ORDER_CONTENT : "Confirmed Order",
+        CLEAR_ORDER_CONTENT : "Cleared Order",
         CANCEL_ORDER_CONTENT : "Cancel Order"
     },
     PASSWORD_FIELD: 'password',

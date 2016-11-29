@@ -36,7 +36,7 @@ module.exports = function (app) {
         var orderId = req.params.id;
         var creatorId = req.currentUser.id
         service.updateOrderStatus(orderId, statusId).then(function(resp){
-        	createOrderActivity(orderId, creatorId, statusId);
+        	createOrderActivity(orderId, creatorId, statusId, message);
         	service.getOrderById(orderId).then(function(data){
         		var ownerId = data.ownerId;
         	    var accepterId = data.accepterId;
@@ -53,8 +53,8 @@ module.exports = function (app) {
               return res.status(500).send(errorUtil.createAppError(errors.SERVER_GET_PROBLEM));
           });
     };
-    var createOrderActivity = function (orderId, creatorId, statusId){
-        service.createOrderActivity(orderId, creatorId, statusId).then(function(resp){
+    var createOrderActivity = function (orderId, creatorId, statusId, description){
+        service.createOrderActivity(orderId, creatorId, statusId, description).then(function(resp){
         	console.log('createOrderActivity success');
         }, function(err){
         	console.log('createOrderActivity error : ' + JSON.stringify(err));
