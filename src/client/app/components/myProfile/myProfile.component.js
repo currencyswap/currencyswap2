@@ -57,6 +57,7 @@ angular.module('myProfile')
                         $scope.model.expiredDate = new Date(userDetail.expiredDate);
                         $scope.model.registeredDate = new Date(userDetail.registeredDate);
                         $scope.model.fullName = userDetail.fullName;
+                        $scope.fullName = $scope.model.fullName;
                         if (userDetail.addresses[0] && userDetail.addresses[0].hasOwnProperty('address')) $scope.model.address = userDetail.addresses[0].address;
                         if (userDetail.addresses[0] && userDetail.addresses[0].hasOwnProperty('city')) $scope.model.city = userDetail.addresses[0].city;
                         if (userDetail.addresses[0] && userDetail.addresses[0].hasOwnProperty('state')) $scope.model.state = userDetail.addresses[0].state;
@@ -69,6 +70,7 @@ angular.module('myProfile')
                         $scope.model.bankAccountNumber = userDetail.bankAccountNumber;
                         $scope.model.bankName = userDetail.bankName;
                         $scope.model.bankCountry = userDetail.bankCountry;
+
                     });
 
                 $scope.uploadFiles = function(file, errFiles) {
@@ -161,6 +163,7 @@ angular.module('myProfile')
 
                     $http(saveUserDetailReq)
                         .then(function (response) {
+                            $scope.fullName = $scope.model.fullName;
                             $location.path(routes.MYPROFILE);
                             $window.location.reload();
                         });
