@@ -100,13 +100,16 @@
                         <div class="mb30"></div>
                         <h4 class="nomargin">Bank Account</h4>
                         <form id="msgFormBankInfo" name="msgForm" novalidate="novalidate">
-
+                            <div class="form-group">
+                                <label class="control-label">Account Name</label>
+                                <input class="form-control" type="text" ng-model="model.bankAccountName" maxlength="50">
+                            </div>
                             <div class="form-group">
                                 <label class="control-label">Account Number</label>
                                 <input class="form-control" type="text" ng-model="model.bankAccountNumber" maxlength="50">
                             </div>
                             <div class="form-group">
-                                <label class="control-label">Bank</label>
+                                <label class="control-label">Bank Name</label>
                                 <input class="form-control" type="text" ng-model="model.bankName"  maxlength="50">
                             </div>
                             <div class="form-group">
