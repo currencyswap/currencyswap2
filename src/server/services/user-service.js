@@ -556,8 +556,16 @@ exports.createUserTransaction = function (callback) {
 
 exports.findAllUsers = function (callback) {
     app.models.Member.findAll(function (err, users) {
+        var resultUser = [];
         if (err) return callback(err);
-        else return callback(null, users);
+        else {
+            users.forEach(function (user) {
+                if (user.status !== constant.USER_STATUSES.NEW) {
+                    resultUser.push(user);
+                }
+            });
+            return callback(null, resultUser);
+        }
     })
 };
 
