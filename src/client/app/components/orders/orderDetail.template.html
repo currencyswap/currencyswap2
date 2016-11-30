@@ -9,7 +9,7 @@
 		<div class="panel-heading" ng-if="!orderNotExisted">
 			<h4 class="panel-title">Order {{order.code}}</h4>
 		</div>
-		<div class="panel-body" ng-if="!orderNotExisted">
+		<div class="panel-body panel-body-nopadding" ng-if="!orderNotExisted">
 			<div class="row row-initialized nomargin row-order-status">
 				<div class="col col-order-status order-status-1" ng-class="{'order-status-current' : orderStatus == statusType.SUBMITTED}">
 					<div class="order-status-item"></div>
@@ -62,8 +62,8 @@
 						<label class="control-label col-md-3 row-order-time-update"><span>Updated on </span> {{order.updated | filterDate}}</label> 
 					</div>
 					<div class="row mb10 row-order-actor">
-						<label class="control-label col-md-3"><span>Initializer </span> {{order.owner.fullName}}</label> 
-						<label class="control-label col-md-3 row-order-actor-accepter" ng-if="order.accepterId"><span>Accepter </span> <span class="row-order-actor-accepter-value">{{order.accepter.fullName}}</span></label> 
+						<label class="control-label col-md-3"><span>Initializer </span> {{order.owner.fullName||order.owner.username}}</label> 
+						<label class="control-label col-md-3 row-order-actor-accepter" ng-if="order.accepterId"><span>Accepter </span> <span class="row-order-actor-accepter-value">{{order.accepter.fullName||order.accepter.username}}</span></label> 
 					</div>
 					<div class="row mb10 row-give">
 						<label class="control-label col-md-2 row-title-give">Give</label> 

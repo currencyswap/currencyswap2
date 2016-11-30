@@ -16,15 +16,14 @@
     margin-right: 10px;
     margin-bottom: 5px;
 }
+.createOrderPanel .panel .panel-body,
+  .detailOrderPanel .panel .panel-body{
+    padding: 20px 10px;
+  }
 
 @media screen and (max-width: 767px) {
 	.createOrderPanel .rate-row input.form-control{
 		width: 200px !important;
-	}
-	
-	.createOrderPanel .panel .panel-body,
-	.detailOrderPanel .panel .panel-body{
-		padding: 20px 5px;
 	}
 }
 
@@ -134,7 +133,7 @@
 }
 
 .detailOrderPanel .panel .panel-body .row-order-status .col-order-status .order-status-label {
-    width: 65px;
+    width: 72px;
     text-align: center;
 }
 
@@ -203,7 +202,7 @@
 	.createOrderPanel .panel .panel-heading,
 	.detailOrderPanel .panel .panel-body,
 	.detailOrderPanel .panel .panel-heading{
-		padding: 20px 5px;
+		padding: 20px 10px;
 	}
 
 	.detailOrderPanel .panel .panel-body .row-order-status .col-order-line .order-line{
@@ -214,7 +213,7 @@
 		margin-left: 2px;
 	}
 	.detailOrderPanel .panel .panel-body .row-order-status .col-order-status .order-status-label {
-	    width: 50px;
+	    width: 72px;
 	    text-align: center;
 	    white-space: nowrap;
 	    text-overflow: ellipsis;
