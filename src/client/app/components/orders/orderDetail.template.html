@@ -105,8 +105,8 @@
 					<h2 class="row-activities-title">Activity</h2>
 					<div class="row" ng-repeat="activity in order.activities" ng-if="activity.statusId > 1">
 						<div class="col">
-							<span class="activity-time mr20">{{activity.created | filterDate}}</span>
-							<span class="activity-creator mr10" ng-class="{'other-user-action' : activity.creator.username != currentUser}">{{activity.creator.username}}</span>
+							<span class="activity-time mr5">{{activity.created | filterDate}}</span>
+							<span class="activity-creator mr5" ng-class="{'other-user-action' : activity.creator.username != currentUser}">{{activity.creator.username}}</span>
 							<span class="activity-creator">{{activity.description}}</span>
 						</div>
 					</div>
