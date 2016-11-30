@@ -42,7 +42,7 @@ angular.module('navigation', []).factory('NavigationHelper', ['$rootScope', '$lo
                 }
 
                 var item = {
-                    route: navItem.route,
+                    route: pattern.stringify(),
                     routePattern : navItem.route,
                     name: navItem.name,
                     icon: navItem.icon,

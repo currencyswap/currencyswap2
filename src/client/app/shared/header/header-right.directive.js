@@ -17,7 +17,9 @@ angular.module('appHeader').directive('headerRight', function () {
             $scope.toolbarItems = $rootScope.toolsBar;
 
             var cookUser = CookieService.getCurrentUser();
-            $scope.user = $.extend({'avatarUrl': global.DEF_AVATAR, 'username': cookUser.username, 'fullName': ''}, $rootScope.user);
+
+
+            $scope.user = $.extend({'avatarUrl': cookUser.avatarUrl ? cookUser.avatarUrl : global.DEF_AVATAR, 'username': cookUser.username, 'fullName': ''}, $rootScope.user);
 
             $scope.accessMenuItem = function(item) {
                 $location.path(item.route);

@@ -18,6 +18,8 @@ angular.module('orders')
         		
         		$scope.submitLoading = false;
         		
+        		$scope.orderNotExisted = false;
+        		
         		var orderCode = $routeParams.orderCode;
         		//orderCode = $route.current.params.orderCode;
         		$scope.currentUser = CookieService.getCurrentUser();
@@ -30,14 +32,20 @@ angular.module('orders')
         			OrdersService.getOrderByCode(orderCode).then(function(data){
         				console.log("getOrderDetail success: " + JSON.stringify(data));
         				$scope.$apply(function(){
-        					$scope.order = data;
-        					if($scope.order.owner.username == $scope.currentUser.username){
-        						$scope.isOwnerOrder = true;
+        					if(data){
+        						$scope.orderNotExisted = false;
+        						$scope.order = data;
+            					if($scope.order.owner.username == $scope.currentUser.username){
+            						$scope.isOwnerOrder = true;
+            					}
+            					$scope.orderStatus = $scope.order.status.name;
+            					$scope.orderStatusId = $scope.order.status.id;
+        					}else{
+        						$scope.orderNotExisted = true;
         					}
-        					$scope.orderStatus = $scope.order.status.name;
-        					$scope.orderStatusId = $scope.order.status.id;
         				});
         			},function(err){
+        				$scope.orderNotExisted = true;
         				console.log("getOrderDetail err: " + JSON.stringify(err));
         			});
         		}

@@ -1,4 +1,31 @@
-.order-content  {
+
+.createOrderPanel .submit-error{
+	color: #ff0000;
+}
+
+.createOrderPanel .give-row input.form-control,
+.createOrderPanel .give-row select.form-control,
+.createOrderPanel .get-row input.form-control,
+.createOrderPanel .get-row select.form-control{
+	width: 200px !important;
+    margin-right: 10px;
+    margin-bottom: 5px;
+}
+
+.createOrderPanel .rate-row input.form-control{
+	width: 412px !important;
+    margin-right: 10px;
+    margin-bottom: 5px;
+}
+
+@media screen and (max-width: 767px) {
+	.createOrderPanel .rate-row input.form-control{
+		width: 200px !important;
+	}
+}
+
+
+.order-content  {ß
  text-align: center;
  margin: 10px auto !important;
 }
