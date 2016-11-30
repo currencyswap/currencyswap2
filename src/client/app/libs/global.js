@@ -8,8 +8,10 @@ var global = {
     TOOLSBAR : 'Tools-Bar',
     NONE : '',
     DEF_AVATAR: 'assets/images/photos/profile.png',
+    DEF_AVATAR_URL: '/config/media/',
     USER_EMAIL: 'userEmail',
-    TIME_OUT: 1
+    TIME_OUT: 1,
+    NUMBER_PAGING: 24
 };
 
 var permissions = {

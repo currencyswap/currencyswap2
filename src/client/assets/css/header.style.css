@@ -27,10 +27,10 @@ button.tb-active {
 .user-content  .user-item-header {
     background: #cccccc;
 }
-.support-content, .help-content, .notification-content, .createOrderPanel, .user-content  {
+.support-content, .help-content, .notification-content, .createOrderPanel, .user-content, .detailOrderPanel{
   margin: 10px auto;
 }
-.support-content, .createOrderPanel1 {
+.support-content, .createOrderPanel {
   max-width: 800px;
 }
 .support-content textarea {
@@ -48,7 +48,6 @@ button.tb-active {
 }
 .msg-issue {
  text-align: right;
- margin-top: -6px;
 }
 .msg-menu {
 }
@@ -57,6 +56,8 @@ button.tb-active {
 .msg-new {
  font-size: +1pt;
  font-weight: bold;
+ padding-left:6px;
+ padding-right:6px;
 }
 .mgs-bgnew {
  background-color: #E8FDFD !important;
@@ -67,24 +68,30 @@ button.tb-active {
  overflow: hidden;
  text-overflow: ellipsis;
 }
+.hand-over {
+cursor: pointer;
+}
+/* body {border:1px solid red !important;} */
 @media screen and (max-width: 1024px) {
+	/* body {border:1px solid green !important;} */
 }
 
 @media screen and (max-width: 767px) {
+	/* body {border:1px solid blue !important;} */
 }
 
 @media screen and (max-width: 640px) {
-
+/* body {border:1px solid yellow !important;} */
 }
 
 @media screen and (max-width: 480px) {
-
+/* body {border:1px solid black !important;} */
 }
 
 @media screen and (max-width: 360px) {
-
+/* body {border:1px solid orange !important;} */
 }
 
 @media screen and (max-width: 320px) {
-
+/* body {border:1px solid cyan !important;} */
 }

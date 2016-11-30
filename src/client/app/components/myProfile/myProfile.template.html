@@ -1,181 +1,157 @@
-<div class="myprofilepanel">
-    <div class="col-sm-4 col-sm-offset-4">
-        <form name="registerForm" style="background-color: white">
-            <fieldset ng-disabled="!isEditting">
-                <div class="row">
-                    <div class="col-sm-9">
-                        <div class="row">
-                            <h2 class="nomargin"><b>{{model.fullName}}</b></h2>
-                        </div>
-                        <br>
-                        <div class="row">
-                            <a href="#">{{model.email}}</a>
-                        </div>
-                        <br>
-                    </div>
+<section>
+    <div class="support-content">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <div class="form-group my-profile">
                     <form class="form-vertical">
-                        <div class="col-sm-3">
+                        <div class="pull-left formAvatar">
                             <div class="row">
-                                <img ng-src="/config/media/{{model.username}}?{{randomNumImg}}" alt="Mountain View"
-                                     style="width:100px;height:120px;" class="pull-right">
+                                <img class="avatar-size avatar-align" ng-src="/config/media/{{model.username}}?{{randomNumImg}}" alt="Avatar Image">
                             </div>
                             <div class="row">
-                                <a type="file" ngf-select="uploadFiles($file, $invalidFiles)"
-                                        accept="image/*" ngf-max-height="1000" ngf-max-size="1MB" class="pull-right">
+                                <a class = "avatar-align" type="file" ngf-select="uploadFiles($file, $invalidFiles)"
+                                   accept="image/*" ngf-max-height="1000" ngf-max-size="1MB" ng-disabled="!isEditting">
                                     Change Avatar
                                 </a>
                             </div>
                         </div>
                     </form>
-                </div>
-                <div class="row">
-                    <div class="mb10">
-                        <label class="control-label">Username</label>
-                        <input class="form-control" type="text" ng-model="model.username">
+                    <div class="pull-left">
+                        <div class="row">
+                            <h4 class="panel-title">{{fullName}}</h4>
+                            <a href="#">{{model.email}}</a>
+                        </div>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="mb10">
-                        <label class="control-label">Birthday</label>
-                        <div class="input-group">
-                            <input type="text" class="form-control"
-                                   uib-datepicker-popup="{{format}}"
-                                   is-open="calendarPicker.opened"
-                                   datepicker-options="dateOptions"
-                                   ng-model="model.birthday"
-                                   close-text="Close"
-                                   alt-input-formats="altInputFormats">
+                <fieldset ng-disabled="!isEditting">
+                    <div class="panel-body panel-body-nopadding">
+                        <form id="msgForm" name="msgForm" novalidate="novalidate">
+                            <div class="form-group">
+                                <label class="control-label">Username</label>
+                                <input class="form-control" type="text" ng-model="model.username"  readonly="readonly">
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label" for="fullname">Full Name</label>
+                                <input ng-model="model.fullName" id="fullname" class="form-control"
+                                       type="text" maxlength="60">
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label">Birthday</label>
+                                <div class="input-group">
+                                    <input type="text" class="form-control"
+                                           uib-datepicker-popup="{{format}}"
+                                           is-open="calendarPicker.opened"
+                                           datepicker-options="dateOptions"
+                                           ng-model="model.birthday"
+                                           close-text="Close"
+                                           alt-input-formats="altInputFormats"
+                                           show-button-bar="false">
                             <span class="input-group-addon" style="height: 40px">
-                                   <i class="glyphicon glyphicon-calendar" ng-click="openCalendar()"></i>
+                                   <i class="glyphicon glyphicon-calendar"  ng-click="openCalendar()" ></i>
                                 </span>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="mb10">
-                        <label class="control-label">Register Date</label>
-                        <div class="input-group">
-                            <input type="text" class="form-control" uib-datepicker-popup="{{format}}"
-                                   datepicker-options="dateOptions" ng-required="true"
-                                   ng-model="model.registeredDate"
-                                   close-text="Close" alt-input-formats="altInputFormats" readonly>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label">Register Date</label>
+                                <div class="input-group">
+                                    <input type="text" class="form-control" uib-datepicker-popup="{{format}}"
+                                           datepicker-options="dateOptions" ng-required="true"
+                                           ng-model="model.registeredDate"
+                                           close-text="Close" alt-input-formats="altInputFormats" readonly>
                             <span class="input-group-addon" style="height: 40px">
-                                   <i class="glyphicon glyphicon-calendar"></i>
+                                   <i class="glyphicon glyphicon-calendar" ng-disabled="!isEditting"></i>
                                 </span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label">Expried Date</label>
+                                <input class="form-control" type="text"  uib-datepicker-popup="{{format}}" ng-model="model.expiredDate" readonly>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label">Cell phone</label>
+                                <input class="form-control" type="text" ng-model="model.cellphone" maxlength="20">
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label">Passport ID</label>
+                                <input class="form-control" type="text" ng-model="model.nationalId" maxlength="20">
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label">Address</label>
+                                <input class="form-control" type="text" ng-model="model.address" maxlength="80">
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label">City</label>
+                                <input class="form-control" type="text" ng-model="model.city" maxlength="20">
+                            </div>
+                            <div class="form-group">
+                                <country-state-user country="model.country" state="model.state"></country-state-user>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label">Postcode</label>
+                                <input class="form-control" type="text" ng-model="model.postcode" maxlength="20">
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label">Profession</label>
+                                <input class="form-control" type="text" ng-model="model.profession" maxlength="30">
+                            </div>
+                        </form>
+                        <div class="mb30"></div>
+                        <hr>
+                        <div class="mb30"></div>
+                        <h4 class="nomargin">Bank Account</h4>
+                        <form id="msgFormBankInfo" name="msgForm" novalidate="novalidate">
+                            <div class="form-group">
+                                <label class="control-label">Account Name</label>
+                                <input class="form-control" type="text" ng-model="model.bankAccountName" maxlength="300">
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label">Account Number</label>
+                                <input class="form-control" type="text" ng-model="model.bankAccountNumber" maxlength="50">
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label">Bank Name</label>
+                                <input class="form-control" type="text" ng-model="model.bankName"  maxlength="300">
+                            </div>
+                            <div class="form-group">
+                                <country-select country="model.bankCountry"></country-select>
+                            </div>
+                        </form>
+                        <div ng-if="isEditting">
+                            <div class="mb30"></div>
+                            <hr>
+                            <div class="mb30"></div>
+                            <h4 class="nomargin">Change Password</h4>
+                            <form id="msgFormChangePass" name="pswForm" novalidate="novalidate">
+                                <div class="form-group">
+                                    <label class="control-label">Current Password</label>
+                                    <input class="form-control" type="password" ng-model="model.currentPwd">
+                                </div>
+                                <div class="form-group" data-ng-class="{'has-error' : pswForm.password.$invalid && !pswForm.password.$pristine}">
+                                    <label class="control-label">New Password</label>
+                                    <input class="form-control" type="password" name="password" data-ng-model="model.newPwd" ng-minlength="8">
+                                    <label class="error" ng-show="pswForm.password.$error.minlength">Password is too short.</label>
+                                </div>
+                                <div class="form-group" data-ng-class="{'has-error' : pswForm.passwordCompare.$invalid && !pswForm.passwordCompare.$pristine}">
+                                    <label class="control-label">Re-enter Password</label>
+                                    <input class="form-control" type="password" name="passwordCompare" data-ng-model="model.passwordCompare" data-ng-match="model.newPwd"/>
+                                    <label class="error" ng-show="pswForm.passwordCompare.$error.match">Password do not match.</label>
+                                </div>
+                            </form>
                         </div>
                     </div>
-                </div>
-                <div class="row">
-                    <div class="mb10">
-                        <label class="control-label">Expried Date</label>
-                        <input class="form-control" type="text"  uib-datepicker-popup="{{format}}" ng-model="model.expiredDate" readonly>
+                </fieldset>
+                <div class="panel-footer">
+                    <button class="btn btn-success center-block" ng-click="changeStateToEdit()" ng-if="!isEditting">EDIT
+                    </button>
+                    <button class="btn btn-success center-block" ng-click="saveUserInfo()" ng-if="isEditting">SAVE
+                    </button>
+                    <div class="loaders" align="center" ng-show="gifLoading">
+                        <img src="../../../assets/images/loaders/loader1.gif" alt="">
                     </div>
+                    <!--<p style="color:green">{{message}}</p>-->
                 </div>
-                <div class="row">
-                    <div class="mb10">
-                        <label class="control-label">Cell phone</label>
-                        <input class="form-control" type="text" ng-model="model.cellphone">
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="mb10">
-                        <label class="control-label">Passport ID</label>
-                        <input class="form-control" type="text" ng-model="model.nationalId">
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="mb10">
-                        <label class="control-label">Address</label>
-                        <input class="form-control" type="text" ng-model="model.address">
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="mb10">
-                        <label class="control-label">City</label>
-                        <input class="form-control" type="text" ng-model="model.city">
-                    </div>
-                </div>
-                <div class="row">
-                    <country-state country="model.country" state="model.state"></country-state>
-                </div>
-                <div class="row">
-                    <div class="mb10">
-                        <label class="control-label">Postcode</label>
-                        <input class="form-control" type="text" ng-model="model.postcode">
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="mb10">
-                        <label class="control-label">Profession</label>
-                        <input class="form-control" type="text" ng-model="model.profession">
-                    </div>
-                </div>
-                <br>
-                <hr>
-                <!--<div class="row">-->
-                    <!--<h3>Bank Account</h3>-->
-                <!--</div>-->
-                <h4 class="nomargin">Bank Account</h4>
-                <br>
-                <div class="row">
-                    <div class="mb10">
-                        <label class="control-label">Account Name</label>
-                        <input class="form-control" type="text" ng-model="model.bankAccountName">
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="mb10">
-                        <label class="control-label">Account Number</label>
-                        <input class="form-control" type="text" ng-model="model.bankAccountNumber">
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="mb10">
-                        <label class="control-label">Bank</label>
-                        <input class="form-control" type="text" ng-model="model.bankName">
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="mb10">
-                        <label class="control-label">Country</label>
-                        <input class="form-control" type="text" ng-model="model.bankCountry">
-                    </div>
-                </div>
-                <div ng-if="isEditting">
-                    <br>
-                    <hr>
-                    <h4 class="nomargin">Change Password</h4>
-                    <br>
-                    <div class="row">
-                        <div class="mb10">
-                            <label class="control-label">Current Password</label>
-                            <input class="form-control" type="password" ng-model="model.currentPwd">
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="mb10" data-ng-class="{'has-error' : registerForm.password.$invalid && !registerForm.password.$pristine}">
-                            <label class="control-label">New Password</label>
-                            <input class="form-control" type="password" name="password" data-ng-model="model.newPwd" ng-minlength="8">
-                            <p ng-show="registerForm.password.$error.minlength" class="help-block">Username is too short.</p>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="mb10" data-ng-class="{'has-error' : registerForm.passwordCompare.$invalid && !registerForm.passwordCompare.$pristine}">
-                            <label class="control-label">Re-enter Password</label>
-                            <input class="form-control" type="password" name="passwordCompare" data-ng-model="model.passwordCompare" data-ng-match="model.newPwd"/>
-                            <span class="help-block" data-ng-show="registerForm.passwordCompare.$error.match">Passwords do not match.</span>
-                        </div>
-                    </div>
-                </div>
-            </fieldset>
-            <div class="panel-footer">
-                <button class="btn btn-success center-block" ng-click="changeStateToEdit()" ng-if="!isEditting">EDIT
-                </button>
-                <button class="btn btn-success center-block" ng-click="saveUserInfo()" ng-if="isEditting">SAVE
-                </button>
             </div>
-        </form>
+        </div>
     </div>
-
-</div>
+</section>
 

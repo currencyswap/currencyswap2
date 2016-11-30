@@ -8,8 +8,9 @@ angular.module('resetPassword')
             '$location',
             '$http',
             '$window',
+            'CookieService',
             'GLOBAL_CONSTANT',
-            function resetPassword($scope, $rootScope, $location, $http, $window, GLOBAL_CONSTANT) {
+            function resetPassword($scope, $rootScope, $location, $http, $window, CookieService, GLOBAL_CONSTANT) {
                 $scope.title = appConfig.title;
                 $scope.newPwdFormData = {};
 
@@ -20,8 +21,6 @@ angular.module('resetPassword')
                 };
 
                 $scope.submitNewPassword = function () {
-
-                    console.log('submitNewPassword action !!!');
 
                     var headers = {};
 
@@ -40,26 +39,29 @@ angular.module('resetPassword')
 
                     return $http(req)
                         .then(function (response) {
-                            if (response.status === GLOBAL_CONSTANT.HTTP_SUCCESS_STATUS_CODE) {
+                            if (response.status === GLOBAL_CONSTANT.HTTP_ERROR_STATUS_CODE) {
+                                if (response.data.code === serverErrors.MEMBER_EMAIL_NOT_FOUND) {
+                                    $rootScope.error = GLOBAL_CONSTANT.BAD_REQUEST_ERROR;
+                                    return $location.url(routes.ERROR_PAGE);
+                                }
+
+                                if (response.data.code === serverErrors.COULD_NOT_UPDATE_USER_PWD) {
+                                    $rootScope.error = GLOBAL_CONSTANT.SERVER_GOT_PROBLEM_ERROR;
+                                    return $location.url(routes.ERROR_PAGE);
+                                }
+                            } else {
                                 $scope.isResetSuccess = true;
                                 $scope.resetPwdForm = false;
-                            } else {
-                                $rootScope.error = {};
-                                $rootScope.error.status = GLOBAL_CONSTANT.UNKNOWN_ERROR_STATUS;
-                                $rootScope.error.message = GLOBAL_CONSTANT.UNKNOWN_ERROR_MSG;
-                                $window.scrollTo(0, 0);
                             }
                         }, function (error) {
-                            $rootScope.error = {};
-                            $rootScope.error.status = GLOBAL_CONSTANT.UNKNOWN_ERROR_STATUS;
-                            $rootScope.error.message = GLOBAL_CONSTANT.UNKNOWN_ERROR_MSG;
-                            $window.scrollTo(0, 0);
+                            $rootScope.error = GLOBAL_CONSTANT.UNKNOWN_ERROR;
+                            return $location.url(routes.ERROR_PAGE);
                         });
                 };
 
                 if ($location.search().resetCode) {
-                    var resetCode = $location.search().resetCode;
                     CookieService.cleanUpCookies();
+                    var resetCode = $location.search().resetCode;
                     var headers = {};
 
                     headers[httpHeader.CONTENT_TYPE] = contentTypes.JSON;
@@ -72,22 +74,24 @@ angular.module('resetPassword')
 
                     return $http(req)
                         .then(function (response) {
-                            if (response.status === GLOBAL_CONSTANT.HTTP_SUCCESS_STATUS_CODE) {
-                                $scope.resetPwdForm = true;
-                            } else {
+                            if (response.status === GLOBAL_CONSTANT.HTTP_ERROR_STATUS_CODE) {
                                 if (response.data.code === serverErrors.RESET_PWD_CODE_NOT_FOUND) {
-                                    $rootScope.error = {};
-                                    $rootScope.error.status = GLOBAL_CONSTANT.UNKNOWN_ERROR_STATUS;
-                                    $rootScope.error.message = GLOBAL_CONSTANT.UNKNOWN_ERROR_MSG;
-                                    $window.scrollTo(0, 0);
+                                    $rootScope.isLoading = false;
+                                    $rootScope.error = GLOBAL_CONSTANT.RESET_CODE_EXPIRED_ERROR;
+                                    return $location.url(routes.ERROR_PAGE);
                                 }
 
+                                if (response.data.code === serverErrors.COULD_NOT_DECRYPT_RESET_PWD_CODE) {
+                                    $rootScope.isLoading = false;
+                                    $rootScope.error = GLOBAL_CONSTANT.COULD_NOT_DECRYPT_RESET_PWD_CODE_ERROR;
+                                    return $location.url(routes.ERROR_PAGE);
+                                }
+                            } else {
+                                $scope.resetPwdForm = true;
                             }
                         }, function (error) {
-                            $rootScope.error = {};
-                            $rootScope.error.status = GLOBAL_CONSTANT.UNKNOWN_ERROR_STATUS;
-                            $rootScope.error.message = GLOBAL_CONSTANT.UNKNOWN_ERROR_MSG;
-                            $window.scrollTo(0, 0);
+                            $rootScope.error = GLOBAL_CONSTANT.UNKNOWN_ERROR;
+                            return $location.url(routes.ERROR_PAGE);
                         });
                 }
             }]

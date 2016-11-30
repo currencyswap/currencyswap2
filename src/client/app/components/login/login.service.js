@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('loginForm').factory('LoginService', ['$http', '$q', 'GLOBAL_CONSTANT',function ($http, $q) {
+angular.module('loginForm').factory('LoginService', ['$http', '$q', 'OrdersService','GLOBAL_CONSTANT',function ($http, $q, OrdersService) {
     return {
         authenticate: function (user) {
             if (!user || !user.username || !user.password) {
@@ -23,6 +23,15 @@ angular.module('loginForm').factory('LoginService', ['$http', '$q', 'GLOBAL_CONS
 
                 return $http(req);
             }
+        },
+        getTotalOrderOfUser: function(){
+//        	OrdersService.getTotalOrderOfUser().then(function(resp){
+//        		alert(resp);
+//        		return resp;
+//        	}, function(err){
+//        		return 0;
+//        	})
+        	return OrdersService.getTotalOrderOfUser();
         }
     }
 }]);

@@ -81,6 +81,7 @@ angular.module('register')
                 $scope.openCalendar = function () {
                     $scope.calendar.opened = true;
                 };
+
                 $scope.onUsernameChange = function () {
                     $scope.userExisted = false;
                     $scope.emailExisted = false;

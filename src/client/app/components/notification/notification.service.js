@@ -4,8 +4,8 @@
  */
 angular.module('notification').factory('NotiService', ['ConnectorService', function (ConnectorService) {
     return $.extend({}, ConnectorService, {
-        getMessages: function() {
-            return this.get(apiRoutes.API_SUPPORTS);
+        getMessages: function(limit, lastId) {
+            return this.get(apiRoutes.API_SUPPORTS, {'limit': limit, 'lastId': lastId});
         },
         getQuickMessages: function() {
             return this.get(apiRoutes.API_SUPPORTS, {'limit': 5, 'isUnreadCount': true});

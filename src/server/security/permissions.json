@@ -157,6 +157,18 @@
             ]
         },
         {
+            "route": "{API_ORDERS_SUBMITTED_SWAP}",
+            "rules" : [
+                {
+                    "methods" : ["GET", "PATCH", "PUT", "DELETE", "POST"],
+                    "requiredPermissions": [
+                        "{VIEW_OWN_ORDERS}"
+                    ],
+                    "isAlive": true
+                }
+            ]
+        },
+        {
             "route": "{API_ORDERS_SUBMITTED}",
             "rules" : [
                 {
@@ -182,6 +194,17 @@
         },
 		{
             "route": "{API_ORDERS_HISTORY}",
+            "rules" : [
+                {
+                    "methods" : ["GET", "PUT"],
+                    "requiredPermissions": [
+                        "{VIEW_OWN_ORDERS}"
+                    ],
+                    "isAlive": true
+                }
+            ]
+        }, {
+            "route": "{API_ORDERS_TOTAL}",
             "rules" : [
                 {
                     "methods" : ["GET", "PUT"],

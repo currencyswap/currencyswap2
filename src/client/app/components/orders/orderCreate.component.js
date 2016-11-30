@@ -12,30 +12,7 @@ angular.module('orders')
             'GLOBAL_CONSTANT',
             function orderCreateController($scope, $rootScope, OrdersService, $location, $http, $window, GLOBAL_CONSTANT) {
         		
-	        	$scope.currencies = [
-//	        	    {
-//						"code" : "USD",
-//						"name" : "US Dollar"
-//					}, {
-//						"code" : "EUR",
-//						"name" : "Euro"
-//					}, {
-//						"code" : "GBP",
-//						"name" : "British Pound"
-//					}, {
-//						"code" : "INR",
-//						"name" : "Indian Rupee"
-//					}, {
-//						"code" : "AUD",
-//						"name" : "Australian Dollar"
-//					}, {
-//						"code" : "CAD",
-//						"name" : "Canadian Dollar"
-//					}, {
-//						"code" : "SGD",
-//						"name" : "Singapore Dollar"
-//					}
-				];
+	        	$scope.currencies = [];
         		
         		$scope.FIXED_VALUE = GLOBAL_CONSTANT.ORDER_FIXED_VALUE;
         		$scope.EXPIRED_VALUE = GLOBAL_CONSTANT.ORDER_EXPIRED_VALUE;
@@ -50,6 +27,7 @@ angular.module('orders')
         		}
         		
         		$scope.submitLoading = false;
+        		$scope.hasError = false;
         		
         		$scope.statusPage = $scope.STATUS_PAGE_VALUE.CREATE;
         		
@@ -71,7 +49,22 @@ angular.module('orders')
         		getCurrenciesList();
         		
         		var getSuggestionOrders = function(){
-        			OrdersService.getSuggetOrders().then(function(data1){
+        			var value = "";
+        			if($scope.newOrder.fixed == $scope.FIXED_VALUE.GIVE){
+        				value = $scope.newOrder.give;
+        			}else if($scope.newOrder.fixed == $scope.FIXED_VALUE.GET){
+        				value = $scope.newOrder.give;
+        			}else{
+        				$scope.newOrder.fixed = $scope.FIXED_VALUE.RATE;
+        				value = $scope.newOrder.rate;
+        			}
+        			
+        			var data = {
+        					fixed : $scope.newOrder.fixed,
+        					value : value
+        			}
+        			
+        			OrdersService.getSuggetOrders(data).then(function(data1){
         				console.log("getSuggestionOrders : " + JSON.stringify(data1));
         				$scope.$apply(function(){
         					$scope.suggestionOrders = data1;
@@ -80,6 +73,7 @@ angular.module('orders')
         				console.log("getSuggestionOrders err: " + JSON.stringify(err));
         			});
         		}
+        		
         		if(!$scope.newOrder){
 	        		$scope.newOrder = {
 	        				give : "",
@@ -87,7 +81,7 @@ angular.module('orders')
 	        				get : "",
 	        				getCurrencyCode : "",
 	        				rate : "",
-	        				fixed : $scope.FIXED_VALUE.RATE,
+	        				fixed : $scope.FIXED_VALUE.GIVE,
 	        				expired : $scope.EXPIRED_VALUE[0].key,
 	        				expiredDate : new Date(),
 	        				dayLive : 0
@@ -99,17 +93,33 @@ angular.module('orders')
         			$scope.newOrder = $rootScope.newOrderSave;
         		}
         		
-        		$scope.onChangeValue = function(){
-        			if($scope.newOrder.fixed == $scope.FIXED_VALUE.GET){
-        				$scope.newOrder.get = $scope.newOrder.give * $scope.newOrder.rate;
-        			}else if($scope.newOrder.fixed == $scope.FIXED_VALUE.GIVE){
-        				if($scope.newOrder.rate){
-        					$scope.newOrder.give = $scope.newOrder.get / $scope.newOrder.rate;
+        		$scope.onChangeValue = function(fieldChange){
+        			if($scope.newOrder.fixed == $scope.FIXED_VALUE.GIVE){
+        				if(fieldChange == $scope.FIXED_VALUE.RATE){
+        					$scope.newOrder.get = $scope.newOrder.give * $scope.newOrder.rate;
+        				}else{
+        					if($scope.newOrder.give){
+            					$scope.newOrder.rate = $scope.newOrder.get / $scope.newOrder.give;
+            				}
+        				}
+        			}else if($scope.newOrder.fixed == $scope.FIXED_VALUE.GET){
+        				if(fieldChange == $scope.FIXED_VALUE.RATE){
+        					if($scope.newOrder.rate){
+        						$scope.newOrder.give = $scope.newOrder.get / $scope.newOrder.rate;
+        					}
+        				}else{
+        					if($scope.newOrder.give){
+            					$scope.newOrder.rate = $scope.newOrder.get / $scope.newOrder.give;
+            				}
         				}
         			}else{
         				$scope.newOrder.fixed = $scope.FIXED_VALUE.RATE;
-        				if($scope.newOrder.give){
-        					$scope.newOrder.rate = $scope.newOrder.get / $scope.newOrder.give;
+        				if(fieldChange == $scope.FIXED_VALUE.GIVE){
+        					$scope.newOrder.get = $scope.newOrder.give * $scope.newOrder.rate;
+        				}else{
+        					if($scope.newOrder.rate){
+            					$scope.newOrder.give = $scope.newOrder.get / $scope.newOrder.rate;
+            				}
         				}
         			}
         		}
@@ -134,17 +144,23 @@ angular.module('orders')
         			$scope.newOrder.expiredDate = expiredDate;
         			$scope.statusPage = $scope.STATUS_PAGE_VALUE.INITIALIZED;
         			$scope.submitLoading = false;
+        			$scope.hasError = false;
         			getSuggestionOrders();
             	}
         		
         		$scope.onBackStep = function(){
         			$scope.statusPage = $scope.STATUS_PAGE_VALUE.CREATE;
         			$scope.submitLoading = false;
+        			$scope.hasError = false;
             	}
+        		
+        		var goToOrderList = function(){
+        			location.href = "/#!/orders/";
+        		}
         		
         		$scope.onSubmit = function(){
         			$scope.submitLoading = true;
-        			
+        			$scope.hasError = false;
         			var newOrderRequest = {};
         			
         			newOrderRequest.give = $scope.newOrder.give;
@@ -166,17 +182,29 @@ angular.module('orders')
         			
         			OrdersService.postSaveNewOrders(newOrderRequest).then(function(data){
         				$scope.submitLoading = false;
-        				console.log("postSaveNewOrders success: " + JSON.stringify(data));
-        				location.href = "/#!/orders";
+        				goToOrderList();
         			},function(err){
         				$scope.submitLoading = false;
-        				console.log("postSaveNewOrders err: " + JSON.stringify(err));
+        				$scope.hasError = true;
+        				$scope.errorMessage = GLOBAL_CONSTANT.SERVER_GOT_PROBLEM_ERROR.message;
         			});
             	}
         		
         		$scope.checkEqualCurrency = function(){
         			return $scope.newOrder.giveCurrencyCode == $scope.newOrder.getCurrencyCode;
         		}
+        		
+        		// swapping order
+        		$scope.onSwap = function(orderId){
+            		var swapOrder = $window.confirm('Are you sure you want to Swap the Order?');
+            	    if(swapOrder){
+		                OrdersService.swapSubmittedOrder(orderId).then(function(resp){
+		                	goToOrderList();
+	                    }, function(err){
+	                        console.log('Failure in saving your message');
+	                    });
+            	    }
+        		};
         		
             }]
     });

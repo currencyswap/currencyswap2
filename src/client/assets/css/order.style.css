@@ -1,3 +1,32 @@
+.createOrderPanel .submit-error{
+	color: #ff0000;
+}
+
+.createOrderPanel .give-row input.form-control,
+.createOrderPanel .give-row select.form-control,
+.createOrderPanel .get-row input.form-control,
+.createOrderPanel .get-row select.form-control{
+	width: 300px !important;
+    margin-right: 10px;
+    margin-bottom: 5px;
+}
+
+.createOrderPanel .rate-row input.form-control{
+	width: 412px !important;
+    margin-right: 10px;
+    margin-bottom: 5px;
+}
+.createOrderPanel .panel .panel-body,
+  .detailOrderPanel .panel .panel-body{
+    padding: 20px 10px;
+  }
+
+@media screen and (max-width: 767px) {
+	.createOrderPanel .rate-row input.form-control{
+		width: 300px !important;
+	}
+}
+
 .order-content  {
  text-align: center;
  margin: 10px auto !important;
@@ -7,23 +36,23 @@
  	margin: auto;
  	width: 100%;
 }
-.order-content .order-status-1 {
+.order-status-1 {
 	color: #6299e8;	
 }
-.order-content .order-status-2 {
+.order-status-2 {
 	color: #159d21;
 }
-.order-content .order-status-3{
+.order-status-3{
 	
 	color: #366144;
 }
-.order-content .order-status-4{
+.order-status-4{
 	color: #b17197;
 }
-.order-content .order-status-5{
+.order-status-5{
 	color: #fea340;
 }
-.order-content .order-status-6{
+.order-status-6{
 	color: #ff0658;
 }
 
@@ -39,6 +68,7 @@
 }
 .order-content .order-item-header {
 	background: #cccccc;
+	white-space: nowrap;
 }
 .order-content .order-item-content {
 	text-align: left;
@@ -92,5 +122,166 @@
 }
 
 /*Order detail start*/
+.detailOrderPanel .panel .panel-title{
+	color: #b17197;
+    font-size: 22px;
+    font-weight: bold;
+}
+.detailOrderPanel .panel .panel-body .row-order-status{
+	display: inline-flex;
+	margin-bottom: 20px;
+}
+
+.detailOrderPanel .panel .panel-body .row-order-status .col-order-status .order-status-label {
+    width: 72px;
+    text-align: center;
+}
+
+.detailOrderPanel .panel .panel-body .row-order-status .col-order-status .order-status-item{
+	height : 12px;
+	width: 12px;
+	border-width: 2px;
+	border-style: solid;
+	border-radius: 6px;
+	margin: 3px auto;
+	
+}
+
+.detailOrderPanel .panel .panel-body .row-order-status .col-order-status.order-status-current .order-status-label{
+	font-weight: bold;
+}
+
+.detailOrderPanel .panel .panel-body .row-order-status .col-order-status.order-status-current .order-status-item{
+	height: 16px;
+	width: 16px;
+	border-radius: 8px;
+	margin: 1px auto;
+}
+.detailOrderPanel .panel .panel-body .row-order-status .col-order-status.order-status-1.order-status-current .order-status-item {
+	background-color: #6299e8;	
+}
+.detailOrderPanel .panel .panel-body .row-order-status .col-order-status.order-status-2.order-status-current .order-status-item{
+	background-color: #159d21;
+}
+.detailOrderPanel .panel .panel-body .row-order-status .col-order-status.order-status-3.order-status-current .order-status-item{
+	background-color: #366144;
+}
+.detailOrderPanel .panel .panel-body .row-order-status .col-order-status.order-status-4.order-status-current .order-status-item{
+	background-color: #b17197;
+}
+.detailOrderPanel .panel .panel-body .row-order-status .col-order-status.order-status-5.order-status-current .order-status-item{
+	background-color: #fea340;
+}
+.detailOrderPanel .panel .panel-body .row-order-status .col-order-status.order-status-6.order-status-current .order-status-item{
+	background-color: #ff0658;
+}
+
+.detailOrderPanel .panel .panel-body .row-order-status .col-order-line .order-line{
+	height : 2px;
+	min-width: 20px;
+	border-radius: 1px;
+	margin: 8px -10px;
+	background-color: #6b6b6b;
+	width: 60px;
+}
+
+.detailOrderPanel .panel .panel-body .row-order-status .col-order-line.col-order-line-pass .order-line{
+	height : 4px;
+	margin: 7px -10px;
+	background-color: #000000;
+}
+
+@media screen and (max-width: 640px) {
+	.detailOrderPanel .panel .panel-body .row-order-status .col-order-line .order-line{
+		width: 40px;
+	}
+}
+
+@media screen and (max-width: 480px) {
+	.createOrderPanel .panel .panel-body,
+	.createOrderPanel .panel .panel-heading,
+	.detailOrderPanel .panel .panel-body,
+	.detailOrderPanel .panel .panel-heading{
+		padding: 20px 10px;
+	}
+
+	.detailOrderPanel .panel .panel-body .row-order-status .col-order-line .order-line{
+		width: 20px;
+	}
+	.detailOrderPanel .panel .panel-body .row-order-status .col-order-status{
+		margin-right: 2px;
+		margin-left: 2px;
+	}
+	.detailOrderPanel .panel .panel-body .row-order-status .col-order-status .order-status-label {
+	    width: 72px;
+	    text-align: center;
+	    white-space: nowrap;
+	    text-overflow: ellipsis;
+    	overflow: hidden;
+	}
+}
+
+.detailOrderPanel .panel .panel-body .row-initialized .row-order-time .control-label span{
+	font-weight: bold;
+	margin-right: 10px;
+}
+
+.detailOrderPanel .panel .panel-body .row-initialized .row-order-actor .control-label span{
+	font-weight: bold;
+	margin-right: 10px;
+}
+
+.detailOrderPanel .panel .panel-body .row-initialized .row-order-actor .row-order-actor-accepter span.row-order-actor-accepter-value{
+	font-weight: normal;
+	color: #6299e8;
+}
+
+.detailOrderPanel .panel .panel-body .row-initialized .row-give .row-title-give{
+	font-weight: bold;
+	color: #366144;
+}
+
+.detailOrderPanel .panel .panel-body .row-initialized .row-get .row-title-get{
+	font-weight: bold;
+	color: #159d21;
+}
+
+.detailOrderPanel .panel .panel-body .row-initialized .row-rate .row-title-rate{
+	font-weight: bold;
+	color: #fea340;
+}
+
+.detailOrderPanel .row-activities .row-activities-title{
+	font-weight: bold;
+}
+
+.detailOrderPanel .row-activities .activity-time{
+	font-weight: bold;
+}
+
+.detailOrderPanel .row-activities .activity-creator.other-user-action{
+	color: #6299e8;
+}
 
 /*Order detail end*/
+.order-item-mobile-label {
+	padding: 0 5px;
+	/* width: 50%; */
+	text-align: left;
+	float: left;
+}
+.order-item-mobile-value {
+	padding: 0 5px;
+	/* width: 50%; */
+	text-align: left;
+	float: right;
+}
+.col-md-8.order-tabs.cs-mobile{
+	padding: 0;
+}
+.cs-mobile {
+	font-size: 13px;
+}
+.col-md-8.order-tabs.cs-mobile a{
+	padding: 5px;	
+}

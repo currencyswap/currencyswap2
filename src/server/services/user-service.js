@@ -18,6 +18,7 @@ var os = require('os');
 var userConverter = require('../converters/user-converter');
 var groupService = require('../services/group-service');
 var supportService = require('../services/support-service');
+var dbUtil = require('../libs/utilities/db-util');
 
 exports.createUser = function (user, callback) {
     user.password = md5(user.password);
@@ -290,7 +291,7 @@ exports.verifyResetPwdInfo = function (email, options, callback) {
         },
         function (mailOptions, options, next) {
             mailSender.sendMail(mailOptions, function (err, info) {
-                if (err) return next(err);
+                if (err) return next(errorUtil.createAppError(errors.COULD_NOT_SEND_MAIL));
                 else {
                     return next(null);
                 }
@@ -556,8 +557,16 @@ exports.createUserTransaction = function (callback) {
 
 exports.findAllUsers = function (callback) {
     app.models.Member.findAll(function (err, users) {
+        var resultUser = [];
         if (err) return callback(err);
-        else return callback(null, users);
+        else {
+            users.forEach(function (user) {
+                if (user.status !== constant.USER_STATUSES.NEW) {
+                    resultUser.push(user);
+                }
+            });
+            return callback(null, resultUser);
+        }
     })
 };
 
@@ -644,8 +653,7 @@ exports.activeUserAccount = function (activeCode, callback) {
 
 exports.getUserDetail = function (userId, callback) {
     app.models.Member.findUserDetailWithEmail(userId, function (err, user) {
-        if (err) return callback(err);
-        else return callback(null, user)
+        callback( err, user);
     })
 };
 
@@ -801,12 +809,28 @@ exports.updateRoleForUser = function (user, updatingRole, callback) {
                         memGrp.updateAttribute(constant.MEMBER_GROUP_MODEL_FIELD.GROUP_ID, group.id, function (err, updatedGrpMember) {
                             if (err) {
                                 return callback(errorUtil.createAppError(errors.SERVER_GET_PROBLEM));
+                            } else {
+                                redis.removeUserInfo(user.username);
+                                return callback(null, updatedGrpMember);
                             }
-                            return callback(null, updatedGrpMember);
                         })
                     });
                 })
             }
         });
     })
+};
+exports.getExpiredUsers = function (time, limitTime) {
+    var filter = {
+            'where': {
+            and: [
+                  {'expiredDate': {'lt': time}},
+                  { 'status': constant.USER_STATUSES.ACTIVATED }
+            ]
+    }
+    };
+    if (limitTime) {
+        filter.where.and.push({'expiredDate': {'gt': limitTime}});
+    }
+    return dbUtil.executeModelFn(app.models.Member, 'find', filter);
 };

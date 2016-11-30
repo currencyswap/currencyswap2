@@ -3,6 +3,7 @@
 var exports = module.exports;
 var errors = require('./errors/errors');
 var errorUtil = require('./errors/error-util');
+var constant = require('../libs/constants/constants');
 
 var redis = require('./redis');
 const util = require('util');
@@ -65,6 +66,6 @@ exports.authenticateByToken = function (request, response, callback) {
     ], function (err) {
         if (!err) return callback();
         console.error('ERROR [%s]: %s', err.name, err.message);
-        return response.status(299).send(err);
+        return response.status(constant.HTTP_FAILURE_CODE).send(err);
     });
 };

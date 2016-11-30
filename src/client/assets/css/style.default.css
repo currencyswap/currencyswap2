@@ -395,6 +395,36 @@ hr {
     margin-bottom: 0;
 }
 
+.toolbar-create-order,
+.toolbar-support,
+.toolbar-help,
+.toolbar-noti,
+.toolbar-profile,
+.toolbar-signout,
+.toolbar-my-profile-name,
+.menubar-orders,
+.menubar-users {
+ display: '' !important;
+}
+.toolbar-my-profile-name {
+ white-space: nowrap;
+}
+.headerbar .toptitle {
+    float: left;
+    margin: 0;
+    color: #666;
+    font-family: "LatoBold",sans-serif;
+    font-size: 12px;
+    text-transform: uppercase;
+    padding: 15px 15px 12px;
+    border-radius: 0;
+    display: none;
+    text-decoration: none;
+}
+.pageheader {
+display: '' !important;
+}
+
 .dropdown-list li {
     padding: 15px;
     overflow: hidden;
@@ -877,7 +907,6 @@ hr {
 }
 
 .contentpanel {
-    /*padding: 20px;*/
     position: relative;
 }
 
@@ -4100,6 +4129,10 @@ div.error label.error:before {
     margin-right: 30px;
 }
 
+.mr40 {
+    margin-right: 40px;
+}
+
 .ml5 {
     margin-left: 5px;
 }
@@ -4195,9 +4228,19 @@ select {
 /********** 18. MEDIA QUERIES **********/
 /***************************************/
 
-
+/* body {border:1px solid red !important;} */
 @media screen and (max-width: 1024px) {
-
+/* body {border:1px solid green !important;} */
+header-left .menubar-orders,
+header-left .menubar-users {
+ display: none !important;
+}
+.headerbar .toptitle {
+ display: block;
+}
+.pageheader {
+ display: none !important;
+}
     body {
         position: relative;
     }
@@ -4308,15 +4351,36 @@ select {
 }
 
 @media screen and (max-width: 767px) {
-
+/* body {border:1px solid blue !important;} */
+.toolbar-my-profile-name,
+header-left .menubar-orders,
+header-left .menubar-users {
+ display: none !important;
+}
+.headerbar .toptitle {
+ display: block;
+}
+.pageheader {
+ display: none !important;
+}
+.container-fluid {
+ padding-right: 10px;
+ padding-left: 10px;
+}
+.support-content, .help-content, .notification-content, .createOrderPanel, .user-content , .detailOrderPanel {
+ margin: 7px auto;
+}
+.panel {
+ margin-bottom: 15px;
+}
     .searchform {
         position: relative;
     }
 
-    .headermenu li:nth-child(4) {
+/*     .headermenu li:nth-child(4) {
         display: none;
     }
-
+ */
     .leftpanel .searchform,
     .leftpanel .userlogged {
         display: block;
@@ -4326,10 +4390,10 @@ select {
         display: none;
     }
 
-    .headermenu .dropdown-menu:after {
+/*     .headermenu .dropdown-menu:after {
         display: none;
     }
-
+ */
     .rightpanel .nav-tabs.nav-justified > li > a,
     .rightpanel .nav-justified > li > a {
         margin-bottom: 0;
@@ -4341,6 +4405,30 @@ select {
 }
 
 @media screen and (max-width: 640px) {
+/* body {border:1px solid yellow !important;} */
+.toolbar-profile,
+.toolbar-signout,
+.toolbar-my-profile-name,
+header-left .menubar-orders,
+header-left .menubar-users {
+ display: none !important;
+}
+.headerbar .toptitle {
+ display: block;
+}
+.pageheader {
+ display: none !important;
+}
+.container-fluid {
+ padding-right: 5px;
+ padding-left: 5px;
+}
+.support-content, .help-content, .notification-content, .createOrderPanel, .user-content, .detailOrderPanel  {
+ margin: 5px auto;
+}
+.panel {
+ margin-bottom: 10px;
+}
 
     .notfoundpanel {
         width: auto;
@@ -4473,7 +4561,30 @@ select {
 }
 
 @media screen and (max-width: 480px) {
-
+/* body {border:1px solid black !important;} */
+.toolbar-profile,
+.toolbar-signout,
+.toolbar-my-profile-name,
+header-left .menubar-orders,
+header-left .menubar-users {
+ display: none !important;
+}
+.headerbar .toptitle {
+ display: block;
+}
+.pageheader {
+ display: none !important;
+}
+.container-fluid {
+ padding-right: 5px;
+ padding-left: 5px;
+}
+.support-content, .help-content, .notification-content, .createOrderPanel, .user-content, .detailOrderPanel  {
+ margin: 5px auto;
+}
+.panel {
+ margin-bottom: 10px;
+}
     .signinpanel,
     .signuppanel {
         width: 326px;
@@ -4602,6 +4713,30 @@ select {
 }
 
 @media screen and (max-width: 360px) {
+/* body {border:1px solid orange !important;} */
+.toolbar-profile,
+.toolbar-signout,
+.toolbar-my-profile-name,
+header-left .menubar-orders,
+header-left .menubar-users {
+ display: none !important;
+}
+.headerbar .toptitle {
+ display: block;
+}
+.pageheader {
+ display: none !important;
+}
+.container-fluid {
+ padding-right: 5px;
+ padding-left: 5px;
+}
+.support-content, .help-content, .notification-content, .createOrderPanel, .user-content, .detailOrderPanel  {
+ margin: 5px auto;
+}
+.panel {
+ margin-bottom: 10px;
+}
 
     .pageheader h2 span {
         display: none;
@@ -4677,6 +4812,30 @@ select {
 }
 
 @media screen and (max-width: 320px) {
+/* body {border:1px solid cyan !important;} */
+.toolbar-profile,
+.toolbar-signout,
+.toolbar-my-profile-name,
+header-left .menubar-orders,
+header-left .menubar-users {
+ display: none !important;
+}
+.headerbar .toptitle {
+ display: block;
+}
+.pageheader {
+ display: none !important;
+}
+.container-fluid {
+ padding-right: 5px;
+ padding-left: 5px;
+}
+.support-content, .help-content, .notification-content, .createOrderPanel, .user-content, .detailOrderPanel  {
+ margin: 5px auto;
+}
+.panel {
+ margin-bottom: 10px;
+}
 
     .signinpanel,
     .signuppanel {

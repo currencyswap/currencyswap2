@@ -42,17 +42,23 @@ angular.module('verifyInfo')
 
                     return $http(req)
                         .then(function (response) {
-                            if (response.status === GLOBAL_CONSTANT.HTTP_SUCCESS_STATUS_CODE) {
-                                $scope.gifLoading = false;
-                                $scope.isSubmitEmailForm = false;
-                                $scope.isSubmitSuccess = true;
-                                $window.scrollTo(0, 0);
-                            } else {
+                            console.log("response",response);
+                            if (response.status === GLOBAL_CONSTANT.HTTP_ERROR_STATUS_CODE) {
                                 if (response.data.code === serverErrors.MEMBER_EMAIL_NOT_FOUND) {
                                     $scope.gifLoading = false;
                                     $scope.isEmailNotFound = true;
                                     $window.scrollTo(0, 0);
                                 }
+
+                                if (response.data.code === serverErrors.COULD_NOT_SEND_MAIL) {
+                                    $rootScope = GLOBAL_CONSTANT.EMAIL_COULD_NOT_BE_SENT;
+                                    $location.url(routes.ERROR_PAGE);
+                                }
+                            } else {
+                                $scope.gifLoading = false;
+                                $scope.isSubmitEmailForm = false;
+                                $scope.isSubmitSuccess = true;
+                                $window.scrollTo(0, 0);
                             }
                         }, function (error) {
                             $scope.gifLoading = false;

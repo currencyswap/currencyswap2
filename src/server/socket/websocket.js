@@ -6,12 +6,12 @@ var redis = require('redis');
 var sio = require('socket.io');
 var sioRedis = require('socket.io-redis');
 
-var config = require('../libs/app-config');
+var config = require('../global-config');
 var SocketConnection = require('./socket-connection');
 var SocketMessage = require('../socket/socket-message');
 
 module.exports = function(app) {
-    var redisOption = config.getRedis();
+    var redisOption = config.redis;
     var io = new sio({'transports': [ 'websocket', 'flashsocket', 'htmlfile', 'xhr-polling', 'jsonp-polling' ]});
     io.attach(app.httpServer);
     io.adapter(sioRedis({ 'pubClient': redis.createClient(redisOption.port, redisOption.host, { return_buffers: true, auth_pass: redisOption.pass }), 'subClient': redis.createClient(redisOption.port, redisOption.host, { return_buffers: true, auth_pass: redisOption.pass }) }));
