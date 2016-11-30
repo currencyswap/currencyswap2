@@ -7,7 +7,7 @@
                 <span class="badge" data-ng-if="item.badge > 0">{{item.badge}}</span>
               </button>
               <div class="dropdown-menu dropdown-menu-head pull-right">
-                <h5 class="title">{{item.badge}} Newly messages</h5>
+                <h5 class="title">Newly messages</h5>
                 <ul class="dropdown-list user-list msg-menu">
                   <li class="{{msg.reads.length === 0 ? 'msg-new mgs-bgnew': ''}}" data-ng-repeat="msg in item.messages | limitTo: 5">
                     <a href="javascript:void(0)" class="msg-item msg-quick" data-ng-click="readMessage(msg)">

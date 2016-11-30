@@ -13,30 +13,241 @@
         
         "use strict";
         
-        // Toggle Left Menu
-        $('.leftpanel .nav-parent > a').live('click', function() {
-           
-           var parent = $(this).parent();
-           var sub = parent.find('> ul');
-           
-           // Dropdown works only when leftpanel is not collapsed
-           if(!$('body').hasClass('leftpanel-collapsed')) {
-              if(sub.is(':visible')) {
-                 sub.slideUp(200, function(){
-                    parent.removeClass('nav-active');
-                    $('.mainpanel').css({height: ''});
-                    adjustmainpanelheight();
-                 });
-              } else {
-                 closeVisibleSubMenu();
-                 parent.addClass('nav-active');
-                 sub.slideDown(200, function(){
-                    adjustmainpanelheight();
-                 });
-              }
-           }
-           return false;
-        });
+        function init() {
+            $.detectDevice();
+         // Toggle Left Menu
+            $('.leftpanel .nav-parent > a').live('click', function() {
+               
+               var parent = $(this).parent();
+               var sub = parent.find('> ul');
+               
+               // Dropdown works only when leftpanel is not collapsed
+               if(!$('body').hasClass('leftpanel-collapsed')) {
+                  if(sub.is(':visible')) {
+                     sub.slideUp(200, function(){
+                        parent.removeClass('nav-active');
+                        $('.mainpanel').css({height: ''});
+                        adjustmainpanelheight();
+                     });
+                  } else {
+                     closeVisibleSubMenu();
+                     parent.addClass('nav-active');
+                     sub.slideDown(200, function(){
+                        adjustmainpanelheight();
+                     });
+                  }
+               }
+               return false;
+            });
+            
+            adjustmainpanelheight();
+            $(window).resize($.buildCSLeftPanelMenu);
+            
+            
+            // Tooltip
+            $('.tooltips').tooltip({ container: 'body'});
+            
+            // Popover
+            $('.popovers').popover();
+            
+            // Close Button in Panels
+            $('.panel .panel-close').click(function(){
+               $(this).closest('.panel').fadeOut(200);
+               return false;
+            });
+            
+            // Form Toggles
+            $('.toggle').toggles({on: true});
+            
+            $('.toggle-chat1').toggles({on: false});
+            
+            var scColor1 = '#428BCA';
+            if ($.cookie('change-skin') && $.cookie('change-skin') == 'bluenav') {
+               scColor1 = '#fff';
+            }
+            
+            
+            // Sparkline
+            $('#sidebar-chart').sparkline([4,3,3,1,4,3,2,2,3,10,9,6], {
+                  type: 'bar', 
+                  height:'30px',
+                  barColor: scColor1
+            });
+            
+            $('#sidebar-chart2').sparkline([1,3,4,5,4,10,8,5,7,6,9,3], {
+                   type: 'bar', 
+                   height:'30px',
+                  barColor: '#D9534F'
+            });
+            
+            $('#sidebar-chart3').sparkline([5,9,3,8,4,10,8,5,7,6,9,3], {
+                   type: 'bar', 
+                   height:'30px',
+                  barColor: '#1CAF9A'
+            });
+            
+            $('#sidebar-chart4').sparkline([4,3,3,1,4,3,2,2,3,10,9,6], {
+                   type: 'bar', 
+                   height:'30px',
+                  barColor: scColor1
+            });
+            
+            $('#sidebar-chart5').sparkline([1,3,4,5,4,10,8,5,7,6,9,3], {
+                   type: 'bar', 
+                   height:'30px',
+               barColor: '#F0AD4E'
+            });
+            
+            
+            // Minimize Button in Panels
+            $('.minimize').click(function(){
+               var t = $(this);
+               var p = t.closest('.panel');
+               if(!$(this).hasClass('maximize')) {
+                  p.find('.panel-body, .panel-footer').slideUp(200);
+                  t.addClass('maximize');
+                  t.html('&plus;');
+               } else {
+                  p.find('.panel-body, .panel-footer').slideDown(200);
+                  t.removeClass('maximize');
+                  t.html('&minus;');
+               }
+               return false;
+            });
+            
+            
+            // Add class everytime a mouse pointer hover over it
+            $('.nav-bracket > li').hover(function(){
+               $(this).addClass('nav-hover');
+            }, function(){
+               $(this).removeClass('nav-hover');
+            });
+            
+            
+            // Menu Toggle
+            $('.menutoggle').click(function(){
+               
+               var body = $('body');
+               var bodypos = body.css('position');
+               
+               if(bodypos != 'relative') {
+                  
+                  if(!body.hasClass('leftpanel-collapsed')) {
+                     body.addClass('leftpanel-collapsed');
+                     $('.nav-bracket ul').attr('style','');
+                     
+                     $(this).addClass('menu-collapsed');
+                     
+                  } else {
+                     body.removeClass('leftpanel-collapsed chat-view');
+                     $('.nav-bracket li.active ul').css({display: 'block'});
+                     
+                     $(this).removeClass('menu-collapsed');
+                     
+                  }
+               } else {
+                  
+                  if(body.hasClass('leftpanel-show'))
+                     body.removeClass('leftpanel-show');
+                  else
+                     body.addClass('leftpanel-show');
+                  
+                  adjustmainpanelheight();
+               }
+
+            });
+            
+            // Chat View
+            $('#chatview').click(function(){
+               
+               var body = $('body');
+               var bodypos = body.css('position');
+               
+               if(bodypos != 'relative') {
+                  
+                  if(!body.hasClass('chat-view')) {
+                     body.addClass('leftpanel-collapsed chat-view');
+                     $('.nav-bracket ul').attr('style','');
+                     
+                  } else {
+                     
+                     body.removeClass('chat-view');
+                     
+                     if(!$('.menutoggle').hasClass('menu-collapsed')) {
+                        $('body').removeClass('leftpanel-collapsed');
+                        $('.nav-bracket li.active ul').css({display: 'block'});
+                     } else {
+                        
+                     }
+                  }
+                  
+               } else {
+                  
+                  if(!body.hasClass('chat-relative-view')) {
+                     
+                     body.addClass('chat-relative-view');
+                     body.css({left: ''});
+                  
+                  } else {
+                     body.removeClass('chat-relative-view');   
+                  }
+               }
+               
+            });
+         // Sticky Header
+            if($.cookie('sticky-header'))
+               $('body').addClass('stickyheader');
+               
+            // Sticky Left Panel
+            if($.cookie('sticky-leftpanel')) {
+               $('body').addClass('stickyheader');
+               $('.leftpanel').addClass('sticky-leftpanel');
+            }
+            
+            // Left Panel Collapsed
+            if($.cookie('leftpanel-collapsed')) {
+               $('body').addClass('leftpanel-collapsed');
+               $('.menutoggle').addClass('menu-collapsed');
+            }
+            
+            // Changing Skin
+            var c = $.cookie('change-skin');
+            var cssSkin = 'css/style.'+c+'.css';
+            if ($('body').css('direction') == 'rtl') {
+               cssSkin = '../css/style.'+c+'.css';
+               $('html').addClass('rtl');
+            }
+            if(c) {
+               $('head').append('<link id="skinswitch" rel="stylesheet" href="'+cssSkin+'" />');
+            }
+            
+            // Changing Font
+            var fnt = $.cookie('change-font');
+            if(fnt) {
+               $('head').append('<link id="fontswitch" rel="stylesheet" href="css/font.'+fnt+'.css" />');
+            }
+            
+            // Check if leftpanel is collapsed
+            if($('body').hasClass('leftpanel-collapsed'))
+               $('.nav-bracket .children').css({display: ''});
+               
+              
+            // Handles form inside of dropdown 
+            $('.dropdown-menu').find('form').click(function (e) {
+               e.stopPropagation();
+            });
+            
+            
+            // This is not actually changing color of btn-primary
+            // This is like you are changing it to use btn-orange instead of btn-primary
+            // This is for demo purposes only
+            var c = $.cookie('change-skin');
+            if (c && c == 'greyjoy') {
+               $('.btn-primary').removeClass('btn-primary').addClass('btn-orange');
+               $('.rdio-primary').addClass('rdio-default').removeClass('rdio-primary');
+               $('.text-primary').removeClass('text-primary').addClass('text-orange');
+            }
+        }; // end init function
         
         function closeVisibleSubMenu() {
            $('.leftpanel .nav-parent').each(function() {
@@ -47,167 +258,14 @@
                  });
               }
            });
-        }
+        };
         
         function adjustmainpanelheight() {
            // Adjust mainpanel height
            var docHeight = $(document).height();
            if(docHeight > $('.mainpanel').height())
               $('.mainpanel').height(docHeight);
-        }
-        adjustmainpanelheight();
-        
-        
-        // Tooltip
-        $('.tooltips').tooltip({ container: 'body'});
-        
-        // Popover
-        $('.popovers').popover();
-        
-        // Close Button in Panels
-        $('.panel .panel-close').click(function(){
-           $(this).closest('.panel').fadeOut(200);
-           return false;
-        });
-        
-        // Form Toggles
-        $('.toggle').toggles({on: true});
-        
-        $('.toggle-chat1').toggles({on: false});
-        
-        var scColor1 = '#428BCA';
-        if ($.cookie('change-skin') && $.cookie('change-skin') == 'bluenav') {
-           scColor1 = '#fff';
-        }
-        
-        
-        // Sparkline
-        $('#sidebar-chart').sparkline([4,3,3,1,4,3,2,2,3,10,9,6], {
-              type: 'bar', 
-              height:'30px',
-              barColor: scColor1
-        });
-        
-        $('#sidebar-chart2').sparkline([1,3,4,5,4,10,8,5,7,6,9,3], {
-               type: 'bar', 
-               height:'30px',
-              barColor: '#D9534F'
-        });
-        
-        $('#sidebar-chart3').sparkline([5,9,3,8,4,10,8,5,7,6,9,3], {
-               type: 'bar', 
-               height:'30px',
-              barColor: '#1CAF9A'
-        });
-        
-        $('#sidebar-chart4').sparkline([4,3,3,1,4,3,2,2,3,10,9,6], {
-               type: 'bar', 
-               height:'30px',
-              barColor: scColor1
-        });
-        
-        $('#sidebar-chart5').sparkline([1,3,4,5,4,10,8,5,7,6,9,3], {
-               type: 'bar', 
-               height:'30px',
-           barColor: '#F0AD4E'
-        });
-        
-        
-        // Minimize Button in Panels
-        $('.minimize').click(function(){
-           var t = $(this);
-           var p = t.closest('.panel');
-           if(!$(this).hasClass('maximize')) {
-              p.find('.panel-body, .panel-footer').slideUp(200);
-              t.addClass('maximize');
-              t.html('&plus;');
-           } else {
-              p.find('.panel-body, .panel-footer').slideDown(200);
-              t.removeClass('maximize');
-              t.html('&minus;');
-           }
-           return false;
-        });
-        
-        
-        // Add class everytime a mouse pointer hover over it
-        $('.nav-bracket > li').hover(function(){
-           $(this).addClass('nav-hover');
-        }, function(){
-           $(this).removeClass('nav-hover');
-        });
-        
-        
-        // Menu Toggle
-        $('.menutoggle').click(function(){
-           
-           var body = $('body');
-           var bodypos = body.css('position');
-           
-           if(bodypos != 'relative') {
-              
-              if(!body.hasClass('leftpanel-collapsed')) {
-                 body.addClass('leftpanel-collapsed');
-                 $('.nav-bracket ul').attr('style','');
-                 
-                 $(this).addClass('menu-collapsed');
-                 
-              } else {
-                 body.removeClass('leftpanel-collapsed chat-view');
-                 $('.nav-bracket li.active ul').css({display: 'block'});
-                 
-                 $(this).removeClass('menu-collapsed');
-                 
-              }
-           } else {
-              
-              if(body.hasClass('leftpanel-show'))
-                 body.removeClass('leftpanel-show');
-              else
-                 body.addClass('leftpanel-show');
-              
-              adjustmainpanelheight();         
-           }
-
-        });
-        
-        // Chat View
-        $('#chatview').click(function(){
-           
-           var body = $('body');
-           var bodypos = body.css('position');
-           
-           if(bodypos != 'relative') {
-              
-              if(!body.hasClass('chat-view')) {
-                 body.addClass('leftpanel-collapsed chat-view');
-                 $('.nav-bracket ul').attr('style','');
-                 
-              } else {
-                 
-                 body.removeClass('chat-view');
-                 
-                 if(!$('.menutoggle').hasClass('menu-collapsed')) {
-                    $('body').removeClass('leftpanel-collapsed');
-                    $('.nav-bracket li.active ul').css({display: 'block'});
-                 } else {
-                    
-                 }
-              }
-              
-           } else {
-              
-              if(!body.hasClass('chat-relative-view')) {
-                 
-                 body.addClass('chat-relative-view');
-                 body.css({left: ''});
-              
-              } else {
-                 body.removeClass('chat-relative-view');   
-              }
-           }
-           
-        });
+        };
         
         $.buildCSLeftPanelMenu = function(){
             if($('body').css('position') == 'relative') {
@@ -220,12 +278,9 @@
                $('body').css({left: '', marginRight: ''});
             }
             
-            
             reposition_searchform();
             reposition_topnav();
-            
          };
-        $(window).resize($.buildCSLeftPanelMenu);
 
         /* This function will reposition search form to the left panel when viewed
          * in screens smaller than 767px and will return to top when viewed higher
@@ -237,9 +292,7 @@
            } else {
               $('.searchform').insertBefore('.header-right');
            }
-        }
-        
-        
+        };
 
         /* This function allows top navigation menu to move to left navigation menu
          * when viewed in screens lower than 1024px and will move it back when viewed
@@ -296,61 +349,42 @@
               }
               
            }
-        }
+        };
         
+        $.detectDevice = function() {
+            var ua = window.navigator.userAgent;
+            console.log('detectDevice for userAgent:', ua);
+            var md = new MobileDetect(ua);
+            console.log('detectDevice mobile:', md.mobile() );
+            console.log('detectDevice phone:', md.phone() );
+            console.log('detectDevice tablet:', md.tablet() );
+            console.log('detectDevice userAgent:', md.userAgent() );
+            console.log('detectDevice os:', md.os() );
+            console.log('detectDevice is iPhone:', md.is('iPhone') );
+            console.log('detectDevice is bot:', md.is('bot') );
+            console.log('detectDevice version Webkit:', md.version('Webkit') );
+            console.log('detectDevice versionStr Build:', md.versionStr('Build') );
+            console.log('detectDevice match playstation|xbox:', md.match('playstation|xbox') );
+            if (md.mobile()) {
+                window.device = $.device = {'isMobile': true};
+                if (md.phone()) {
+                    $.device['isPhone'] = true;
+                }
+                if (md.tablet()) {
+                    $.device['isTablet'] = true;
+                }
+                $.device['os'] = md.os();
+                $.device['iPhone'] = md.is('iPhone');
+                $.device['iPad'] = md.is('iPad');
+                $.device['iPod'] = md.is('iPod');
+                $.device['iPod'] = md.is('iPod');
+                $.device['md'] = md;
+            } else {
+                window.device = $.device = null;
+            }
+        };
         
-        // Sticky Header
-        if($.cookie('sticky-header'))
-           $('body').addClass('stickyheader');
-           
-        // Sticky Left Panel
-        if($.cookie('sticky-leftpanel')) {
-           $('body').addClass('stickyheader');
-           $('.leftpanel').addClass('sticky-leftpanel');
-        }
-        
-        // Left Panel Collapsed
-        if($.cookie('leftpanel-collapsed')) {
-           $('body').addClass('leftpanel-collapsed');
-           $('.menutoggle').addClass('menu-collapsed');
-        }
-        
-        // Changing Skin
-        var c = $.cookie('change-skin');
-        var cssSkin = 'css/style.'+c+'.css';
-        if ($('body').css('direction') == 'rtl') {
-           cssSkin = '../css/style.'+c+'.css';
-           $('html').addClass('rtl');
-        }
-        if(c) {
-           $('head').append('<link id="skinswitch" rel="stylesheet" href="'+cssSkin+'" />');
-        }
-        
-        // Changing Font
-        var fnt = $.cookie('change-font');
-        if(fnt) {
-           $('head').append('<link id="fontswitch" rel="stylesheet" href="css/font.'+fnt+'.css" />');
-        }
-        
-        // Check if leftpanel is collapsed
-        if($('body').hasClass('leftpanel-collapsed'))
-           $('.nav-bracket .children').css({display: ''});
-           
-          
-        // Handles form inside of dropdown 
-        $('.dropdown-menu').find('form').click(function (e) {
-           e.stopPropagation();
-        });
-        
-        
-        // This is not actually changing color of btn-primary
-        // This is like you are changing it to use btn-orange instead of btn-primary
-        // This is for demo purposes only
-        var c = $.cookie('change-skin');
-        if (c && c == 'greyjoy') {
-           $('.btn-primary').removeClass('btn-primary').addClass('btn-orange');
-           $('.rdio-primary').addClass('rdio-default').removeClass('rdio-primary');
-           $('.text-primary').removeClass('text-primary').addClass('text-orange');
-        }
-     });
+        // initialize
+        init();
+     });// end doc ready
 })(jQuery)
