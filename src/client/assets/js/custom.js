@@ -391,6 +391,60 @@
             }
         };
         
+        $.menuSwipeActions = function() {
+            document.addEventListener('touchstart', handleTouchStart, false);
+            document.addEventListener('touchmove', handleTouchMove, false);
+            document.addEventListener('touchend', handleTouchEnd, false);
+            
+            var swiper = {'up': false, 'down': false, 'left': false, 'right': false};
+            
+            var xDown = null;
+            var yDown = null;
+
+            function handleTouchStart(evt) {
+                xDown = evt.touches[0].clientX;
+                yDown = evt.touches[0].clientY;
+                swiper = {'up': false, 'down': false, 'left': false, 'right': false};
+            };
+            
+            function handleTouchEnd(evt) {
+                $.publish('/cs/swipe', [swiper]);
+            };
+
+            function handleTouchMove(evt) {
+                if ( ! xDown || ! yDown ) {
+                    return;
+                }
+
+                var xUp = evt.touches[0].clientX;
+                var yUp = evt.touches[0].clientY;
+
+                var xDiff = xDown - xUp;
+                var yDiff = yDown - yUp;
+
+                if ( Math.abs( xDiff ) > Math.abs( yDiff ) ) {/*most significant*/
+                    if ( xDiff > 0 ) {
+                        /* left swipe */
+                        swiper = {'up': false, 'down': false, 'left': true, 'right': false};
+                    } else {
+                        /* right swipe */
+                        swiper = {'up': false, 'down': false, 'left': false, 'right': true};
+                    }
+                } else {
+                    if ( yDiff > 0 ) {
+                        /* up swipe */ 
+                        swiper = {'up': true, 'down': false, 'left': false, 'right': false};
+                    } else { 
+                        /* down swipe */
+                        swiper = {'up': false, 'down': true, 'left': false, 'right': false};
+                    }
+                }
+                /* reset values */
+                xDown = null;
+                yDown = null;
+            };
+        };
+        
         // initialize
         init();
      });// end doc ready
