@@ -165,7 +165,7 @@
 
 			<div class="table-responsive"
 				ng-if="statusPage == STATUS_PAGE_VALUE.INITIALIZED && (suggestionOrders && suggestionOrders.length)">
-				<div class="dataTables_wrapper no-footer" style="overflow: auto">
+				<div class="dataTables_wrapper no-footer" style="overflow: auto" ng-if="!isDevice">
 					<table class="table table-striped2">
 						<thead>
 							<tr>
@@ -194,9 +194,44 @@
 						</tbody>
 					</table>
 				</div>
+				
+			</div>
+			<div ng-if="isDevice && (statusPage == STATUS_PAGE_VALUE.INITIALIZED && (suggestionOrders && suggestionOrders.length))">
+				<div id="suggestionOrders">
+					<div ng-repeat="suggestionOrder in suggestionOrders" class="row order-item-mobile">
+						<div style="width: 100%;padding: 0 5px;">
+							<div style="width: 50%; float: left;">
+								<span class="order-label-mobile">Get: </span>{{suggestionOrder.get}}
+								{{submittedOrder.getCurrency.code}}
+							</div>
+							<div style="width: 50%; float: left;">
+								<span class="order-label-mobile">Give: </span>{{suggestionOrder.give}}
+								{{suggestionOrder.giveCurrency.code}}
+							</div>
+						</div>
+						<div style="width: 100%;padding: 0 5px;">
+								<span class="order-label-mobile">Username: </span>{{suggestionOrder.owner.fullName
+								|| suggestionOrder.owner.username}}
+						</div>
+						<div style="width: 100%;padding: 0 5px;">
+							<div style="width: 50%; float: left;">
+								<span class="order-label-mobile">Rate: </span>{{suggestionOrder.rate}}
+							</div>
+							<div style="width: 50%; float: left;">
+								<div class="order-action">
+									<div class="btn button-order-list button-confirm-swapping"
+										ng-click="onSwap(suggestionOrder.id)">Swap</div>
+								</div>
+
+							</div>
+						</div>
+						
+
+					</div>
+				</div>
 			</div>
 		</div>
-
+		
 		<!-- <footer></footer> -->
 
 

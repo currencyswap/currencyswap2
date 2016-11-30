@@ -28,7 +28,7 @@ angular.module('orders')
         		
         		$scope.submitLoading = false;
         		$scope.hasError = false;
-        		
+        		$scope.isDevice = $.device;
         		$scope.statusPage = $scope.STATUS_PAGE_VALUE.CREATE;
         		
         		var getCurrenciesList = function(){

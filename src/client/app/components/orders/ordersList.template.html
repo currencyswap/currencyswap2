@@ -186,7 +186,7 @@
 
 	<div class="col-md-8 order-tabs cs-mobile">
 		<ul class="nav nav-tabs">
-			<li class="active tab-cs-mobile"><a href=""
+			<li class="active"><a href=""
 				class="tab-cs-mobile" data-toggle="tab"
 				ng-click="getWorkingOrders();"><strong>Working Orders</strong></a></li>
 			<li class=""><a href="" class="tab-cs-mobile" data-toggle="tab"
@@ -198,53 +198,51 @@
 		<div class="tab-content ">
 			<div id="workingOrders" class="tab-panel" ng-if="tab==1">
 				<div id="swappingOrders">
-					<div class="swapping-order-title"
-						style="text-align: left; color: #159d21; font-size: 18px;">Swapping
+					<div class="row" style="text-align: left; color: #159d21; font-size: 18px;" ng-if="swappingOrders && swappingOrders.length > 0">Swapping
 						Orders</div>
 
-					<div ng-repeat="swappingOrder in swappingOrders" class="row"
-						style="font-size: 12px; text-align: left; padding: 5px 0px; background: white; border-bottom: grey 1px solid">
-						<div style="width: 100%;">
+					<div ng-repeat="swappingOrder in swappingOrders" class="row order-item-mobile">
+						<div>
 							<a href="/#!/orders/{{swappingOrder.code}}"><span
-								style="font-weight: 600">Order </span>{{swappingOrder.code}}</a>
+								class="order-label-mobile">Order </span>{{swappingOrder.code}}</a>
 						</div>
-						<div style="width: 100%;">
+						<div >
 							<div style="width: 50%; float: left;">
-								<span style="font-weight: 600">Date: </span>{{swappingOrder.created|
+								<span class="order-label-mobile">Date: </span>{{swappingOrder.created|
 								filterDate}}
 							</div>
 							<div style="width: 50%; float: left;">
-								<span style="font-weight: 600">Expired: </span>{{swappingOrder.created|
+								<span class="order-label-mobile">Expired: </span>{{swappingOrder.created|
 								filterDate}}
 							</div>
 						</div>
-						<div style="width: 100%;">
+						<div>
 							<div style="width: 50%; float: left;">
-								<span style="font-weight: 600">Get: </span>{{swappingOrder.get}}
+								<span class="order-label-mobile">Get: </span>{{swappingOrder.get}}
 								{{swappingOrder.getCurrency.code}}
 							</div>
 							<div style="width: 50%; float: left;">
-								<span style="font-weight: 600">Give: </span>{{swappingOrder.give}}
+								<span class="order-label-mobile">Give: </span>{{swappingOrder.give}}
 								{{swappingOrder.giveCurrency.code}}
 							</div>
 						</div>
-						<div style="width: 100%;">
+						<div>
 							<div style="width: 50%; float: left;">
-								<span style="font-weight: 600">Rate: </span>{{swappingOrder.rate}}
+								<span class="order-label-mobile">Rate: </span>{{swappingOrder.rate}}
 							</div>
 							<div style="width: 50%; float: left;">
-								<span style="font-weight: 600">State: </span>{{swappingOrder.status.name}}
+								<span class="order-label-mobile">State: </span>{{swappingOrder.status.name}}
 							</div>
 						</div>
-						<div style="width: 100%;">
-								<span style="font-weight: 600">Initializer: </span>{{swappingOrder.owner.fullName
+						<div>
+								<span class="order-label-mobile">Initializer: </span>{{swappingOrder.owner.fullName
 								|| swappingOrder.owner.username}}
 						</div>
-						<div style="width: 100%;">
-								<span style="font-weight: 600">Accepter: </span>{{swappingOrder.accepter.fullName
+						<div>
+								<span class="order-label-mobile">Accepter: </span>{{swappingOrder.accepter.fullName
 								|| swappingOrder.accepter.username}}
 						</div>
-						<div style="width: 100%;">
+						<div >
 							<div class="order-action">
 								<div class="btn button-order-list button-cancel-swapping"
 									ng-click="cancelSwappingOrder(swappingOrder.id);">Cancel</div>
@@ -258,50 +256,49 @@
 					</div>
 				</div>
 				<div id="confirmOrders">
-					<div class="confirmed-order-title"
-						style="text-align: left; color: #366144; font-size: 18px;">Confirmed
+					<div class="row"
+						style="text-align: left; color: #366144; font-size: 18px; padding: 10px 0 0;"  ng-if="confirmOrders && confirmOrders.length > 0">Confirmed
 						Orders</div>
 
-					<div ng-repeat="confirmOrder in confirmOrders" class="row"
-						style="font-size: 12px; text-align: left; padding: 5px 0px; background: white; border-bottom: grey 1px solid">
+					<div ng-repeat="confirmOrder in confirmOrders" class="row order-item-mobile">
 						<div style="width: 100%;">
 							<a href="/#!/orders/{{confirmOrder.code}}"><span
-								style="font-weight: 600">Order </span>{{confirmOrder.code}}</a>
+								class="order-label-mobile">Order </span>{{confirmOrder.code}}</a>
 						</div>
 						<div style="width: 100%;">
 							<div style="width: 50%; float: left;">
-								<span style="font-weight: 600">Date: </span>{{confirmOrder.created|
+								<span class="order-label-mobile">Date: </span>{{confirmOrder.created|
 								filterDate}}
 							</div>
 							<div style="width: 50%; float: left;">
-								<span style="font-weight: 600">Expired: </span>{{confirmOrder.created|
+								<span class="order-label-mobile">Expired: </span>{{confirmOrder.created|
 								filterDate}}
 							</div>
 						</div>
 						<div style="width: 100%;">
 							<div style="width: 50%; float: left;">
-								<span style="font-weight: 600">Get: </span>{{confirmOrder.get}}
+								<span class="order-label-mobile">Get: </span>{{confirmOrder.get}}
 								{{confirmOrder.getCurrency.code}}
 							</div>
 							<div style="width: 50%; float: left;">
-								<span style="font-weight: 600">Give: </span>{{confirmOrder.give}}
+								<span class="order-label-mobile">Give: </span>{{confirmOrder.give}}
 								{{confirmOrder.giveCurrency.code}}
 							</div>
 						</div>
 						<div style="width: 100%;">
 							<div style="width: 50%; float: left;">
-								<span style="font-weight: 600">Rate: </span>{{confirmOrder.rate}}
+								<span class="order-label-mobile">Rate: </span>{{confirmOrder.rate}}
 							</div>
 							<div style="width: 50%; float: left;">
-								<span style="font-weight: 600">State: </span>{{confirmOrder.status.name}}
+								<span class="order-label-mobile">State: </span>{{confirmOrder.status.name}}
 							</div>
 						</div>
 						<div style="width: 100%;">
-								<span style="font-weight: 600">Initializer: </span>{{confirmOrder.owner.fullName
+								<span class="order-label-mobile">Initializer: </span>{{confirmOrder.owner.fullName
 								|| confirmOrder.owner.username}}
 						</div>
 						<div style="width: 100%;">
-								<span style="font-weight: 600">Accepter: </span>{{confirmOrder.accepter.fullName
+								<span class="order-label-mobile">Accepter: </span>{{confirmOrder.accepter.fullName
 								|| confirmOrder.accepter.username}}
 						</div>
 
@@ -323,38 +320,37 @@
 			</div>
 			<div id="submittedOrders" class="tab-panel" ng-if="tab==2">
 				<div id="submittedOrders">
-					<div ng-repeat="submittedOrder in submittedOrders" class="row"
-						style="font-size: 12px; text-align: left; padding: 5px 0px; background: white; border-bottom: grey 1px solid">
+					<div ng-repeat="submittedOrder in submittedOrders" class="row order-item-mobile">
 						<div style="width: 100%;">
 							<a href="/#!/orders/{{submittedOrder.code}}"><span
-								style="font-weight: 600">Order </span>{{submittedOrder.code}}</a>
+								class="order-label-mobile">Order </span>{{submittedOrder.code}}</a>
 						</div>
 						<div style="width: 100%;">
 							<div style="width: 50%; float: left;">
-								<span style="font-weight: 600">Date: </span>{{submittedOrder.created|
+								<span class="order-label-mobile">Date: </span>{{submittedOrder.created|
 								filterDate}}
 							</div>
 							<div style="width: 50%; float: left;">
-								<span style="font-weight: 600">Expired: </span>{{submittedOrder.created|
+								<span class="order-label-mobile">Expired: </span>{{submittedOrder.created|
 								filterDate}}
 							</div>
 						</div>
 						<div style="width: 100%;">
 							<div style="width: 50%; float: left;">
-								<span style="font-weight: 600">Get: </span>{{submittedOrder.get}}
+								<span class="order-label-mobile">Get: </span>{{submittedOrder.get}}
 								{{submittedOrder.getCurrency.code}}
 							</div>
 							<div style="width: 50%; float: left;">
-								<span style="font-weight: 600">Give: </span>{{submittedOrder.give}}
+								<span class="order-label-mobile">Give: </span>{{submittedOrder.give}}
 								{{submittedOrder.giveCurrency.code}}
 							</div>
 						</div>
 						<div style="width: 100%;">
 							<div style="width: 50%; float: left;">
-								<span style="font-weight: 600">Rate: </span>{{submittedOrder.rate}}
+								<span class="order-label-mobile">Rate: </span>{{submittedOrder.rate}}
 							</div>
 							<div style="width: 50%; float: left;">
-								<span style="font-weight: 600">State: </span>{{submittedOrder.status.name}}
+								<span class="order-label-mobile">State: </span>{{submittedOrder.status.name}}
 							</div>
 						</div>
 						<div style="width: 100%;">
@@ -372,45 +368,45 @@
 			<div id="historyOrders" class="tab-panel" ng-if="tab==3">
 				<div id="historyOrders">
 					<div ng-repeat="historyOrder in historyOrders" class="row"
-						style="font-size: 12px; text-align: left; padding: 5px 0px; background: white; border-bottom: grey 1px solid">
+						style="font-size: 12px; text-align: left; padding: 5px 0px; background: white; border-bottom: 1px solid #eee;">
 						<div style="width: 100%;">
 							<a href="/#!/orders/{{historyOrder.code}}"><span
-								style="font-weight: 600">Order </span>{{historyOrder.code}}</a>
+								class="order-label-mobile">Order </span>{{historyOrder.code}}</a>
 						</div>
 						<div style="width: 100%;">
 							<div style="width: 50%; float: left;">
-								<span style="font-weight: 600">Date: </span>{{historyOrder.created|
+								<span class="order-label-mobile">Date: </span>{{historyOrder.created|
 								filterDate}}
 							</div>
 							<div style="width: 50%; float: left;">
-								<span style="font-weight: 600">Expired: </span>{{historyOrder.created|
+								<span class="order-label-mobile">Expired: </span>{{historyOrder.created|
 								filterDate}}
 							</div>
 						</div>
 						<div style="width: 100%;">
 							<div style="width: 50%; float: left;">
-								<span style="font-weight: 600">Get: </span>{{historyOrder.get}}
+								<span class="order-label-mobile">Get: </span>{{historyOrder.get}}
 								{{historyOrder.getCurrency.code}}
 							</div>
 							<div style="width: 50%; float: left;">
-								<span style="font-weight: 600">Give: </span>{{historyOrder.give}}
+								<span class="order-label-mobile">Give: </span>{{historyOrder.give}}
 								{{historyOrder.giveCurrency.code}}
 							</div>
 						</div>
 						<div style="width: 100%;">
 							<div style="width: 50%; float: left;">
-								<span style="font-weight: 600">Rate: </span>{{historyOrder.rate}}
+								<span class="order-label-mobile">Rate: </span>{{historyOrder.rate}}
 							</div>
 							<div style="width: 50%; float: left;">
-								<span style="font-weight: 600">State: </span>{{historyOrder.status.name}}
+								<span class="order-label-mobile">State: </span>{{historyOrder.status.name}}
 							</div>
 						</div>
 						<div style="width: 100%;">
-								<span style="font-weight: 600">Initializer: </span>{{historyOrder.owner.fullName
+								<span class="order-label-mobile">Initializer: </span>{{historyOrder.owner.fullName
 								|| historyOrder.owner.username}}
 						</div>
 						<div style="width: 100%;">
-								<span style="font-weight: 600">Accepter: </span>{{historyOrder.accepter.fullName
+								<span class="order-label-mobile">Accepter: </span>{{historyOrder.accepter.fullName
 								|| historyOrder.accepter.username}}
 						</div>
 

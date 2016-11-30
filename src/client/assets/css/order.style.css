@@ -288,6 +288,15 @@
 .cs-mobile {
 	font-size: 13px;
 }
-.col-md-8.order-tabs.cs-mobile a{
-	padding: 5px;	
+.col-md-8.order-tabs.cs-mobile .tab-cs-mobile{
+	padding: 10px;	
 }
+.order-label-mobile {
+	font-weight: 600;
+}
+.order-item-mobile {
+	font-size: 12px;
+	text-align: left;
+	padding: 5px 0px;
+	background: white;
+	border-bottom: 1px solid #eee;}
