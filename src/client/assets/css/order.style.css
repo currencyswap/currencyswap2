@@ -1,7 +1,3 @@
-.createOrderPanel .panel .panel-body,
-.detailOrderPanel .panel .panel-body{
-	padding: 20px 5px;
-}
 .createOrderPanel .submit-error{
 	color: #ff0000;
 }
@@ -203,6 +199,13 @@
 }
 
 @media screen and (max-width: 480px) {
+	.createOrderPanel .panel .panel-body,
+	.createOrderPanel .panel .panel-heading,
+	.detailOrderPanel .panel .panel-body,
+	.detailOrderPanel .panel .panel-heading{
+		padding: 20px 5px;
+	}
+
 	.detailOrderPanel .panel .panel-body .row-order-status .col-order-line .order-line{
 		width: 20px;
 	}
