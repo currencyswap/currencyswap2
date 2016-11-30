@@ -117,7 +117,7 @@
                     <h4 class="nomargin">Bank Account</h4>
                     <div class="mb10">
                         <label class="control-label">Account Name</label>
-                        <input class="form-control" type="text" ng-model="user.bankAccountName" maxlength="128" placeholder="Your bank account name here">
+                        <input class="form-control" type="text" ng-model="user.bankAccountName" maxlength="300" placeholder="Your bank account name here">
                     </div>
 
                     <div class="mb10">
@@ -127,12 +127,11 @@
 
                     <div class="mb10">
                         <label class="control-label">Bank Name</label>
-                        <input class="form-control" type="text" ng-model="user.bankName" maxlength="128"  placeholder="Your bank name here">
+                        <input class="form-control" type="text" ng-model="user.bankName" maxlength="300"  placeholder="Your bank name here">
                     </div>
 
                     <div class="mb10">
-                        <label class="control-label">Country</label>
-                        <input class="form-control" type="text" ng-model="user.bankCountry" maxlength="128" placeholder="Your bank country here">
+                        <country-bank-register country="user.bankCountry"></country-bank-register>
                     </div>
 
                     <br>
