@@ -6,7 +6,7 @@
 .createOrderPanel .give-row select.form-control,
 .createOrderPanel .get-row input.form-control,
 .createOrderPanel .get-row select.form-control{
-	width: 200px !important;
+	width: 300px !important;
     margin-right: 10px;
     margin-bottom: 5px;
 }
@@ -23,7 +23,7 @@
 
 @media screen and (max-width: 767px) {
 	.createOrderPanel .rate-row input.form-control{
-		width: 200px !important;
+		width: 300px !important;
 	}
 }
 
