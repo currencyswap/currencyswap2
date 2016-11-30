@@ -1,251 +1,369 @@
-
-<section>
-    <div class="panel panel-default">
-        <div class="contentpanel">
-            <div class="row order-content">
-                <div class="col-md-8 order-tabs" style="padding: 0px">
-                    <ul class="nav nav-tabs">
-                        <li class="active"><a data-toggle="tab" ng-click="onAllClick()"><strong>All</strong></a></li>
-                        <li class=""><a data-toggle="tab" ng-click="onActivatedClick()"><strong>Activated</strong></a></li>
-                        <li class=""><a href="" data-toggle="tab" ng-click="onPendingClick()"><strong>Pending</strong></a></li>
-                    </ul>
-                    <div class="tab-content disabled">
-                        <div id="allUser" class="tab-panel" ng-if="tab==TABSELECTED.ALL">
-                            <div class="table-responsive">
-                                <div id="table1_wrapper" class="dataTables_wrapper no-footer" style="overflow: auto">
-                                    <table class="table table-striped2">
-                                        <thead>
-                                        <tr>
-                                            <th class="col-sm-1 order-item-header">
-                                                <a href="" ng-click="sortType = 'fullName'; sortReverse = !sortReverse">
-                                                    Full name
-                                                    <span ng-show="sortType == 'fullName' && !sortReverse" class="fa fa-caret-down"></span>
-                                                    <span ng-show="sortType == 'fullName' && sortReverse" class="fa fa-caret-up"></span>
-                                                </a>
-                                            </th>
-                                            <th class="col-sm-1 order-item-header" style="min-width: 100px">
-                                                <a href="" ng-click="sortType = 'userName'; sortReverse = !sortReverse">
-                                                    Username
-                                                    <span ng-show="sortType == 'userName' && !sortReverse" class="fa fa-caret-down"></span>
-                                                    <span ng-show="sortType == 'userName' && sortReverse" class="fa fa-caret-up"></span>
-                                                </a>
-                                            </th>
-                                            <th class="col-sm-1 order-item-header">
-                                                <a href="" ng-click="sortType = 'email'; sortReverse = !sortReverse">
-                                                    Email
-                                                    <span ng-show="sortType == 'email' && !sortReverse" class="fa fa-caret-down"></span>
-                                                    <span ng-show="sortType == 'email' && sortReverse" class="fa fa-caret-up"></span>
-                                                </a>
-                                            </th>
-                                            <th class="col-sm-1 order-item-header" style="min-width: 100px">
-                                                <a href="" ng-click="sortType = 'cellphone'; sortReverse = !sortReverse">
-                                                    Cellphone
-                                                    <span ng-show="sortType == 'cellphone' && !sortReverse" class="fa fa-caret-down"></span>
-                                                    <span ng-show="sortType == 'cellphone' && sortReverse" class="fa fa-caret-up"></span>
-                                                </a>
-                                            </th>
-                                            <th class="col-sm-1 order-item-header" style="min-width: 150px">
-                                                <a href="" ng-click="sortType = 'registeredDate'; sortReverse = !sortReverse">
-                                                    Registered Date
-                                                    <span ng-show="sortType == 'registeredDate' && !sortReverse" class="fa fa-caret-down"></span>
-                                                    <span ng-show="sortType == 'registeredDate' && sortReverse" class="fa fa-caret-up"></span>
-                                                </a>
-                                            </th>
-                                            <th class="col-sm-1 order-item-header" style="min-width: 150px">
-                                                <a href="" ng-click="sortType = 'expiredDate'; sortReverse = !sortReverse">
-                                                    Expired Date
-                                                    <span ng-show="sortType == 'expiredDate' && !sortReverse" class="fa fa-caret-down"></span>
-                                                    <span ng-show="sortType == 'expiredDate' && sortReverse" class="fa fa-caret-up"></span>
-                                                </a>
-                                            </th>
-                                            <th class="col-sm-1 order-item-header">
-                                                <a href="" ng-click="sortType = 'status'; sortReverse = !sortReverse">
-                                                    Status
-                                                    <span ng-show="sortType == 'status' && !sortReverse" class="fa fa-caret-down"></span>
-                                                    <span ng-show="sortType == 'status' && sortReverse" class="fa fa-caret-up"></span>
-                                                </a>
-                                            </th>
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-                                        <tr ng-repeat="user in usersAll | orderBy:sortType:sortReverse | offset: (current - 1) * itemsPerPage | limitTo:itemsPerPage"  class="order-row-{{$index % 2}}">
-                                            <td class="col-sm-1 order-item-content">{{user.fullName}}</td>
-                                            <td class="col-sm-1 order-item-content"><a href="/#!/users/{{user.id}}" ng-click="showUserDetail(user.id)">{{user.username}}</a></td>
-                                            <td class="col-sm-1 order-item-content">{{user.email}}</td>
-                                            <td class="col-sm-1 order-item-content">{{user.cellphone}}</td>
-                                            <td class="col-sm-1 order-item-content"><label ng-bind="formatDate(user.registeredDate)  | filterDate"></label></td>
-                                            <td class="col-sm-1 order-item-content"><label ng-bind="formatDate(user.expiredDate)  | filterDate"></label></td>
-                                            <td class="col-sm-1 order-item-content user-status-{{listStatus.indexOf(user.status)}}">{{user.status}}</td>
-                                        </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                            <ul uib-pagination
-                                total-items="totalItems"
-                                items-per-page= "itemsPerPage"
-                                ng-model="current">
-                            </ul>
-                        </div>
-                        <div id="activedUser" class="tab-panel" ng-if="tab==TABSELECTED.ACTIVATED">
-                            <div class="table-responsive">
-                                <div id="table2_wrapper" class="dataTables_wrapper no-footer" style="overflow: auto">
-                                    <table class="table table-striped2">
-                                        <thead>
-                                        <tr>
-                                            <th class="col-sm-1 order-item-header">
-                                                <a href="" ng-click="sortType = 'fullName'; sortReverse = !sortReverse">
-                                                    Full name
-                                                    <span ng-show="sortType == 'fullName' && !sortReverse" class="fa fa-caret-down"></span>
-                                                    <span ng-show="sortType == 'fullName' && sortReverse" class="fa fa-caret-up"></span>
-                                                </a>
-                                            </th>
-                                            <th class="col-sm-1 order-item-header" style="min-width: 100px">
-                                                <a href="" ng-click="sortType = 'userName'; sortReverse = !sortReverse">
-                                                    Username
-                                                    <span ng-show="sortType == 'userName' && !sortReverse" class="fa fa-caret-down"></span>
-                                                    <span ng-show="sortType == 'userName' && sortReverse" class="fa fa-caret-up"></span>
-                                                </a>
-                                            </th>
-                                            <th class="col-sm-1 order-item-header">
-                                                <a href="" ng-click="sortType = 'email'; sortReverse = !sortReverse">
-                                                    Email
-                                                    <span ng-show="sortType == 'email' && !sortReverse" class="fa fa-caret-down"></span>
-                                                    <span ng-show="sortType == 'email' && sortReverse" class="fa fa-caret-up"></span>
-                                                </a>
-                                            </th>
-                                            <th class="col-sm-1 order-item-header" style="min-width: 100px">
-                                                <a href="" ng-click="sortType = 'cellphone'; sortReverse = !sortReverse">
-                                                    Cellphone
-                                                    <span ng-show="sortType == 'cellphone' && !sortReverse" class="fa fa-caret-down"></span>
-                                                    <span ng-show="sortType == 'cellphone' && sortReverse" class="fa fa-caret-up"></span>
-                                                </a>
-                                            </th>
-                                            <th class="col-sm-1 order-item-header" style="min-width: 150px">
-                                                <a href="" ng-click="sortType = 'registeredDate'; sortReverse = !sortReverse">
-                                                    Registered Date
-                                                    <span ng-show="sortType == 'registeredDate' && !sortReverse" class="fa fa-caret-down"></span>
-                                                    <span ng-show="sortType == 'registeredDate' && sortReverse" class="fa fa-caret-up"></span>
-                                                </a>
-                                            </th>
-                                            <th class="col-sm-1 order-item-header" style="min-width: 150px">
-                                                <a href="" ng-click="sortType = 'expiredDate'; sortReverse = !sortReverse">
-                                                    Expired Date
-                                                    <span ng-show="sortType == 'expiredDate' && !sortReverse" class="fa fa-caret-down"></span>
-                                                    <span ng-show="sortType == 'expiredDate' && sortReverse" class="fa fa-caret-up"></span>
-                                                </a>
-                                            </th>
-                                            <th class="col-sm-1 order-item-header">
-                                                <a href="" ng-click="sortType = 'status'; sortReverse = !sortReverse">
-                                                    Status
-                                                    <span ng-show="sortType == 'status' && !sortReverse" class="fa fa-caret-down"></span>
-                                                    <span ng-show="sortType == 'status' && sortReverse" class="fa fa-caret-up"></span>
-                                                </a>
-                                            </th>
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-                                        <tr ng-repeat="user in usersActivated | orderBy:sortType:sortReverse | offset: (current - 1) * itemsPerPage | limitTo:itemsPerPage" class="order-row-{{$index % 2}}">
-                                            <td class="col-sm-1 order-item-content">{{user.fullName}}</td>
-                                            <td class="col-sm-1 order-item-content"><a href="/#!/users/{{user.id}}" ng-click="showUserDetail(user.id)">{{user.username}}</a></td>
-                                            <td class="col-sm-1 order-item-content">{{user.email}}</td>
-                                            <td class="col-sm-1 order-item-content">{{user.cellphone}}</td>
-                                            <td class="col-sm-1 order-item-content"><label ng-bind="formatDate(user.registeredDate)  | filterDate"></label></td>
-                                            <td class="col-sm-1 order-item-content"><label ng-bind="formatDate(user.expiredDate)  | filterDate"></label></td>
-                                            <td class="col-sm-1 order-item-content user-status-{{listStatus.indexOf(user.status)}}">{{user.status}}</td>
-                                        </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                            <ul uib-pagination
-                                total-items="totalItems"
-                                items-per-page= "itemsPerPage"
-                                ng-model="current">
-                            </ul>
-                        </div>
-                        <div id="pendingUser" class="tab-panel" ng-if="tab==TABSELECTED.PENDING">
-                            <div class="table-responsive">
-                                <div id="table3_wrapper" class="dataTables_wrapper no-footer" style="overflow: auto">
-                                    <table class="table table-striped2">
-                                        <thead>
-                                        <tr>
-                                            <th class="col-sm-1 order-item-header"  style="min-width: 100px">
-                                                <a href="" ng-click="sortType = 'fullName'; sortReverse = !sortReverse">
-                                                    Full name
-                                                    <span ng-show="sortType == 'fullName' && !sortReverse" class="fa fa-caret-down"></span>
-                                                    <span ng-show="sortType == 'fullName' && sortReverse" class="fa fa-caret-up"></span>
-                                                </a>
-                                            </th>
-                                            <th class="col-sm-1 order-item-header" style="min-width: 100px">
-                                                <a href="" ng-click="sortType = 'userName'; sortReverse = !sortReverse">
-                                                    Username
-                                                    <span ng-show="sortType == 'userName' && !sortReverse" class="fa fa-caret-down"></span>
-                                                    <span ng-show="sortType == 'userName' && sortReverse" class="fa fa-caret-up"></span>
-                                                </a>
-                                            </th>
-                                            <th class="col-sm-1 order-item-header">
-                                                <a href="" ng-click="sortType = 'email'; sortReverse = !sortReverse">
-                                                    Email
-                                                    <span ng-show="sortType == 'email' && !sortReverse" class="fa fa-caret-down"></span>
-                                                    <span ng-show="sortType == 'email' && sortReverse" class="fa fa-caret-up"></span>
-                                                </a>
-                                            </th>
-                                            <th class="col-sm-1 order-item-header" style="min-width: 100px">
-                                                <a href="" ng-click="sortType = 'cellphone'; sortReverse = !sortReverse">
-                                                    Cellphone
-                                                    <span ng-show="sortType == 'cellphone' && !sortReverse" class="fa fa-caret-down"></span>
-                                                    <span ng-show="sortType == 'cellphone' && sortReverse" class="fa fa-caret-up"></span>
-                                                </a>
-                                            </th>
-                                            <th class="col-sm-1 order-item-header" style="min-width: 150px">
-                                                <a href="" ng-click="sortType = 'registeredDate'; sortReverse = !sortReverse">
-                                                    Registered Date
-                                                    <span ng-show="sortType == 'registeredDate' && !sortReverse" class="fa fa-caret-down"></span>
-                                                    <span ng-show="sortType == 'registeredDate' && sortReverse" class="fa fa-caret-up"></span>
-                                                </a>
-                                            </th>
-                                            <th class="col-sm-1 order-item-header" style="min-width: 150px">
-                                                <a href="" ng-click="sortType = 'expiredDate'; sortReverse = !sortReverse">
-                                                    Expired Date
-                                                    <span ng-show="sortType == 'expiredDate' && !sortReverse" class="fa fa-caret-down"></span>
-                                                    <span ng-show="sortType == 'expiredDate' && sortReverse" class="fa fa-caret-up"></span>
-                                                </a>
-                                            </th>
-                                            <th class="col-sm-1 order-item-header">
-                                                <a href="" ng-click="sortType = 'status'; sortReverse = !sortReverse">
-                                                    Status
-                                                    <span ng-show="sortType == 'status' && !sortReverse" class="fa fa-caret-down"></span>
-                                                    <span ng-show="sortType == 'status' && sortReverse" class="fa fa-caret-up"></span>
-                                                </a>
-                                            </th>
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-                                        <tr ng-repeat="user in usersPending | orderBy:sortType:sortReverse | offset: (current - 1) * itemsPerPage | limitTo:itemsPerPage" class="order-row-{{$index % 2}}">
-                                            <td class="col-sm-1 order-item-content">{{user.fullName}}</td>
-                                            <td class="col-sm-1 order-item-content"><a href="/#!/users/{{user.id}}"  ng-click="showUserDetail(user.id)">{{user.username}}</a></td>
-                                            <td class="col-sm-1 order-item-content">{{user.email}}</td>
-                                            <td class="col-sm-1 order-item-content">{{user.cellphone}}</td>
-                                            <td class="col-sm-1 order-item-content"><label ng-bind="formatDate(user.registeredDate) | filterDate"></label></td>
-                                            <td class="col-sm-1 order-item-content"><label ng-bind="formatDate(user.expiredDate) |  filterDate"></label></td>
-                                            <td class="col-sm-1 order-item-content user-status-{{listStatus.indexOf(user.status)}}">{{user.status}}</td>
-                                        </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                            <ul uib-pagination
-                                total-items="totalItems"
-                                items-per-page= "itemsPerPage"
-                                ng-model="current">
-                            </ul>
-                        </div>
+<div class="row order-content" ng-if="!isDevice">
+    <div class="col-md-8 order-tabs">
+        <ul class="nav nav-tabs">
+            <li class="active"><a data-toggle="tab" ng-click="onAllClick()"><strong>All</strong></a></li>
+            <li class=""><a data-toggle="tab" ng-click="onActivatedClick()"><strong>Activated</strong></a></li>
+            <li class=""><a href="" data-toggle="tab" ng-click="onPendingClick()"><strong>Pending</strong></a></li>
+        </ul>
+        <div class="tab-content disabled">
+            <div id="allUser" class="tab-panel" ng-if="tab==TABSELECTED.ALL">
+                <div class="table-responsive">
+                    <div id="table1_wrapper" class="dataTables_wrapper no-footer" style="overflow: auto">
+                        <table class="table table-striped2">
+                            <thead>
+                            <tr>
+                                <th class="col-sm-1 order-item-header">
+                                    <a href="" ng-click="sortType = 'fullName'; sortReverse = !sortReverse">
+                                        Full name
+                                        <span ng-show="sortType == 'fullName' && !sortReverse" class="fa fa-caret-down"></span>
+                                        <span ng-show="sortType == 'fullName' && sortReverse" class="fa fa-caret-up"></span>
+                                    </a>
+                                </th>
+                                <th class="col-sm-1 order-item-header" style="min-width: 100px">
+                                    <a href="" ng-click="sortType = 'userName'; sortReverse = !sortReverse">
+                                        Username
+                                        <span ng-show="sortType == 'userName' && !sortReverse" class="fa fa-caret-down"></span>
+                                        <span ng-show="sortType == 'userName' && sortReverse" class="fa fa-caret-up"></span>
+                                    </a>
+                                </th>
+                                <th class="col-sm-1 order-item-header">
+                                    <a href="" ng-click="sortType = 'email'; sortReverse = !sortReverse">
+                                        Email
+                                        <span ng-show="sortType == 'email' && !sortReverse" class="fa fa-caret-down"></span>
+                                        <span ng-show="sortType == 'email' && sortReverse" class="fa fa-caret-up"></span>
+                                    </a>
+                                </th>
+                                <th class="col-sm-1 order-item-header" style="min-width: 100px">
+                                    <a href="" ng-click="sortType = 'cellphone'; sortReverse = !sortReverse">
+                                        Cellphone
+                                        <span ng-show="sortType == 'cellphone' && !sortReverse" class="fa fa-caret-down"></span>
+                                        <span ng-show="sortType == 'cellphone' && sortReverse" class="fa fa-caret-up"></span>
+                                    </a>
+                                </th>
+                                <th class="col-sm-1 order-item-header" style="min-width: 150px">
+                                    <a href="" ng-click="sortType = 'registeredDate'; sortReverse = !sortReverse">
+                                        Registered Date
+                                        <span ng-show="sortType == 'registeredDate' && !sortReverse" class="fa fa-caret-down"></span>
+                                        <span ng-show="sortType == 'registeredDate' && sortReverse" class="fa fa-caret-up"></span>
+                                    </a>
+                                </th>
+                                <th class="col-sm-1 order-item-header" style="min-width: 150px">
+                                    <a href="" ng-click="sortType = 'expiredDate'; sortReverse = !sortReverse">
+                                        Expired Date
+                                        <span ng-show="sortType == 'expiredDate' && !sortReverse" class="fa fa-caret-down"></span>
+                                        <span ng-show="sortType == 'expiredDate' && sortReverse" class="fa fa-caret-up"></span>
+                                    </a>
+                                </th>
+                                <th class="col-sm-1 order-item-header">
+                                    <a href="" ng-click="sortType = 'status'; sortReverse = !sortReverse">
+                                        Status
+                                        <span ng-show="sortType == 'status' && !sortReverse" class="fa fa-caret-down"></span>
+                                        <span ng-show="sortType == 'status' && sortReverse" class="fa fa-caret-up"></span>
+                                    </a>
+                                </th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr ng-repeat="user in usersAll | orderBy:sortType:sortReverse | offset: (current - 1) * itemsPerPage | limitTo:itemsPerPage"  class="order-row-{{$index % 2}}">
+                                <td class="col-sm-1 order-item-content">{{user.fullName}}</td>
+                                <td class="col-sm-1 order-item-content"><a href="/#!/users/{{user.id}}">{{user.username}}</a></td>
+                                <td class="col-sm-1 order-item-content">{{user.email}}</td>
+                                <td class="col-sm-1 order-item-content">{{user.cellphone}}</td>
+                                <td class="col-sm-1 order-item-content"><label ng-bind="formatDate(user.registeredDate)  | filterDate"></label></td>
+                                <td class="col-sm-1 order-item-content"><label ng-bind="formatDate(user.expiredDate)  | filterDate"></label></td>
+                                <td class="col-sm-1 order-item-content user-status-{{listStatus.indexOf(user.status)}}">{{user.status}}</td>
+                            </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
+                <ul uib-pagination
+                    total-items="totalItems"
+                    items-per-page= "itemsPerPage"
+                    ng-model="current">
+                </ul>
+            </div>
+            <div id="activedUser" class="tab-panel" ng-if="tab==TABSELECTED.ACTIVATED">
+                <div class="table-responsive">
+                    <div id="table2_wrapper" class="dataTables_wrapper no-footer" style="overflow: auto">
+                        <table class="table table-striped2">
+                            <thead>
+                            <tr>
+                                <th class="col-sm-1 order-item-header">
+                                    <a href="" ng-click="sortType = 'fullName'; sortReverse = !sortReverse">
+                                        Full name
+                                        <span ng-show="sortType == 'fullName' && !sortReverse" class="fa fa-caret-down"></span>
+                                        <span ng-show="sortType == 'fullName' && sortReverse" class="fa fa-caret-up"></span>
+                                    </a>
+                                </th>
+                                <th class="col-sm-1 order-item-header" style="min-width: 100px">
+                                    <a href="" ng-click="sortType = 'userName'; sortReverse = !sortReverse">
+                                        Username
+                                        <span ng-show="sortType == 'userName' && !sortReverse" class="fa fa-caret-down"></span>
+                                        <span ng-show="sortType == 'userName' && sortReverse" class="fa fa-caret-up"></span>
+                                    </a>
+                                </th>
+                                <th class="col-sm-1 order-item-header">
+                                    <a href="" ng-click="sortType = 'email'; sortReverse = !sortReverse">
+                                        Email
+                                        <span ng-show="sortType == 'email' && !sortReverse" class="fa fa-caret-down"></span>
+                                        <span ng-show="sortType == 'email' && sortReverse" class="fa fa-caret-up"></span>
+                                    </a>
+                                </th>
+                                <th class="col-sm-1 order-item-header" style="min-width: 100px">
+                                    <a href="" ng-click="sortType = 'cellphone'; sortReverse = !sortReverse">
+                                        Cellphone
+                                        <span ng-show="sortType == 'cellphone' && !sortReverse" class="fa fa-caret-down"></span>
+                                        <span ng-show="sortType == 'cellphone' && sortReverse" class="fa fa-caret-up"></span>
+                                    </a>
+                                </th>
+                                <th class="col-sm-1 order-item-header" style="min-width: 150px">
+                                    <a href="" ng-click="sortType = 'registeredDate'; sortReverse = !sortReverse">
+                                        Registered Date
+                                        <span ng-show="sortType == 'registeredDate' && !sortReverse" class="fa fa-caret-down"></span>
+                                        <span ng-show="sortType == 'registeredDate' && sortReverse" class="fa fa-caret-up"></span>
+                                    </a>
+                                </th>
+                                <th class="col-sm-1 order-item-header" style="min-width: 150px">
+                                    <a href="" ng-click="sortType = 'expiredDate'; sortReverse = !sortReverse">
+                                        Expired Date
+                                        <span ng-show="sortType == 'expiredDate' && !sortReverse" class="fa fa-caret-down"></span>
+                                        <span ng-show="sortType == 'expiredDate' && sortReverse" class="fa fa-caret-up"></span>
+                                    </a>
+                                </th>
+                                <th class="col-sm-1 order-item-header">
+                                    <a href="" ng-click="sortType = 'status'; sortReverse = !sortReverse">
+                                        Status
+                                        <span ng-show="sortType == 'status' && !sortReverse" class="fa fa-caret-down"></span>
+                                        <span ng-show="sortType == 'status' && sortReverse" class="fa fa-caret-up"></span>
+                                    </a>
+                                </th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr ng-repeat="user in usersActivated | orderBy:sortType:sortReverse | offset: (current - 1) * itemsPerPage | limitTo:itemsPerPage" class="order-row-{{$index % 2}}">
+                                <td class="col-sm-1 order-item-content">{{user.fullName}}</td>
+                                <td class="col-sm-1 order-item-content"><a href="/#!/users/{{user.id}}">{{user.username}}</a></td>
+                                <td class="col-sm-1 order-item-content">{{user.email}}</td>
+                                <td class="col-sm-1 order-item-content">{{user.cellphone}}</td>
+                                <td class="col-sm-1 order-item-content"><label ng-bind="formatDate(user.registeredDate)  | filterDate"></label></td>
+                                <td class="col-sm-1 order-item-content"><label ng-bind="formatDate(user.expiredDate)  | filterDate"></label></td>
+                                <td class="col-sm-1 order-item-content user-status-{{listStatus.indexOf(user.status)}}">{{user.status}}</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <ul uib-pagination
+                    total-items="totalItems"
+                    items-per-page= "itemsPerPage"
+                    ng-model="current">
+                </ul>
+            </div>
+            <div id="pendingUser" class="tab-panel" ng-if="tab==TABSELECTED.PENDING">
+                <div class="table-responsive">
+                    <div id="table3_wrapper" class="dataTables_wrapper no-footer" style="overflow: auto">
+                        <table class="table table-striped2">
+                            <thead>
+                            <tr>
+                                <th class="col-sm-1 order-item-header"  style="min-width: 100px">
+                                    <a href="" ng-click="sortType = 'fullName'; sortReverse = !sortReverse">
+                                        Full name
+                                        <span ng-show="sortType == 'fullName' && !sortReverse" class="fa fa-caret-down"></span>
+                                        <span ng-show="sortType == 'fullName' && sortReverse" class="fa fa-caret-up"></span>
+                                    </a>
+                                </th>
+                                <th class="col-sm-1 order-item-header" style="min-width: 100px">
+                                    <a href="" ng-click="sortType = 'userName'; sortReverse = !sortReverse">
+                                        Username
+                                        <span ng-show="sortType == 'userName' && !sortReverse" class="fa fa-caret-down"></span>
+                                        <span ng-show="sortType == 'userName' && sortReverse" class="fa fa-caret-up"></span>
+                                    </a>
+                                </th>
+                                <th class="col-sm-1 order-item-header">
+                                    <a href="" ng-click="sortType = 'email'; sortReverse = !sortReverse">
+                                        Email
+                                        <span ng-show="sortType == 'email' && !sortReverse" class="fa fa-caret-down"></span>
+                                        <span ng-show="sortType == 'email' && sortReverse" class="fa fa-caret-up"></span>
+                                    </a>
+                                </th>
+                                <th class="col-sm-1 order-item-header" style="min-width: 100px">
+                                    <a href="" ng-click="sortType = 'cellphone'; sortReverse = !sortReverse">
+                                        Cellphone
+                                        <span ng-show="sortType == 'cellphone' && !sortReverse" class="fa fa-caret-down"></span>
+                                        <span ng-show="sortType == 'cellphone' && sortReverse" class="fa fa-caret-up"></span>
+                                    </a>
+                                </th>
+                                <th class="col-sm-1 order-item-header" style="min-width: 150px">
+                                    <a href="" ng-click="sortType = 'registeredDate'; sortReverse = !sortReverse">
+                                        Registered Date
+                                        <span ng-show="sortType == 'registeredDate' && !sortReverse" class="fa fa-caret-down"></span>
+                                        <span ng-show="sortType == 'registeredDate' && sortReverse" class="fa fa-caret-up"></span>
+                                    </a>
+                                </th>
+                                <th class="col-sm-1 order-item-header" style="min-width: 150px">
+                                    <a href="" ng-click="sortType = 'expiredDate'; sortReverse = !sortReverse">
+                                        Expired Date
+                                        <span ng-show="sortType == 'expiredDate' && !sortReverse" class="fa fa-caret-down"></span>
+                                        <span ng-show="sortType == 'expiredDate' && sortReverse" class="fa fa-caret-up"></span>
+                                    </a>
+                                </th>
+                                <th class="col-sm-1 order-item-header">
+                                    <a href="" ng-click="sortType = 'status'; sortReverse = !sortReverse">
+                                        Status
+                                        <span ng-show="sortType == 'status' && !sortReverse" class="fa fa-caret-down"></span>
+                                        <span ng-show="sortType == 'status' && sortReverse" class="fa fa-caret-up"></span>
+                                    </a>
+                                </th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr ng-repeat="user in usersPending | orderBy:sortType:sortReverse | offset: (current - 1) * itemsPerPage | limitTo:itemsPerPage" class="order-row-{{$index % 2}}">
+                                <td class="col-sm-1 order-item-content">{{user.fullName}}</td>
+                                <td class="col-sm-1 order-item-content"><a href="/#!/users/{{user.id}}">{{user.username}}</a></td>
+                                <td class="col-sm-1 order-item-content">{{user.email}}</td>
+                                <td class="col-sm-1 order-item-content">{{user.cellphone}}</td>
+                                <td class="col-sm-1 order-item-content"><label ng-bind="formatDate(user.registeredDate) | filterDate"></label></td>
+                                <td class="col-sm-1 order-item-content"><label ng-bind="formatDate(user.expiredDate) |  filterDate"></label></td>
+                                <td class="col-sm-1 order-item-content user-status-{{listStatus.indexOf(user.status)}}">{{user.status}}</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <ul uib-pagination
+                    total-items="totalItems"
+                    items-per-page= "itemsPerPage"
+                    ng-model="current">
+                </ul>
             </div>
         </div>
     </div>
-</section>
+</div>
+<div class="row order-content" ng-if="isDevice" style="font-size: 13px;">
+    <div class="col-md-8 order-tabs cs-mobile">
+        <ul class="nav nav-tabs">
+            <li class="active"><a href=""
+                                                class="tab-cs-mobile" data-toggle="tab"
+                                                ng-click="onAllClick();"><strong>All</strong></a></li>
+            <li class=""><a href="" class="tab-cs-mobile" data-toggle="tab"
+                            ng-click="onActivatedClick();"><strong>Activated</strong></a></li>
+            <li class=""><a href="" class="tab-cs-mobile" data-toggle="tab"
+                            ng-click="onPendingClick();"><strong>Pending</strong></a></li>
+        </ul>
+        <div class="tab-content ">
+            <div id="allUser" class="tab-panel" ng-if="tab==TABSELECTED.ALL">
+                <div ng-repeat="user in usersAll | orderBy:sortType:sortReverse | offset: (current - 1) * itemsPerPage | limitTo:itemsPerPage" class="row order-item-mobile">
+                    <div>
+                        <span  class="order-label-mobile">Username: </span><a href="/#!/users/{{user.id}}">{{user.username}}</a>
+                    </div>
+                    <div>
+                        <div style="width: 50%; float: left;">
+                            <span  class="order-label-mobile">Full name: </span>{{user.fullName}}
+                        </div>
+                        <div style="width: 50%; float: left;">
+                            <span class="order-label-mobile">Email: </span>{{user.email}}
+                        </div>
+                    </div>
+                    <div>
+                        <div style="width: 50%; float: left;">
+                            <span class="order-label-mobile">Cell Phone: </span>{{user.cellphone}}
+                        </div>
+                        <div style="width: 50%; float: left;">
+                            <span class="order-label-mobile">Register Date: </span>{{user.registeredDate  | filterDate}}
+                        </div>
+                    </div>
+                    <div>
+                        <div style="width: 50%; float: left;">
+                            <span class="order-label-mobile">Expired Date: </span>{{user.expiredDate  | filterDate}}
+                        </div>
+                        <div style="width: 50%; float: left;">
+                            <span class="order-label-mobile">Status: </span><label class = "user-status-{{listStatus.indexOf(user.status)}}">{{user.status}}</label>
+                        </div>
+                    </div>
+                </div>
+                <ul uib-pagination
+                    total-items="totalItems"
+                    items-per-page= "itemsPerPage"
+                    ng-model="current">
+                </ul>
+            </div>
+            <div id="activedUser" class="tab-panel" ng-if="tab==TABSELECTED.ACTIVATED">
+                <div ng-repeat="user in usersActivated | orderBy:sortType:sortReverse | offset: (current - 1) * itemsPerPage | limitTo:itemsPerPage" class="row order-item-mobile"
+                     style="font-size: 12px; text-align: left; padding: 5px 0px; background: white; border-bottom: grey 1px solid">
+                    <div>
+                        <span class="order-label-mobile">Username: </span><a href="/#!/users/{{user.id}}">{{user.username}}</a>
+                    </div>
+                    <div>
+                        <div style="width: 50%; float: left;">
+                            <span class="order-label-mobile">Full name: </span>{{user.fullName}}
+                        </div>
+                        <div style="width: 50%; float: left;">
+                            <span class="order-label-mobile">Email: </span>{{user.email}}
+                        </div>
+                    </div>
+                    <div>
+                        <div style="width: 50%; float: left;">
+                            <span class="order-label-mobile">Cell Phone: </span>{{user.cellphone}}
+                        </div>
+                        <div style="width: 50%; float: left;">
+                            <span class="order-label-mobile">Register Date: </span>{{user.registeredDate  | filterDate}}
+                        </div>
+                    </div>
+                    <div>
+                        <div style="width: 50%; float: left;">
+                            <span class="order-label-mobile">Expired Date: </span>{{user.expiredDate  | filterDate}}
+                        </div>
+                        <div style="width: 50%; float: left;">
+                            <span class="order-label-mobile">Status: </span><label class = "user-status-{{listStatus.indexOf(user.status)}}">{{user.status}}</label>
+                        </div>
+                    </div>
+                </div>
+                <ul uib-pagination
+                    total-items="totalItems"
+                    items-per-page= "itemsPerPage"
+                    ng-model="current">
+                </ul>
+            </div>
+            <div id="pendingUser" class="tab-panel" ng-if="tab==TABSELECTED.PENDING">
+                <div ng-repeat="user in usersPending | orderBy:sortType:sortReverse | offset: (current - 1) * itemsPerPage | limitTo:itemsPerPage" class="row order-item-mobile"
+                     style="font-size: 12px; text-align: left; padding: 5px 0px; background: white; border-bottom: grey 1px solid">
+                    <div>
+                        <span class="order-label-mobile">Username: </span><a href="/#!/users/{{user.id}}">{{user.username}}</a>
+                    </div>
+                    <div>
+                        <div style="width: 50%; float: left;">
+                            <span class="order-label-mobile">Full name: </span>{{user.fullName}}
+                        </div>
+                        <div style="width: 50%; float: left;">
+                            <span class="order-label-mobile">Email: </span>{{user.email}}
+                        </div>
+                    </div>
+                    <div>
+                        <div style="width: 50%; float: left;">
+                            <span class="order-label-mobile">Cell Phone: </span>{{user.cellphone}}
+                        </div>
+                        <div style="width: 50%; float: left;">
+                            <span class="order-label-mobile">Register Date: </span>{{user.registeredDate  | filterDate}}
+                        </div>
+                    </div>
+                    <div>
+                        <div style="width: 50%; float: left;">
+                            <span class="order-label-mobile">Expired Date: </span>{{user.expiredDate  | filterDate}}
+                        </div>
+                        <div style="width: 50%; float: left;">
+                            <span class="order-label-mobile">Status: </span><label class = "user-status-{{listStatus.indexOf(user.status)}}">{{user.status}}</label>
+                        </div>
+                    </div>
+                </div>
+                <ul uib-pagination
+                    total-items="totalItems"
+                    items-per-page= "itemsPerPage"
+                    ng-model="current">
+                </ul>
+            </div>
+        </div>
 
+    </div>
+</div>
 

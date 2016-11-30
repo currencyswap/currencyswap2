@@ -131,7 +131,7 @@ angular.module('userList')
                 $scope.tab = $scope.TABSELECTED.ALL;
                 $scope.sortType     = 'fullName'; // set the default sort type
                 $scope.sortReverse  = false;  // set the default sort order
-
+                $scope.isDevice = $.device;
                 $scope.users = [];
                 $scope.allUser = [];
                 $scope.usersAll = [];
