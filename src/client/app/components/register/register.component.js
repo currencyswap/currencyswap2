@@ -86,7 +86,6 @@ angular.module('register')
                     $scope.userExisted = false;
                     $scope.emailExisted = false;
                 };
-
                 $scope.onEmailChange = function () {
                     $scope.userExisted = false;
                     $scope.emailExisted = false;
@@ -167,6 +166,9 @@ angular.module('register')
                         });
                 };
 
+                $scope.changeEmail = function () {
+                    console.log("EMAIL===",$scope.user.email);
+                }
                 $scope.backToLogin = function () {
                     $location.url(routes.LOGIN);
                 };
