@@ -8,113 +8,113 @@
 		</div>
 		<div class="panel-heading" ng-if="!orderNotExisted">
 			<h4 class="panel-title">Order {{order.code}}</h4>
-			<div class="panel-body">
-				<div class="row row-initialized nomargin row-order-status">
-					<div class="col col-order-status order-status-1" ng-class="{'order-status-current' : orderStatus == statusType.SUBMITTED}">
-						<div class="order-status-item"></div>
-						<div class="order-status-label">Submitted</div>
-					</div>
-					<div class="col col-order-line" ng-class="{'col-order-line-pass' : orderStatusId > statusType.SUBMITTED_ID}">
-						<div class="order-line"></div>
-					</div>
-					<div class="col col-order-status order-status-2" ng-class="{'order-status-current' : orderStatus == statusType.SWAPPING}">
-						<div class="order-status-item"></div>
-						<div class="order-status-label">Swapping</div>
-					</div>
-					<div class="col col-order-line" ng-class="{'col-order-line-pass' : orderStatusId > statusType.SWAPPING_ID}">
-						<div class="order-line"></div>
-					</div>
-					<div class="col col-order-status order-status-3" ng-class="{'order-status-current' : orderStatus == statusType.CONFIRMED}">
-						<div class="order-status-item"></div>
-						<div class="order-status-label">Confirmed</div>
-					</div>
-					<div class="col col-order-line" ng-class="{'col-order-line-pass' : orderStatusId > statusType.CONFIRMED_ID}">
-						<div class="order-line"></div>
-					</div>
-					
-					<!-- Not CANCELER status -->
-					<div ng-if="orderStatus != statusType.CANCELED" class="col col-order-status order-status-4" ng-class="{'order-status-current' : orderStatus == statusType.PENDING}">
-						<div class="order-status-item"></div>
-						<div class="order-status-label">Pending</div>
-					</div>
-					<div ng-if="orderStatus != statusType.CANCELED" class="col col-order-line" ng-class="{'col-order-line-pass' : orderStatusId > statusType.PENDING_ID}">
-						<div class="order-line"></div>
-					</div>
-					<div ng-if="orderStatus != statusType.CANCELED" class="col col-order-status order-status-5" ng-class="{'order-status-current' : orderStatus == statusType.CLEARED}">
-						<div class="order-status-item"></div>
-						<div class="order-status-label">Cleared</div>
-					</div>
-					
-					<!-- CANCELER status -->
-					<div ng-if="orderStatus == statusType.CANCELED">
-						<div class="col col-order-status order-status-6" ng-class="{'order-status-current' : orderStatus == statusType.CANCELED}">
-							<div class="order-status-item"></div>
-							<div class="order-status-label">Canceled</div>
-						</div>
-					</div>
+		</div>
+		<div class="panel-body">
+			<div class="row row-initialized nomargin row-order-status">
+				<div class="col col-order-status order-status-1" ng-class="{'order-status-current' : orderStatus == statusType.SUBMITTED}">
+					<div class="order-status-item"></div>
+					<div class="order-status-label">Submitted</div>
+				</div>
+				<div class="col col-order-line" ng-class="{'col-order-line-pass' : orderStatusId > statusType.SUBMITTED_ID}">
+					<div class="order-line"></div>
+				</div>
+				<div class="col col-order-status order-status-2" ng-class="{'order-status-current' : orderStatus == statusType.SWAPPING}">
+					<div class="order-status-item"></div>
+					<div class="order-status-label">Swapping</div>
+				</div>
+				<div class="col col-order-line" ng-class="{'col-order-line-pass' : orderStatusId > statusType.SWAPPING_ID}">
+					<div class="order-line"></div>
+				</div>
+				<div class="col col-order-status order-status-3" ng-class="{'order-status-current' : orderStatus == statusType.CONFIRMED}">
+					<div class="order-status-item"></div>
+					<div class="order-status-label">Confirmed</div>
+				</div>
+				<div class="col col-order-line" ng-class="{'col-order-line-pass' : orderStatusId > statusType.CONFIRMED_ID}">
+					<div class="order-line"></div>
 				</div>
 				
-				<div class="row row-initialized nomargin">
-					<div class="col form-inline">
-						<div class="row mb10 row-order-time">
-							<label class="control-label col-md-3"><span>Created on </span> {{order.created | filterDate}}</label> 
-							<label class="control-label col-md-3 row-order-time-update"><span>Updated on </span> {{order.updated | filterDate}}</label> 
-						</div>
-						<div class="row mb10 row-order-actor">
-							<label class="control-label col-md-3"><span>Initializer </span> {{order.owner.fullName}}</label> 
-							<label class="control-label col-md-3 row-order-actor-accepter" ng-if="order.accepterId"><span>Accepter </span> <span class="row-order-actor-accepter-value">{{order.accepter.fullName}}</span></label> 
-						</div>
-						<div class="row mb10 row-give">
-							<label class="control-label col-md-2 row-title-give">Give</label> 
-							<label class="control-label">{{order.give}} {{order.giveCurrency.code}} </label>
-						</div>
-
-						<div class="row mb10 row-get">
-							<label class="control-label col-md-2 row-title-get">Get</label> 
-							<label class="control-label">{{order.get}} {{order.getCurrency.code}} </label>
-						</div>
-
-						<div class="row mb10 row-rate">
-							<label class="control-label col-md-2 row-title-rate">Rate</label> 
-							<label class="control-label">{{order.rate}} </label>
-						</div>
-
-					</div>
-
+				<!-- Not CANCELER status -->
+				<div ng-if="orderStatus != statusType.CANCELED" class="col col-order-status order-status-4" ng-class="{'order-status-current' : orderStatus == statusType.PENDING}">
+					<div class="order-status-item"></div>
+					<div class="order-status-label">Pending</div>
 				</div>
-				<!-- panel-body -->
-
-				<div class="panel-footer">
-					<div class="row">
-						<div class="row mb10">
-							<div class="col"> 
-								<button class="btn btn-danger btn-md nomagin" ng-click="onCancel(order.id);" ng-if="orderStatus != statusType.CLEARED && orderStatus != statusType.CANCELED" ng-disabled="submitLoading">Cancel</button>
-								<!-- <button class="btn btn-primary btn-md nomagin" ng-click="onEdit(order.id);" ng-if="orderStatus == statusType.SUBMITTED && isOwnerOrder" ng-disabled="submitLoading">Edit</button> -->
-								<button class="btn btn-success btn-md nomagin" ng-click="onConfirm(order.id);" ng-if="orderStatus == statusType.SWAPPING && isOwnerOrder" ng-disabled="submitLoading">Confirm</button>
-								<button class="btn btn-warning btn-md nomagin" ng-click="onClear(order.id);" ng-if="orderStatus == statusType.CONFIRMED || orderStatus == statusType.PENDING" ng-disabled="submitLoading">Clear</button>
-							</div>
-						</div>
-
-						<div class="loaders" align="center" ng-show="submitLoading">
-							<img src="../../../assets/images/loaders/loader1.gif" alt="">
-						</div>
-
-					</div>
-					<div class="row row-activities">
-						<h2 class="row-activities-title">Activity</h2>
-						<div class="row" ng-repeat="activity in order.activities" ng-if="activity.statusId > 1">
-							<div class="col">
-								<span class="activity-time mr20">{{activity.created | filterDate}}</span>
-								<span class="activity-creator mr10" ng-class="{'other-user-action' : activity.creator.username != currentUser}">{{activity.creator.username}}</span>
-								<span class="activity-creator">{{activity.description}}</span>
-							</div>
-						</div>
+				<div ng-if="orderStatus != statusType.CANCELED" class="col col-order-line" ng-class="{'col-order-line-pass' : orderStatusId > statusType.PENDING_ID}">
+					<div class="order-line"></div>
+				</div>
+				<div ng-if="orderStatus != statusType.CANCELED" class="col col-order-status order-status-5" ng-class="{'order-status-current' : orderStatus == statusType.CLEARED}">
+					<div class="order-status-item"></div>
+					<div class="order-status-label">Cleared</div>
+				</div>
+				
+				<!-- CANCELER status -->
+				<div ng-if="orderStatus == statusType.CANCELED">
+					<div class="col col-order-status order-status-6" ng-class="{'order-status-current' : orderStatus == statusType.CANCELED}">
+						<div class="order-status-item"></div>
+						<div class="order-status-label">Canceled</div>
 					</div>
 				</div>
-				<!-- panel-footer -->
 			</div>
+			
+			<div class="row row-initialized nomargin">
+				<div class="col form-inline">
+					<div class="row mb10 row-order-time">
+						<label class="control-label col-md-3"><span>Created on </span> {{order.created | filterDate}}</label> 
+						<label class="control-label col-md-3 row-order-time-update"><span>Updated on </span> {{order.updated | filterDate}}</label> 
+					</div>
+					<div class="row mb10 row-order-actor">
+						<label class="control-label col-md-3"><span>Initializer </span> {{order.owner.fullName}}</label> 
+						<label class="control-label col-md-3 row-order-actor-accepter" ng-if="order.accepterId"><span>Accepter </span> <span class="row-order-actor-accepter-value">{{order.accepter.fullName}}</span></label> 
+					</div>
+					<div class="row mb10 row-give">
+						<label class="control-label col-md-2 row-title-give">Give</label> 
+						<label class="control-label">{{order.give}} {{order.giveCurrency.code}} </label>
+					</div>
+
+					<div class="row mb10 row-get">
+						<label class="control-label col-md-2 row-title-get">Get</label> 
+						<label class="control-label">{{order.get}} {{order.getCurrency.code}} </label>
+					</div>
+
+					<div class="row mb10 row-rate">
+						<label class="control-label col-md-2 row-title-rate">Rate</label> 
+						<label class="control-label">{{order.rate}} </label>
+					</div>
+
+				</div>
+
+			</div>
+			<!-- panel-body -->
+
+			<div class="panel-footer">
+				<div class="row">
+					<div class="row mb10">
+						<div class="col"> 
+							<button class="btn btn-danger btn-md nomagin" ng-click="onCancel(order.id);" ng-if="orderStatus != statusType.CLEARED && orderStatus != statusType.CANCELED" ng-disabled="submitLoading">Cancel</button>
+							<!-- <button class="btn btn-primary btn-md nomagin" ng-click="onEdit(order.id);" ng-if="orderStatus == statusType.SUBMITTED && isOwnerOrder" ng-disabled="submitLoading">Edit</button> -->
+							<button class="btn btn-success btn-md nomagin" ng-click="onConfirm(order.id);" ng-if="orderStatus == statusType.SWAPPING && isOwnerOrder" ng-disabled="submitLoading">Confirm</button>
+							<button class="btn btn-warning btn-md nomagin" ng-click="onClear(order.id);" ng-if="orderStatus == statusType.CONFIRMED || orderStatus == statusType.PENDING" ng-disabled="submitLoading">Clear</button>
+						</div>
+					</div>
+
+					<div class="loaders" align="center" ng-show="submitLoading">
+						<img src="../../../assets/images/loaders/loader1.gif" alt="">
+					</div>
+
+				</div>
+				<div class="row row-activities">
+					<h2 class="row-activities-title">Activity</h2>
+					<div class="row" ng-repeat="activity in order.activities" ng-if="activity.statusId > 1">
+						<div class="col">
+							<span class="activity-time mr20">{{activity.created | filterDate}}</span>
+							<span class="activity-creator mr10" ng-class="{'other-user-action' : activity.creator.username != currentUser}">{{activity.creator.username}}</span>
+							<span class="activity-creator">{{activity.description}}</span>
+						</div>
+					</div>
+				</div>
+			</div>
+				<!-- panel-footer -->
 		</div>
-		<footer></footer>
+		<!-- <footer></footer> -->
 
 
 	</div>
