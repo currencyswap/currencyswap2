@@ -32,7 +32,7 @@
                                    <i class="glyphicon glyphicon-calendar" ng-click="open2()"></i></button>
                                 </span>
                                 </p>
-                                <p ng-show="!isValidBirthday&&isEditting" class="help-block">Please enter a valid birthday.</p>
+                                <label class="error" ng-show="!isValidBirthday&&isEditting">Enter birthday valid.</label>
                             </div>
                             <div class="form-group">
                                 <label class="control-label">Expired Date</label>
@@ -91,7 +91,7 @@
                                     <option value="Standard Member">Standard Member</option>
                                     <option value="Admin">Admin</option>
                                 </select>
-                                <p ng-show="errorSetOwnRole" class="help-block">Can not set your own role</p>
+                                <label class="error" ng-show="errorSetOwnRole">Can not set your own role.</label>
                             </div>
                             <br>
                         </form>
