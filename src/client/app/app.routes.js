@@ -23,6 +23,8 @@ angular.module('currencySwapApp').config(['$locationProvider', '$routeProvider',
             template: '<order-create></order-create>'
         }).when(routes.ORDER_DETAIL, {
             template: '<order-detail></order-detail>'
+        }).when(routes.ORDER_EDIT, {
+            template: '<order-edit></order-edit>'
         }).when(routes.SUPPORT, {
             template: '<support></support>'
         }).when(routes.HELP, {

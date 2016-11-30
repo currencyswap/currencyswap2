@@ -12,7 +12,7 @@
 }
 
 .createOrderPanel .rate-row input.form-control{
-	width: 412px !important;
+	width: 612px !important;
     margin-right: 10px;
     margin-bottom: 5px;
 }
@@ -213,11 +213,17 @@
 		margin-left: 2px;
 	}
 	.detailOrderPanel .panel .panel-body .row-order-status .col-order-status .order-status-label {
-	    width: 72px;
+	    width: 60px;
 	    text-align: center;
 	    white-space: nowrap;
 	    text-overflow: ellipsis;
     	overflow: hidden;
+	}
+}
+
+@media screen and (max-width: 320px) {
+	.detailOrderPanel .panel .panel-body .row-order-status .col-order-status .order-status-label {
+	    width: 55px;
 	}
 }
 

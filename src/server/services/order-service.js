@@ -48,10 +48,17 @@ exports.getOrderById = function (id) {
     };
     return dbUtil.executeModelFn(app.models.Order, 'findOne', filter);
 };
-
 exports.getOrderByCode = function (orderCode, userId) {
+	
     var filter = {
             'where': { and : [{'code': orderCode} , {or : [{'ownerId' : userId}, {'accepterId' : userId}]}]},
+            'include' : [ ownerRelation, accepterRelation, giveCurrencyRelation, getCurrencyRelation, statusRelation, activitiesRelation]
+    };
+    return dbUtil.executeModelFn(app.models.Order, 'findOne', filter);
+};
+exports.getOrderForEdit = function (orderCode, userId, statusId) {
+    var filter = {
+            'where': { and : [{'code': orderCode} , {'ownerId' : userId}, {'statusId' : statusId}]},
             'include' : [ ownerRelation, accepterRelation, giveCurrencyRelation, getCurrencyRelation, statusRelation, activitiesRelation]
     };
     return dbUtil.executeModelFn(app.models.Order, 'findOne', filter);
@@ -62,6 +69,10 @@ exports.updateOrder = function (where, obj) {
 
 exports.saveOrder = function (newOrder) {
         return dbUtil.executeModelFn(app.models.Order, 'create', newOrder);
+};
+exports.updateOrderByCode = function (code, updateOrder) {
+    var where = { 'code': code };
+    return dbUtil.executeModelFn(app.models.Order, 'updateAll', where, updateOrder);
 };
 exports.updateOrderStatus = function (orderId, statusId) {
     var order = { 'statusId': statusId };

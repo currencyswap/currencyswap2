@@ -20,7 +20,7 @@ angular.module('orders')
         		
         		$scope.orderNotExisted = false;
         		
-        		var orderCode = $routeParams.orderCode;
+        		$scope.orderCode = $routeParams.orderCode;
         		//orderCode = $route.current.params.orderCode;
         		$scope.currentUser = CookieService.getCurrentUser();
         		
@@ -49,12 +49,16 @@ angular.module('orders')
         				console.log("getOrderDetail err: " + JSON.stringify(err));
         			});
         		}
-        		if(orderCode){
-        			getOrderDetail(orderCode);
+        		if($scope.orderCode){
+        			getOrderDetail($scope.orderCode);
         		}
         		
         		var goToOrderList = function(){
         			location.href = "/#!/orders/";
+        		}
+        		
+        		var goToEdit = function(code){
+        			location.href = "/#!/orders/edit/" + code;
         		}
         		
         		// Cancel swapping order        		
@@ -117,6 +121,14 @@ angular.module('orders')
 	                    	$scope.submitLoading = false;
 	                    	$window.alert('Failure to clear action!');
 	                    });
+            	    }
+        		};
+        		
+        		// Clear edit order
+        		$scope.onEdit = function(orderCode){
+            		var editOrder = $window.confirm('Are you sure you want to edit the Order?');
+            	    if(editOrder){
+            	    	goToEdit(orderCode);
             	    }
         		};
             }]

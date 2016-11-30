@@ -4,30 +4,31 @@
 <div class="createOrderPanel">
 	<div class="panel panel-default">
 		<div class="panel-heading">
-			<h4 class="panel-title">New Order</h4>
+			<h4 class="panel-title">Order {{orderCode}}</h4>
 			<p>{{currentDate | filterDate}}</p>
 		</div>
-		<div class="panel-body">
-
-			<div class="row row-create nomargin"
-				ng-show="statusPage != STATUS_PAGE_VALUE.INITIALIZED">
+		<div class="panel-heading" ng-if="orderNotExisted">
+			<h4 class="panel-title-error">Permission denied</h4>
+		</div>
+		<div class="panel-body" ng-if="!orderNotExisted">
+			<div class="row row-create nomargin">
 				<div class="col">
 					<form id="orderCreateFormId" name="orderCreateForm" novalidate="novalidate">
 						<div class="form-group mb10" ng-class="{ 'has-error' : (orderCreateForm.give.$invalid && !orderCreateForm.give.$pristine) || (orderCreateForm.giveCurrency.$invalid && !orderCreateForm.giveCurrency.$pristine)}">
 							<label class="control-label">Give</label> <span class="asterisk">*</span>
 							<div class="form-inline give-row">
 								<div class="input-group">
-									<input type="number" name="give" class="form-control" ng-model="newOrder.give" ng-change="onChangeValue(FIXED_VALUE.GIVE);"  focus-me="focusGive" required>
+									<input type="number" name="give" class="form-control" ng-model="updateOrder.give" ng-change="onChangeValue(FIXED_VALUE.GIVE);"  focus-me="focusGive" required>
 								</div>
 								<div class="input-group">
-									<select name="giveCurrency" ng-model="newOrder.giveCurrencyCode" class="form-control" required>
+									<select name="giveCurrency" ng-model="updateOrder.giveCurrencyCode" class="form-control" required>
 										<option ng-repeat="currency in currencies" value="{{currency.code}}">{{currency.code}} - {{currency.name}}</option>
 									</select>
 								</div>
 								<div class="input-group">
 									<div class="form-group">
-										<label class="radio-inline"> <input type="radio" name="fixed" ng-model="newOrder.fixed" value="{{FIXED_VALUE.GIVE}}">
-											Fixed
+										<label class="radio-inline"> <input type="radio" name="fixed" ng-model="updateOrder.fixed" value="{{FIXED_VALUE.GIVE}}">
+											fixed
 										</label>
 									</div>
 								</div>
@@ -41,17 +42,17 @@
 								<label class="control-label">Get</label> <span class="asterisk">*</span>
 								<div class="form-inline get-row">
 									<div class="input-group">
-										<input type="number" name="get" class="form-control" ng-model="newOrder.get" ng-change="onChangeValue(FIXED_VALUE.GET);" focus-me="focusGet" required>
+										<input type="number" name="get" class="form-control" ng-model="updateOrder.get" ng-change="onChangeValue(FIXED_VALUE.GET);" focus-me="focusGet" required>
 									</div>
 									<div class="input-group">
-										<select name="getCurrency" ng-model="newOrder.getCurrencyCode" class="form-control" required>
+										<select name="getCurrency" ng-model="updateOrder.getCurrencyCode" class="form-control" required>
 											<option ng-repeat="currency in currencies" value="{{currency.code}}">{{currency.code}} - {{currency.name}}</option>
 										</select>
 									</div>
 									<div class="input-group">
 										<div class="form-group">
-											<label class="radio-inline"> <input type="radio" name="fixed" ng-model="newOrder.fixed" value="{{FIXED_VALUE.GET}}">
-												Fixed
+											<label class="radio-inline"> <input type="radio" name="fixed" ng-model="updateOrder.fixed" value="{{FIXED_VALUE.GET}}">
+												fixed
 											</label>
 										</div>
 									</div>
@@ -68,12 +69,12 @@
 									class="asterisk">*</span>
 								<div class="form-inline rate-row">
 									<div class="input-group">
-										<input type="number" name="rate" class="form-control" ng-model="newOrder.rate" ng-change="onChangeValue(FIXED_VALUE.RATE);" focus-me="focusRate" required>
+										<input type="number" name="rate" class="form-control" ng-model="updateOrder.rate" ng-change="onChangeValue(FIXED_VALUE.RATE);" focus-me="focusRate" required>
 									</div>
 									<div class="input-group">
 										<div class="form-group">
-											<label class="radio-inline"> <input type="radio" name="fixed" ng-model="newOrder.fixed" value="{{FIXED_VALUE.RATE}}">
-												Fixed
+											<label class="radio-inline"> <input type="radio" name="fixed" ng-model="updateOrder.fixed" value="{{FIXED_VALUE.RATE}}">
+												fixed
 											</label>
 										</div>
 									</div>
@@ -87,7 +88,7 @@
 								<label class="control-label">Alive Period</label> <span class="asterisk">*</span>
 								<div class="form-group">
 									<label class="radio-inline" ng-repeat="expiredValue in EXPIRED_VALUE"> 
-										<input type="radio" name="expired" ng-model="newOrder.expired" value="{{expiredValue.key}}"> {{expiredValue.value}}
+										<input type="radio" name="expired" ng-model="updateOrder.expired" value="{{expiredValue.key}}"> {{expiredValue.value}}
 									</label>
 								</div>
 							</div>
@@ -104,54 +105,18 @@
 					</form>
 				</div>
 			</div>
-
-			<div class="row row-initialized nomargin"
-				ng-show="statusPage == STATUS_PAGE_VALUE.INITIALIZED">
-				<div class="col form-inline">
-					<div class="row mb10">
-						<label class="control-label col-md-2">Give</label> 
-						<label class="control-label">{{newOrder.give}} {{newOrder.giveCurrencyCode}} </label>
-					</div>
-
-					<div class="row mb10">
-						<label class="control-label col-md-2">Get</label> 
-						<label class="control-label">{{newOrder.get}} {{newOrder.getCurrencyCode}} </label>
-					</div>
-
-					<div class="row mb10">
-						<label class="control-label col-md-2">Rate Exchange</label> 
-						<label class="control-label">{{newOrder.rate}} </label>
-					</div>
-
-					<div class="row mb10">
-						<label class="control-label col-md-2">Expried Date</label> 
-						<label class="control-label">{{newOrder.expiredDate | filterDate}} </label>
-					</div>
-
-				</div>
-
-			</div>
 			<!-- panel-body -->
 
-			<div class="panel-footer">
+			<div class="panel-footer" ng-if="!orderNotExisted">
 				<div class="row">
-					<div class="form-group col-sm-2 nopadding"
-						ng-if="statusPage != STATUS_PAGE_VALUE.INITIALIZED">
-						<button type="submit" class="btn btn-info btn-md nomagin"
-							ng-disabled="orderCreateForm.$invalid || checkEqualCurrency() || !checkValiedValue()"
-							ng-click="onNextStep();">NEXT</button>
-					</div>
-					<div class="row mb10"
-						ng-if="statusPage == STATUS_PAGE_VALUE.INITIALIZED">
+					<div class="row mb10">
 						<div class="col">
-							<button class="btn btn-warning btn-md nomagin"
-								ng-click="onBackStep();">Back</button>
-							<button class="btn btn-primary btn-md nomagin"
-								ng-click="onSubmit();" ng-disabled="submitLoading">Submit</button>
+							<button class="btn btn-primary btn-md nomagin" ng-disabled="orderCreateForm.$invalid || checkEqualCurrency() || !checkValiedValue()" 
+								ng-click="onSubmit();" ng-disabled="submitLoading">Save</button>
 						</div>
 					</div>
 					
-					<div class="row submit-error" align="center" ng-if="statusPage == STATUS_PAGE_VALUE.INITIALIZED" ng-show="hasError">
+					<div class="row submit-error" align="center" ng-show="hasError">
 						{{errorMessage}}
 					</div>
 
@@ -162,39 +127,6 @@
 				</div>
 			</div>
 			<!-- panel-footer -->
-
-			<div class="table-responsive"
-				ng-if="statusPage == STATUS_PAGE_VALUE.INITIALIZED && (suggestionOrders && suggestionOrders.length)">
-				<div class="dataTables_wrapper no-footer" style="overflow: auto">
-					<table class="table table-striped2">
-						<thead>
-							<tr>
-								<th class="col-sm-3 order-item-header">Username</th>
-								<th class="col-sm-1 order-item-header">Get</th>
-								<th class="col-sm-1 order-item-header">Give</th>
-								<th class="col-sm-1 order-item-header">Rate</th>
-								<th class="col-sm-3 order-item-header"></th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr ng-repeat="suggestionOrder in suggestionOrders"
-								class="order-row-{{$index % 2}}">
-								<td class="col-sm-3 order-item-content">{{suggestionOrder.owner.username}}</td>
-								<td class="col-sm-1 order-item-content">{{suggestionOrder.get}}
-									{{suggestionOrder.getCurrency.code}}</td>
-								<td class="col-sm-1 order-item-content">{{suggestionOrder.give}}
-									{{suggestionOrder.giveCurrency.code}}</td>
-								<td class="col-sm-1 order-item-content">{{suggestionOrder.rate}}</td>
-								<td class="col-sm-3 text-left">
-									<div class="order-action">
-										<div class="btn button-order-list button-confirm-swapping" ng-click = "onSwap(suggestionOrder.id)">Swap</div>
-									</div>
-								</td>
-							</tr>
-						</tbody>
-					</table>
-				</div>
-			</div>
 		</div>
 
 		<!-- <footer></footer> -->

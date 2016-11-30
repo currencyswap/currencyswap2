@@ -85,18 +85,51 @@ module.exports = function (app) {
         res.send(generateCode(req.currentUser.id + req.currentUser.username));
     });
     router.post('/', function (req, res) {
-        // handle register request
         var clientOrderData = req.body;
         var newOrder = orderConverter.convertOrderData(clientOrderData);
         newOrder.ownerId = req.currentUser.id;
         newOrder.code = clientOrderData.code||generateCode(req.currentUser.id + req.currentUser.username);
         newOrder.statusId = constant.STATUS_TYPE.SUBMITTED_ID;
-        console.log("saving new order : " + JSON.stringify(clientOrderData));
         service.saveOrder(newOrder).then(function (dataSave) {
-            return res.status(200).send({dataSave : dataSave, newOrder : newOrder});
+            return res.status(200).send(dataSave);
+        },function (err) {
+            return res.status(500).send(errorUtil.createAppError(errors.SERVER_GET_PROBLEM));
+        });
+    });
+    router.put('/:code', function (req, res) {
+    	
+    	var code = req.params.code;
+    	var userId = req.currentUser.id;
+        var clientOrderData = req.body;
+        var newOrder = orderConverter.convertOrderData(clientOrderData);
+        
+        var orderUpdate = {};
+        orderUpdate.rate = newOrder.rate;
+        orderUpdate.give = newOrder.give;
+        orderUpdate.get = newOrder.get;
+        orderUpdate.giveCurrencyId = newOrder.giveCurrencyId;
+        orderUpdate.getCurrencyId = newOrder.getCurrencyId;
+        orderUpdate.updated = newOrder.updated;
+        
+        service.getOrderForEdit(code, userId, constant.STATUS_TYPE.SUBMITTED_ID).then(function(resp){
+        	if(!resp){
+        		return res.send(resp);
+        	}
+        	
+        	//update expired
+        	var dayLive = clientOrderData.dayLive ? parseInt(clientOrderData.dayLive) : 3;
+            var expired = new Date(resp.created);
+            expired.setDate(expired.getDate() + dayLive);
+            orderUpdate.expired = expired;
+            
+        	service.updateOrderByCode(code, orderUpdate).then(function (dataSave) {
+                return res.status(200).send({dataSave : dataSave});
             },function (err) {
-                    return res.status(500).send(errorUtil.createAppError(errors.SERVER_GET_PROBLEM));
+                return res.status(500).send(errorUtil.createAppError(errors.SERVER_GET_PROBLEM));
             });
+        }, function(err){
+            return res.status(500).send(errorUtil.createAppError(errors.SERVER_GET_PROBLEM));
+        });
     });
     router.get('/', function (req, res) {
         service.getUserAllOrders(req.currentUser.id).then(function(resp){
@@ -191,8 +224,17 @@ module.exports = function (app) {
             return res.status(500).send(errorUtil.createAppError(errors.SERVER_GET_PROBLEM));
         });
     });
+    router.get('/edit/:code', function (req, res) {
+    	var userId = req.currentUser.id;
+        var code = req.params.code;
+        service.getOrderForEdit(code, userId, constant.STATUS_TYPE.SUBMITTED_ID).then(function(resp){
+        	return res.send(resp);
+        }, function(err){
+            return res.status(500).send(errorUtil.createAppError(errors.SERVER_GET_PROBLEM));
+        });
+    });
     router.get('/total', function (req, res) {
-    	console.log('============111111====');
+    	//console.log('============111111====');
         service.getTotalOrderOfUser(req.currentUser.id).then(function(resp){
           return res.send('fdsafads');
         }, function(err){
@@ -200,7 +242,6 @@ module.exports = function (app) {
                 
         });
     });
-
     return router;
 };
 

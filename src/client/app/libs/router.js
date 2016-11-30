@@ -6,6 +6,7 @@ var routes = {
     ORDERS: '/orders/',
     ORDER_CREATE: '/orders/create',
     ORDER_DETAIL: '/orders/:orderCode',
+    ORDER_EDIT: '/orders/edit/:orderCode',
     USERS: '/users/(:id)',
     USER_LIST: '/users/',
     USER_DETAIL: '/users/:id',
@@ -41,6 +42,13 @@ var navigation = [
         requiredPermissions: [permissions.MAINTAIN_OWN_ORDERS],
         icon : 'fa fa-plus',
         id: 'order-detail'
+    },
+    {
+        route: routes.ORDER_EDIT,
+        name: 'Order Edit',
+        requiredPermissions: [permissions.MAINTAIN_OWN_ORDERS],
+        icon : 'fa fa-plus',
+        id: 'order-edit'
     },
     {
         route: routes.ORDERS,

@@ -24,6 +24,9 @@ angular.module('orders').factory('OrdersService', ['ConnectorService', function 
         getOrderByCode : function(orderCode){
             return this.get(apiRoutes.API_ORDERS +  '/' + orderCode);
         },
+        getOrderForEdit : function(orderCode){
+            return this.get(apiRoutes.API_ORDERS +  '/edit/' + orderCode);
+        },
         getAllOrders: function(){
             return this.get(apiRoutes.API_ORDERS);
         },
@@ -36,6 +39,10 @@ angular.module('orders').factory('OrdersService', ['ConnectorService', function 
         postSaveNewOrders: function(newOrder){
         	var data = newOrder;
             return this.post(apiRoutes.API_ORDERS, data);
+        },
+        putUpdateOrder: function(code, updateOrder){
+        	var data = updateOrder;
+            return this.put(apiRoutes.API_ORDERS + '/' + code, data);
         },
         getCurrenciesList: function(){
             return this.get(apiRoutes.API_CURRENCIES);

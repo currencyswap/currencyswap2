@@ -16,6 +16,7 @@ const Routes = {
     API_CURRENCIES : '/api/currencies',
     API_ORDERS : '/api/orders',
     API_ORDERS_ID : '/api/orders/:id',
+    API_ORDERS_EDIT : '/api/orders/edit/:code',
     API_ORDERS_SWAPPING : '/api/orders/swapping',
     API_ORDERS_CONFIRMED : '/api/orders/confirmed',
     API_ORDERS_SUBMITTED : '/api/orders/submitted',
