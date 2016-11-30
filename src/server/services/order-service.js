@@ -136,8 +136,8 @@ exports.getSuggestOrders = function (userId, value, fixed) {
 	    		'order' : order,
 	            'where': {
 	            and: [
-	                  //{'ownerId': {'neq': userId}},
-	                  //{ 'statusId': constant.STATUS_TYPE.SUBMITTED_ID }
+	                  {'ownerId': {'neq': userId}},
+	                  { 'statusId': constant.STATUS_TYPE.SUBMITTED_ID }
 	            ]
             },
             'include' : [ ownerRelation, accepterRelation, giveCurrencyRelation, getCurrencyRelation, statusRelation, activitiesRelation]

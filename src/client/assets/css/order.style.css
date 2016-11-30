@@ -1,4 +1,3 @@
-
 .createOrderPanel .submit-error{
 	color: #ff0000;
 }
@@ -22,8 +21,12 @@
 	.createOrderPanel .rate-row input.form-control{
 		width: 200px !important;
 	}
+	
+	.createOrderPanel .panel .panel-body,
+	.detailOrderPanel .panel .panel-body{
+		padding: 20px 5px;
+	}
 }
-
 
 .order-content  {ß
  text-align: center;
@@ -196,8 +199,26 @@
 }
 
 @media screen and (max-width: 480px) {
+	.createOrderPanel .panel .panel-body,
+	.createOrderPanel .panel .panel-heading,
+	.detailOrderPanel .panel .panel-body,
+	.detailOrderPanel .panel .panel-heading{
+		padding: 20px 5px;
+	}
+
 	.detailOrderPanel .panel .panel-body .row-order-status .col-order-line .order-line{
 		width: 20px;
+	}
+	.detailOrderPanel .panel .panel-body .row-order-status .col-order-status{
+		margin-right: 2px;
+		margin-left: 2px;
+	}
+	.detailOrderPanel .panel .panel-body .row-order-status .col-order-status .order-status-label {
+	    width: 50px;
+	    text-align: center;
+	    white-space: nowrap;
+	    text-overflow: ellipsis;
+    	overflow: hidden;
 	}
 }
 
