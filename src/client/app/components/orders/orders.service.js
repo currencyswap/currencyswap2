@@ -15,6 +15,9 @@ angular.module('orders').factory('OrdersService', ['ConnectorService', function 
         getSumittedOrders: function() { // status = 1 
             return this.get(apiRoutes.API_ORDERS_SUBMITTED);
         },
+		getTotalOrderOfUser: function(){
+			return this.get(apiRoutes.API_ORDERS_TOTAL);
+		},
         getOrderById : function(id){
             return this.get(apiRoutes.API_ORDERS +  '/' + id);
         },
@@ -64,6 +67,7 @@ angular.module('orders').factory('OrdersService', ['ConnectorService', function 
 		},
 		swapSubmittedOrder:function(orderId){
 			return this.get(apiRoutes.API_ORDERS_SUBMITTED_SWAP.replace(":id",orderId));
-		},
+		}
+		
     });
 }]);

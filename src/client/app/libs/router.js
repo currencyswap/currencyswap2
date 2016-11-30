@@ -18,7 +18,8 @@ var routes = {
     NOTIFICATIONS: '/notifications',
     FORGOT_PASSWORD_VERIFY: '/forgotpassword/verify',
     FORGOT_PASSWORD_RESET: '/forgotpassword/reset/',
-    ERROR_PAGE: '/error'
+    ERROR_PAGE: '/error',
+    API_ORDERS_TOTAL: '/orders/total'
 };
 
 var navigation = [

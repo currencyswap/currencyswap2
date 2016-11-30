@@ -21,6 +21,7 @@ const Routes = {
     API_ORDERS_SUBMITTED : '/api/orders/submitted',
     API_ORDERS_SUGGEST : '/api/orders/suggest',
     API_ORDERS_HISTORY : '/api/orders/history',
+    API_ORDERS_TOTAL : '/api/orders/total',
     API_ORDERS_CONFIRMED_CANCEL : '/api/orders/confirmed/cancel/:id',
     API_ORDERS_CONFIRMED_CLEAR : '/api/orders/confirmed/clear/:id',
     API_ORDERS_SWAPPING_CANCEL : '/api/orders/swapping/cancel/:id',

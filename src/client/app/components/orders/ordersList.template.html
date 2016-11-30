@@ -1,4 +1,4 @@
-<div class="row order-content">
+<div class="row order-content" ng-if="!isDevice">
     <div class="col-md-8 order-tabs">
         <ul class="nav nav-tabs">
             <li class="active"><a href="" data-toggle="tab" ng-click="getWorkingOrders();"><strong>Working Orders</strong></a></li>
@@ -181,4 +181,243 @@
             </div>
         </div>
     </div>
+</div>
+<div class="row order-content" ng-if="isDevice" style="font-size: 13px;">
+
+	<div class="col-md-8 order-tabs cs-mobile">
+		<ul class="nav nav-tabs">
+			<li class="active tab-cs-mobile"><a href=""
+				class="tab-cs-mobile" data-toggle="tab"
+				ng-click="getWorkingOrders();"><strong>Working Orders</strong></a></li>
+			<li class=""><a href="" class="tab-cs-mobile" data-toggle="tab"
+				ng-click="getSubmittedOrders();"><strong>Submitted
+						Orders</strong></a></li>
+			<li class=""><a href="" class="tab-cs-mobile" data-toggle="tab"
+				ng-click="getHistoryOrders();"><strong>History</strong></a></li>
+		</ul>
+		<div class="tab-content ">
+			<div id="workingOrders" class="tab-panel" ng-if="tab==1">
+				<div id="swappingOrders">
+					<div class="swapping-order-title"
+						style="text-align: left; color: #159d21; font-size: 18px;">Swapping
+						Orders</div>
+
+					<div ng-repeat="swappingOrder in swappingOrders" class="row"
+						style="font-size: 12px; text-align: left; padding: 5px 0px; background: white; border-bottom: grey 1px solid">
+						<div style="width: 100%;">
+							<a href="/#!/orders/{{swappingOrder.code}}"><span
+								style="font-weight: 600">Order </span>{{swappingOrder.code}}</a>
+						</div>
+						<div style="width: 100%;">
+							<div style="width: 50%; float: left;">
+								<span style="font-weight: 600">Date: </span>{{swappingOrder.created|
+								filterDate}}
+							</div>
+							<div style="width: 50%; float: left;">
+								<span style="font-weight: 600">Expired: </span>{{swappingOrder.created|
+								filterDate}}
+							</div>
+						</div>
+						<div style="width: 100%;">
+							<div style="width: 50%; float: left;">
+								<span style="font-weight: 600">Get: </span>{{swappingOrder.get}}
+								{{swappingOrder.getCurrency.code}}
+							</div>
+							<div style="width: 50%; float: left;">
+								<span style="font-weight: 600">Give: </span>{{swappingOrder.give}}
+								{{swappingOrder.giveCurrency.code}}
+							</div>
+						</div>
+						<div style="width: 100%;">
+							<div style="width: 50%; float: left;">
+								<span style="font-weight: 600">Rate: </span>{{swappingOrder.rate}}
+							</div>
+							<div style="width: 50%; float: left;">
+								<span style="font-weight: 600">State: </span>{{swappingOrder.status.name}}
+							</div>
+						</div>
+						<div style="width: 100%;">
+								<span style="font-weight: 600">Initializer: </span>{{swappingOrder.owner.fullName
+								|| swappingOrder.owner.username}}
+						</div>
+						<div style="width: 100%;">
+								<span style="font-weight: 600">Accepter: </span>{{swappingOrder.accepter.fullName
+								|| swappingOrder.accepter.username}}
+						</div>
+						<div style="width: 100%;">
+							<div class="order-action">
+								<div class="btn button-order-list button-cancel-swapping"
+									ng-click="cancelSwappingOrder(swappingOrder.id);">Cancel</div>
+								<div class="btn button-order-list button-confirm-swapping"
+									ng-if="currentUser.username==swappingOrder.owner.username"
+									ng-click="confirmSwappingOrder(swappingOrder.id);">Confirm</div>
+							</div>
+
+
+						</div>
+					</div>
+				</div>
+				<div id="confirmOrders">
+					<div class="confirmed-order-title"
+						style="text-align: left; color: #366144; font-size: 18px;">Confirmed
+						Orders</div>
+
+					<div ng-repeat="confirmOrder in confirmOrders" class="row"
+						style="font-size: 12px; text-align: left; padding: 5px 0px; background: white; border-bottom: grey 1px solid">
+						<div style="width: 100%;">
+							<a href="/#!/orders/{{confirmOrder.code}}"><span
+								style="font-weight: 600">Order </span>{{confirmOrder.code}}</a>
+						</div>
+						<div style="width: 100%;">
+							<div style="width: 50%; float: left;">
+								<span style="font-weight: 600">Date: </span>{{confirmOrder.created|
+								filterDate}}
+							</div>
+							<div style="width: 50%; float: left;">
+								<span style="font-weight: 600">Expired: </span>{{confirmOrder.created|
+								filterDate}}
+							</div>
+						</div>
+						<div style="width: 100%;">
+							<div style="width: 50%; float: left;">
+								<span style="font-weight: 600">Get: </span>{{confirmOrder.get}}
+								{{confirmOrder.getCurrency.code}}
+							</div>
+							<div style="width: 50%; float: left;">
+								<span style="font-weight: 600">Give: </span>{{confirmOrder.give}}
+								{{confirmOrder.giveCurrency.code}}
+							</div>
+						</div>
+						<div style="width: 100%;">
+							<div style="width: 50%; float: left;">
+								<span style="font-weight: 600">Rate: </span>{{confirmOrder.rate}}
+							</div>
+							<div style="width: 50%; float: left;">
+								<span style="font-weight: 600">State: </span>{{confirmOrder.status.name}}
+							</div>
+						</div>
+						<div style="width: 100%;">
+								<span style="font-weight: 600">Initializer: </span>{{confirmOrder.owner.fullName
+								|| confirmOrder.owner.username}}
+						</div>
+						<div style="width: 100%;">
+								<span style="font-weight: 600">Accepter: </span>{{confirmOrder.accepter.fullName
+								|| confirmOrder.accepter.username}}
+						</div>
+
+						<div style="width: 100%;">
+							<div class="order-action">
+								<div class="btn button-order-list button-cancel-confirm"
+									ng-if="(confirmOrder.statusId == 3) || currentUser.username!=confirmOrder.owner.username"
+									ng-click="cancelConfirmedOrder(confirmOrder.id);">Cancel</div>
+								<div class="btn button-order-list button-clear-confirm"
+									ng-if="(confirmOrder.statusId == 3) || !checkStatusCurrentUserInActivity(confirmOrder.activities)"
+									ng-click="clearConfirmedOrder(confirmOrder.id);">Clear</div>
+							</div>
+
+
+						</div>
+					</div>
+				</div>
+
+			</div>
+			<div id="submittedOrders" class="tab-panel" ng-if="tab==2">
+				<div id="submittedOrders">
+					<div ng-repeat="submittedOrder in submittedOrders" class="row"
+						style="font-size: 12px; text-align: left; padding: 5px 0px; background: white; border-bottom: grey 1px solid">
+						<div style="width: 100%;">
+							<a href="/#!/orders/{{submittedOrder.code}}"><span
+								style="font-weight: 600">Order </span>{{submittedOrder.code}}</a>
+						</div>
+						<div style="width: 100%;">
+							<div style="width: 50%; float: left;">
+								<span style="font-weight: 600">Date: </span>{{submittedOrder.created|
+								filterDate}}
+							</div>
+							<div style="width: 50%; float: left;">
+								<span style="font-weight: 600">Expired: </span>{{submittedOrder.created|
+								filterDate}}
+							</div>
+						</div>
+						<div style="width: 100%;">
+							<div style="width: 50%; float: left;">
+								<span style="font-weight: 600">Get: </span>{{submittedOrder.get}}
+								{{submittedOrder.getCurrency.code}}
+							</div>
+							<div style="width: 50%; float: left;">
+								<span style="font-weight: 600">Give: </span>{{submittedOrder.give}}
+								{{submittedOrder.giveCurrency.code}}
+							</div>
+						</div>
+						<div style="width: 100%;">
+							<div style="width: 50%; float: left;">
+								<span style="font-weight: 600">Rate: </span>{{submittedOrder.rate}}
+							</div>
+							<div style="width: 50%; float: left;">
+								<span style="font-weight: 600">State: </span>{{submittedOrder.status.name}}
+							</div>
+						</div>
+						<div style="width: 100%;">
+							<div class="order-action">
+								<div class="btn button-order-list button-cancel-submitted"
+									ng-click="cancelSubmittedOrder(submittedOrder.id);">Cancel</div>
+								<div class="btn button-order-list button-edit-submitted"
+									ng-click="editSubmittedOrder(submittedOrder.id);">Edit</div>
+							</div>
+
+						</div>
+					</div>
+				</div>
+			</div>
+			<div id="historyOrders" class="tab-panel" ng-if="tab==3">
+				<div id="historyOrders">
+					<div ng-repeat="historyOrder in historyOrders" class="row"
+						style="font-size: 12px; text-align: left; padding: 5px 0px; background: white; border-bottom: grey 1px solid">
+						<div style="width: 100%;">
+							<a href="/#!/orders/{{historyOrder.code}}"><span
+								style="font-weight: 600">Order </span>{{historyOrder.code}}</a>
+						</div>
+						<div style="width: 100%;">
+							<div style="width: 50%; float: left;">
+								<span style="font-weight: 600">Date: </span>{{historyOrder.created|
+								filterDate}}
+							</div>
+							<div style="width: 50%; float: left;">
+								<span style="font-weight: 600">Expired: </span>{{historyOrder.created|
+								filterDate}}
+							</div>
+						</div>
+						<div style="width: 100%;">
+							<div style="width: 50%; float: left;">
+								<span style="font-weight: 600">Get: </span>{{historyOrder.get}}
+								{{historyOrder.getCurrency.code}}
+							</div>
+							<div style="width: 50%; float: left;">
+								<span style="font-weight: 600">Give: </span>{{historyOrder.give}}
+								{{historyOrder.giveCurrency.code}}
+							</div>
+						</div>
+						<div style="width: 100%;">
+							<div style="width: 50%; float: left;">
+								<span style="font-weight: 600">Rate: </span>{{historyOrder.rate}}
+							</div>
+							<div style="width: 50%; float: left;">
+								<span style="font-weight: 600">State: </span>{{historyOrder.status.name}}
+							</div>
+						</div>
+						<div style="width: 100%;">
+								<span style="font-weight: 600">Initializer: </span>{{historyOrder.owner.fullName
+								|| historyOrder.owner.username}}
+						</div>
+						<div style="width: 100%;">
+								<span style="font-weight: 600">Accepter: </span>{{historyOrder.accepter.fullName
+								|| historyOrder.accepter.username}}
+						</div>
+
+					</div>
+
+				</div>
+			</div>
+		</div>
+	</div>
 </div>

@@ -27,7 +27,7 @@
 	}
 }
 
-.order-content  {ß
+.order-content  {
  text-align: center;
  margin: 10px auto !important;
 }
@@ -264,3 +264,24 @@
 }
 
 /*Order detail end*/
+.order-item-mobile-label {
+	padding: 0 5px;
+	/* width: 50%; */
+	text-align: left;
+	float: left;
+}
+.order-item-mobile-value {
+	padding: 0 5px;
+	/* width: 50%; */
+	text-align: left;
+	float: right;
+}
+.col-md-8.order-tabs.cs-mobile{
+	padding: 0;
+}
+.cs-mobile {
+	font-size: 13px;
+}
+.col-md-8.order-tabs.cs-mobile a{
+	padding: 5px;	
+}

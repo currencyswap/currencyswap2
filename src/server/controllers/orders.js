@@ -29,7 +29,6 @@ module.exports = function (app) {
     	var message = {'title': title, 
             'message': content, 
             'creatorId': adminId, 'receiverId': userId, 'orderCode': orderCode}
-    	console.log(message);
         supportService.saveMessage(message);   	
     }
     var updateOrderStatus = function (req, res, statusId, title, message){
@@ -37,14 +36,15 @@ module.exports = function (app) {
         var creatorId = req.currentUser.id
         service.updateOrderStatus(orderId, statusId).then(function(resp){
         	createOrderActivity(orderId, creatorId, statusId, message);
-        	service.getOrderById(orderId).then(function(data){
-        		var ownerId = data.ownerId;
-        	    var accepterId = data.accepterId;
+        	service.getOrderById(orderId).then(function(order){
+        		var ownerId = order.ownerId;
+        	    var accepterId = order.accepterId;
         	    var userId= ownerId;
         	    if(creatorId == userId){
         	    	userId = accepterId
         	    }
-        	    saveMessage(title, message, creatorId, userId, data.code);
+        	    var msg = 'Order: ' + order.code;
+        	    saveMessage(title, msg, creatorId, userId, data.code);
         	},function(err){
         		
         	});
@@ -191,6 +191,16 @@ module.exports = function (app) {
             return res.status(500).send(errorUtil.createAppError(errors.SERVER_GET_PROBLEM));
         });
     });
+    router.get('/total', function (req, res) {
+    	console.log('============111111====');
+        service.getTotalOrderOfUser(req.currentUser.id).then(function(resp){
+          return res.send('fdsafads');
+        }, function(err){
+            return res.status(500).send(errorUtil.createAppError(errors.SERVER_GET_PROBLEM));
+                
+        });
+    });
+
     return router;
 };
 

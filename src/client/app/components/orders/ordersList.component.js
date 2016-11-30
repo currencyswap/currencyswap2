@@ -19,7 +19,6 @@ angular.module('orders')
         		$scope.historyOrders = [];
         		$scope.submittedOrders = [];
         		$scope.currentUser = $rootScope.user;
-        		
         		$scope.status = ["Submitted", "Swapping", "Confirmed", "Pending", "Cleared", "Canceled"];
         		$scope.tab = 1;
         		var getSwappingOrders = function () {
@@ -78,9 +77,72 @@ angular.module('orders')
         					($scope.confirmOrders && $scope.confirmOrders.length > 0) ||
         					($scope.submittedOrders && $scope.submittedOrders.length > 0) ||
         					($scope.historyOrders && $scope.historyOrders.length > 0)){
+//        				
+        			} else {
 //        				$location.path(routes.ORDER_CREATE);
         			}
         		}
+        		$scope.test = {
+				"code" : "e4dd7619ad",
+				"created" : "2016-11-29T09:52:18.000Z",
+				"updated" : "2016-11-29T09:52:18.000Z",
+				"expired" : "2016-12-02T09:52:15.000Z",
+				"rate" : 0.74,
+				"give" : 1000,
+				"giveCurrencyId" : 9,
+				"get" : 900,
+				"getCurrencyId" : 2,
+				"ownerId" : 2,
+				"accepterId" : null,
+				"statusId" : 1,
+				"id" : 9,
+				"owner" : {
+					"username" : "demo",
+					"email" : "demo@vsii.com",
+					"fullName" : "Demo CS",
+					"id" : 2
+				},
+				"giveCurrency" : {
+					"code" : "ALL",
+					"name" : "Albanian Lek",
+					"id" : 9
+				},
+				"getCurrency" : {
+					"code" : "EUR",
+					"name" : "Euro",
+					"id" : 2
+				},
+				"status" : {
+					"name" : "Submitted",
+					"description" : "Order has just been submitted to the market",
+					"id" : 1
+				},
+				"activities" : [ {
+					"orderId" : 9,
+					"creatorId" : 2,
+					"statusId" : 1,
+					"created" : "2016-11-29T09:52:18.000Z",
+					"description" : "Your order has been publiced to the market",
+					"creator" : {
+						"username" : "demo",
+						"email" : "demo@vsii.com",
+						"fullName" : "Demo CS",
+						"birthday" : "2016-10-01T00:00:00.000Z",
+						"nationalId" : null,
+						"cellphone" : null,
+						"profession" : null,
+						"bankAccountName" : null,
+						"bankAccountNumber" : null,
+						"bankName" : null,
+						"bankCountry" : null,
+						"registeredDate" : "2016-11-29T00:00:00.000Z",
+						"expiredDate" : "2017-06-30T00:00:00.000Z",
+						"status" : "Activated",
+						"id" : 2
+					}
+				} ]
+			};   		
+        		$scope.isDevice = $.device;
         		$scope.getWorkingOrders();
         		getHistoryOrders();
         		getSubmittedOrders();
@@ -172,11 +234,6 @@ angular.module('orders')
             				}
             			}
         			}
-        			/*
-        			if(owner)
-        			else 
-        			*/
-//        			[{"orderId":3,"creatorId":2,"statusId":1,"created":"2016-11-28T07:22:29.000Z","description":"Your order has been publiced to the market"},{"orderId":3,"creatorId":3,"statusId":2,"created":"2016-11-28T07:22:29.000Z","description":"Request to swap money"}]}
         			return isCleared;
         		}
             }]
