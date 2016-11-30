@@ -9,8 +9,8 @@ module.exports = {
         'footer' : process.env.APP_FOOTER || 'Copyright &copy; 2016',
         
         'superUsername': process.env.ADMIN_USERNAME || 'admin',
-        'scheduleCheckOrderExpired': process.env.CRON_JOB_CHECK_ORDER_EXPIRED || '00 00,10,20,30,40,50 * * * *',
-        'notifyOrderExpireBeforeDays' : 1, // 1 day
+        'scheduleCheckExpired': process.env.SCHEDULE_CHECK_EXPIRED || '00 00,10,20,30,40,50 * * * *',
+        'notifyExpireBeforeDays' : parseInt(process.env.NOTIFY_EXPIRE_BEFORE_DAYS)||1, // 1 day
         
         'host': process.env.APP_HOST || 'http://localhost:3000',
         'redis': {

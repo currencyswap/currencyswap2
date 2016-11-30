@@ -71,24 +71,27 @@ button.tb-active {
 .hand-over {
 cursor: pointer;
 }
+/* body {border:1px solid red !important;} */
 @media screen and (max-width: 1024px) {
+	/* body {border:1px solid green !important;} */
 }
 
 @media screen and (max-width: 767px) {
+	/* body {border:1px solid blue !important;} */
 }
 
 @media screen and (max-width: 640px) {
-
+/* body {border:1px solid yellow !important;} */
 }
 
 @media screen and (max-width: 480px) {
-
+/* body {border:1px solid black !important;} */
 }
 
 @media screen and (max-width: 360px) {
-
+/* body {border:1px solid orange !important;} */
 }
 
 @media screen and (max-width: 320px) {
-
+/* body {border:1px solid cyan !important;} */
 }

@@ -907,7 +907,6 @@ display: '' !important;
 }
 
 .contentpanel {
-    /*padding: 20px;*/
     position: relative;
 }
 
@@ -4240,7 +4239,7 @@ header-left .menubar-users {
  display: block;
 }
 .pageheader {
-display: none !important;
+ display: none !important;
 }
     body {
         position: relative;
@@ -4362,9 +4361,18 @@ header-left .menubar-users {
  display: block;
 }
 .pageheader {
-display: none !important;
+ display: none !important;
 }
-
+.container-fluid {
+ padding-right: 10px;
+ padding-left: 10px;
+}
+.support-content, .help-content, .notification-content, .createOrderPanel, .user-content  {
+ margin: 7px auto;
+}
+.panel {
+ margin-bottom: 15px;
+}
     .searchform {
         position: relative;
     }
@@ -4409,7 +4417,17 @@ header-left .menubar-users {
  display: block;
 }
 .pageheader {
-display: none !important;
+ display: none !important;
+}
+.container-fluid {
+ padding-right: 5px;
+ padding-left: 5px;
+}
+.support-content, .help-content, .notification-content, .createOrderPanel, .user-content  {
+ margin: 5px auto;
+}
+.panel {
+ margin-bottom: 10px;
 }
 
     .notfoundpanel {
@@ -4555,9 +4573,18 @@ header-left .menubar-users {
  display: block;
 }
 .pageheader {
-display: none !important;
+ display: none !important;
 }
-
+.container-fluid {
+ padding-right: 5px;
+ padding-left: 5px;
+}
+.support-content, .help-content, .notification-content, .createOrderPanel, .user-content  {
+ margin: 5px auto;
+}
+.panel {
+ margin-bottom: 10px;
+}
     .signinpanel,
     .signuppanel {
         width: 326px;
@@ -4698,7 +4725,17 @@ header-left .menubar-users {
  display: block;
 }
 .pageheader {
-display: none !important;
+ display: none !important;
+}
+.container-fluid {
+ padding-right: 5px;
+ padding-left: 5px;
+}
+.support-content, .help-content, .notification-content, .createOrderPanel, .user-content  {
+ margin: 5px auto;
+}
+.panel {
+ margin-bottom: 10px;
 }
 
     .pageheader h2 span {
@@ -4787,7 +4824,17 @@ header-left .menubar-users {
  display: block;
 }
 .pageheader {
-display: none !important;
+ display: none !important;
+}
+.container-fluid {
+ padding-right: 5px;
+ padding-left: 5px;
+}
+.support-content, .help-content, .notification-content, .createOrderPanel, .user-content  {
+ margin: 5px auto;
+}
+.panel {
+ margin-bottom: 10px;
 }
 
     .signinpanel,

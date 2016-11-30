@@ -3,7 +3,7 @@
 var routes = {
     ROOT: '',
     HOME: '/',
-    ORDERS: '/orders',
+    ORDERS: '/orders/',
     ORDER_CREATE: '/orders/create',
     ORDER_DETAIL: '/orders/:orderCode',
     USERS: '/users/(:id)',

@@ -21,13 +21,14 @@ module.exports = function (app) {
         var limit = req.query.limit;
         var skip = req.query.skip;
         var isUnreadCount = req.query.isUnreadCount;
+        var lastId = req.query.lastId;
         service.getCreatorById(req.currentUser.id).then(function(user){
             var groups = null;
             if (user) {
                 user = user.toJSON();
                 groups = user.groups;
             }
-            service.getMessages(req.currentUser.id, groups, limit, skip).then(function(messages){
+            service.getMessages(req.currentUser.id, groups, limit, skip, lastId).then(function(messages){
                 if (isUnreadCount) {
                     service.countUnreadMessages(req.currentUser.id, groups).then(function(counter){
                         var num = counter[0].num;

@@ -6,6 +6,7 @@ module.exports = {
         APPROVAL_CONTENT : 'You have just been approved to use this application',
         ORDER_SWAP_TITLE : 'Request Swapping',
         ORDER_EXPIRE_SOON_TITLE : 'Your Order Expiring Soon',
+        USER_EXPIRE_SOON_TITLE: 'Your Account Expiring Soon',
         USER_EDITED_PROFILE_TITLE: ' has updated his/her profile',
         USER_EDITED_PROFILE_CONTENT: ' has updated his/her profile: user sent to admin',
         ADMIN_EDITED_PROFILE_CONTENT: 'Your profile has been updated by administrator: admin edit profile',

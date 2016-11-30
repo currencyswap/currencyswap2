@@ -75,7 +75,7 @@ angular.module('appHeader').directive('headerRight', function () {
                       notiObj.messages = resp.messages;
                       notiObj.badge = resp.unreads;
                   });
-                  $rootScope.notiMessages = resp.messages;
+                  $.publish('/cs/update/notiMessage', [resp.messages]);
               });
           };
           // get first list

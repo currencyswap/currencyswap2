@@ -365,6 +365,12 @@
             console.log('detectDevice version Webkit:', md.version('Webkit') );
             console.log('detectDevice versionStr Build:', md.versionStr('Build') );
             console.log('detectDevice match playstation|xbox:', md.match('playstation|xbox') );
+            var viewport = {
+                    width  : $(window).width(),
+                    height : $(window).height()
+                };
+            console.log('detectDevice viewport width:', viewport.width );
+            console.log('detectDevice viewport height:', viewport.height );
             if (md.mobile()) {
                 window.device = $.device = {'isMobile': true};
                 if (md.phone()) {
@@ -379,6 +385,7 @@
                 $.device['iPod'] = md.is('iPod');
                 $.device['iPod'] = md.is('iPod');
                 $.device['md'] = md;
+                $.device['viewport'] = viewport;
             } else {
                 window.device = $.device = null;
             }
