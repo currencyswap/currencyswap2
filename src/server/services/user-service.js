@@ -18,6 +18,7 @@ var os = require('os');
 var userConverter = require('../converters/user-converter');
 var groupService = require('../services/group-service');
 var supportService = require('../services/support-service');
+var dbUtil = require('../libs/utilities/db-util');
 
 exports.createUser = function (user, callback) {
     user.password = md5(user.password);
@@ -818,4 +819,18 @@ exports.updateRoleForUser = function (user, updatingRole, callback) {
             }
         });
     })
+};
+exports.getExpiredUsers = function (time, limitTime) {
+    var filter = {
+            'where': {
+            and: [
+                  {'expiredDate': {'lt': time}},
+                  { 'status': constant.USER_STATUSES.ACTIVATED }
+            ]
+    }
+    };
+    if (limitTime) {
+        filter.where.and.push({'expiredDate': {'gt': limitTime}});
+    }
+    return dbUtil.executeModelFn(app.models.Member, 'find', filter);
 };

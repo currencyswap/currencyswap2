@@ -33,10 +33,10 @@ var creatorRelation = {
         'relation' : 'creator'
 };
 var activitiesRelation = {
-		'relation' : 'activities',
-		'scope' : {
-			'include' : [creatorRelation]
-		}
+                'relation' : 'activities',
+                'scope' : {
+                        'include' : [creatorRelation]
+                }
 };
 exports.filterOrders = function (filter) {
     return dbUtil.executeModelFn(app.models.Order, 'find', filter);
@@ -69,7 +69,7 @@ exports.updateOrderStatus = function (orderId, statusId) {
     return dbUtil.executeModelFn(app.models.Order, 'updateAll', where, order);
 };
 exports.swapSubmittedOrder = function(orderId, userId, statusId){
-	var order = { 'statusId': statusId , 'accepterId' : userId};
+        var order = { 'statusId': statusId , 'accepterId' : userId};
     var where = { 'id': orderId };
     return dbUtil.executeModelFn(app.models.Order, 'updateAll', where, order);
 }
@@ -125,41 +125,41 @@ exports.getUserHistoryOrders = function (userId) {
     return dbUtil.executeModelFn(app.models.Order, 'find', filter);
 };
 exports.getSuggestOrders = function (userId, value, fixed) {
-	var min = value * (1 - constant.SUGGETION_LIST_CONFIG.ROTATE_SUGGETION);
-	var max = value * (1 + constant.SUGGETION_LIST_CONFIG.ROTATE_SUGGETION);
-	
-	var filterFixed = {};
-	var order = "";
-	
+        var min = value * (1 - constant.SUGGETION_LIST_CONFIG.ROTATE_SUGGETION);
+        var max = value * (1 + constant.SUGGETION_LIST_CONFIG.ROTATE_SUGGETION);
+        
+        var filterFixed = {};
+        var order = "";
+        
     var filter = {
-	    		'limit' : constant.SUGGETION_LIST_CONFIG.LIMIT_NUMBER,
-	    		'order' : order,
-	            'where': {
-	            and: [
-	                  {'ownerId': {'neq': userId}},
-	                  { 'statusId': constant.STATUS_TYPE.SUBMITTED_ID }
-	            ]
+                        'limit' : constant.SUGGETION_LIST_CONFIG.LIMIT_NUMBER,
+                        'order' : order,
+                    'where': {
+                    and: [
+                          {'ownerId': {'neq': userId}},
+                          { 'statusId': constant.STATUS_TYPE.SUBMITTED_ID }
+                    ]
             },
             'include' : [ ownerRelation, accepterRelation, giveCurrencyRelation, getCurrencyRelation, statusRelation, activitiesRelation]
     };
     
     if(fixed == constant.FIXED_VALUE.GIVE){
-    	filter.where.and.push({'give' : { 'lte' : max}});
-    	filter.where.and.push({'give' : {'gte' : min}});
-    	filter.order = "give DESC";
-	}else if(fixed == constant.FIXED_VALUE.GET){
-		filter.where.and.push({'get' : { 'lte' : max}});
-    	filter.where.and.push({'get' : {'gte' : min}});
-    	filter.order = "get DESC";
-	}else{
-		filter.where.and.push({'rate' : { 'lte' : max}});
-    	filter.where.and.push({'rate' : {'gte' : min}});
-    	filter.order = "rate DESC";
-	}
+        filter.where.and.push({'give' : { 'lte' : max}});
+        filter.where.and.push({'give' : {'gte' : min}});
+        filter.order = "give DESC";
+        }else if(fixed == constant.FIXED_VALUE.GET){
+                filter.where.and.push({'get' : { 'lte' : max}});
+        filter.where.and.push({'get' : {'gte' : min}});
+        filter.order = "get DESC";
+        }else{
+                filter.where.and.push({'rate' : { 'lte' : max}});
+        filter.where.and.push({'rate' : {'gte' : min}});
+        filter.order = "rate DESC";
+        }
     
     return dbUtil.executeModelFn(app.models.Order, 'find', filter);
 };
-exports.getExpiredOrders = function (time) {
+exports.getExpiredOrders = function (time, limitTime) {
     var filter = {
             'where': {
             and: [
@@ -169,6 +169,9 @@ exports.getExpiredOrders = function (time) {
     },
     'include' : [ ownerRelation, giveCurrencyRelation, getCurrencyRelation]
     };
+    if (limitTime) {
+        filter.where.and.push({'expired': {'gt': limitTime}});
+    }
     return dbUtil.executeModelFn(app.models.Order, 'find', filter);
 };
 exports.deleteOrder = function(orderId, userId) {
@@ -196,19 +199,19 @@ exports.getOrderActivity = function (orderId) {
 };
 exports.getPartnerOrderOfUser = function(orderId, userId){
     var filter = {
-		'where' : {
-			and : [ 
-			       {'orderId' : orderId}, 
-			       {'creatorId' : {'neq' : userId}} 
-			   ]
-		}
+                'where' : {
+                        and : [ 
+                               {'orderId' : orderId}, 
+                               {'creatorId' : {'neq' : userId}} 
+                           ]
+                }
     };
     return dbUtil.executeModelFn(app.models.OrderActivity, 'find', filter);
 
 };
 exports.getUserAllOrders = function (userId) {
     var filter = {
-    		'where': { or: [{'ownerId': userId}, 
+                'where': { or: [{'ownerId': userId}, 
                             {'accepterId': userId}] 
             }
     };
