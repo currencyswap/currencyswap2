@@ -289,8 +289,7 @@
                 </ul>
             </div>
             <div id="activedUser" class="tab-panel" ng-if="tab==TABSELECTED.ACTIVATED">
-                <div ng-repeat="user in usersActivated | orderBy:sortType:sortReverse | offset: (current - 1) * itemsPerPage | limitTo:itemsPerPage" class="row order-item-mobile"
-                     style="font-size: 12px; text-align: left; padding: 5px 0px; background: white; border-bottom: grey 1px solid">
+                <div ng-repeat="user in usersActivated | orderBy:sortType:sortReverse | offset: (current - 1) * itemsPerPage | limitTo:itemsPerPage" class="row order-item-mobile">
                     <div>
                         <span class="order-label-mobile">Username: </span><a href="/#!/users/{{user.id}}">{{user.username}}</a>
                     </div>
@@ -326,8 +325,7 @@
                 </ul>
             </div>
             <div id="pendingUser" class="tab-panel" ng-if="tab==TABSELECTED.PENDING">
-                <div ng-repeat="user in usersPending | orderBy:sortType:sortReverse | offset: (current - 1) * itemsPerPage | limitTo:itemsPerPage" class="row order-item-mobile"
-                     style="font-size: 12px; text-align: left; padding: 5px 0px; background: white; border-bottom: grey 1px solid">
+                <div ng-repeat="user in usersPending | orderBy:sortType:sortReverse | offset: (current - 1) * itemsPerPage | limitTo:itemsPerPage" class="row order-item-mobile">
                     <div>
                         <span class="order-label-mobile">Username: </span><a href="/#!/users/{{user.id}}">{{user.username}}</a>
                     </div>
