@@ -12,3 +12,5 @@
 package.json
 buildscripts/deploy-ubuntu/config/*
 src/app-config.json
+/src/server/libs/media/*
+/src/server/libs/media/*.*
