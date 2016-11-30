@@ -5,7 +5,7 @@
   <div class="panel-body panel-body-nopadding">
 
 <div class="msg-list">
-<div data-ng-repeat="item in messages" class="results-list {{item.reads.length === 0 ? 'msg-new mgs-bgnew': ''}}">
+<div data-ng-repeat="item in messages track by item.id" class="results-list {{item.reads.length === 0 ? 'msg-new mgs-bgnew': ''}}">
 <div class="media">
   <div class="media-body hand-over" data-ng-click="readMessage(item)">
     <h4 class="filename text-primary">{{item.title}}</h4>
@@ -18,10 +18,19 @@
 </div>
 </div>
 
-<div class="alert alert-info" ng-if="messages.length === 0">You have no message at this time</div>
+<div class="alert alert-info" data-ng-if="messages.length === 0">You have no message at this time</div>
 </div>
 
 </div>
+
+<div class="panel-footer">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <button class="btn btn-primary" data-ng-click="loadMore()" data-ng-if="hasMore">Load More</button>
+                    </div>
+                </div>
+                <div data-ng-if="!hasMore" style="color: #77818e;">All Items have been loaded!</div>
+            </div><!-- panel-footer -->
 </div>
 </div>
 </div>

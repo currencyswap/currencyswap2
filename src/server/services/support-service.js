@@ -72,7 +72,7 @@ exports.messageToGroup = function(input) {
     });
 };
 
-exports.getMessages = function(userId, groups, limit, skip) {
+exports.getMessages = function(userId, groups, limit, skip, lastId) {
     var readersRelation = {
             'relation' : 'reads',
             'scope' : {
@@ -80,16 +80,30 @@ exports.getMessages = function(userId, groups, limit, skip) {
                 'fields' : [ 'readerId', 'created' ]
             }
     };
-    var condition = {and : [{'isGroupMessage': false}, {'receiverId': userId}]};
-
-    if (groups && groups.length > 0) {
-        var orConds = [condition];
-        for (var i=0; i<groups.length; i++) {
-            orConds.push({and : [{'isGroupMessage': true}, {'receiverId': groups[i].id}]});
-        }
-        condition = { or : orConds };
+    var orderBy = 'id DESC';
+    var lastOne = null;
+    if (lastId == parseInt(lastId) && lastId > 0) {
+        lastOne = {'id': {'lt': lastId}};
     }
-    var filter = {'include': [creatorRelation, readersRelation], 'order': 'id DESC', 'where': condition};
+    var condSingle = {and : [{'isGroupMessage': false}, {'receiverId': userId}]};
+    if (lastOne) {
+        condSingle.and.push(lastOne);
+    }
+    var condGroup = null;
+    var isGroup = (groups && groups.length > 0);
+    if (isGroup) {
+        var orConds = [];
+        orConds.push(condSingle);
+        for (var i=0; i<groups.length; i++) {
+            var cond = {and : [{'isGroupMessage': true}, {'receiverId': groups[i].id}]};
+            if (lastOne) {
+                cond.and.push(lastOne);
+            }
+            orConds.push(cond);
+        }
+        condGroup = { or : orConds };
+    }
+    var filter = {'include': [creatorRelation, readersRelation], 'order': orderBy, 'where': (isGroup ? condGroup : condSingle)};
     if (limit == parseInt(limit) && limit > 0) {
         filter['limit'] = limit;
     }
