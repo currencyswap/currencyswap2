@@ -122,6 +122,7 @@ angular.module('userDetails').component('userDetails', {
             $scope.formats = ['MMM dd, yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate'];
             $scope.format = $scope.formats[0];
             $scope.altInputFormats = ['M!/d!/yyyy'];
+            $scope.user.groupMember = "Standard Member";
 
             $scope.userStatusesList = {};
             $scope.userStatusesList.activated = GLOBAL_CONSTANT.ACTIVATED_USER_STATUS;

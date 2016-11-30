@@ -66,13 +66,11 @@ module.exports = function (app) {
                         'message': updatingUser.username + constant.MSG.USER_EDITED_PROFILE_CONTENT,
                         'groupName': 'Admin',
                         'creatorId': user.id};
-                    console.log("message",message);
                     supportService.messageToGroup(message);
                 }
                 return next (null, user);
             },
             function (user, next) {
-                console.log("==================");
                 if (updatingUser.addresses && updatingUser.addresses.length > 0  && (updatingUser.addresses[0].address
                     || updatingUser.addresses[0].city
                     || updatingUser.addresses[0].postcode
