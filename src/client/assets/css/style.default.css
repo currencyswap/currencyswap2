@@ -4714,6 +4714,7 @@ header-left .menubar-users {
 
 @media screen and (max-width: 360px) {
 /* body {border:1px solid orange !important;} */
+.toolbar-support,
 .toolbar-help,
 .toolbar-profile,
 .toolbar-signout,
@@ -4814,6 +4815,7 @@ header-left .menubar-users {
 
 @media screen and (max-width: 320px) {
 /* body {border:1px solid cyan !important;} */
+.toolbar-support,
 .toolbar-help,
 .toolbar-profile,
 .toolbar-signout,
