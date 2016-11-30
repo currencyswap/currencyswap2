@@ -164,9 +164,9 @@ angular.module('orders')
         				}
         			}
         			
-        			OrdersService.putUpdateOrder(orderCode, updateOrderRequest).then(function(data){
+        			OrdersService.putUpdateOrder($scope.orderCode, updateOrderRequest).then(function(data){
         				$scope.submitLoading = false;
-        				goToOrderDetail(orderCode);
+        				goToOrderDetail($scope.orderCode);
         			},function(err){
         				$scope.submitLoading = false;
         				$scope.hasError = true;
