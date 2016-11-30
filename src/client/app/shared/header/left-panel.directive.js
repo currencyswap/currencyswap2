@@ -21,10 +21,16 @@ angular.module('appHeader').directive('leftPanel', function () {
                 $window.location.reload();
             };
             
-            $scope.accessMenuItem = function(item) {
+            var _toggle = function() {
                 if ($('body').css('position') == 'relative') {
                     $rootScope.menuToggle();
                 }
+            };
+            var _isLeftPanelShow = function() {
+                return body.hasClass('leftpanel-show');
+            };
+            $scope.accessMenuItem = function(item) {
+                _toggle();
                 $location.path(item.route);
             };
 
@@ -33,6 +39,19 @@ angular.module('appHeader').directive('leftPanel', function () {
                     $scope.user = $.extend({'avatarUrl': avatarUrl, 'username': '', 'fullName': ''}, $scope.user, user);
                 });
             });
+            $.subscribe('/cs/swipe', function(swiper){
+//                It is not working as expected
+//                if (swiper.left) {
+//                    if (_isLeftPanelShow()) {
+//                        _toggle();
+//                    }
+//                } else if (swiper.right) {
+//                    _toggle();
+//                }
+            });
+            if ($.device) {
+                $.menuSwipeActions();
+            };
         }
     };
 });
