@@ -4367,7 +4367,7 @@ header-left .menubar-users {
  padding-right: 10px;
  padding-left: 10px;
 }
-.support-content, .help-content, .notification-content, .createOrderPanel, .user-content  {
+.support-content, .help-content, .notification-content, .createOrderPanel, .user-content , .detailOrderPanel {
  margin: 7px auto;
 }
 .panel {
@@ -4423,7 +4423,7 @@ header-left .menubar-users {
  padding-right: 5px;
  padding-left: 5px;
 }
-.support-content, .help-content, .notification-content, .createOrderPanel, .user-content  {
+.support-content, .help-content, .notification-content, .createOrderPanel, .user-content, .detailOrderPanel  {
  margin: 5px auto;
 }
 .panel {
@@ -4579,7 +4579,7 @@ header-left .menubar-users {
  padding-right: 5px;
  padding-left: 5px;
 }
-.support-content, .help-content, .notification-content, .createOrderPanel, .user-content  {
+.support-content, .help-content, .notification-content, .createOrderPanel, .user-content, .detailOrderPanel  {
  margin: 5px auto;
 }
 .panel {
@@ -4731,7 +4731,7 @@ header-left .menubar-users {
  padding-right: 5px;
  padding-left: 5px;
 }
-.support-content, .help-content, .notification-content, .createOrderPanel, .user-content  {
+.support-content, .help-content, .notification-content, .createOrderPanel, .user-content, .detailOrderPanel  {
  margin: 5px auto;
 }
 .panel {
@@ -4830,7 +4830,7 @@ header-left .menubar-users {
  padding-right: 5px;
  padding-left: 5px;
 }
-.support-content, .help-content, .notification-content, .createOrderPanel, .user-content  {
+.support-content, .help-content, .notification-content, .createOrderPanel, .user-content, .detailOrderPanel  {
  margin: 5px auto;
 }
 .panel {

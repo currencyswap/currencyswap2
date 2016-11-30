@@ -21,7 +21,7 @@ exports.convertOrderData = function (requestOrder) {
     
     resultOrder.statusId = 0;
     
-    var dayLive = requestOrder.dayLive ? parseFloat(requestOrder.dayLive) : 3;
+    var dayLive = requestOrder.dayLive ? parseInt(requestOrder.dayLive) : 3;
     resultOrder.expired = new Date();
     resultOrder.expired.setDate(resultOrder.expired.getDate() + dayLive);
     

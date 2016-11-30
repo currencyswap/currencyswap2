@@ -194,6 +194,18 @@ angular.module('orders')
         			return $scope.newOrder.giveCurrencyCode == $scope.newOrder.getCurrencyCode;
         		}
         		
+        		$scope.checkValiedValue = function(){
+        			var give = parseFloat($scope.newOrder.give);
+        			var get = parseFloat($scope.newOrder.get);
+        			var rate = parseFloat($scope.newOrder.rate);
+        			
+        			if(rate <= 0 || get <= 0 || give <= 0){
+        				return false;
+        			}
+        			
+        			return true;
+        		}
+        		
         		// swapping order
         		$scope.onSwap = function(orderId){
             		var swapOrder = $window.confirm('Are you sure you want to Swap the Order?');

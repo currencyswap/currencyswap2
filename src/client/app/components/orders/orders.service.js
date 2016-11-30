@@ -15,11 +15,17 @@ angular.module('orders').factory('OrdersService', ['ConnectorService', function 
         getSumittedOrders: function() { // status = 1 
             return this.get(apiRoutes.API_ORDERS_SUBMITTED);
         },
+		getTotalOrderOfUser: function(){
+			return this.get(apiRoutes.API_ORDERS_TOTAL);
+		},
         getOrderById : function(id){
             return this.get(apiRoutes.API_ORDERS +  '/' + id);
         },
         getOrderByCode : function(orderCode){
             return this.get(apiRoutes.API_ORDERS +  '/' + orderCode);
+        },
+        getOrderForEdit : function(orderCode){
+            return this.get(apiRoutes.API_ORDERS +  '/edit/' + orderCode);
         },
         getAllOrders: function(){
             return this.get(apiRoutes.API_ORDERS);
@@ -33,6 +39,10 @@ angular.module('orders').factory('OrdersService', ['ConnectorService', function 
         postSaveNewOrders: function(newOrder){
         	var data = newOrder;
             return this.post(apiRoutes.API_ORDERS, data);
+        },
+        putUpdateOrder: function(code, updateOrder){
+        	var data = updateOrder;
+            return this.put(apiRoutes.API_ORDERS + '/' + code, data);
         },
         getCurrenciesList: function(){
             return this.get(apiRoutes.API_CURRENCIES);
@@ -64,6 +74,7 @@ angular.module('orders').factory('OrdersService', ['ConnectorService', function 
 		},
 		swapSubmittedOrder:function(orderId){
 			return this.get(apiRoutes.API_ORDERS_SUBMITTED_SWAP.replace(":id",orderId));
-		},
+		}
+		
     });
 }]);

@@ -6,29 +6,28 @@
 .createOrderPanel .give-row select.form-control,
 .createOrderPanel .get-row input.form-control,
 .createOrderPanel .get-row select.form-control{
-	width: 200px !important;
+	width: 300px !important;
     margin-right: 10px;
     margin-bottom: 5px;
 }
 
 .createOrderPanel .rate-row input.form-control{
-	width: 412px !important;
+	width: 612px !important;
     margin-right: 10px;
     margin-bottom: 5px;
 }
+.createOrderPanel .panel .panel-body,
+  .detailOrderPanel .panel .panel-body{
+    padding: 20px 10px;
+  }
 
 @media screen and (max-width: 767px) {
 	.createOrderPanel .rate-row input.form-control{
-		width: 200px !important;
-	}
-	
-	.createOrderPanel .panel .panel-body,
-	.detailOrderPanel .panel .panel-body{
-		padding: 20px 5px;
+		width: 300px !important;
 	}
 }
 
-.order-content  {ß
+.order-content  {
  text-align: center;
  margin: 10px auto !important;
 }
@@ -134,7 +133,7 @@
 }
 
 .detailOrderPanel .panel .panel-body .row-order-status .col-order-status .order-status-label {
-    width: 65px;
+    width: 72px;
     text-align: center;
 }
 
@@ -203,7 +202,7 @@
 	.createOrderPanel .panel .panel-heading,
 	.detailOrderPanel .panel .panel-body,
 	.detailOrderPanel .panel .panel-heading{
-		padding: 20px 5px;
+		padding: 20px 10px;
 	}
 
 	.detailOrderPanel .panel .panel-body .row-order-status .col-order-line .order-line{
@@ -214,11 +213,17 @@
 		margin-left: 2px;
 	}
 	.detailOrderPanel .panel .panel-body .row-order-status .col-order-status .order-status-label {
-	    width: 50px;
+	    width: 60px;
 	    text-align: center;
 	    white-space: nowrap;
 	    text-overflow: ellipsis;
     	overflow: hidden;
+	}
+}
+
+@media screen and (max-width: 320px) {
+	.detailOrderPanel .panel .panel-body .row-order-status .col-order-status .order-status-label {
+	    width: 55px;
 	}
 }
 
@@ -265,3 +270,24 @@
 }
 
 /*Order detail end*/
+.order-item-mobile-label {
+	padding: 0 5px;
+	/* width: 50%; */
+	text-align: left;
+	float: left;
+}
+.order-item-mobile-value {
+	padding: 0 5px;
+	/* width: 50%; */
+	text-align: left;
+	float: right;
+}
+.col-md-8.order-tabs.cs-mobile{
+	padding: 0;
+}
+.cs-mobile {
+	font-size: 13px;
+}
+.col-md-8.order-tabs.cs-mobile a{
+	padding: 5px;	
+}

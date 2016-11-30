@@ -27,10 +27,10 @@ button.tb-active {
 .user-content  .user-item-header {
     background: #cccccc;
 }
-.support-content, .help-content, .notification-content, .createOrderPanel, .user-content  {
+.support-content, .help-content, .notification-content, .createOrderPanel, .user-content, .detailOrderPanel{
   margin: 10px auto;
 }
-.support-content, .createOrderPanel1 {
+.support-content, .createOrderPanel {
   max-width: 800px;
 }
 .support-content textarea {

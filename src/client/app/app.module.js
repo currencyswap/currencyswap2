@@ -228,9 +228,9 @@ angular.module('currencySwapApp', [
 		"GET" : "GET"
 	},
 	ORDER_EXPIRED_VALUE : [
-		{"key" : "ON_3_DAY","value" : "on 3 days", "dayLive" : 3},
-		{"key" : "ON_7_DAY","value" : "on 7 days", "dayLive" : 7},
-		{"key" : "ON_2_WEEKS","value" : "on 2 weeks", "dayLive" : 14}
+		{"key" : "ON_3_DAY","value" : "On 3 days", "dayLive" : 3},
+		{"key" : "ON_7_DAY","value" : "On 7 days", "dayLive" : 7},
+		{"key" : "ON_2_WEEKS","value" : "On 2 weeks", "dayLive" : 14}
 	],
 	STATUS_TYPE : {
         SUBMITTED: "Submitted",
