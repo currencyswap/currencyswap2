@@ -15,12 +15,13 @@ angular.module('myProfile')
             'PermissionService',
             'NavigationHelper',
             'GLOBAL_CONSTANT',
-            function myProfileController($scope, $rootScope, $location, $window, $timeout, $http, Upload, CookieService, LoginService, PermissionService, NavigationHelper, GLOBAL_CONSTANT) {
+            'MyProfileService',
+            function myProfileController($scope, $rootScope, $location, $window, $timeout, $http, Upload, CookieService, LoginService, PermissionService, NavigationHelper, GLOBAL_CONSTANT,MyProfileService) {
                 $rootScope.loading = true;
                 $scope.model = {};
                 var currentUser = CookieService.getCurrentUser();
                 $scope.randomNumImg = 0;
-
+                $scope.message = "";
                 $scope.formats = ['MMM dd,yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate'];
                 $scope.format = $scope.formats[0];
                 $scope.altInputFormats = ['M!/d!/yyyy'];
@@ -36,19 +37,14 @@ angular.module('myProfile')
                     });
 
                 var token = CookieService.getToken();
-                var headers = {};
-                
-                headers[httpHeader.CONTENT_TYPE] = contentTypes.JSON;
-                headers[httpHeader.AUTHORIZARION] = autheticateType.BEARER + token;
 
-                var userDetailReq = {
-                    method: httpMethods.GET,
-                    url: apiRoutes.API_MY_PROFILE,
-                    headers: headers,
-                };
 
-                $http(userDetailReq)
-                    .then(function (response) {
+                $scope.getUserInfo = function () {
+                    var headers = {};
+
+                    headers[httpHeader.CONTENT_TYPE] = contentTypes.JSON;
+                    headers[httpHeader.AUTHORIZARION] = autheticateType.BEARER + token;
+                    MyProfileService.getUserInfo(headers).then(function(response){
                         var userDetail = response.data;
 
                         $scope.model.username = userDetail.username;
@@ -70,9 +66,13 @@ angular.module('myProfile')
                         $scope.model.bankAccountNumber = userDetail.bankAccountNumber;
                         $scope.model.bankName = userDetail.bankName;
                         $scope.model.bankCountry = userDetail.bankCountry;
-
+                        $scope.$evalAsync();
+                    }, function(err){
+                        console.log('Failure in saving your message',err);
                     });
+                }
 
+                $scope.getUserInfo();
                 $scope.uploadFiles = function(file, errFiles) {
 
                     $scope.f = file;
@@ -122,7 +122,9 @@ angular.module('myProfile')
                 };
 
                 $scope.saveUserInfo = function () {
-                    $scope.isEditting = false;
+                    $scope.message = '';
+                    $scope.gifLoading = true;
+                    $scope.gifLoading
                     var updatingUser = {
                         username: $scope.model.username,
                         birthday: $scope.model.birthday,
@@ -154,19 +156,15 @@ angular.module('myProfile')
                     headersSave[httpHeader.CONTENT_TYPE] = contentTypes.JSON;
                     headersSave[httpHeader.AUTHORIZARION] = autheticateType.BEARER + token;
 
-                    var saveUserDetailReq = {
-                        method: httpMethods.PUT,
-                        url: apiRoutes.API_MY_PROFILE,
-                        headers: headersSave,
-                        data: updatingUser
-                    };
-
-                    $http(saveUserDetailReq)
-                        .then(function (response) {
-                            $scope.fullName = $scope.model.fullName;
-                            $location.path(routes.MYPROFILE);
-                            $window.location.reload();
-                        });
+                    MyProfileService.saveUserInfo(updatingUser, headersSave).then(function(response){
+                        $scope.getUserInfo();
+                        $scope.gifLoading = false;
+                        $scope.message = 'Successful: Your info has been updated';
+                    }, function(err){
+                        $scope.gifLoading = false;
+                        $scope.message = 'Failure: Could not update your info due to system error. Please try again later!';
+                        console.log('Failure in saving your message',err);
+                    });
                 }
             }]
     });

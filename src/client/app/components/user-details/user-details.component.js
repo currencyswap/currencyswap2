@@ -14,7 +14,6 @@ angular.module('userDetails').component('userDetails', {
         '$log',
         'UserDetailsServive',
         function userDetailsController($scope, $rootScope, $routeParams, CookieService, PermissionService, $location, $http, $window, GLOBAL_CONSTANT, $log, UserDetailsServive ) {
-            console.log('userDetailsController %s', $routeParams.id );
 // =====Date picker - START=====
             $scope.today = function() {
                 $scope.dt = new Date();
@@ -65,12 +64,6 @@ angular.module('userDetails').component('userDetails', {
                 $scope.dt = new Date(year, month, day);
             };
 
-            $scope.role = "Standard Member";
-            $scope.formats = ['dd-MMMM-yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate'];
-            $scope.format = $scope.formats[0];
-            $scope.altInputFormats = ['M!/d!/yyyy'];
-
-            $scope.birthday = new Date();
 
             $scope.popup1 = {
                 opened: false
@@ -123,6 +116,8 @@ angular.module('userDetails').component('userDetails', {
             $scope.format = $scope.formats[0];
             $scope.altInputFormats = ['M!/d!/yyyy'];
             $scope.user.groupMember = "Standard Member";
+            $scope.role = "Standard Member";
+            $scope.birthday = new Date();
 
             $scope.userStatusesList = {};
             $scope.userStatusesList.activated = GLOBAL_CONSTANT.ACTIVATED_USER_STATUS;
@@ -131,26 +126,33 @@ angular.module('userDetails').component('userDetails', {
             $scope.userStatusesList.new = GLOBAL_CONSTANT.NEW_USER_STATUS;
             $scope.userStatusesList.deactivated = GLOBAL_CONSTANT.DEACTIVATED_USER_STATUS;
 
-            headers[httpHeader.CONTENT_TYPE] = contentTypes.JSON;
-            headers[httpHeader.AUTHORIZARION] = autheticateType.BEARER + token;
 
-            UserDetailsServive.getUser( $routeParams.id, headers ).then(
-                function ( response ) {
-                    console.log("RESPONSE %s", JSON.stringify( response.data ) );          
-                    $scope.user = response.data;
-                    $scope.user.birthday = new Date( $scope.user.birthday );
-                    $scope.user.expiredDate = new Date( $scope.user.expiredDate );
-                    $scope.fullName = $scope.user.fullName;
-                    $scope.selectedStatus.selectedStatus = $scope.user.status;
-                }, function ( err ) {
-                    console.error("ERROR : %s", JSON.stringify( err ) );
-                    $rootScope.error = {
-                        status: err.status,
-                        code: err.data.code,
-                        message: err.data.message
-                    };
-                });
 
+            $scope.getUserInfo = function () {
+
+                headers[httpHeader.CONTENT_TYPE] = contentTypes.JSON;
+                headers[httpHeader.AUTHORIZARION] = autheticateType.BEARER + token;
+                UserDetailsServive.getUser( $routeParams.id, headers ).then(
+                    function ( response ) {
+                        console.log("RESPONSE %s", JSON.stringify( response.data ) );
+                        $scope.user = response.data;
+                        $scope.user.birthday = new Date( $scope.user.birthday );
+                        $scope.lastBirthday = $scope.user.birthday;
+                        $scope.user.expiredDate = new Date( $scope.user.expiredDate );
+                        $scope.lastExpiredDate = $scope.user.expiredDate;
+                        $scope.fullName = $scope.user.fullName;
+                        $scope.selectedStatus.selectedStatus = $scope.user.status;
+                    }, function ( err ) {
+                        console.error("ERROR : %s", JSON.stringify( err ) );
+                        $rootScope.error = {
+                            status: err.status,
+                            code: err.data.code,
+                            message: err.data.message
+                        };
+                    });
+            }
+
+            $scope.getUserInfo();
 
             $scope.onSaveUserDetailData = function () {
 
@@ -213,7 +215,7 @@ angular.module('userDetails').component('userDetails', {
                                 $window.scrollTo(0, 0);
                             }
                         } else {
-                            $scope.fullName = $scope.user.fullName;
+                            $scope.getUserInfo();
                             $scope.isEditting = false;
                             $window.scrollTo(0, 0);
                             $scope.gifLoading = false;
@@ -231,6 +233,7 @@ angular.module('userDetails').component('userDetails', {
 
             $scope.changeStateToEdit = function () {
                 $scope.isEditting = true;
+                $scope.isValidBirthday = true;
             };
             $scope.changeRole = function () {
                 $scope.errorSetOwnRole = false;
@@ -238,6 +241,14 @@ angular.module('userDetails').component('userDetails', {
             $scope.onBackStep = function(){
                 $location.path(routes.USER_LIST);
                 $window.scrollTo(0, 0);
+            }
+            $scope.checkBirthdayValid = function () {
+                var dateSelected = new Date($scope.user.birthday);
+                if(dateSelected > new Date()) {
+                    $scope.isValidBirthday = false;
+                }else {
+                    $scope.isValidBirthday = true;
+                }
             }
         }]
 });

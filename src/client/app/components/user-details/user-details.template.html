@@ -22,16 +22,17 @@
                                 <input ng-model="user.fullName" id="fullname" class="form-control"
                                        type="text">
                             </div>
-                            <div class="form-group">
-                                <label class="control-label" for="dob" readonly="readonly">Date of birth</label>
+                            <div class="form-group" ng-class="{ 'has-error' : !isValidBirthday&&isEditting }">
+                                <label class="control-label" for="dob" readonly="readonly">Birthday</label>
                                 <p class="input-group">
                                     <input type="text" id="dob" class="form-control" uib-datepicker-popup="{{format}}" ng-model="user.birthday"
                                            is-open="popup2.opened" datepicker-options="dateOptions" ng-required="true"
-                                           close-text="Close" alt-input-formats="altInputFormats" show-button-bar="false" />
+                                           close-text="Close" alt-input-formats="altInputFormats" show-button-bar="false" ng-change="checkBirthdayValid()"/>
                                 <span class="input-group-addon" style="height: 40px">
                                    <i class="glyphicon glyphicon-calendar" ng-click="open2()"></i></button>
                                 </span>
                                 </p>
+                                <p ng-show="!isValidBirthday&&isEditting" class="help-block">Please enter a valid birthday.</p>
                             </div>
                             <div class="form-group">
                                 <label class="control-label">Expired Date</label>
@@ -99,10 +100,10 @@
                 <div class="panel-footer">
                     <div class="row">
                         <div class="col-sm-6 col-sm-offset-0">
-                            <button class="btn btn-warning" ng-click="onBackStep()">BACK</button>
+                            <button class="btn btn-warning" ng-click="onBackStep()">Back</button>
                             <button class="btn btn-success" ng-click="changeStateToEdit()" ng-if="!isEditting">EDIT
                             </button>
-                            <button class="btn btn-success" ng-click="onSaveUserDetailData()" ng-if="isEditting">SAVE
+                            <button class="btn btn-success" ng-click="onSaveUserDetailData()" ng-if="isEditting" ng-disabled="!isValidBirthday">SAVE
                             </button>
                         </div>
                     </div>

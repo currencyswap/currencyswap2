@@ -73,8 +73,8 @@
                                             <td class="col-sm-1 order-item-content"><a href="/#!/users/{{user.id}}" ng-click="showUserDetail(user.id)">{{user.username}}</a></td>
                                             <td class="col-sm-1 order-item-content">{{user.email}}</td>
                                             <td class="col-sm-1 order-item-content">{{user.cellphone}}</td>
-                                            <td class="col-sm-1 order-item-content"><label ng-bind="formatDate(user.registeredDate) |  date:'{{format}}'"></label></td>
-                                            <td class="col-sm-1 order-item-content"><label ng-bind="formatDate(user.expiredDate) |  date:'{{format}}'"></label></td>
+                                            <td class="col-sm-1 order-item-content"><label ng-bind="formatDate(user.registeredDate)  | filterDate"></label></td>
+                                            <td class="col-sm-1 order-item-content"><label ng-bind="formatDate(user.expiredDate)  | filterDate"></label></td>
                                             <td class="col-sm-1 order-item-content user-status-{{listStatus.indexOf(user.status)}}">{{user.status}}</td>
                                         </tr>
                                         </tbody>
@@ -150,8 +150,8 @@
                                             <td class="col-sm-1 order-item-content"><a href="/#!/users/{{user.id}}" ng-click="showUserDetail(user.id)">{{user.username}}</a></td>
                                             <td class="col-sm-1 order-item-content">{{user.email}}</td>
                                             <td class="col-sm-1 order-item-content">{{user.cellphone}}</td>
-                                            <td class="col-sm-1 order-item-content"><label ng-bind="formatDate(user.registeredDate) |  date:'{{format}}'"></label></td>
-                                            <td class="col-sm-1 order-item-content"><label ng-bind="formatDate(user.expiredDate) |  date:'{{format}}'"></label></td>
+                                            <td class="col-sm-1 order-item-content"><label ng-bind="formatDate(user.registeredDate)  | filterDate"></label></td>
+                                            <td class="col-sm-1 order-item-content"><label ng-bind="formatDate(user.expiredDate)  | filterDate"></label></td>
                                             <td class="col-sm-1 order-item-content user-status-{{listStatus.indexOf(user.status)}}">{{user.status}}</td>
                                         </tr>
                                         </tbody>
@@ -227,8 +227,8 @@
                                             <td class="col-sm-1 order-item-content"><a href="/#!/users/{{user.id}}"  ng-click="showUserDetail(user.id)">{{user.username}}</a></td>
                                             <td class="col-sm-1 order-item-content">{{user.email}}</td>
                                             <td class="col-sm-1 order-item-content">{{user.cellphone}}</td>
-                                            <td class="col-sm-1 order-item-content"><label ng-bind="formatDate(user.registeredDate) |  date:'{{format}}'"></label></td>
-                                            <td class="col-sm-1 order-item-content"><label ng-bind="formatDate(user.expiredDate) |  date:'{{format}}'"></label></td>
+                                            <td class="col-sm-1 order-item-content"><label ng-bind="formatDate(user.registeredDate) | filterDate"></label></td>
+                                            <td class="col-sm-1 order-item-content"><label ng-bind="formatDate(user.expiredDate) |  filterDate"></label></td>
                                             <td class="col-sm-1 order-item-content user-status-{{listStatus.indexOf(user.status)}}">{{user.status}}</td>
                                         </tr>
                                         </tbody>
