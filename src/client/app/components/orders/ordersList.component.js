@@ -216,11 +216,11 @@ angular.module('orders')
         		};
         		$scope.cancelSubmittedOrder = cancelSubmittedOrder;
         		// Edit submitted order
-        		var editSubmittedOrder = function(orderId){
-//	                OrdersService.editSubmittedOrder(orderId).then(function(resp){
-//                    }, function(err){
-//                        console.log('Failure in saving your message');
-//                    });
+        		var editSubmittedOrder = function(orderCode){
+        			var editOrder = $window.confirm('Are you sure you want to edit the Order?');
+        			if(editOrder){
+        				location.href = "/#!/orders/edit/" + orderCode;
+        			}
 
         		};
         		$scope.editSubmittedOrder = editSubmittedOrder;
