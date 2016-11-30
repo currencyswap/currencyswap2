@@ -38,12 +38,11 @@ angular.module('myProfile')
 
                 var token = CookieService.getToken();
 
+                var headers = {};
 
+                headers[httpHeader.CONTENT_TYPE] = contentTypes.JSON;
+                headers[httpHeader.AUTHORIZARION] = autheticateType.BEARER + token;
                 $scope.getUserInfo = function () {
-                    var headers = {};
-
-                    headers[httpHeader.CONTENT_TYPE] = contentTypes.JSON;
-                    headers[httpHeader.AUTHORIZARION] = autheticateType.BEARER + token;
                     MyProfileService.getUserInfo(headers).then(function(response){
                         var userDetail = response.data;
 
