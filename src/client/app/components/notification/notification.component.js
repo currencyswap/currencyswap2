@@ -17,7 +17,7 @@ angular.module('notification')
             function notiController($scope, $rootScope, $timeout, $location, CookieService, NotiService, PermissionService, NavigationHelper, GLOBAL_CONSTANT) {
                 $scope.messages = [];
                 $scope.hasMore = false;
-                var LIMIT_ITEMS = 2;
+                var LIMIT_ITEMS = 25;
 
                 $scope.init = function() {
                     NotiService.getMessages(LIMIT_ITEMS).then(function(resp){
