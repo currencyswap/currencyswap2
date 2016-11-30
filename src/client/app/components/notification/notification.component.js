@@ -17,6 +17,7 @@ angular.module('notification')
             function notiController($scope, $rootScope, $timeout, $location, CookieService, NotiService, PermissionService, NavigationHelper, GLOBAL_CONSTANT) {
                 $scope.messages = [];
                 $scope.hasMore = false;
+                $scope.allLoaded = false;
                 var LIMIT_ITEMS = 25;
 
                 $scope.init = function() {
@@ -28,6 +29,7 @@ angular.module('notification')
                             $scope.messages = resp.messages;
                             if (resp.messages.length === LIMIT_ITEMS) {
                                 $scope.hasMore = true;
+                                $scope.allLoaded = false;
                             }
                         });
                     });
@@ -42,6 +44,7 @@ angular.module('notification')
                         if (!resp.messages || resp.messages.length === 0) {
                             $timeout(function(){
                                 $scope.hasMore = false;
+                                $scope.allLoaded = true;
                             });
                             return;
                         }
@@ -50,8 +53,10 @@ angular.module('notification')
                             $scope.messages = messages;
                             if (resp.messages.length === LIMIT_ITEMS) {
                                 $scope.hasMore = true;
+                                $scope.allLoaded = false;
                             } else {
                                 $scope.hasMore = false;
+                                $scope.allLoaded = true;
                             }
                         });
                     });

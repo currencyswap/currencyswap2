@@ -23,13 +23,13 @@
 
 </div>
 
-<div class="panel-footer">
+<div class="panel-footer" data-ng-if="hasMore||allLoaded">
                 <div class="row">
                     <div class="col-sm-6">
                         <button class="btn btn-primary" data-ng-click="loadMore()" data-ng-if="hasMore">Load More</button>
                     </div>
                 </div>
-                <div data-ng-if="!hasMore" style="color: #77818e;">All Items have been loaded!</div>
+                <div data-ng-if="allLoaded" style="color: #77818e;">All Items have been loaded!</div>
             </div><!-- panel-footer -->
 </div>
 </div>
