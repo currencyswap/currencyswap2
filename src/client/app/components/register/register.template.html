@@ -12,8 +12,8 @@
                     <div class="mb20"></div>
                 </div><!-- signin0-info -->
                 <form method="post"id="registerFormId" name="registerForm" ng-submit="onSubmit()" novalidate="novalidate" style="background-color: white">
-                    <h3 class="nomargin">Register</h3>
-                    <p class="mt5 mb20">Already a member? <a href="" ng-click="backToLogin()"><strong>Login</strong></a></p>
+                    <h3 class="nomargin">Sign Up</h3>
+                    <p class="mt5 mb20">Already a member? <a href="" ng-click="backToLogin()"><strong>Sign In</strong></a></p>
                     <div class="form-group" ng-class="{ 'has-error' : (registerForm.username.$invalid && !registerForm.username.$pristine) || userExisted}">
                         <div class="mb10">
                             <label class="control-label">Username</label> <span class="asterisk">*</span><a data-toggle="popover" data-trigger="hover" data-content="Username only containe [a-z], [0-9], '-', '_', '.'"><i style="font-size:15px; color: #4d4e4e" class="fa fa-question-circle" ng-click="showPopover()"></i></a>
@@ -135,7 +135,7 @@
                     </div>
 
                     <br>
-                    <button type="submit" class="btn btn-success btn-block" ng-disabled="registerForm.$invalid">REGISTER</button>
+                    <button type="submit" class="btn btn-success btn-block" ng-disabled="registerForm.$invalid">SIGN UP</button>
                     <div class="loaders" align="center" ng-show="gifLoading">
                         <img src="../../../assets/images/loaders/loader1.gif" alt="">
                     </div>
@@ -161,7 +161,7 @@
             <div class="panel-heading">
                 <div class="panel-btns">
                 </div><!-- panel-btns -->
-                <h3 class="panel-title">Register Successfully</h3>
+                <h3 class="panel-title">Sign Up Successfully</h3>
             </div>
             <div class="panel-body">
                 The confirmation link has been sent to your email address <b>{{user.email}}</b><br>
@@ -169,7 +169,7 @@
                 <i>The confirmation link will be valid for a duration of 24 hours</i>
                 <br>
                 <br>
-                <div align="center"><a ng-click="backToLogin()" href="">BACK TO LOGIN PAGE</a></div>
+                <div align="center"><a ng-click="backToLogin()" href="">BACK TO SIGN IN PAGE</a></div>
             </div>
         </div>
 
@@ -193,10 +193,10 @@
                 <h3 class="panel-title">Activation successfully</h3>
             </div>
             <div class="panel-body">
-                Your activation process has been done. Please wait for admin's approval. After 3 days, if You can not login to Currency Swap system, please help to contact <b>admin@gmail.com</b> for supports.
+                Your activation process has been done. Please wait for admin's ap
+                <br>proval. After 3 days, if You can not sign in to Currency Swap system, please help to contact <b>admin@gmail.com</b> for supports.
                 <br>
-                <br>
-                <div align="center"><a ng-click="backToLogin()" href="">BACK TO LOGIN PAGE</a></div>
+                <div align="center"><a ng-click="backToLogin()" href="">BACK TO SIGN IN PAGE</a></div>
             </div>
         </div>
 
