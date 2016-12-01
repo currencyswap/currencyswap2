@@ -42,6 +42,12 @@ angular.module('appHeader').directive('headerRight', function () {
               if (msg.reads.length === 0) {
                   NotiService.markRead(msg.id);
                   msg.reads.push({'created': new Date()});
+                  var notiObj = getNotiInst();
+                  if (notiObj.badge > 0) {
+                      $timeout(function(){
+                          --notiObj.badge;
+                      });
+                  }
               }
 
             if (msg.orderCode) {
