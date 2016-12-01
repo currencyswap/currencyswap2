@@ -126,7 +126,7 @@ angular.module('userDetails').component('userDetails', {
             $scope.userStatusesList.new = GLOBAL_CONSTANT.NEW_USER_STATUS;
             $scope.userStatusesList.deactivated = GLOBAL_CONSTANT.DEACTIVATED_USER_STATUS;
 
-
+            $scope.GLOBAL_CONSTANT = GLOBAL_CONSTANT;
 
             $scope.getUserInfo = function () {
 
