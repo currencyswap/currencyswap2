@@ -237,12 +237,12 @@ exports.getUserAllOrders = function (userId) {
     return dbUtil.executeModelFn(app.models.Order, 'find', filter);
 };
 exports.getTotalOrderOfUser = function(userId){
-    var filter = {
-    		'where': { and: [{or: [{'ownerId': userId}, {'accepterId': userId}]}, 
+    
+    		var where = { and: [{or: [{'ownerId': userId}, {'accepterId': userId}]}, 
     		                 {'statusId': {'neq': 7}}], 
-            }
-    };	
-    return dbUtil.executeModelFn(app.models.Order, 'count', filter);
+            };
+    	
+    return dbUtil.executeModelFn(app.models.Order, 'count', where);
 };
 
 exports.removeOrderActivity = function (orderId) {
