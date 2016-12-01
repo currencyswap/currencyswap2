@@ -248,6 +248,7 @@ angular.module('userDetails').component('userDetails', {
                             $scope.message = 'Successful: '+ $scope.user.username  + '\'s info has been updated';
                         }
                     }, function (error) {
+                        $scope.isEditting = false;
                         $scope.gifLoading = false;
                         $rootScope.error = GLOBAL_CONSTANT.UNKNOWN_ERROR;
                         $location.url(routes.ERROR_PAGE);

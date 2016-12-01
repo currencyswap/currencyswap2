@@ -177,6 +177,7 @@ angular.module('myProfile')
 
                     MyProfileService.saveUserInfo(updatingUser, headersSave)
                         .then(function (response) {
+                            $scope.isEditting = false;
                             $scope.validation = {};
                             if (response.status === GLOBAL_CONSTANT.HTTP_ERROR_STATUS_CODE) {
                                 if (response.data.code === serverErrors.BIRTHDAY_GREATER_THAN_CURRENT_DATE) {
@@ -204,6 +205,7 @@ angular.module('myProfile')
                                 $scope.message = 'Successful: Your info has been updated';
                             }
                         }, function (err) {
+                            $scope.isEditting = false;
                             $scope.gifLoading = false;
                             $rootScope.error = GLOBAL_CONSTANT.UNKNOWN_ERROR;
                             $location.url(routes.ERROR_PAGE);
