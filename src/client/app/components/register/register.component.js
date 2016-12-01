@@ -15,7 +15,7 @@ angular.module('register')
                 $scope.showPopover = function () {
                     $('[data-toggle="popover"]').popover();
                 };
-
+                $scope.GLOBAL_CONSTANT = GLOBAL_CONSTANT;
                 $scope.init = function() {
                     $scope.showPopover();
                 };

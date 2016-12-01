@@ -47,7 +47,7 @@ function startUp() {
         app.httpServer = app.start();
         require('./socket/websocket')(app);
         require('./router')(app);
-        require('./libs/expired-checker')();
+        require('./libs/expired-checker')(app);
     }
   });
 }

@@ -25,7 +25,7 @@ angular.module('myProfile')
                 $scope.formats = ['MMM dd,yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate'];
                 $scope.format = $scope.formats[0];
                 $scope.altInputFormats = ['M!/d!/yyyy'];
-
+                $scope.GLOBAL_CONSTANT = GLOBAL_CONSTANT;
                 var profilePicReq = {
                     method: httpMethods.GET,
                     url: '/config/' + currentUser.username
@@ -45,7 +45,7 @@ angular.module('myProfile')
                 $scope.getUserInfo = function () {
                     MyProfileService.getUserInfo(headers).then(function(response){
                         var userDetail = response.data;
-
+                        console.log("userDetail:",userDetail);
                         $scope.model.username = userDetail.username;
                         $scope.model.birthday = new Date(userDetail.birthday);
                         $scope.model.email = userDetail.email;

@@ -116,7 +116,12 @@ angular.module('orders')
             		var cancelOrder = $window.confirm('Are you sure you want to cancel the Order?');
             	    if(cancelOrder){
 		                OrdersService.cancelConfirmedOrder(orderId).then(function(resp){
-		                	$scope.getWorkingOrders();
+		                	if(!$.device){
+		                		$scope.getWorkingOrders();
+		                	}else{ 
+		                		getConfirmedOrders();
+		                	}
+
 	                    }, function(err){
 	                        console.log('Failure in saving your message');
 	                    });
@@ -128,7 +133,11 @@ angular.module('orders')
             		var clearOrder = $window.confirm('Are you sure you want to clear the Order?');
             	    if(clearOrder){
 		                OrdersService.clearConfirmedOrder(orderId).then(function(resp){
-		                	$scope.getWorkingOrders();
+		                	if(!$.device){
+		                		$scope.getWorkingOrders();
+		                	}else{ 
+		                		getConfirmedOrders();
+		                	}
 	                    }, function(err){
 	                        console.log('Failure in saving your message');
 	                    });
@@ -161,7 +170,7 @@ angular.module('orders')
         			if(activities){
             			for(var i = 0; i < activities.length; i++){
             				var activity = activities[i];
-            				if(activity.creatorId == $scope.currentUser.id && activity.statusId == 5){
+            				if(activity.statusId == 4){
             					isCleared = true;
             				}
             			}

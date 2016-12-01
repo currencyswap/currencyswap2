@@ -38,7 +38,8 @@ module.exports = {
         NEW: 'New', //After successful registration
         PENDING_APPROVAL: 'Pending Approval', // after email confirmation, waiting for admin approval
         ACTIVATED: 'Activated', // after admin approval
-        BLOCKED: 'Blocked'
+        BLOCKED: 'Blocked',
+        EXPIRED: 'Expired'
     },
     USER_GROUPS: {
         ADMIN_GR: 'Admin',

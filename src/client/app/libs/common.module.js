@@ -94,7 +94,7 @@ angular.module('common', ['ngRoute', 'cookieManager', 'permission', 'navigation'
     _retreiveUser();
 });
 
-angular.module('common').factory('ConnectorService', ['$http', '$q', 'CookieService', function ($http, $q, CookieService) {
+angular.module('common').factory('ConnectorService', ['$rootScope', '$q', 'CookieService', function ($rootScope, $q, CookieService) {
     var debug = true;
     var timeout = 60000;//1 min for each request
     var token = null;
@@ -123,7 +123,22 @@ angular.module('common').factory('ConnectorService', ['$http', '$q', 'CookieServ
             },
             data: data
           }).fail(function(resp){
-            alert(_getErrorMsg(resp));
+              var msg = _getErrorMsg(resp);
+              console.warn('Error Message:', msg);
+              if (!window._csDismisses) {
+                  window._csDismisses = {};
+              }
+              if (window._csDismisses[msg]) {
+                  return;
+              }
+              window._csDismisses[msg] = true;
+            if (msg === 'Your account gets expired') {
+                alert('Your account gets expired. Please contact Administrator for farther information!');
+                $rootScope.logout();
+            } else {
+                alert(msg);
+            }
+            window._csDismisses[msg] = false;
           }).always(function(){
               if (debug) {
                   console.log('Request GET done');

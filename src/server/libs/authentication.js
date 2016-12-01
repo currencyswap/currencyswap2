@@ -60,8 +60,28 @@ exports.authenticateByToken = function (request, response, callback) {
             request.currentUser = {
                 username: username
             };
-
-            next(null);
+            redis.getUserInfo(username, function (err, user) {
+                if (user && user.username) {
+                    request.currentUser = user;
+                    if (user.expiredDate) {
+                        var now = new Date();
+                        var expire = (typeof user.expiredDate === 'string' ? new Date(user.expiredDate) : user.expiredDate);
+                        console.log('now', now);
+                        console.log('expire', expire);
+                        now = now.getTime();
+                        expire = expire.getTime();
+                        console.log('now', now);
+                        console.log('expire', expire);
+                        if (expire < now) {
+                            console.log('User get expired', username, 'Expired Time:', user.expiredDate);
+                            redis.removeUserInfo(username);
+                            var err = errorUtil.createAppError(errors.USER_ACCOUNT_EXPIRED);
+                            return next(err);
+                        }
+                    }
+                }
+                return next(null);
+            });
         }
     ], function (err) {
         if (!err) return callback();
