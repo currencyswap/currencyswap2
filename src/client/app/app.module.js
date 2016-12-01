@@ -229,6 +229,7 @@ angular.module('currencySwapApp', [
     BLOCKED_USER_STATUS: 'Blocked',
     PENDING_USER_STATUS: 'Pending Approval',
     NEW_USER_STATUS: 'New',
+    EXPIRED_USER_STATUS: 'Expired',
     STANDARD_USER_ROLE: 'User',
     DEACTIVATED_USER_STATUS: 'Deactivated',
     INVALID_USER_NAME_OR_PWD_MSG: 'Invalid username/password',

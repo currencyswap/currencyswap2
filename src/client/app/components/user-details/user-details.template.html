@@ -39,7 +39,7 @@
                                 <p class="input-group">
                                     <input type="text" class="form-control" uib-datepicker-popup="{{format}}" ng-model="user.expiredDate"
                                            is-open="popup1.opened" datepicker-options="dateOptions" ng-required="true"
-                                           close-text="Close" alt-input-formats="altInputFormats" show-button-bar="false" />
+                                           close-text="Close" alt-input-formats="altInputFormats" show-button-bar="false" ng-change="changeExpiredDate()"/>
                                 <span class="input-group-addon" style="height: 40px">
                                    <i class="glyphicon glyphicon-calendar" ng-click="open1()"></i></button>
                                 </span>
