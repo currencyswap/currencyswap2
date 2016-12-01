@@ -26,7 +26,7 @@ exports.validateUsername = function (username) {
     }
 
     if (username.length > 64) {
-        throw errorUtil.createAppError(errors.USERNAME_EXCEED_MAX_LENGTH);
+        throw errorUtils.createAppError(errors.USERNAME_EXCEED_MAX_LENGTH);
     }
 };
 
@@ -54,11 +54,11 @@ exports.validateEmail = function (email) {
     }
 
     if (email.length > 64) {
-        throw errorUtil.createAppError(errors.EMAIL_EXCEED_MAX_LENGTH);
+        throw errorUtils.createAppError(errors.EMAIL_EXCEED_MAX_LENGTH);
     }
 
     if (!validator.isEmail(email)) {
-        throw errorUtil.createAppError(errors.EMAIL_IS_INVALID);
+        throw errorUtils.createAppError(errors.EMAIL_IS_INVALID);
     }
 };
 
@@ -69,7 +69,7 @@ exports.validateFullName = function (fullName) {
         }
 
         if (fullName.length > 128) {
-            throw errorUtil.createAppError(errors.FULLNAME_EXCEED_MAX_LENGTH);
+            throw errorUtils.createAppError(errors.FULLNAME_EXCEED_MAX_LENGTH);
         }
     }
 };
@@ -77,7 +77,7 @@ exports.validateFullName = function (fullName) {
 exports.validateBirthDay = function(birthDay) {
     if (birthDay) {
         if (!validator.isDate(birthDay)) {
-            throw errorUtil.createAppError(errors.BIRTHDAY_IS_NOT_DATE_TYPE);
+            throw errorUtils.createAppError(errors.BIRTHDAY_IS_NOT_DATE_TYPE);
         }
     }
 };
@@ -85,7 +85,7 @@ exports.validateBirthDay = function(birthDay) {
 exports.validateCellphone = function (cellphone) {
     if (cellphone) {
         if (cellphone.length > 32) {
-            throw errorUtil.createAppError(errors.CELLPHONE_EXCEED_MAX_LENGTH);
+            throw errorUtils.createAppError(errors.CELLPHONE_EXCEED_MAX_LENGTH);
         }
     }
 };
@@ -93,7 +93,7 @@ exports.validateCellphone = function (cellphone) {
 exports.validateProfession = function (profession) {
     if (profession) {
         if (profession.length > 256) {
-            throw errorUtil.createAppError(errors.PROFESSION_EXCEED_MAX_LENGTH);
+            throw errorUtils.createAppError(errors.PROFESSION_EXCEED_MAX_LENGTH);
         }
     }
 };
@@ -101,7 +101,7 @@ exports.validateProfession = function (profession) {
 exports.validateNationalId = function (nationalId) {
     if (nationalId) {
         if (nationalId.length > 128) {
-            throw errorUtil.createAppError(errors.NATIONALID_EXCEED_MAX_LENGTH);
+            throw errorUtils.createAppError(errors.NATIONALID_EXCEED_MAX_LENGTH);
         }
     }
 };

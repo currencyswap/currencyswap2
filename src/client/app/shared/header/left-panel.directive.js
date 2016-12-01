@@ -8,8 +8,27 @@ angular.module('appHeader').directive('leftPanel', function () {
         },
         templateUrl: 'app/shared/header/left-panel.template.html',
         controller: function ($rootScope, $scope, $window, $location, $timeout, $element ,CookieService) {
+            var _toggle = function() {
+                if ($('body').css('position') == 'relative') {
+                    $rootScope.menuToggle();
+                }
+            };
+            var _isLeftPanelShow = function() {
+                return body.hasClass('leftpanel-show');
+            };
+            var _fixAvatarUrl = function(avatarUrl) {
+                var iA = avatarUrl.lastIndexOf('?');
+                if (iA > 0) {
+                    avatarUrl = avatarUrl.substring(0, iA+1);
+                } else {
+                    avatarUrl += '?';
+                }
+                avatarUrl += Math.round(Math.random()*10000000);
+                return avatarUrl;
+            };
+            
             var cookUser = CookieService.getCurrentUser();
-            var avatarUrl = cookUser.avatarUrl ? cookUser.avatarUrl : global.DEF_AVATAR;
+            var avatarUrl = _fixAvatarUrl(cookUser.avatarUrl ? cookUser.avatarUrl : global.DEF_AVATAR);
             $scope.user = $.extend({'avatarUrl': avatarUrl, 'username': cookUser.username, 'fullName': ''}, $rootScope.user);
 
             $scope.title = appConfig.title;
@@ -20,27 +39,19 @@ angular.module('appHeader').directive('leftPanel', function () {
                 $location.path(routes.LOGIN);
                 $window.location.reload();
             };
-            
-            var _toggle = function() {
-                if ($('body').css('position') == 'relative') {
-                    $rootScope.menuToggle();
-                }
-            };
-            var _isLeftPanelShow = function() {
-                return body.hasClass('leftpanel-show');
-            };
             $scope.accessMenuItem = function(item) {
                 _toggle();
                 $location.path(item.route);
             };
 
             $.subscribe('/cs/user/update', function(user) {
+                var avatarUrl = _fixAvatarUrl(cookUser.avatarUrl ? cookUser.avatarUrl : global.DEF_AVATAR);
                 $timeout(function(){
                     $scope.user = $.extend({'avatarUrl': avatarUrl, 'username': '', 'fullName': ''}, $scope.user, user);
                 });
             });
-            $.subscribe('/cs/swipe', function(swiper){
-//                It is not working as expected
+//            $.subscribe('/cs/swipe', function(swiper){
+//                //It is not working as expected
 //                if (swiper.left) {
 //                    if (_isLeftPanelShow()) {
 //                        _toggle();
@@ -48,10 +59,10 @@ angular.module('appHeader').directive('leftPanel', function () {
 //                } else if (swiper.right) {
 //                    _toggle();
 //                }
-            });
-            if ($.device) {
-                $.menuSwipeActions();
-            };
+//            });
+//            if ($.device) {
+//                $.menuSwipeActions();
+//            };
         }
     };
 });

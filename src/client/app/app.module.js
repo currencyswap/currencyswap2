@@ -72,6 +72,12 @@ angular.module('currencySwapApp', [
                 CookieService.cleanUpCookies();
                 return $location.path(routes.FORGOT_PASSWORD_RESET);
             }
+
+            if ($location.search().activeCode) {
+                $rootScope.isLoading = false;
+                CookieService.cleanUpCookies();
+                return $location.path(routes.REGISTER);
+            }
         }
         
         retreiveUserPerm();
@@ -193,7 +199,7 @@ angular.module('currencySwapApp', [
         name: 'RESET_CODE_EXPIRED_ERROR',
         code: 410,
         status: 'RESET URL IS EXPIRED',
-        message: 'Your active URL is expired and removed from our system. Please help to try to register again '
+        message: 'Your reset URL is expired and removed from our system. Please help to try again '
     },
     EMAIL_COULD_NOT_BE_SENT: {
         name: 'EMAIL_COULD_NOT_BE_SENT',
@@ -212,6 +218,12 @@ angular.module('currencySwapApp', [
         code: 400,
         status: 'NO PERMISSION',
         message: 'You have no permission to access this page '
+    },
+    NOT_FOUND: {
+        name: 'NOT_FOUND',
+        code: 404,
+        status: 'NOT FOUND',
+        message: 'Page not found'
     },
     ACTIVATED_USER_STATUS: 'Activated',
     BLOCKED_USER_STATUS: 'Blocked',
