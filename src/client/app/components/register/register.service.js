@@ -25,6 +25,7 @@ angular.module('register').factory('RegisterService', ['$http', '$q', function (
                         postcode: userData.postcode,
                         state: userData.state
                     }],
+                group:'User'
             };
             return resultUser;
         },
