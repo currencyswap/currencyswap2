@@ -118,7 +118,7 @@ angular.module('userDetails').component('userDetails', {
             $scope.user.groupMember = "Standard Member";
             $scope.role = "Standard Member";
             $scope.birthday = new Date();
-
+            $scope.message = "";
             $scope.userStatusesList = {};
             $scope.userStatusesList.activated = GLOBAL_CONSTANT.ACTIVATED_USER_STATUS;
             $scope.userStatusesList.blocked = GLOBAL_CONSTANT.BLOCKED_USER_STATUS;
@@ -172,7 +172,7 @@ angular.module('userDetails').component('userDetails', {
             $scope.getUserInfo();
 
             $scope.onSaveUserDetailData = function () {
-
+                $scope.message = '';
                 $scope.gifLoading = true;
                 var address, city, country, postcode, state = null;
                 if ($scope.user.addresses[0] && $scope.user.addresses[0].hasOwnProperty('address')) address = $scope.user.addresses[0].address;
@@ -244,13 +244,14 @@ angular.module('userDetails').component('userDetails', {
                         } else {
                             $scope.getUserInfo();
                             $scope.isEditting = false;
-                            $window.scrollTo(0, 0);
                             $scope.gifLoading = false;
+                            $scope.message = 'Successful: '+ $scope.user.username  + '\'s info has been updated';
                         }
                     }, function (error) {
                         $scope.gifLoading = false;
                         $rootScope.error = GLOBAL_CONSTANT.UNKNOWN_ERROR;
                         $location.url(routes.ERROR_PAGE);
+                        $scope.message = 'Error: Update failed';
                     });
 
             };
