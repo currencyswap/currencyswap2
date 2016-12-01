@@ -12,6 +12,7 @@ var async = require('async');
 var constant = require('../libs/constants/constants');
 var appRoot = require('app-root-path');
 var appConfig = require('../libs/app-config');
+var userValidation = require('../validation/user-validation');
 
 var storage = multer.diskStorage({
     destination: function (req, file, cb) {
@@ -53,6 +54,13 @@ module.exports = function (app) {
     router.put('/', function (req, res, next) {
         var currentUser = req.currentUser;
         var updatingUser = req.body;
+
+        try {
+            userValidation.validateEditedProfileRequestObject(updatingUser);
+        } catch (err) {
+            return res.status(constant.HTTP_FAILURE_CODE).send(err);
+        }
+
         async.waterfall([
             function (next) {
                 userService.getUserByUsernameWithoutRelationModel(updatingUser, function (err, user) {

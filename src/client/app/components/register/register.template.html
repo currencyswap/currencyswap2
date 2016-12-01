@@ -11,7 +11,7 @@
                     </div><!-- logopanel -->
                     <div class="mb20"></div>
                 </div><!-- signin0-info -->
-                <form method="post"id="registerFormId" name="registerForm" ng-submit="onSubmit()" novalidate="novalidate" style="background-color: white">
+                <form method="post" id="registerFormId" name="registerForm" ng-submit="onSubmit()" novalidate="novalidate" style="background-color: white">
                     <h3 class="nomargin">Register</h3>
                     <p class="mt5 mb20">Already a member? <a href="" ng-click="backToLogin()"><strong>Login</strong></a></p>
                     <div class="form-group" ng-class="{ 'has-error' : (registerForm.username.$invalid && !registerForm.username.$pristine) || userExisted}">
@@ -51,6 +51,7 @@
                             <label class="control-label">Full name</label>
                             <input type="text" name="fullName" class="form-control" ng-model="user.fullName" ng-minlength="3" ng-maxlength="45" placeholder = "Full name">
                             <label class="error" ng-show="registerForm.fullName.$error.minlength">Fullname is too short.</label>
+                            <label class="error" ng-show="registerForm.fullName.$error.maxlength">Fullname is too long.</label>
                         </div>
                     </div>
                     <div class="mb10">

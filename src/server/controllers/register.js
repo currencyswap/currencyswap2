@@ -28,7 +28,7 @@ module.exports = function (app) {
             var clientUserData = req.body.newUser;
 
             try {
-                userValidation.validateRequestObject(clientUserData);
+                userValidation.validateRegisterRequestObject(clientUserData);
                 var serverUserData = userConverter.convertUserData(clientUserData);
             } catch (err) {
                 console.log('ERROR: ', err);

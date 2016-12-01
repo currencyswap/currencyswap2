@@ -35,7 +35,7 @@
                                 <input ng-model="model.fullName" id="fullname" class="form-control"
                                        type="text" maxlength="60">
                             </div>
-                            <div class="form-group">
+                            <div class="form-group" ng-class="{ 'has-error' : greaterThanCurrentDate}">
                                 <label class="control-label">Birthday</label>
                                 <div class="input-group">
                                     <input type="text" class="form-control"
@@ -45,11 +45,12 @@
                                            ng-model="model.birthday"
                                            close-text="Close"
                                            alt-input-formats="altInputFormats"
-                                           show-button-bar="false">
+                                           show-button-bar="false" ng-change="onDOBChange()">
                             <span class="input-group-addon" style="height: 40px">
                                    <i class="glyphicon glyphicon-calendar"  ng-click="openCalendar()" ></i>
                                 </span>
                                 </div>
+                                <label class="error" ng-show="greaterThanCurrentDate" >Your birthday is greater than current date</label>
                             </div>
                             <div class="form-group">
                                 <label class="control-label">Register Date</label>

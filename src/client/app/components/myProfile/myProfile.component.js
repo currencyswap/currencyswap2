@@ -69,7 +69,7 @@ angular.module('myProfile')
                     }, function(err){
                         console.log('Failure in saving your message',err);
                     });
-                }
+                };
 
                 $scope.getUserInfo();
                 $scope.uploadFiles = function(file, errFiles) {
@@ -120,10 +120,14 @@ angular.module('myProfile')
                     $scope.isEditting = true;
                 };
 
+                $scope.onDOBChange = function () {
+                    $scope.greaterThanCurrentDate = false;
+                };
+
                 $scope.saveUserInfo = function () {
                     $scope.message = '';
                     $scope.gifLoading = true;
-                    $scope.gifLoading
+
                     var updatingUser = {
                         username: $scope.model.username,
                         birthday: $scope.model.birthday,
@@ -148,22 +152,36 @@ angular.module('myProfile')
                         cellphone: $scope.model.cellphone,
                         nationalId: $scope.model.nationalId,
                         currentPwd: $scope.model.currentPwd,
-                        newPwd: $scope.model.newPwd
                     };
+
+                    if ($scope.model.newPwd && $scope.model.passwordCompare) {
+                        updatingUser.newPassword = $scope.model.newPwd;
+                        updatingUser.passwordCompare = $scope.model.passwordCompare;
+                    }
+
                     var headersSave = {};
 
                     headersSave[httpHeader.CONTENT_TYPE] = contentTypes.JSON;
                     headersSave[httpHeader.AUTHORIZARION] = autheticateType.BEARER + token;
 
-                    MyProfileService.saveUserInfo(updatingUser, headersSave).then(function(response){
-                        $scope.getUserInfo();
-                        $scope.gifLoading = false;
-                        $scope.message = 'Successful: Your info has been updated';
-                    }, function(err){
-                        $scope.gifLoading = false;
-                        $scope.message = 'Failure: Could not update your info due to system error. Please try again later!';
-                        console.log('Failure in saving your message',err);
-                    });
+                    MyProfileService.saveUserInfo(updatingUser, headersSave)
+                        .then(function (response) {
+                            $scope.validation = {};
+                            if (response.status === GLOBAL_CONSTANT.HTTP_ERROR_STATUS_CODE) {
+                                if (response.data.code === serverErrors.BIRTHDAY_GREATER_THAN_CURRENT_DATE) {
+                                    $scope.gifLoading = false;
+                                    $scope.greaterThanCurrentDate = true;
+                                }
+                            } else {
+                                $scope.getUserInfo();
+                                $scope.gifLoading = false;
+                                $scope.message = 'Successful: Your info has been updated';
+                            }
+                        }, function (err) {
+                            $scope.gifLoading = false;
+                            $rootScope.error = GLOBAL_CONSTANT.UNKNOWN_ERROR;
+                            $location.url(routes.ERROR_PAGE);
+                        });
                 }
             }]
     });

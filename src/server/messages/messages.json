@@ -61,5 +61,9 @@
     "FULLNAME_IS_NOT_STRING": "Your fullname is not a string",
     "FULLNAME_EXCEED_MAX_LENGTH": "Your username exceeds the maximum of length",
     "CELLPHONE_EXCEED_MAX_LENGTH": "Your cellphone exceeds the maximum of length",
-    "PROFESSION_EXCEED_MAX_LENGTH": "Your profession exceeds maximum of length"
+    "PROFESSION_EXCEED_MAX_LENGTH": "Your profession exceeds maximum of length",
+    "BIRTHDAY_IS_NOT_DATE_TYPE": "Birthday is not date type",
+    "INVALID_INPUT_TYPE": "Invalid input type",
+    "INVALID_INPUT_DATA": "Invalid input data",
+    "BIRTHDAY_GREATER_THAN_CURRENT_DATE": "Your birthday is greater than current date"
 }
