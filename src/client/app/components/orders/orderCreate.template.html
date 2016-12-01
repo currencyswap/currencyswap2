@@ -17,7 +17,7 @@
 							<label class="control-label">Give</label> <span class="asterisk">*</span>
 							<div class="form-inline give-row">
 								<div class="input-group">
-									<input type="number" name="give" class="form-control" ng-model="newOrder.give" ng-change="onChangeValue(FIXED_VALUE.GIVE);"  focus-me="focusGive" required>
+									<input type="text" name="give" class="form-control" ng-model="newOrder.give" format-currency ng-change="onChangeValue(FIXED_VALUE.GIVE);"  focus-me="focusGive" required>
 								</div>
 								<div class="input-group">
 									<select name="giveCurrency" ng-model="newOrder.giveCurrencyCode" class="form-control" required>
@@ -41,7 +41,7 @@
 								<label class="control-label">Get</label> <span class="asterisk">*</span>
 								<div class="form-inline get-row">
 									<div class="input-group">
-										<input type="number" name="get" class="form-control" ng-model="newOrder.get" ng-change="onChangeValue(FIXED_VALUE.GET);" focus-me="focusGet" required>
+										<input type="text" name="get" class="form-control" ng-model="newOrder.get" format-currency ng-change="onChangeValue(FIXED_VALUE.GET);" focus-me="focusGet" required>
 									</div>
 									<div class="input-group">
 										<select name="getCurrency" ng-model="newOrder.getCurrencyCode" class="form-control" required>
@@ -110,12 +110,12 @@
 				<div class="col form-inline">
 					<div class="row mb10">
 						<label class="control-label col-md-2">Give</label> 
-						<label class="control-label">{{newOrder.give}} {{newOrder.giveCurrencyCode}} </label>
+						<label class="control-label">{{newOrder.give | filterCurrency}} {{newOrder.giveCurrencyCode}} </label>
 					</div>
 
 					<div class="row mb10">
 						<label class="control-label col-md-2">Get</label> 
-						<label class="control-label">{{newOrder.get}} {{newOrder.getCurrencyCode}} </label>
+						<label class="control-label">{{newOrder.get | filterCurrency}} {{newOrder.getCurrencyCode}} </label>
 					</div>
 
 					<div class="row mb10">
@@ -180,9 +180,9 @@
 							<tr ng-repeat="suggestionOrder in suggestionOrders"
 								class="order-row-{{$index % 2}}">
 								<td class="col-sm-3 order-item-content">{{suggestionOrder.owner.username}}</td>
-								<td class="col-sm-1 order-item-content">{{suggestionOrder.get}}
+								<td class="col-sm-1 order-item-content">{{suggestionOrder.get | filterCurrency}}
 									{{suggestionOrder.getCurrency.code}}</td>
-								<td class="col-sm-1 order-item-content">{{suggestionOrder.give}}
+								<td class="col-sm-1 order-item-content">{{suggestionOrder.give | filterCurrency}}
 									{{suggestionOrder.giveCurrency.code}}</td>
 								<td class="col-sm-1 order-item-content">{{suggestionOrder.rate}}</td>
 								<td class="col-sm-3 text-left">
@@ -201,11 +201,11 @@
 					<div ng-repeat="suggestionOrder in suggestionOrders" class="row order-item-mobile">
 						<div style="width: 100%;padding: 0 5px;">
 							<div style="width: 50%; float: left;">
-								<span class="order-label-mobile">Get: </span>{{suggestionOrder.get}}
+								<span class="order-label-mobile">Get: </span>{{suggestionOrder.get | filterCurrency}}
 								{{submittedOrder.getCurrency.code}}
 							</div>
 							<div style="width: 50%; float: left;">
-								<span class="order-label-mobile">Give: </span>{{suggestionOrder.give}}
+								<span class="order-label-mobile">Give: </span>{{suggestionOrder.give | filterCurrency}}
 								{{suggestionOrder.giveCurrency.code}}
 							</div>
 						</div>

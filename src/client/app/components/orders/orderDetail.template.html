@@ -67,12 +67,12 @@
 					</div>
 					<div class="row mb10 row-give">
 						<label class="control-label col-md-2 row-title-give">Give</label> 
-						<label class="control-label">{{order.give}} {{order.giveCurrency.code}} </label>
+						<label class="control-label">{{order.give | filterCurrency}} {{order.giveCurrency.code}} </label>
 					</div>
 
 					<div class="row mb10 row-get">
 						<label class="control-label col-md-2 row-title-get">Get</label> 
-						<label class="control-label">{{order.get}} {{order.getCurrency.code}} </label>
+						<label class="control-label">{{order.get | filterCurrency}} {{order.getCurrency.code}} </label>
 					</div>
 
 					<div class="row mb10 row-rate">

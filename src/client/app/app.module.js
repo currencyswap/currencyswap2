@@ -293,4 +293,72 @@ angular.module('currencySwapApp', [
 	    if (!format) format = 'MMM dd, yyyy';
 	    return $filter('date')(date, format);
 	}
-});
+}).filter('filterCurrency', function($filter){
+	return function (value, symbol) {
+	    if (!symbol) symbol = '';
+	    return $filter('currency')(value, symbol);
+	}
+}).directive('formatCurrency', ['$filter', function ($filter) {
+    return {
+        require: '?ngModel',
+        link: function (scope, elem, attrs, ctrl) {
+        	var format = "currency";
+        	var symbol = "";
+        	var fractionSize = 0;
+        	
+            if (!ctrl) return;
+
+            ctrl.$formatters.unshift(function (modelValue) {
+            	console.log("viewValue $formatters : " + modelValue);
+            	if(!modelValue){
+            		return "";
+            	}
+            	if(modelValue.indexOf(".") > -1){
+            		fractionSize = modelValue.length - modelValue.indexOf(".") - 1;
+            		if(fractionSize > 2){
+            			fractionSize = 2;
+            		}
+            	}else{
+            		fractionSize = 0;
+            	}
+            	
+                return $filter(format)(modelValue, symbol, fractionSize);
+            });
+
+            ctrl.$parsers.unshift(function (viewValue) {
+            	
+            	console.log("viewValue : " + viewValue);
+            	
+        		//var plainNumber = viewValue.replace(/[^\d|\-+|\.+]/g, '');
+        		var plainNumber = viewValue.replace(/[^\d|\.+]/g, '');
+                
+        		var isNumber = isNaN(plainNumber);
+        		
+        		//check isNumber
+        		if(isNumber || parseFloat(plainNumber) <= 0 || plainNumber.indexOf("-") > -1 || plainNumber.indexOf(".") == plainNumber.length - 1){
+        			ctrl.$setValidity('numberValied',false);
+        		}else{
+        			if(!viewValue){
+                		return "";
+                	}
+        			
+                	if(plainNumber.indexOf(".") > -1){
+                		fractionSize = plainNumber.length - plainNumber.indexOf(".") - 1;
+                		if(fractionSize > 2){
+                			fractionSize = 2;
+                			//plainNumber = plainNumber.substr(0, plainNumber.indexOf(".") + fractionSize + 1);
+                		}
+                	}else{
+                		fractionSize = 0;
+                	}
+                	
+            		ctrl.$setValidity('numberValied',true);
+            		var value = $filter(format)(plainNumber, symbol, fractionSize);
+                    elem.val(value);
+                    var result = value.replace(/[^\d|\.+]/g, '');
+                    return result;
+        		}
+            });
+        }
+    };
+}]);

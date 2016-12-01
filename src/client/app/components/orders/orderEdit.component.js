@@ -97,31 +97,39 @@ angular.module('orders')
         		console.log("orderEditController ....");
         		
         		$scope.onChangeValue = function(fieldChange){
+        			var get = parseFloat($scope.updateOrder.get);
+        			var give = parseFloat($scope.updateOrder.give);
+        			var rate = parseFloat($scope.updateOrder.rate);
+        			
         			if($scope.updateOrder.fixed == $scope.FIXED_VALUE.GIVE){
         				if(fieldChange == $scope.FIXED_VALUE.RATE){
-        					$scope.updateOrder.get = $scope.updateOrder.give * $scope.updateOrder.rate;
+        					if(give > 0 && rate > 0){
+        						$scope.updateOrder.get = give * rate;
+        					}
         				}else{
-        					if($scope.updateOrder.give){
-            					$scope.updateOrder.rate = $scope.updateOrder.get / $scope.updateOrder.give;
+        					if(give > 0 && get > 0){
+            					$scope.updateOrder.rate = get / give;
             				}
         				}
         			}else if($scope.updateOrder.fixed == $scope.FIXED_VALUE.GET){
         				if(fieldChange == $scope.FIXED_VALUE.RATE){
-        					if($scope.updateOrder.rate){
-        						$scope.updateOrder.give = $scope.updateOrder.get / $scope.updateOrder.rate;
+        					if(rate > 0 && get > 0){
+        						$scope.updateOrder.give = get / rate;
         					}
         				}else{
-        					if($scope.updateOrder.give){
-            					$scope.updateOrder.rate = $scope.updateOrder.get / $scope.updateOrder.give;
+        					if(give > 0 && get > 0){
+            					$scope.updateOrder.rate = get / give;
             				}
         				}
         			}else{
         				$scope.updateOrder.fixed = $scope.FIXED_VALUE.RATE;
         				if(fieldChange == $scope.FIXED_VALUE.GIVE){
-        					$scope.updateOrder.get = $scope.updateOrder.give * $scope.updateOrder.rate;
+        					if(give > 0 && rate > 0){
+        						$scope.updateOrder.get = give * rate;
+        					}
         				}else{
-        					if($scope.updateOrder.rate){
-            					$scope.updateOrder.give = $scope.updateOrder.get / $scope.updateOrder.rate;
+        					if(rate > 0 && get > 0){
+            					$scope.updateOrder.give = get / rate;
             				}
         				}
         			}
@@ -142,8 +150,8 @@ angular.module('orders')
         		}
         		
         		$scope.onSubmit = function(){
-        			window.scrollTo(0, 0);
-        			$scope.submitLoading = true;
+        			$scope.submitLoading =        			window.scrollTo(0, 0);
+ true;
         			$scope.hasError = false;
         			var updateOrderRequest = {};
         			
