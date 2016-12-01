@@ -93,7 +93,7 @@ exports.validateCellphone = function (cellphone) {
 exports.validateProfession = function (profession) {
     if (profession) {
         if (profession.length > 256) {
-            throw errorUtil.createAppError(errors.PROFESSION_EXCEED_MAX_LENGTH);
+            throw errorUtils.createAppError(errors.PROFESSION_EXCEED_MAX_LENGTH);
         }
     }
 };
@@ -101,7 +101,7 @@ exports.validateProfession = function (profession) {
 exports.validateNationalId = function (nationalId) {
     if (nationalId) {
         if (nationalId.length > 128) {
-            throw errorUtil.createAppError(errors.NATIONALID_EXCEED_MAX_LENGTH);
+            throw errorUtils.createAppError(errors.NATIONALID_EXCEED_MAX_LENGTH);
         }
     }
 };
