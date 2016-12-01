@@ -3,6 +3,7 @@
 var errorUtil = require('../libs/errors/error-util');
 var errors = require('../libs/errors/errors');
 var app = require('../server');
+var Q = require('q');
 var dbUtil = require('../libs/utilities/db-util');
 var constant = require('../libs/constants/constants');
 
@@ -143,41 +144,66 @@ exports.getUserHistoryOrders = function (userId) {
     };
     return dbUtil.executeModelFn(app.models.Order, 'find', filter);
 };
-exports.getSuggestOrders = function (userId, value, fixed) {
-        var min = value * (1 - constant.SUGGETION_LIST_CONFIG.ROTATE_SUGGETION);
-        var max = value * (1 + constant.SUGGETION_LIST_CONFIG.ROTATE_SUGGETION);
-        
-        var filterFixed = {};
-        var order = "";
-        
-    var filter = {
-                        'limit' : constant.SUGGETION_LIST_CONFIG.LIMIT_NUMBER,
-                        'order' : order,
-                    'where': {
-                    and: [
-                          {'ownerId': {'neq': userId}},
-                          { 'statusId': constant.STATUS_TYPE.SUBMITTED_ID }
-                    ]
-            },
-            'include' : [ ownerRelation, accepterRelation, giveCurrencyRelation, getCurrencyRelation, statusRelation, activitiesRelation]
+exports.getSuggestOrdersGreat = function (userId, value, giveCurrencyId, getCurrencyId) {
+	var deferred = Q.defer()
+	
+    var max = value * (1 + constant.SUGGETION_LIST_CONFIG.ROTATE_SUGGETION);
+    
+    var filterGreat = {
+        'limit' : constant.SUGGETION_LIST_CONFIG.LIMIT_NUMBER,
+        'order' : "get ASC",
+        'where': {
+                and: [
+                      {'ownerId': {'neq': userId}},
+                      { 'statusId': constant.STATUS_TYPE.SUBMITTED_ID },
+                      {'get' : {'lte' : max}},
+                      {'get' : {'gt' : value}},
+                      {'giveCurrencyId' : getCurrencyId},
+                      {'getCurrencyId' : giveCurrencyId}
+                ]
+        },
+        'include' : [ ownerRelation, accepterRelation, giveCurrencyRelation, getCurrencyRelation, statusRelation, activitiesRelation]
     };
     
-    if(fixed == constant.FIXED_VALUE.GIVE){
-        filter.where.and.push({'give' : { 'lte' : max}});
-        filter.where.and.push({'give' : {'gte' : min}});
-        filter.order = "give DESC";
-        }else if(fixed == constant.FIXED_VALUE.GET){
-                filter.where.and.push({'get' : { 'lte' : max}});
-        filter.where.and.push({'get' : {'gte' : min}});
-        filter.order = "get DESC";
-        }else{
-                filter.where.and.push({'rate' : { 'lte' : max}});
-        filter.where.and.push({'rate' : {'gte' : min}});
-        filter.order = "rate DESC";
-        }
+    dbUtil.executeModelFn(app.models.Order, 'find', filterGreat).then(function(dataGreat){
+    	deferred.resolve(dataGreat);
+    }, function(err){
+    	deferred.reject(err);
+    });
     
-    return dbUtil.executeModelFn(app.models.Order, 'find', filter);
+    return deferred.promise;
 };
+
+exports.getSuggestOrdersLess = function (userId, value, giveCurrencyId, getCurrencyId) {
+	var deferred = Q.defer()
+	
+    var min = value * (1 - constant.SUGGETION_LIST_CONFIG.ROTATE_SUGGETION);
+    
+    var filterLess = {
+        'limit' : constant.SUGGETION_LIST_CONFIG.LIMIT_NUMBER,
+        'order' : "get DESC",
+        'where': {
+                and: [
+                      {'ownerId': {'neq': userId}},
+                      { 'statusId': constant.STATUS_TYPE.SUBMITTED_ID },
+                      {'get' : {'gte' : min}},
+                      {'get' : {'lte' : value}},
+                      {'giveCurrencyId' : getCurrencyId},
+                      {'getCurrencyId' : giveCurrencyId}
+                ]
+        },
+        'include' : [ ownerRelation, accepterRelation, giveCurrencyRelation, getCurrencyRelation, statusRelation, activitiesRelation]
+    };
+    
+	dbUtil.executeModelFn(app.models.Order, 'find', filterLess).then(function(dataLess){
+    	deferred.resolve(dataLess);
+    }, function(err){
+    	deferred.reject(err);
+    });
+    
+    return deferred.promise;
+};
+
 exports.getExpiredOrders = function (time, limitTime) {
     var filter = {
             'where': {

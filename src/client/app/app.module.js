@@ -310,7 +310,7 @@ angular.module('currencySwapApp', [
             if (!ctrl) return;
 
             ctrl.$formatters.unshift(function (modelValue) {
-            	console.log("viewValue $formatters : " + modelValue);
+            	//console.log("viewValue $formatters : " + modelValue);
             	if(!modelValue){
             		return "";
             	}
@@ -328,7 +328,7 @@ angular.module('currencySwapApp', [
 
             ctrl.$parsers.unshift(function (viewValue) {
             	
-            	console.log("viewValue : " + viewValue);
+            	//console.log("viewValue : " + viewValue);
             	
         		//var plainNumber = viewValue.replace(/[^\d|\-+|\.+]/g, '');
         		var plainNumber = viewValue.replace(/[^\d|\.+]/g, '');

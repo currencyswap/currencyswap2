@@ -231,12 +231,77 @@ module.exports = function (app) {
     router.get('/submitted/swap/:id', function (req, res) {
         return swapSubmittedOrder(req, res);
     });
+    
+    
+    var getListResult = function(value, lessList, greatList){
+    	var listOutput = [];
+    	value = parseFloat(value);
+    	
+    	//console.log("getListResult value" + value);
+    	
+    	if(value <= 0){
+    		return listOutput;
+    	}
+    	var i = 0;
+    	var j = 0;
+    	var index = 0;
+    	while((i < lessList.length || j < greatList.length) && index < constant.SUGGETION_LIST_CONFIG.LIMIT_NUMBER){
+    		//console.log("getListResult index" + index);
+    		if(i == lessList.length){
+    			listOutput.push(greatList[j]);
+    			j++;
+    		}else if(j == greatList.length){
+    			listOutput.push(lessList[i]);
+    			i++;
+    		}else{
+	    		var itemGreat = greatList[j];
+	    		var itemLess = lessList[i];
+	    		
+	    		//console.log("getListResult get" + itemGreat.get + "-" + itemLess.get);
+	    		
+	    		var absGreat = itemGreat.get - value;
+	    		var absLess = value - itemLess.get;
+	    		
+	    		//console.log("getListResult " + absGreat + "-" + absLess);
+	    		
+	    		if(absGreat <= absLess){
+	    			listOutput.push(itemGreat);
+	    			j++;
+	    		}else{
+	    			listOutput.push(itemLess);
+	    			i++;
+	    		}
+    		}
+    		index ++;
+    	}
+    	
+    	return listOutput;
+    }
     router.get('/suggest', function (req, res) {
         var value = req.query.value;
-        var fixed = req.query.fixed;// fixed = 1 (give) , 2 (get), 3 (rate)
+        var giveCurrencyId = req.query.giveCurrencyId;
+        var getCurrencyId = req.query.getCurrencyId;
         
-        service.getSuggestOrders(req.currentUser.id, value, fixed).then(function(resp){
-            return res.send(resp);
+        var list = [];
+        
+        var lessList = [];
+        var greatList = [];
+        service.getSuggestOrdersGreat(req.currentUser.id, value, giveCurrencyId, getCurrencyId).then(function(respGreat){
+        	//console.log("out out respGreat: " + JSON.stringify(respGreat.length));
+        	if(respGreat){
+        		greatList = respGreat;
+        	}
+        	service.getSuggestOrdersLess(req.currentUser.id, value, giveCurrencyId, getCurrencyId).then(function(respLess){
+        		//console.log("out out respLess: " + JSON.stringify(respLess.length));
+        		if(respLess){
+        			lessList = respLess;
+            	}
+        		var output = getListResult(value,lessList, greatList);
+        		//console.log("out out : " + JSON.stringify(output.length));
+                return res.send(output);
+            }, function(err){
+                return res.status(500).send(errorUtil.createAppError(errors.SERVER_GET_PROBLEM));
+            });
         }, function(err){
             return res.status(500).send(errorUtil.createAppError(errors.SERVER_GET_PROBLEM));
         });

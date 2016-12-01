@@ -49,19 +49,10 @@ angular.module('orders')
         		getCurrenciesList();
         		
         		var getSuggestionOrders = function(){
-        			var value = "";
-        			if($scope.newOrder.fixed == $scope.FIXED_VALUE.GIVE){
-        				value = $scope.newOrder.give;
-        			}else if($scope.newOrder.fixed == $scope.FIXED_VALUE.GET){
-        				value = $scope.newOrder.give;
-        			}else{
-        				$scope.newOrder.fixed = $scope.FIXED_VALUE.RATE;
-        				value = $scope.newOrder.rate;
-        			}
-        			
         			var data = {
-        					fixed : $scope.newOrder.fixed,
-        					value : value
+        					value : $scope.newOrder.give,
+        					giveCurrencyId : $scope.newOrder.giveCurrencyId,
+        					getCurrencyId : $scope.newOrder.getCurrencyId
         			}
         			
         			OrdersService.getSuggetOrders(data).then(function(data1){
@@ -151,9 +142,21 @@ angular.module('orders')
         			
         			$scope.newOrder.dayLive = dayLive;
         			$scope.newOrder.expiredDate = expiredDate;
+        			
+        			for(var i in  $scope.currencies){
+        				if($scope.newOrder.getCurrencyCode == $scope.currencies[i].code){
+        					$scope.newOrder.getCurrencyId = $scope.currencies[i].id;
+        				}
+        				
+        				if($scope.newOrder.giveCurrencyCode == $scope.currencies[i].code){
+        					$scope.newOrder.giveCurrencyId = $scope.currencies[i].id;
+        				}
+        			}
+        			
         			$scope.statusPage = $scope.STATUS_PAGE_VALUE.INITIALIZED;
         			$scope.submitLoading = false;
         			$scope.hasError = false;
+        			
         			getSuggestionOrders();
             	}
         		
@@ -178,18 +181,8 @@ angular.module('orders')
         			newOrderRequest.get = $scope.newOrder.get;
         			newOrderRequest.rate = $scope.newOrder.rate;
         			newOrderRequest.dayLive = $scope.newOrder.dayLive;
-        			newOrderRequest.getCurrencyid = 0;
-        			newOrderRequest.giveCurrencyid = 0;
-        			
-        			for(var i in  $scope.currencies){
-        				if($scope.newOrder.getCurrencyCode == $scope.currencies[i].code){
-        					newOrderRequest.getCurrencyId = $scope.currencies[i].id;
-        				}
-        				
-        				if($scope.newOrder.giveCurrencyCode == $scope.currencies[i].code){
-        					newOrderRequest.giveCurrencyId = $scope.currencies[i].id;
-        				}
-        			}
+        			newOrderRequest.getCurrencyid = $scope.newOrder.getCurrencyid;
+        			newOrderRequest.giveCurrencyid = $scope.newOrder.giveCurrencyid;
         			
         			OrdersService.postSaveNewOrders(newOrderRequest).then(function(data){
         				$scope.submitLoading = false;

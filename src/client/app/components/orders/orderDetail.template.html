@@ -103,7 +103,7 @@
 				</div>
 				<div class="row row-activities">
 					<h2 class="row-activities-title">Activity</h2>
-					<div class="row" ng-repeat="activity in order.activities" ng-if="activity.statusId > 1">
+					<div class="row" ng-repeat="activity in order.activities | orderBy:'-created'" ng-if="activity.statusId > 1">
 						<div class="col">
 							<span class="activity-time mr5">{{activity.created | filterDate:'MMM dd, yyyy HH:mm'}}</span>
 							<span class="activity-creator mr5" ng-class="{'other-user-action' : activity.creator.username != currentUser.username}">{{activity.creator.username}}</span>
