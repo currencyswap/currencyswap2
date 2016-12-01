@@ -20,7 +20,7 @@
                             <div class="form-group">
                                 <label class="control-label" for="fullname">Full Name</label>
                                 <input ng-model="user.fullName" id="fullname" class="form-control"
-                                       type="text">
+                                       type="text" minlength="{{GLOBAL_CONSTANT.LIMIT_FIELDS_INFO.FULLNAME_MIN}}" maxlength="{{GLOBAL_CONSTANT.LIMIT_FIELDS_INFO.FULLNAME_MAX}}">
                             </div>
                             <div class="form-group" ng-class="{ 'has-error' : !isValidBirthday&&isEditting }">
                                 <label class="control-label" for="dob" readonly="readonly">Birthday</label>
@@ -48,22 +48,22 @@
                             <div class="form-group">
                                 <label class="control-label" for="cellPhone">Cell phone</label>
                                 <input ng-model="user.cellphone" value="Read Only Input" id="cellPhone"
-                                       class="form-control" type="text">
+                                       class="form-control" type="text" minlength="{{GLOBAL_CONSTANT.LIMIT_FIELDS_INFO.CELLPHONE_MIN}}" maxlength="{{GLOBAL_CONSTANT.LIMIT_FIELDS_INFO.CELLPHONE_MAX}}">
                             </div>
 
                             <div class="form-group">
                                 <label class="control-label" for="nationalId">Passport ID/National ID</label>
                                 <input ng-model="user.nationalId" value="Read Only Input" id="nationalId"
-                                       class="form-control" type="text">
+                                       class="form-control" type="text" minlength="{{GLOBAL_CONSTANT.LIMIT_FIELDS_INFO.PP_NATIONAL_MIN}}" maxlength="{{GLOBAL_CONSTANT.LIMIT_FIELDS_INFO.PP_NATIONAL_MAX}}">
                             </div>
                             <div class="form-group">
                                 <label class="control-label" for="address">Address</label>
                                 <input ng-model="user.addresses[0].address" id="address" class="form-control"
-                                       type="text">
+                                       type="text" minlength="{{GLOBAL_CONSTANT.LIMIT_FIELDS_INFO.ADDRESS_MIN}}" maxlength="{{GLOBAL_CONSTANT.LIMIT_FIELDS_INFO.ADDRESS_MAX}}">
                             </div>
                             <div class="form-group">
                                 <label class="control-label" for="city">City</label>
-                                <input ng-model="user.addresses[0].city" id="city" class="form-control" type="text">
+                                <input ng-model="user.addresses[0].city" id="city" class="form-control" type="text" minlength="{{GLOBAL_CONSTANT.LIMIT_FIELDS_INFO.CITY_MIN}}" maxlength="{{GLOBAL_CONSTANT.LIMIT_FIELDS_INFO.CITY_MAX}}">
                             </div>
                             <div class="form-group">
                                 <country-state-user country="user.addresses[0].country" state="user.addresses[0].state" userinfo="user"></country-state-user>
@@ -71,11 +71,11 @@
                             <div class="form-group">
                                 <label class="control-label" for="postCode">Post code</label>
                                 <input ng-model="user.addresses[0].postcode" id="postCode" class="form-control"
-                                       type="text">
+                                       type="text" minlength="{{GLOBAL_CONSTANT.LIMIT_FIELDS_INFO.POSTCODE_MIN}}" maxlength="{{GLOBAL_CONSTANT.LIMIT_FIELDS_INFO.POSTCODE_MAX}}">
                             </div>
                             <div class="form-group">
                                 <label class="control-label" for="profession">Profession</label>
-                                <input ng-model="user.profession" id="profession" class="form-control" type="text">
+                                <input ng-model="user.profession" id="profession" class="form-control" type="text" minlength="{{GLOBAL_CONSTANT.LIMIT_FIELDS_INFO.PROFESSION_MIN}}" maxlength="{{GLOBAL_CONSTANT.LIMIT_FIELDS_INFO.PROFESSION_MAX}}">
                             </div>
                             <div class="form-group">
                                 <label class="control-label">Status</label>
