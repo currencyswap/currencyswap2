@@ -94,31 +94,39 @@ angular.module('orders')
         		}
         		
         		$scope.onChangeValue = function(fieldChange){
+        			var get = parseFloat($scope.newOrder.get);
+        			var give = parseFloat($scope.newOrder.give);
+        			var rate = parseFloat($scope.newOrder.rate);
+        			
         			if($scope.newOrder.fixed == $scope.FIXED_VALUE.GIVE){
         				if(fieldChange == $scope.FIXED_VALUE.RATE){
-        					$scope.newOrder.get = $scope.newOrder.give * $scope.newOrder.rate;
+        					if(give > 0 && rate > 0){
+        						$scope.newOrder.get = give * rate;
+        					}
         				}else{
-        					if($scope.newOrder.give){
-            					$scope.newOrder.rate = $scope.newOrder.get / $scope.newOrder.give;
+        					if(give > 0 && get > 0){
+            					$scope.newOrder.rate = get / give;
             				}
         				}
         			}else if($scope.newOrder.fixed == $scope.FIXED_VALUE.GET){
         				if(fieldChange == $scope.FIXED_VALUE.RATE){
-        					if($scope.newOrder.rate){
-        						$scope.newOrder.give = $scope.newOrder.get / $scope.newOrder.rate;
+        					if(rate > 0 && get > 0){
+        						$scope.newOrder.give = get / rate;
         					}
         				}else{
-        					if($scope.newOrder.give){
-            					$scope.newOrder.rate = $scope.newOrder.get / $scope.newOrder.give;
+        					if(give > 0 && get > 0){
+            					$scope.newOrder.rate = get / give;
             				}
         				}
         			}else{
         				$scope.newOrder.fixed = $scope.FIXED_VALUE.RATE;
         				if(fieldChange == $scope.FIXED_VALUE.GIVE){
-        					$scope.newOrder.get = $scope.newOrder.give * $scope.newOrder.rate;
+        					if(give > 0 && rate > 0){
+        						$scope.newOrder.get = give * rate;
+        					}
         				}else{
-        					if($scope.newOrder.rate){
-            					$scope.newOrder.give = $scope.newOrder.get / $scope.newOrder.rate;
+        					if(rate > 0 && get > 0){
+            					$scope.newOrder.give = get / rate;
             				}
         				}
         			}

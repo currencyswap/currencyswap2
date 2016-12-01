@@ -18,7 +18,7 @@
 							<label class="control-label">Give</label> <span class="asterisk">*</span>
 							<div class="form-inline give-row">
 								<div class="input-group">
-									<input type="number" name="give" class="form-control" ng-model="updateOrder.give" ng-change="onChangeValue(FIXED_VALUE.GIVE);"  focus-me="focusGive" required>
+									<input type="text" name="give" class="form-control" ng-model="updateOrder.give" format-currency ng-change="onChangeValue(FIXED_VALUE.GIVE);"  focus-me="focusGive" required>
 								</div>
 								<div class="input-group">
 									<select name="giveCurrency" ng-model="updateOrder.giveCurrencyCode" class="form-control" required>
@@ -42,7 +42,7 @@
 								<label class="control-label">Get</label> <span class="asterisk">*</span>
 								<div class="form-inline get-row">
 									<div class="input-group">
-										<input type="number" name="get" class="form-control" ng-model="updateOrder.get" ng-change="onChangeValue(FIXED_VALUE.GET);" focus-me="focusGet" required>
+										<input type="text" name="get" class="form-control" ng-model="updateOrder.get" format-currency ng-change="onChangeValue(FIXED_VALUE.GET);" focus-me="focusGet" required>
 									</div>
 									<div class="input-group">
 										<select name="getCurrency" ng-model="updateOrder.getCurrencyCode" class="form-control" required>

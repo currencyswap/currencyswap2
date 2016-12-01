@@ -31,7 +31,9 @@ module.exports = function (app) {
             'creatorId': adminId, 'receiverId': userId, 'orderCode': orderCode}
         supportService.saveMessage(message);   	
     }
-    var updateOrderStatus = function (req, res, statusId, title, message){
+
+    var updateOrderStatus = function (req, res, statusId, message){
+    	var status = ["Submitted", "Swapping", "Confirmed", "Pending", "Cleared", "Canceled"];
         var orderId = req.params.id;
         var creatorId = req.currentUser.id
         service.updateOrderStatus(orderId, statusId).then(function(resp){
@@ -43,8 +45,9 @@ module.exports = function (app) {
         	    if(creatorId == userId){
         	    	userId = accepterId
         	    }
-        	    var msg = 'Order: ' + order.code;
-        	    saveMessage(title, msg, creatorId, userId, data.code);
+        	    var title = "Order " + order.code + "has updated";
+        	    var msg = "Order " + order.code + "has been changed from" + status[statusId - 2] + " to " +status[statusId - 1];
+        	    saveMessage(title, msg, creatorId, userId, order.code);
         	},function(err){
         		
         	});
@@ -147,6 +150,8 @@ module.exports = function (app) {
     });
     router.get('/confirmed', function (req, res) {
         service.getUserConfirmedOrders(req.currentUser.id).then(function(resp){
+        	console.log("++++++++++");
+        	console.log(JSON.stringify(resp));
             return res.send(resp);
         }, function(err){
             return res.status(500).send(errorUtil.createAppError(errors.SERVER_GET_PROBLEM));
@@ -161,14 +166,14 @@ module.exports = function (app) {
     });
     
     router.get('/swapping/cancel/:id', function (req, res) {
-        return updateOrderStatus(req, res, constant.STATUS_TYPE.SUBMITTED_ID, constant.MSG.CANCEL_ORDER_TITLE, constant.MSG.CANCEL_ORDER_CONTENT);
+        return updateOrderStatus(req, res, constant.STATUS_TYPE.SUBMITTED_ID, constant.MSG.CANCEL_ORDER_CONTENT);
     });
     router.get('/swapping/confirm/:id', function (req, res) {
-        return updateOrderStatus(req, res, constant.STATUS_TYPE.CONFIRMED_ID, constant.MSG.CONFIRM_ORDER_TITLE, constant.MSG.CONFIRM_ORDER_CONTENT);
+        return updateOrderStatus(req, res, constant.STATUS_TYPE.CONFIRMED_ID, constant.MSG.CONFIRM_ORDER_CONTENT);
     });
 
     router.get('/confirmed/cancel/:id', function (req, res) {
-        return updateOrderStatus(req, res, constant.STATUS_TYPE.SUBMITTED_ID, constant.MSG.CANCEL_ORDER_TITLE, constant.MSG.CANCEL_ORDER_CONTENT);
+        return updateOrderStatus(req, res, constant.STATUS_TYPE.SUBMITTED_ID, constant.MSG.CANCEL_ORDER_CONTENT);
     });
     var countUserCleared = function(userId, orderId, statusId){
     	var count = -1;
@@ -187,7 +192,18 @@ module.exports = function (app) {
     	return count; 
     }
     router.get('/confirmed/clear/:id', function (req, res) {
-    	return updateOrderStatus(req, res, constant.STATUS_TYPE.CLEARED_ID, constant.MSG.CLEAR_ORDER_TITLE, constant.MSG.CLEAR_ORDER_CONTENT);
+    	var orderId = req.params.id;
+    	service.getOrderById(orderId).then(function(order){
+    		if(order.statusId == 3 ){
+    			return updateOrderStatus(req, res, constant.STATUS_TYPE.PENDING_ID, constant.MSG.PENDING_ORDER_CONTENT);
+    		} else {
+    			return updateOrderStatus(req, res, constant.STATUS_TYPE.CLEARED_ID, constant.MSG.CLEAR_ORDER_CONTENT);
+    		}
+    	},function(err){
+    		return res.status(500).send(errorUtil.createAppError(errors.SERVER_GET_PROBLEM));
+    	});
+
+    	
     });
     router.get('/submitted/cancel/:id', function (req, res) {
         return cancelSubmittedOrder(req, res);
@@ -215,6 +231,15 @@ module.exports = function (app) {
             return res.status(500).send(errorUtil.createAppError(errors.SERVER_GET_PROBLEM));
         });
     });
+    router.get('/total', function (req, res) {
+        service.getTotalOrderOfUser(req.currentUser.id).then(function(count){
+          return res.send({count: count});
+        }, function(err){
+            return res.status(500).send(errorUtil.createAppError(errors.SERVER_GET_PROBLEM));
+                
+        });
+    });
+    
     router.get('/:code', function (req, res) {
     	var userId = req.currentUser.id;
         var orderCode = req.params.code;
@@ -231,15 +256,6 @@ module.exports = function (app) {
         	return res.send(resp);
         }, function(err){
             return res.status(500).send(errorUtil.createAppError(errors.SERVER_GET_PROBLEM));
-        });
-    });
-    router.get('/total', function (req, res) {
-    	//console.log('============111111====');
-        service.getTotalOrderOfUser(req.currentUser.id).then(function(resp){
-          return res.send('fdsafads');
-        }, function(err){
-            return res.status(500).send(errorUtil.createAppError(errors.SERVER_GET_PROBLEM));
-                
         });
     });
     return router;
