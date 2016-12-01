@@ -8,6 +8,7 @@ module.exports = {
         'email': 'admin@vsii.com',
         'birthday' : '2016-10-13',
         'registeredDate' : '2016-11-29',
+        'expiredDate' : '2056-12-31',
         'password': 'p@55word',
         'status' : 'Activated',
         'groups' : ['{ADMIN}']
