@@ -44,7 +44,7 @@
                     <div class="form-group" ng-class="{'has-error' : registerForm.passwordCompare.$invalid && !registerForm.passwordCompare.$pristine}">
                         <label class="control-label">Re-type Password</label> <span class="asterisk">*</span>
                         <input class="form-control" type="password" name="passwordCompare" required data-ng-model="user.passwordCompare" data-ng-match="user.password" minlength="{{GLOBAL_CONSTANT.LIMIT_FIELDS_INFO.PWD_MIN}}" maxlength="{{GLOBAL_CONSTANT.LIMIT_FIELDS_INFO.PWD_MAX}}"/>
-                        <label class="error" data-ng-show="!registerForm.passwordCompare.$error.required && registerForm.passwordCompare.$error.match">Password do not match.</label>
+                        <label class="error" data-ng-show="!registerForm.passwordCompare.$error.required && registerForm.passwordCompare.$error.match">Password does not match.</label>
                         <label class="error" ng-show="registerForm.passwordCompare.$error.required && registerForm.passwordCompare.$dirty" >This field is required.</label>
                     </div>
                     <div class="form-group"

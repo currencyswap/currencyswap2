@@ -279,5 +279,12 @@ angular.module('userDetails').component('userDetails', {
                     $scope.isValidBirthday = true;
                 }
             }
+            
+            $scope.changeExpiredDate = function () {
+                var expiredDate = new Date($scope.user.expiredDate);
+                if(expiredDate > new Date()) {
+                    $scope.selectedStatus.selectedStatus = $scope.userStatusesList.activated;
+                }
+            }
         }]
 });
