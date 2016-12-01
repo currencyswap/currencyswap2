@@ -38,8 +38,8 @@ exports.validateEditedProfileRequestObject = function (clientUserObj) {
 
     exports.validateUsername(clientUserObj.username);
 
-    if (clientUserObj.newPwd && clientUserObj.passwordCompare) {
-        exports.validateEditedPassword(clientUserObj.newPwd, clientUserObj.passwordCompare);
+    if (clientUserObj.newPwd && clientUserObj.passwordCompare && clientUserObj.currentPwd) {
+        exports.validateEditedPassword(clientUserObj.currentPwd, clientUserObj.newPwd, clientUserObj.passwordCompare);
     }
     exports.validateEmail(clientUserObj.email);
     exports.validateFullName(clientUserObj.fullName);
@@ -79,7 +79,9 @@ exports.validatePassword = function (password) {
     }
 };
 
-exports.validateEditedPassword = function (newPassword, confirmationPassword) {
+exports.validateEditedPassword = function (currentPassword, newPassword, confirmationPassword) {
+    if (typeof currentPassword !== 'string') throw errorUtils.createAppError(errors.INVALID_INPUT_DATA);
+    if ((md5(currentPassword)).length > 64) throw errorUtils.createAppError(errors.INVALID_INPUT_DATA);
     if (newPassword !== confirmationPassword) throw errorUtils.createAppError(errors.INVALID_INPUT_DATA);
     if (typeof newPassword !== 'string') throw errorUtils.createAppError(errors.INVALID_INPUT_DATA);
     if (newPassword.length < 8 || (md5(newPassword)).length > 64) {

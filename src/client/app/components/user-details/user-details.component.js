@@ -14,7 +14,7 @@ angular.module('userDetails').component('userDetails', {
         '$log',
         'UserDetailsServive',
         function userDetailsController($scope, $rootScope, $routeParams, CookieService, PermissionService, $location, $http, $window, GLOBAL_CONSTANT, $log, UserDetailsServive ) {
-// =====Date picker - START=====
+
             $scope.today = function() {
                 $scope.dt = new Date();
             };
@@ -126,7 +126,13 @@ angular.module('userDetails').component('userDetails', {
             $scope.userStatusesList.new = GLOBAL_CONSTANT.NEW_USER_STATUS;
             $scope.userStatusesList.deactivated = GLOBAL_CONSTANT.DEACTIVATED_USER_STATUS;
 
-            $scope.GLOBAL_CONSTANT = GLOBAL_CONSTANT;
+            $scope.onChangeCellPhone = function () {
+                $scope.errorCellphoneIdExisted = false;
+            };
+
+            $scope.onChangeNationalId = function () {
+                $scope.errorNationalIdExisted = false;
+            };
 
             $scope.getUserInfo = function () {
 
@@ -134,14 +140,25 @@ angular.module('userDetails').component('userDetails', {
                 headers[httpHeader.AUTHORIZARION] = autheticateType.BEARER + token;
                 UserDetailsServive.getUser( $routeParams.id, headers ).then(
                     function ( response ) {
-                        console.log("RESPONSE %s", JSON.stringify( response.data ) );
+                        console.log('user data from server: ', response.data);
                         $scope.user = response.data;
+                        $scope.user.currentCellPhone = $scope.user.cellphone;
+                        $scope.user.currentNationalId = $scope.user.nationalId;
+                        $scope.user.currentUserGroup = $scope.user.group;
+
                         $scope.user.birthday = new Date( $scope.user.birthday );
                         $scope.lastBirthday = $scope.user.birthday;
                         $scope.user.expiredDate = new Date( $scope.user.expiredDate );
                         $scope.lastExpiredDate = $scope.user.expiredDate;
                         $scope.fullName = $scope.user.fullName;
                         $scope.selectedStatus.selectedStatus = $scope.user.status;
+                        if ($scope.user.group && $scope.user.group === 'User') {
+                            $scope.groupMember = 'Standard Member';
+                        }
+
+                        if ($scope.user.group && $scope.user.group === 'Admin') {
+                            $scope.groupMember = 'Admin';
+                        }
                     }, function ( err ) {
                         console.error("ERROR : %s", JSON.stringify( err ) );
                         $rootScope.error = {
@@ -150,7 +167,7 @@ angular.module('userDetails').component('userDetails', {
                             message: err.data.message
                         };
                     });
-            }
+            };
 
             $scope.getUserInfo();
 
@@ -163,7 +180,8 @@ angular.module('userDetails').component('userDetails', {
                 if ($scope.user.addresses[0] && $scope.user.addresses[0].hasOwnProperty('state')) state = $scope.user.addresses[0].state;
                 if ($scope.user.addresses[0] && $scope.user.addresses[0].hasOwnProperty('country')) country = $scope.user.addresses[0].country;
                 if ($scope.user.addresses[0] && $scope.user.addresses[0].hasOwnProperty('postcode')) postcode = $scope.user.addresses[0].postcode;
-                if ($scope.user.groupMember && $scope.user.groupMember === 'Standard Member') $scope.user.groupMember = GLOBAL_CONSTANT.STANDARD_USER_ROLE;
+                if ($scope.groupMember === 'Standard Member') $scope.groupMember = GLOBAL_CONSTANT.STANDARD_USER_ROLE;
+                if ($scope.groupMember === 'Admin') $scope.groupMember = 'Admin';
 
                 var resultUser = {
                     id: $scope.user.id,
@@ -186,7 +204,7 @@ angular.module('userDetails').component('userDetails', {
                     cellphone: $scope.user.cellphone,
                     nationalId: $scope.user.nationalId,
                     status: $scope.selectedStatus.selectedStatus,
-                    group: $scope.user.groupMember
+                    group: $scope.groupMember
                 };
 
 
@@ -204,6 +222,15 @@ angular.module('userDetails').component('userDetails', {
                             if (response.data.code === serverErrors.CANNOT_SET_YOUR_OWN_ROLE) {
                                 $scope.errorSetOwnRole = true;
                             }
+
+                            if (response.data.code === serverErrors.NATIONAL_ID_EXISTED) {
+                                $scope.errorNationalIdExisted = true;
+                            }
+
+                            if (response.data.code === serverErrors.CELLPHONE_EXISTED) {
+                                $scope.errorCellphoneIdExisted = true;
+                            }
+
                             if (response.data.code === serverErrors.UNKNOWN_GROUP
                                 || response.data.code === serverErrors.SERVER_GET_PROBLEM
                                 || response.data.code === serverErrors.CANNOT_FIND_ADDRESS_FOR_USER) {
@@ -222,18 +249,19 @@ angular.module('userDetails').component('userDetails', {
                         }
                     }, function (error) {
                         $scope.gifLoading = false;
-                        $rootScope.error = {};
-                        $rootScope.error.status = GLOBAL_CONSTANT.UNKNOWN_ERROR_STATUS;
-                        $rootScope.error.message = GLOBAL_CONSTANT.UNKNOWN_ERROR_MSG;
+                        $rootScope.error = GLOBAL_CONSTANT.UNKNOWN_ERROR;
+                        $location.url(routes.ERROR_PAGE);
                     });
 
             };
 
-
-
             $scope.changeStateToEdit = function () {
                 $scope.isEditting = true;
                 $scope.isValidBirthday = true;
+                $scope.errorCellphoneIdExisted = false;
+                $scope.errorNationalIdExisted = false;
+                $scope.user.cellphone = $scope.user.currentCellPhone;
+                $scope.user.nationalId = $scope.user.currentNationalId;
             };
             $scope.changeRole = function () {
                 $scope.errorSetOwnRole = false;
@@ -241,7 +269,7 @@ angular.module('userDetails').component('userDetails', {
             $scope.onBackStep = function(){
                 $location.path(routes.USER_LIST);
                 $window.scrollTo(0, 0);
-            }
+            };
             $scope.checkBirthdayValid = function () {
                 var dateSelected = new Date($scope.user.birthday);
                 if(dateSelected > new Date()) {

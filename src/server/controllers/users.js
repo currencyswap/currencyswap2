@@ -53,7 +53,13 @@ module.exports = function (app) {
     router.post('/:id', function (req, res) {
         var admin = req.currentUser;
         var updatingUser = req.body;
-        
+
+        try {
+            userValidation.validateEditedProfileRequestObject(updatingUser);
+        } catch (err) {
+            return res.status(constant.HTTP_FAILURE_CODE).send(err);
+        }
+
         async.waterfall([
             function (next) {
                 userService.getUserByUsernameWithoutRelationModel(updatingUser, function (err, user) {
@@ -62,6 +68,42 @@ module.exports = function (app) {
                         return next (null, user);
                     }
                 });
+            },
+            function (user, next) {
+                if (!updatingUser.nationalId) {
+                    return next (null, user);
+                } else {
+                    userService.getUserByNationalId(updatingUser, function (err, foundUser) {
+                        if (err) {
+                            if (err.code === errorUtil.createAppError(errors.NO_USER_FOUND_IN_DB).code) {
+                                return next(null, user);
+                            } else {
+                                return next(err);
+                            }
+                        } else {
+                            if (foundUser.username === updatingUser.username) return next (null, user);
+                            return next (errorUtil.createAppError(errors.NATIONAL_ID_EXISTED));
+                        }
+                    });
+                }
+            },
+            function (user, next) {
+                if (!updatingUser.cellphone) {
+                    return next(null, user);
+                } else {
+                    userService.getUserByCellphone(updatingUser, function (err, foundUser) {
+                        if (err) {
+                            if (err.code === errorUtil.createAppError(errors.NO_USER_FOUND_IN_DB).code) {
+                                return next(null, user);
+                            } else {
+                                return next(err);
+                            }
+                        } else {
+                            if (foundUser.username === updatingUser.username) return next (null, user);
+                            return next (errorUtil.createAppError(errors.CELLPHONE_EXISTED))
+                        }
+                    })
+                }
             },
             function (user, next) {
                 if (!updatingUser.group) {
