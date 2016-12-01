@@ -255,27 +255,30 @@
             <div id="allUser" class="tab-panel" ng-if="tab==TABSELECTED.ALL">
                 <div ng-repeat="user in usersAll | orderBy:sortType:sortReverse | offset: (current - 1) * itemsPerPage | limitTo:itemsPerPage" class="row order-item-mobile">
                     <div>
-                        <span  class="order-label-mobile">Username: </span><a href="/#!/users/{{user.id}}">{{user.username}}</a>
-                    </div>
-                    <div>
-                        <div style="width: 50%; float: left;">
-                            <span  class="order-label-mobile">Full name: </span>{{user.fullName}}
+                        <div style="width: 60px; float: left;">
+                            <img class="img-circle" style="width: 50px; height: 50px"  data-ng-src="/config/media/{{user.username}}?{{randomNumImg}}" alt="" src="/config/media/{{user.username}}?{{randomNumImg}}">
                         </div>
                         <div style="width: 50%; float: left;">
-                            <span class="order-label-mobile">Email: </span>{{user.email}}
+                            <div><a href="/#!/users/{{user.id}}">{{user.username}}</a></div>
+                            <div>{{user.email}}</div>
                         </div>
                     </div>
                     <div>
-                        <div style="width: 50%; float: left;">
-                            <span class="order-label-mobile">Cell Phone: </span>{{user.cellphone}}
-                        </div>
-                        <div style="width: 50%; float: left;">
-                            <span class="order-label-mobile">Register Date: </span>{{user.registeredDate  | filterDate}}
+                        <div style="width: 100%; float: left;">
+                            <span class="order-label-mobile">Full name: </span>{{user.fullName}}
                         </div>
                     </div>
                     <div>
                         <div style="width: 50%; float: left;">
-                            <span class="order-label-mobile">Expired Date: </span>{{user.expiredDate  | filterDate}}
+                            <span class="order-label-mobile">Registed: </span>{{user.registeredDate  | filterDate}}
+                        </div>
+                        <div style="width: 50%; float: left;">
+                            <span class="order-label-mobile">Expired: </span>{{user.expiredDate  | filterDate}}
+                        </div>
+                    </div>
+                    <div>
+                        <div style="width: 50%; float: left;">
+                            <span class="order-label-mobile">Phone: </span>{{user.cellphone}}
                         </div>
                         <div style="width: 50%; float: left;">
                             <span class="order-label-mobile">Status: </span><label class = "user-status-{{listStatus.indexOf(user.status)}}">{{user.status}}</label>
@@ -291,27 +294,30 @@
             <div id="activedUser" class="tab-panel" ng-if="tab==TABSELECTED.ACTIVATED">
                 <div ng-repeat="user in usersActivated | orderBy:sortType:sortReverse | offset: (current - 1) * itemsPerPage | limitTo:itemsPerPage" class="row order-item-mobile">
                     <div>
-                        <span class="order-label-mobile">Username: </span><a href="/#!/users/{{user.id}}">{{user.username}}</a>
+                        <div style="width: 60px; float: left;">
+                            <img class="img-circle" style="width: 50px; height: 50px"  data-ng-src="/config/media/{{user.username}}?{{randomNumImg}}" alt="" src="/config/media/{{user.username}}?{{randomNumImg}}">
+                        </div>
+                        <div style="width: 50%; float: left;">
+                            <div><a href="/#!/users/{{user.id}}">{{user.username}}</a></div>
+                            <div>{{user.email}}</div>
+                        </div>
                     </div>
                     <div>
-                        <div style="width: 50%; float: left;">
+                        <div style="width: 100%; float: left;">
                             <span class="order-label-mobile">Full name: </span>{{user.fullName}}
                         </div>
+                     </div>
+                    <div>
                         <div style="width: 50%; float: left;">
-                            <span class="order-label-mobile">Email: </span>{{user.email}}
+                            <span class="order-label-mobile">Registed: </span>{{user.registeredDate  | filterDate}}
+                        </div>
+                        <div style="width: 50%; float: left;">
+                            <span class="order-label-mobile">Expired: </span>{{user.expiredDate  | filterDate}}
                         </div>
                     </div>
                     <div>
                         <div style="width: 50%; float: left;">
-                            <span class="order-label-mobile">Cell Phone: </span>{{user.cellphone}}
-                        </div>
-                        <div style="width: 50%; float: left;">
-                            <span class="order-label-mobile">Register Date: </span>{{user.registeredDate  | filterDate}}
-                        </div>
-                    </div>
-                    <div>
-                        <div style="width: 50%; float: left;">
-                            <span class="order-label-mobile">Expired Date: </span>{{user.expiredDate  | filterDate}}
+                            <span class="order-label-mobile">Phone: </span>{{user.cellphone}}
                         </div>
                         <div style="width: 50%; float: left;">
                             <span class="order-label-mobile">Status: </span><label class = "user-status-{{listStatus.indexOf(user.status)}}">{{user.status}}</label>
@@ -327,27 +333,30 @@
             <div id="pendingUser" class="tab-panel" ng-if="tab==TABSELECTED.PENDING">
                 <div ng-repeat="user in usersPending | orderBy:sortType:sortReverse | offset: (current - 1) * itemsPerPage | limitTo:itemsPerPage" class="row order-item-mobile">
                     <div>
-                        <span class="order-label-mobile">Username: </span><a href="/#!/users/{{user.id}}">{{user.username}}</a>
+                        <div style="width: 60px; float: left;">
+                            <img class="img-circle" style="width: 50px; height: 50px"  data-ng-src="/config/media/{{user.username}}?{{randomNumImg}}" alt="" src="/config/media/{{user.username}}?{{randomNumImg}}">
+                        </div>
+                        <div style="width: 50%; float: left;">
+                            <div><a href="/#!/users/{{user.id}}">{{user.username}}</a></div>
+                            <div>{{user.email}}</div>
+                        </div>
                     </div>
                     <div>
-                        <div style="width: 50%; float: left;">
+                        <div style="width: 100%; float: left;">
                             <span class="order-label-mobile">Full name: </span>{{user.fullName}}
                         </div>
+                    </div>
+                    <div>
                         <div style="width: 50%; float: left;">
-                            <span class="order-label-mobile">Email: </span>{{user.email}}
+                            <span class="order-label-mobile">Registed: </span>{{user.registeredDate  | filterDate}}
+                        </div>
+                        <div style="width: 50%; float: left;">
+                            <span class="order-label-mobile">Expired: </span>{{user.expiredDate  | filterDate}}
                         </div>
                     </div>
                     <div>
                         <div style="width: 50%; float: left;">
-                            <span class="order-label-mobile">Cell Phone: </span>{{user.cellphone}}
-                        </div>
-                        <div style="width: 50%; float: left;">
-                            <span class="order-label-mobile">Register Date: </span>{{user.registeredDate  | filterDate}}
-                        </div>
-                    </div>
-                    <div>
-                        <div style="width: 50%; float: left;">
-                            <span class="order-label-mobile">Expired Date: </span>{{user.expiredDate  | filterDate}}
+                            <span class="order-label-mobile">Phone: </span>{{user.cellphone}}
                         </div>
                         <div style="width: 50%; float: left;">
                             <span class="order-label-mobile">Status: </span><label class = "user-status-{{listStatus.indexOf(user.status)}}">{{user.status}}</label>

@@ -157,6 +157,8 @@ angular.module('userList')
                 $scope.errorSetOwnRole = false;
 
                 $scope.listStatus = [GLOBAL_CONSTANT.ACTIVATED_USER_STATUS,GLOBAL_CONSTANT.PENDING_USER_STATUS,GLOBAL_CONSTANT.BLOCKED_USER_STATUS];
+
+                $scope.randomNumImg = 0;
                 $scope.formatDate = function(date){
                     var dateOut = new Date(date);
                     return dateOut;
@@ -165,6 +167,7 @@ angular.module('userList')
                     $scope.isEditting = true;
                 };
                 $scope.onAllClick = function () {
+                    $scope.randomNumImg = parseInt(Math.floor(Number.MAX_SAFE_INTEGER * Math.random()));
                     $scope.tab = $scope.TABSELECTED.ALL;
                     $scope.errorSetOwnRole = false;
                     $scope.isEditting = false;
