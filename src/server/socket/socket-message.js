@@ -13,6 +13,9 @@ module.exports = function(io) {
        },
        sendSupportUpdate: function(room, message) {
            send(room, '/server/supportUpdate', message);
+       },
+       sendUserExpired: function(userId, message) {
+           send('support'+userId, '/server/userExpired', message);
        }
     }
 };

@@ -274,5 +274,9 @@
     "BIRTHDAY_GREATER_THAN_CURRENT_DATE": {
         "code": 109,
         "message": "{BIRTHDAY_GREATER_THAN_CURRENT_DATE}"
-    }
+    },
+    "USER_ACCOUNT_EXPIRED": {
+         "code": 403,
+         "message": "{USER_ACCOUNT_EXPIRED}"
+     }
 }

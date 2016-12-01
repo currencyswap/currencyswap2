@@ -25,7 +25,12 @@
             'cmd' : '/server/supportUpdate',
             'topic' : [ '/receive/supportUpdate' ],
             'logmsg' : 'new-support-message that need to be informed to client'
-          }
+          },
+          {
+              'cmd' : '/server/userExpired',
+              'topic' : [ '/receive/userExpired' ],
+              'logmsg' : 'User account gets expired'
+            }
         ];
         $.WebSocketHandler = function(skParams) {
                 var socket = null;

@@ -834,3 +834,8 @@ exports.getExpiredUsers = function (time, limitTime) {
     }
     return dbUtil.executeModelFn(app.models.Member, 'find', filter);
 };
+exports.updateUserStatus = function (userId, status) {
+    var item = { 'status': status };
+    var where = { 'id': userId };
+    return dbUtil.executeModelFn(app.models.Member, 'updateAll', where, item);
+};
