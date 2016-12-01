@@ -90,6 +90,7 @@ module.exports = function Checker() {
         supportService.existMessage(ownerId, title, msg).then(function(msgInst){
             if (msgInst && msgInst.id) {
                 console.log('Message is already sent', ownerId, msg);
+                MsgExpiringOrderMap[order.id] = true;
                 return next();
             } else {
               supportService.saveMessage({'title': title, 
@@ -155,6 +156,7 @@ module.exports = function Checker() {
         supportService.existMessage(ownerId, title, msg).then(function(msgInst){
             if (msgInst && msgInst.id) {
                 console.log('Message is already sent', ownerId, msg);
+                MsgExpiringUserMap[user.id] = true;
                 return next();
             } else {
               supportService.saveMessage({'title': title, 
