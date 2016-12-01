@@ -37,7 +37,15 @@ module.exports = function (app) {
         var orderId = req.params.id;
         var creatorId = req.currentUser.id
         service.updateOrderStatus(orderId, statusId).then(function(resp){
-        	createOrderActivity(orderId, creatorId, statusId, message);
+        	if(statusId == 1){
+                service.removeOrderActivity(orderId).then(function(resp){
+                }, function(err){
+                	console.log('removeOrderActivity error : ' + JSON.stringify(err));
+                });
+        	} else {
+        		createOrderActivity(orderId, creatorId, statusId, message);	
+        	}
+        	
         	service.getOrderById(orderId).then(function(order){
         		var ownerId = order.ownerId;
         	    var accepterId = order.accepterId;
@@ -45,8 +53,17 @@ module.exports = function (app) {
         	    if(creatorId == userId){
         	    	userId = accepterId
         	    }
-        	    var title = "Order " + order.code + "has updated";
-        	    var msg = "Order " + order.code + "has been changed from" + status[statusId - 2] + " to " +status[statusId - 1];
+        	    var title ="";
+        	    var msg ="";
+        	    if(statusId == 1){
+            	    title = "Order " + order.code + "has been cancelled";
+            	    msg = title;
+        	    	
+        	    } else {
+            	    var title = "Order " + order.code + "has updated";
+            	    var msg = "Order " + order.code + " has been changed from" + status[statusId - 2] + " to " +status[statusId - 1];
+        	    	
+        	    }
         	    saveMessage(title, msg, creatorId, userId, order.code);
         	},function(err){
         		

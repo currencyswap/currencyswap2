@@ -31,8 +31,8 @@
 									<td class="col-sm-1 order-item-content"><a href="/#!/orders/{{swappingOrder.code}}">{{swappingOrder.code}}</a></td>
 									<td class="col-sm-1 order-item-content order-date">{{swappingOrder.created | filterDate}}</td>
 									<td class="col-sm-1 order-item-content order-date">{{swappingOrder.expired | filterDate}}</td>
-									<td class="col-sm-1 order-item-content">{{swappingOrder.get}} {{swappingOrder.getCurrency.code}}</td>
-									<td class="col-sm-1 order-item-content">{{swappingOrder.give}} {{swappingOrder.giveCurrency.code}}</td>
+									<td class="col-sm-1 order-item-content">{{swappingOrder.get | filterCurrency}} {{swappingOrder.getCurrency.code}}</td>
+									<td class="col-sm-1 order-item-content">{{swappingOrder.give | filterCurrency}} {{swappingOrder.giveCurrency.code}}</td>
 									<td class="col-sm-1 order-item-content">{{swappingOrder.rate}}</td>
 									
 									<td class="col-sm-1 order-item-content">{{swappingOrder.owner.username}}</td>
@@ -72,8 +72,8 @@
 									<td class="col-sm-1 order-item-content"><a href="/#!/orders/{{confirmOrder.code}}/">{{confirmOrder.code}}</a></td>
 									<td class="col-sm-1 order-item-content order-date">{{confirmOrder.created | filterDate}}</td>
 									<td class="col-sm-1 order-item-content order-date" >{{confirmOrder.expired | filterDate}}</td>
-									<td class="col-sm-1 order-item-content">{{confirmOrder.get}} {{confirmOrder.getCurrency.code}}</td>
-									<td class="col-sm-1 order-item-content">{{confirmOrder.give}} {{confirmOrder.giveCurrency.code}}</td>
+									<td class="col-sm-1 order-item-content">{{confirmOrder.get | filterCurrency}} {{confirmOrder.getCurrency.code}}</td>
+									<td class="col-sm-1 order-item-content">{{confirmOrder.give | filterCurrency}} {{confirmOrder.giveCurrency.code}}</td>
 									<td class="col-sm-1 order-item-content">{{confirmOrder.rate}}</td>
 									
 									<td class="col-sm-1 order-item-content">{{confirmOrder.owner.username}}</td>
@@ -120,8 +120,8 @@
 									<td class="col-sm-1 order-item-content"><a href="/#!/orders/{{submittedOrder.code}}">{{submittedOrder.code}}</a></td>
 									<td class="col-sm-1 order-item-content order-date">{{submittedOrder.created | filterDate}}</td>
 									<td class="col-sm-1 order-item-content order-date">{{submittedOrder.expired | filterDate}}</td>
-									<td class="col-sm-1 order-item-content">{{submittedOrder.get}} {{submittedOrder.getCurrency.code}}</td>
-									<td class="col-sm-1 order-item-content">{{submittedOrder.give}} {{submittedOrder.giveCurrency.code}}</td>
+									<td class="col-sm-1 order-item-content">{{submittedOrder.get | filterCurrency}} {{submittedOrder.getCurrency.code}}</td>
+									<td class="col-sm-1 order-item-content">{{submittedOrder.give | filterCurrency}} {{submittedOrder.giveCurrency.code}}</td>
 									<td class="col-sm-1 order-item-content">{{submittedOrder.rate}}</td>
 									<td class="col-sm-1 order-item-content order-status-{{submittedOrder.statusId}}">{{submittedOrder.status.name}}</td>
 									<td class="col-sm-2">
@@ -145,7 +145,7 @@
 			<div id="historyOrders" class="tab-panel" ng-if="tab==3">
                 <div class="table-responsive">
 					<div id="historyOrders" class="dataTables_wrapper no-footer" style="overflow: auto">
-						<table class="table table-striped2">
+						<table class="table table-striped2" >
 							<thead>
 								<tr>
 									<th class="col-sm-1 order-item-header">Order Id</th>
@@ -165,8 +165,8 @@
 									<td class="col-sm-1 order-item-content"><a href="/#!/orders/{{historyOrder.code}}">{{historyOrder.code}}</a></td>
 									<td class="col-sm-1 order-item-content order-date">{{historyOrder.created | filterDate}}</td>
 									<td class="col-sm-1 order-item-content order-date">{{historyOrder.expired | filterDate}}</td>
-									<td class="col-sm-1 order-item-content">{{historyOrder.get}} {{historyOrder.getCurrency.code}}</td>
-									<td class="col-sm-1 order-item-content">{{historyOrder.give}} {{historyOrder.giveCurrency.code}}</td>
+									<td class="col-sm-1 order-item-content">{{historyOrder.get | filterCurrency}} {{historyOrder.getCurrency.code}}</td>
+									<td class="col-sm-1 order-item-content">{{historyOrder.give | filterCurrency}} {{historyOrder.giveCurrency.code}}</td>
 									<td class="col-sm-1 order-item-content">{{historyOrder.rate}}</td>
 									<td class="col-sm-1 order-item-content">{{historyOrder.owner.username}}</td>
 									<td class="col-sm-1 order-item-content">{{historyOrder.accepter.username}}</td>
@@ -226,11 +226,11 @@
 						</div>
 						<div>
 							<div style="width: 50%; float: left;">
-								<span class="order-label-mobile">Get: </span>{{swappingOrder.get}}
+								<span class="order-label-mobile">Get: </span>{{swappingOrder.get| filterCurrency}}
 								{{swappingOrder.getCurrency.code}}
 							</div>
 							<div style="width: 50%; float: left;">
-								<span class="order-label-mobile">Give: </span>{{swappingOrder.give}}
+								<span class="order-label-mobile">Give: </span>{{swappingOrder.give| filterCurrency}}
 								{{swappingOrder.giveCurrency.code}}
 							</div>
 						</div>
@@ -289,11 +289,11 @@
 						</div>
 						<div style="width: 100%;">
 							<div style="width: 50%; float: left;">
-								<span class="order-label-mobile">Get: </span>{{confirmOrder.get}}
+								<span class="order-label-mobile">Get: </span>{{confirmOrder.get| filterCurrency}}
 								{{confirmOrder.getCurrency.code}}
 							</div>
 							<div style="width: 50%; float: left;">
-								<span class="order-label-mobile">Give: </span>{{confirmOrder.give}}
+								<span class="order-label-mobile">Give: </span>{{confirmOrder.give| filterCurrency}}
 								{{confirmOrder.giveCurrency.code}}
 							</div>
 						</div>
@@ -349,11 +349,11 @@
 						</div>
 						<div style="width: 100%;">
 							<div style="width: 50%; float: left;">
-								<span class="order-label-mobile">Get: </span>{{submittedOrder.get}}
+								<span class="order-label-mobile">Get: </span>{{submittedOrder.get| filterCurrency}}
 								{{submittedOrder.getCurrency.code}}
 							</div>
 							<div style="width: 50%; float: left;">
-								<span class="order-label-mobile">Give: </span>{{submittedOrder.give}}
+								<span class="order-label-mobile">Give: </span>{{submittedOrder.give| filterCurrency}}
 								{{submittedOrder.giveCurrency.code}}
 							</div>
 						</div>
@@ -398,11 +398,11 @@
 						</div>
 						<div style="width: 100%;">
 							<div style="width: 50%; float: left;">
-								<span class="order-label-mobile">Get: </span>{{historyOrder.get}}
+								<span class="order-label-mobile">Get: </span>{{historyOrder.get | filterCurrency}}
 								{{historyOrder.getCurrency.code}}
 							</div>
 							<div style="width: 50%; float: left;">
-								<span class="order-label-mobile">Give: </span>{{historyOrder.give}}
+								<span class="order-label-mobile">Give: </span>{{historyOrder.give| filterCurrency}}
 								{{historyOrder.giveCurrency.code}}
 							</div>
 						</div>
