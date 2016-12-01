@@ -170,7 +170,8 @@ angular.module('orders')
         			if(activities){
             			for(var i = 0; i < activities.length; i++){
             				var activity = activities[i];
-            				if(activity.statusId == 4){
+            				
+            				if(activity.creatorId == $scope.currentUser.id && activity.statusId == 4){
             					isCleared = true;
             				}
             			}

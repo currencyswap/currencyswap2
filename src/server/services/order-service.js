@@ -35,8 +35,7 @@ var creatorRelation = {
 var activitiesRelation = {
                 'relation' : 'activities',
                 'scope' : {
-                        'include' : [creatorRelation],
-						'fields' : [ 'creatorId', 'orderId', 'statusId']
+                        'include' : [creatorRelation]
                 }
 };
 exports.filterOrders = function (filter) {
@@ -99,7 +98,14 @@ exports.getUserSwappingOrders = function (userId) {
     return dbUtil.executeModelFn(app.models.Order, 'find', filter);
 };
 exports.getUserConfirmedOrders = function (userId) {
-	activitiesRelation.scope['where']=  {'creatorId': userId}
+	var activitiesRelation = {
+            'relation' : 'activities',
+            'scope' : {
+
+                    'fields' : [ 'creatorId', 'orderId', 'statusId']
+            }
+	};
+	activitiesRelation.scope['where'] =  {'creatorId': userId}
     var filter = {
             'where': {
             and: [{ or: [{'ownerId': userId}, 
@@ -237,4 +243,9 @@ exports.getTotalOrderOfUser = function(userId){
             }
     };	
     return dbUtil.executeModelFn(app.models.Order, 'count', filter);
+};
+
+exports.removeOrderActivity = function (orderId) {
+    var where = { 'orderId': orderId };
+    return dbUtil.executeModelFn(app.models.OrderActivity, 'destroyAll', where);
 };
