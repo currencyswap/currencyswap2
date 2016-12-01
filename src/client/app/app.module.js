@@ -259,6 +259,34 @@ angular.module('currencySwapApp', [
         CLEARED_ID: 5,
         CANCELED_ID: 6,
         EXPIRED_ID: 7
+    },
+    LIMIT_FIELDS_INFO: {
+        USERNAME_MIN: 5,
+        USERNAME_MAX: 25,
+        EMAIL_MIN: 5,
+        EMAIL_MAX: 255,
+        PWD_MIN: 8,
+        PWD_MAX: 25,
+        FULLNAME_MIN:0,
+        FULLNAME_MAX: 25,
+        PROFESSION_MIN: 0,
+        PROFESSION_MAX:255,
+        CELLPHONE_MIN: 0,
+        CELLPHONE_MAX: 15,
+        PP_NATIONAL_MIN: 0,
+        PP_NATIONAL_MAX: 25,
+        ADDRESS_MIN: 0,
+        ADDRESS_MAX: 255,
+        CITY_MIN:0,
+        CITY_MAX: 255,
+        POSTCODE_MIN: 0,
+        POSTCODE_MAX: 10,
+        ACC_NAME_MIN: 0,
+        ACC_NAME_MAX: 25,
+        ACC_NUM_MIN:0,
+        ACC_NUM_MAX: 25,
+        BANK_NAME_MIN: 0,
+        BANK_NAME_MAX: 255
     }
 }).filter('filterDate', function($filter){
 	return function (date, format) {
