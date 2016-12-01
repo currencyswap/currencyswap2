@@ -653,7 +653,15 @@ exports.activeUserAccount = function (activeCode, callback) {
 
 exports.getUserDetail = function (userId, callback) {
     app.models.Member.findUserDetailWithEmail(userId, function (err, user) {
-        callback( err, user);
+        user.groups(function (err, groupsOfMember) {
+            app.models.Group.findById(groupsOfMember[0].groupId, function (err, currentGroup) {
+                if (err) return callback(err);
+                else {
+                    user.group = currentGroup.name;
+                    return callback(null, user);
+                }
+            });
+        });
     })
 };
 

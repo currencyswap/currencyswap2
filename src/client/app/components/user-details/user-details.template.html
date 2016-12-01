@@ -45,16 +45,18 @@
                                 </span>
                                 </p>
                             </div>
-                            <div class="form-group">
+                            <div class="form-group" ng-class="{ 'has-error' : errorCellphoneIdExisted }">
                                 <label class="control-label" for="cellPhone">Cell phone</label>
                                 <input ng-model="user.cellphone" value="Read Only Input" id="cellPhone"
-                                       class="form-control" type="text">
+                                       class="form-control" type="text" ng-change="onChangeCellPhone()">
+                                <label class="error" ng-show="errorCellphoneIdExisted">Cellphone existed</label>
                             </div>
 
-                            <div class="form-group">
+                            <div class="form-group" ng-class="{ 'has-error' : errorNationalIdExisted }">
                                 <label class="control-label" for="nationalId">Passport ID/National ID</label>
                                 <input ng-model="user.nationalId" value="Read Only Input" id="nationalId"
-                                       class="form-control" type="text">
+                                       class="form-control" type="text" ng-change="onChangeNationalId()">
+                                <label class="error" ng-show="errorNationalIdExisted">NationalID/Passport existed</label>
                             </div>
                             <div class="form-group">
                                 <label class="control-label" for="address">Address</label>
@@ -87,7 +89,7 @@
                             </div>
                             <div class="form-group" ng-class="{ 'has-error' : errorSetOwnRole }">
                                 <label class="control-label">Set Role</label>
-                                <select name="singleSelect" ng-model="user.groupMember" class="form-control" ng-change="changeRole()">
+                                <select name="singleSelect" ng-model="groupMember" class="form-control" ng-change="changeRole()">
                                     <option value="Standard Member">Standard Member</option>
                                     <option value="Admin">Admin</option>
                                 </select>

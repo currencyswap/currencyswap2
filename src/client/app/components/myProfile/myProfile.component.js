@@ -124,6 +124,18 @@ angular.module('myProfile')
                     $scope.greaterThanCurrentDate = false;
                 };
 
+                $scope.onChangeCurrentPwd = function () {
+                    $scope.invalidPassword = false;
+                };
+
+                $scope.onNationalIdChange = function () {
+                    $scope.errorNationalIdExisted = false;
+                };
+
+                $scope.onCellphoneChange = function () {
+                    $scope.errorCellphoneExisted = false;
+                };
+
                 $scope.saveUserInfo = function () {
                     $scope.message = '';
                     $scope.gifLoading = true;
@@ -171,6 +183,21 @@ angular.module('myProfile')
                                 if (response.data.code === serverErrors.BIRTHDAY_GREATER_THAN_CURRENT_DATE) {
                                     $scope.gifLoading = false;
                                     $scope.greaterThanCurrentDate = true;
+                                }
+
+                                if (response.data.code === serverErrors.INVALID_PASSWORD) {
+                                    $scope.gifLoading = false;
+                                    $scope.invalidPassword = true;
+                                }
+
+                                if (response.data.code === serverErrors.NATIONAL_ID_EXISTED) {
+                                    $scope.gifLoading = false;
+                                    $scope.errorNationalIdExisted = true;
+                                }
+
+                                if (response.data.code === serverErrors.CELLPHONE_EXISTED) {
+                                    $scope.gifLoading = false;
+                                    $scope.errorCellphoneExisted = true;
                                 }
                             } else {
                                 $scope.getUserInfo();

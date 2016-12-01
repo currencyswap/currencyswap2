@@ -68,13 +68,15 @@
                                 <label class="control-label">Expried Date</label>
                                 <input class="form-control" type="text"  uib-datepicker-popup="{{format}}" ng-model="model.expiredDate" readonly>
                             </div>
-                            <div class="form-group">
+                            <div class="form-group" ng-class="{ 'has-error' : errorCellphoneExisted}">
                                 <label class="control-label">Cell phone</label>
-                                <input class="form-control" type="text" ng-model="model.cellphone" maxlength="20">
+                                <input class="form-control" type="text" ng-model="model.cellphone" maxlength="20" ng-change="onCellphoneChange()">
+                                <label class="error" ng-show="errorCellphoneExisted">Cellphone existed</label>
                             </div>
-                            <div class="form-group">
+                            <div class="form-group" ng-class="{ 'has-error' : errorNationalIdExisted}">
                                 <label class="control-label">Passport ID</label>
-                                <input class="form-control" type="text" ng-model="model.nationalId" maxlength="20">
+                                <input class="form-control" type="text" ng-model="model.nationalId" maxlength="20" ng-change="onNationalIdChange()">
+                                <label class="error" ng-show="errorNationalIdExisted" >National ID/Passport ID existed</label>
                             </div>
                             <div class="form-group">
                                 <label class="control-label">Address</label>
@@ -123,9 +125,10 @@
                             <div class="mb30"></div>
                             <h4 class="nomargin">Change Password</h4>
                             <form id="msgFormChangePass" name="pswForm" novalidate="novalidate">
-                                <div class="form-group">
+                                <div class="form-group" ng-class="{ 'has-error' : invalidPassword}">
                                     <label class="control-label">Current Password</label>
-                                    <input class="form-control" type="password" ng-model="model.currentPwd">
+                                    <input class="form-control" type="password" ng-model="model.currentPwd" ng-change="onChangeCurrentPwd()">
+                                    <label class="error" ng-show="invalidPassword">Invalid password</label>
                                 </div>
                                 <div class="form-group" data-ng-class="{'has-error' : pswForm.password.$invalid && !pswForm.password.$pristine}">
                                     <label class="control-label">New Password</label>
