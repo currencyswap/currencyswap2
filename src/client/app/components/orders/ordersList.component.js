@@ -91,7 +91,7 @@ angular.module('orders')
             		var cancelOrder = $window.confirm('Are you sure you want to cancel the Order?');
             	    if(cancelOrder){
 		                OrdersService.cancelSwappingOrder(orderId).then(function(resp){
-		            		$scope.$evalAsync();
+		                	getSwappingOrders();
 	                    }, function(err){
 	                        console.log('Failure in saving your message');
 	                    });
