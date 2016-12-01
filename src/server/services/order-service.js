@@ -35,7 +35,8 @@ var creatorRelation = {
 var activitiesRelation = {
                 'relation' : 'activities',
                 'scope' : {
-                        'include' : [creatorRelation]
+                        'include' : [creatorRelation],
+						'fields' : [ 'creatorId', 'orderId', 'statusId']
                 }
 };
 exports.filterOrders = function (filter) {
@@ -98,6 +99,7 @@ exports.getUserSwappingOrders = function (userId) {
     return dbUtil.executeModelFn(app.models.Order, 'find', filter);
 };
 exports.getUserConfirmedOrders = function (userId) {
+	activitiesRelation.scope['where']=  {'creatorId': userId}
     var filter = {
             'where': {
             and: [{ or: [{'ownerId': userId}, 
@@ -106,7 +108,7 @@ exports.getUserConfirmedOrders = function (userId) {
                   {or : [ {'statusId': constant.STATUS_TYPE.CONFIRMED_ID}, { 'statusId': constant.STATUS_TYPE.PENDING_ID} ]}
             ]
     },
-    'include' : [ ownerRelation, accepterRelation, giveCurrencyRelation, getCurrencyRelation, statusRelation]
+    'include' : [ ownerRelation, accepterRelation, giveCurrencyRelation, getCurrencyRelation, statusRelation, activitiesRelation]
     };
     return dbUtil.executeModelFn(app.models.Order, 'find', filter);
 };
@@ -227,4 +229,12 @@ exports.getUserAllOrders = function (userId) {
             }
     };
     return dbUtil.executeModelFn(app.models.Order, 'find', filter);
+};
+exports.getTotalOrderOfUser = function(userId){
+    var filter = {
+    		'where': { and: [{or: [{'ownerId': userId}, {'accepterId': userId}]}, 
+    		                 {'statusId': {'neq': 7}}], 
+            }
+    };	
+    return dbUtil.executeModelFn(app.models.Order, 'count', filter);
 };

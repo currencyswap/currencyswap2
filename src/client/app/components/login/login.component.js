@@ -9,10 +9,10 @@ angular.module('loginForm')
             '$window',
             'CookieService',
             'LoginService',
-            'PermissionService',
+            'PermissionService','OrdersService',
             'NavigationHelper',
             'GLOBAL_CONSTANT',
-            function loginController($scope, $rootScope, $location, $window, CookieService, LoginService, PermissionService, NavigationHelper, GLOBAL_CONSTANT) {
+            function loginController($scope, $rootScope, $location, $window, CookieService, LoginService, PermissionService, OrdersService, NavigationHelper, GLOBAL_CONSTANT) {
                 $scope.title = appConfig.title;
                 $scope.errors = [];
                 $scope.isExpired = false;
@@ -72,7 +72,17 @@ angular.module('loginForm')
                                                     }
 
                                                     if ($rootScope.permissions && $rootScope.permissions.MAINTAIN_OWN_ORDERS) {
-                                                        $location.path(routes.ORDERS);
+                                                    	
+                                                    	OrdersService.getTotalOrderOfUser().then(function(data){
+                                                    		if(data.count == 0){
+                                                    			$location.path(routes.ORDER_CREATE);
+                                                    		} else {
+                                                    			$location.path(routes.ORDERS);
+                                                    		}
+                                                    	}, function(err){
+                                                    		$location.path(routes.ORDERS);	
+                                                    	});
+                                                        
                                                     }
 
                                                     NavigationHelper.initNavigationBar();

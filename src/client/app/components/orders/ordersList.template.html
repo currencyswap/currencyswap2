@@ -10,7 +10,7 @@
                 <div class="table-responsive">
 					<div id="swappingOrders" class="dataTables_wrapper no-footer" style="overflow: auto">
 						<div class="swapping-order-title" style="text-align: left; color: #159d21; font-size: 18px;">Swapping Orders</div>
-						<table class="table table-striped2">
+						<table class="table table-striped2" ng-if="swappingOrders && swappingOrders.length > 0">
 							<thead>
 								<tr>
 									<th class="col-sm-1 order-item-header">Order Id</th>
@@ -47,10 +47,11 @@
 								</tr>
 							</tbody>
 						</table>
+						<div ng-if="!swappingOrders|| swappingOrders.length == 0">Item not found</div>
 					</div>
 					<div id="confirmedOrders" class="dataTables_wrapper no-footer" style="overflow: auto">
 						<div class="confirmed-order-title" style="text-align: left; color: #366144; font-size: 18px;">Confirmed Orders</div>
-						<table class="table table-striped2">
+						<table class="table table-striped2" ng-if="confirmOrders && confirmOrders.length > 0">
 							<thead>
 								<tr>
 									<th class="col-sm-1 order-item-header"  order-header>Order Id</th>
@@ -80,14 +81,16 @@
 									<td class="col-sm-1 order-item-content order-status-{{confirmOrder.statusId}}">{{confirmOrder.status.name}}</td>
 									<td class="col-sm-2">
 										<div class="order-action">
-											<div class="btn button-order-list button-cancel-confirm"  ng-if="(confirmOrder.statusId == 3) || currentUser.username!=confirmOrder.owner.username" ng-click="cancelConfirmedOrder(confirmOrder.id);">Cancel</div>
+											<div class="btn button-order-list button-cancel-confirm" ng-click="cancelConfirmedOrder(confirmOrder.id);">Cancel</div>
 											<div class="btn button-order-list button-clear-confirm" ng-if="(confirmOrder.statusId == 3) || !checkStatusCurrentUserInActivity(confirmOrder.activities)" ng-click="clearConfirmedOrder(confirmOrder.id);">Clear</div>
 										</div>
 									</td>
 
 								</tr>
+
 							</tbody>
 						</table>
+						<div ng-if="!confirmOrders|| confirmOrders.length == 0">Item not found</div>
 					</div>
                 </div>
 <!--                 <ul uib-pagination
@@ -99,7 +102,7 @@
             <div id="submittedOrders" class="tab-panel" ng-if="tab==2">
                 <div class="table-responsive">
 					<div id="submittedOrders" class="dataTables_wrapper no-footer" style="overflow: auto">
-						<table class="table table-striped2">
+						<table class="table table-striped2" ng-if="submittedOrders && submittedOrders.length >0">
 							<thead>
 								<tr>
 									<th class="col-sm-1 order-item-header">Order Id</th>
@@ -130,6 +133,7 @@
 								</tr>
 							</tbody>
 						</table>
+						<div ng-if="!submittedOrders|| submittedOrders.length == 0">Item not found</div>
 					</div>
                 </div>
 <!--                 <ul uib-pagination
@@ -170,6 +174,7 @@
 								</tr>
 							</tbody>
 						</table>
+						<div ng-if="!historyOrders|| historyOrders.length == 0">Item not found</div>
 					</div>
 					
                 </div>
@@ -200,7 +205,7 @@
 		</ul>
 		<div class="tab-content ">
 			<div id="workingOrders" class="tab-panel" ng-if="tab==1">
-				<div id="swappingOrders">
+				<div id="swappingOrders" if="swappingOrders && swappingOrders.length >0">
 <!-- 					<div class="row" style="text-align: left; color: #159d21; font-size: 18px;" ng-if="swappingOrders && swappingOrders.length > 0">Swapping
 						Orders</div> -->
 
@@ -258,7 +263,7 @@
 						</div>
 					</div>
 				</div>
-				
+				<div ng-if="!swappingOrders || swappingOrders.length == 0">Item not found</div>
 
 			</div>
 			<div id="confirmOrders" class="tab-panel" ng-if="tab==4">
@@ -322,6 +327,7 @@
 
 						</div>
 					</div>
+					<div ng-if="!confirmOrders || confirmOrders.length == 0">Item not found</div>
 				</div>
 			</div>
 			<div id="submittedOrders" class="tab-panel" ng-if="tab==2">
@@ -369,6 +375,7 @@
 
 						</div>
 					</div>
+					<div ng-if="!submittedOrders || submittedOrders.length == 0">Item not found</div>
 				</div>
 			</div>
 			<div id="historyOrders" class="tab-panel" ng-if="tab==3">
@@ -417,7 +424,7 @@
 						</div>
 
 					</div>
-
+					<div ng-if="!historyOrders || historyOrders.length == 0">Item not found</div>
 				</div>
 			</div>
 		</div>
