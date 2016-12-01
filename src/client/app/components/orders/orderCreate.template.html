@@ -9,7 +9,7 @@
 		</div>
 		<div class="panel-body">
 
-			<div class="row row-create nomargin"
+			<div class="row row-create nomargin" id="row-create"
 				ng-show="statusPage != STATUS_PAGE_VALUE.INITIALIZED">
 				<div class="col">
 					<form id="orderCreateFormId" name="orderCreateForm" novalidate="novalidate">
@@ -105,7 +105,7 @@
 				</div>
 			</div>
 
-			<div class="row row-initialized nomargin"
+			<div class="row row-initialized nomargin" id="row-initialized"
 				ng-show="statusPage == STATUS_PAGE_VALUE.INITIALIZED">
 				<div class="col form-inline">
 					<div class="row mb10">

@@ -15,7 +15,7 @@ angular.module('orders')
             'GLOBAL_CONSTANT',
             function orderDetailController($scope, $rootScope, $route,$routeParams, OrdersService, CookieService, $location, $http, $window, GLOBAL_CONSTANT) {
         		console.log("orderDetailController ....");
-        		
+        		window.scrollTo(0, 0);
         		$scope.submitLoading = false;
         		
         		$scope.orderNotExisted = false;

@@ -21,34 +21,38 @@ angular.module('orders')
         		$scope.currentUser = $rootScope.user;
         		$scope.status = ["Submitted", "Swapping", "Confirmed", "Pending", "Cleared", "Canceled"];
         		$scope.tab = 1;
+        		window.scrollTo(0, 0);
         		var getSwappingOrders = function () {
 	                OrdersService.getSwappingOrders().then(function(resp){
 	            		$scope.swappingOrders = resp;
-	            		redirectToNewOrder();
 	            		$scope.$evalAsync();
                     }, function(err){
                         console.log('Failure in saving your message');
                     });
         		};
         		var getConfirmedOrders = function () {
+        			if($.device){
+        				$scope.tab = 4;
+        			}
 	                OrdersService.getConfirmedOrders().then(function(resp){
 	            		$scope.confirmOrders = resp;
-	            		redirectToNewOrder();
 	            		$scope.$evalAsync();
                     }, function(err){
                         console.log('Failure in saving your message');
                     });
         		};
+        		$scope.getConfirmedOrders = getConfirmedOrders;
         		$scope.getWorkingOrders = function(){
         			$scope.tab = 1;
+        			window.scrollTo(0, 0);
         			getSwappingOrders();
-        			getConfirmedOrders();
+        			if(!$.device)
+        				getConfirmedOrders();
         		};
         		
         		var getSubmittedOrders = function(){
 	                OrdersService.getSumittedOrders().then(function(resp){
 	            		$scope.submittedOrders = resp;
-	            		redirectToNewOrder();
 	            		$scope.$evalAsync();
                     }, function(err){
                         console.log('Failure in saving your message');
@@ -56,12 +60,12 @@ angular.module('orders')
         		};
         		$scope.getSubmittedOrders = function(){
         			$scope.tab = 2;
+        			window.scrollTo(0, 0);
         			getSubmittedOrders();
         		};
         		var getHistoryOrders = function(){
 	                OrdersService.getHistoryOrders().then(function(resp){
 	            		$scope.historyOrders = resp;
-	            		redirectToNewOrder();
 	            		$scope.$evalAsync();
                     }, function(err){
                         console.log('Failure in saving your message');
@@ -69,83 +73,11 @@ angular.module('orders')
         		};
         		$scope.getHistoryOrders = function(){
         			$scope.tab = 3;
+        			window.scrollTo(0, 0);
         			getHistoryOrders();
         		}
-        		
-        		var redirectToNewOrder = function(){
-        			if(($scope.swappingOrders && $scope.swappingOrders.length > 0) ||
-        					($scope.confirmOrders && $scope.confirmOrders.length > 0) ||
-        					($scope.submittedOrders && $scope.submittedOrders.length > 0) ||
-        					($scope.historyOrders && $scope.historyOrders.length > 0)){
-//        				
-        			} else {
-//        				$location.path(routes.ORDER_CREATE);
-        			}
-        		}
-        		$scope.test = {
-				"code" : "e4dd7619ad",
-				"created" : "2016-11-29T09:52:18.000Z",
-				"updated" : "2016-11-29T09:52:18.000Z",
-				"expired" : "2016-12-02T09:52:15.000Z",
-				"rate" : 0.74,
-				"give" : 1000,
-				"giveCurrencyId" : 9,
-				"get" : 900,
-				"getCurrencyId" : 2,
-				"ownerId" : 2,
-				"accepterId" : null,
-				"statusId" : 1,
-				"id" : 9,
-				"owner" : {
-					"username" : "demo",
-					"email" : "demo@vsii.com",
-					"fullName" : "Demo CS",
-					"id" : 2
-				},
-				"giveCurrency" : {
-					"code" : "ALL",
-					"name" : "Albanian Lek",
-					"id" : 9
-				},
-				"getCurrency" : {
-					"code" : "EUR",
-					"name" : "Euro",
-					"id" : 2
-				},
-				"status" : {
-					"name" : "Submitted",
-					"description" : "Order has just been submitted to the market",
-					"id" : 1
-				},
-				"activities" : [ {
-					"orderId" : 9,
-					"creatorId" : 2,
-					"statusId" : 1,
-					"created" : "2016-11-29T09:52:18.000Z",
-					"description" : "Your order has been publiced to the market",
-					"creator" : {
-						"username" : "demo",
-						"email" : "demo@vsii.com",
-						"fullName" : "Demo CS",
-						"birthday" : "2016-10-01T00:00:00.000Z",
-						"nationalId" : null,
-						"cellphone" : null,
-						"profession" : null,
-						"bankAccountName" : null,
-						"bankAccountNumber" : null,
-						"bankName" : null,
-						"bankCountry" : null,
-						"registeredDate" : "2016-11-29T00:00:00.000Z",
-						"expiredDate" : "2017-06-30T00:00:00.000Z",
-						"status" : "Activated",
-						"id" : 2
-					}
-				} ]
-			};   		
         		$scope.isDevice = $.device;
         		$scope.getWorkingOrders();
-        		getHistoryOrders();
-        		getSubmittedOrders();
         		var getOrderById = function(orderId){
 	                OrdersService.getOrderById(orderId).then(function(resp){
 	            		$scope.$evalAsync();

@@ -1,8 +1,8 @@
 <div class="row order-content" ng-if="!isDevice">
     <div class="col-md-8 order-tabs">
         <ul class="nav nav-tabs">
-            <li class="active"><a href="" data-toggle="tab" ng-click="getWorkingOrders();"><strong>Working Orders</strong></a></li>
-            <li class=""><a href="" data-toggle="tab" ng-click="getSubmittedOrders();"><strong>Submitted Orders</strong></a></li>
+            <li class="active"><a href="" data-toggle="tab" ng-click="getWorkingOrders();"><strong>Working</strong></a></li>
+            <li class=""><a href="" data-toggle="tab" ng-click="getSubmittedOrders();"><strong>Submitted</strong></a></li>
             <li class=""><a href="" data-toggle="tab" ng-click="getHistoryOrders();"><strong>History</strong></a></li>
         </ul>
         <div class="tab-content">
@@ -188,18 +188,21 @@
 		<ul class="nav nav-tabs">
 			<li class="active"><a href=""
 				class="tab-cs-mobile" data-toggle="tab"
-				ng-click="getWorkingOrders();"><strong>Working Orders</strong></a></li>
+				ng-click="getWorkingOrders();"><strong>Working</strong></a></li>
+			<li class=""><a href=""
+				class="tab-cs-mobile" data-toggle="tab"
+				ng-click="getConfirmedOrders();"><strong>Confirmed</strong></a></li>
+
 			<li class=""><a href="" class="tab-cs-mobile" data-toggle="tab"
-				ng-click="getSubmittedOrders();"><strong>Submitted
-						Orders</strong></a></li>
+				ng-click="getSubmittedOrders();"><strong>Submitted</strong></a></li>
 			<li class=""><a href="" class="tab-cs-mobile" data-toggle="tab"
 				ng-click="getHistoryOrders();"><strong>History</strong></a></li>
 		</ul>
 		<div class="tab-content ">
 			<div id="workingOrders" class="tab-panel" ng-if="tab==1">
 				<div id="swappingOrders">
-					<div class="row" style="text-align: left; color: #159d21; font-size: 18px;" ng-if="swappingOrders && swappingOrders.length > 0">Swapping
-						Orders</div>
+<!-- 					<div class="row" style="text-align: left; color: #159d21; font-size: 18px;" ng-if="swappingOrders && swappingOrders.length > 0">Swapping
+						Orders</div> -->
 
 					<div ng-repeat="swappingOrder in swappingOrders" class="row order-item-mobile">
 						<div>
@@ -255,11 +258,15 @@
 						</div>
 					</div>
 				</div>
+				
+
+			</div>
+			<div id="confirmOrders" class="tab-panel" ng-if="tab==4">
 				<div id="confirmOrders">
-					<div class="row"
+<!-- 					<div class="row"
 						style="text-align: left; color: #366144; font-size: 18px; padding: 10px 0 0;"  ng-if="confirmOrders && confirmOrders.length > 0">Confirmed
 						Orders</div>
-
+ -->
 					<div ng-repeat="confirmOrder in confirmOrders" class="row order-item-mobile">
 						<div style="width: 100%;">
 							<a href="/#!/orders/{{confirmOrder.code}}"><span
@@ -316,7 +323,6 @@
 						</div>
 					</div>
 				</div>
-
 			</div>
 			<div id="submittedOrders" class="tab-panel" ng-if="tab==2">
 				<div id="submittedOrders">
