@@ -8,6 +8,7 @@ var errorUtil = require('../libs/errors/error-util');
 var userService = require('../services/user-service');
 var constant = require('../libs/constants/constants');
 var supportService = require('../services/support-service');
+var userValidation = require('../validation/user-validation');
 
 module.exports = function (app) {
     var router = app.loopback.Router();
@@ -52,6 +53,7 @@ module.exports = function (app) {
     router.post('/:id', function (req, res) {
         var admin = req.currentUser;
         var updatingUser = req.body;
+        
         async.waterfall([
             function (next) {
                 userService.getUserByUsernameWithoutRelationModel(updatingUser, function (err, user) {

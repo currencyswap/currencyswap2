@@ -4,8 +4,17 @@ var exports = module.exports;
 var errorUtils = require('../libs/errors/error-util');
 var errors = require('../libs/errors/errors');
 var validator = require('validator');
+var md5 = require('js-md5');
 
-exports.validateRequestObject = function (clientUserObj) {
+exports.validateRegisterRequestObject = function (clientUserObj) {
+
+    var bankInfo = {
+        accountName: clientUserObj.bankAccountName,
+        accountNumber: clientUserObj.bankAccountNumber,
+        bankName: clientUserObj.bankName,
+        bankCountry: clientUserObj.bankCountry
+    };
+
     exports.validateUsername(clientUserObj.username);
     exports.validatePassword(clientUserObj.password);
     exports.validateEmail(clientUserObj.email);
@@ -14,6 +23,32 @@ exports.validateRequestObject = function (clientUserObj) {
     exports.validateCellphone(clientUserObj.cellphone);
     exports.validateProfession(clientUserObj.profession);
     exports.validateNationalId(clientUserObj.nationalId);
+    exports.validateAddresses(clientUserObj.addresses);
+    exports.validateBankInfo(bankInfo);
+};
+
+exports.validateEditedProfileRequestObject = function (clientUserObj) {
+
+    var bankInfo = {
+        accountName: clientUserObj.bankAccountName,
+        accountNumber: clientUserObj.bankAccountNumber,
+        bankName: clientUserObj.bankName,
+        bankCountry: clientUserObj.bankCountry
+    };
+
+    exports.validateUsername(clientUserObj.username);
+
+    if (clientUserObj.newPwd && clientUserObj.passwordCompare) {
+        exports.validateEditedPassword(clientUserObj.newPwd, clientUserObj.passwordCompare);
+    }
+    exports.validateEmail(clientUserObj.email);
+    exports.validateFullName(clientUserObj.fullName);
+    exports.validateBirthDay(clientUserObj.birthday);
+    exports.validateCellphone(clientUserObj.cellphone);
+    exports.validateProfession(clientUserObj.profession);
+    exports.validateNationalId(clientUserObj.nationalId);
+    exports.validateAddresses(clientUserObj.addresses);
+    exports.validateBankInfo(bankInfo);
 };
 
 exports.validateUsername = function (username) {
@@ -22,7 +57,7 @@ exports.validateUsername = function (username) {
     }
 
     if (typeof username !== 'string') {
-        throw errorUtils.createAppError(errors.USERNAME_IS_NOT_STRING);
+        throw errorUtils.createAppError(errors.INVALID_INPUT_DATA);
     }
 
     if (username.length > 64) {
@@ -36,11 +71,19 @@ exports.validatePassword = function (password) {
     }
 
     if (typeof password !== 'string') {
-        throw errorUtils.createAppError(errors.PASSWORD_IS_NOT_STRING);
+        throw errorUtils.createAppError(errors.INVALID_INPUT_DATA);
     }
 
     if (password.length > 64) {
-        throw errorUtil.createAppError(errors.PASSWORD_EXCEED_MAX_LENGTH);
+        throw errorUtils.createAppError(errors.PASSWORD_EXCEED_MAX_LENGTH);
+    }
+};
+
+exports.validateEditedPassword = function (newPassword, confirmationPassword) {
+    if (newPassword !== confirmationPassword) throw errorUtils.createAppError(errors.INVALID_INPUT_DATA);
+    if (typeof newPassword !== 'string') throw errorUtils.createAppError(errors.INVALID_INPUT_DATA);
+    if (newPassword.length < 8 || (md5(newPassword)).length > 64) {
+        throw errorUtils.createAppError(errors.INVALID_INPUT_DATA);
     }
 };
 
@@ -50,7 +93,7 @@ exports.validateEmail = function (email) {
     }
 
     if (typeof email !== 'string') {
-        throw errorUtils.createAppError(errors.EMAIL_IS_NOT_STRING);
+        throw errorUtils.createAppError(errors.INVALID_INPUT_DATA);
     }
 
     if (email.length > 64) {
@@ -65,7 +108,7 @@ exports.validateEmail = function (email) {
 exports.validateFullName = function (fullName) {
     if (fullName) {
         if (typeof fullName !== 'string') {
-            throw errorUtils.createAppError(errors.FULLNAME_IS_NOT_STRING);
+            throw errorUtils.createAppError(errors.INVALID_INPUT_DATA);
         }
 
         if (fullName.length > 128) {
@@ -74,10 +117,14 @@ exports.validateFullName = function (fullName) {
     }
 };
 
-exports.validateBirthDay = function(birthDay) {
+exports.validateBirthDay = function (birthDay) {
     if (birthDay) {
         if (!validator.isDate(birthDay)) {
-            throw errorUtils.createAppError(errors.BIRTHDAY_IS_NOT_DATE_TYPE);
+            throw errorUtils.createAppError(errors.INVALID_INPUT_DATA);
+        }
+
+        if (new Date(birthDay) > new Date(Date.now())) {
+            throw errorUtils.createAppError(errors.BIRTHDAY_GREATER_THAN_CURRENT_DATE);
         }
     }
 };
@@ -106,38 +153,80 @@ exports.validateNationalId = function (nationalId) {
     }
 };
 
-exports.validateUsernamePass = function( user, callback ) {
+exports.validateAddresses = function (addresses) {
+    if (addresses) {
+        if (!Array.isArray(addresses)) {
+            throw errorUtils.createAppError(errors.INVALID_INPUT_DATA);
+        }
 
-    if ( user === undefined || user === null ) {
-        return callback( errorUtil.createAppError( errors.INVALID_AUTHORIZATION_HEADER ));  
+        addresses.forEach(function (address) {
+            if (address.name) {
+                if (typeof address.address !== 'string' || address.address.length > 256) {
+                    throw errorUtils.createAppError(errors.INVALID_INPUT_DATA);
+                }
+
+                if (typeof address.city !== 'string' || address.city.length > 128) {
+                    throw errorUtils.createAppError(errors.INVALID_INPUT_DATA);
+                }
+
+                if (typeof address.state !== 'string' || address.state.length > 128) {
+                    throw errorUtils.createAppError(errors.INVALID_INPUT_DATA);
+                }
+
+                if (typeof address.country !== 'string' || address.country.length > 128) {
+                    throw errorUtils.createAppError(errors.INVALID_INPUT_TYPE);
+                }
+
+                if (typeof address.postcode !== 'string' || address.postcode.length > 64) {
+                    throw errorUtils.createAppError(errors.INVALID_INPUT_DATA);
+                }
+            }
+        })
+    }
+};
+
+exports.validateBankInfo = function (bankInfo) {
+    for (var key in bankInfo) {
+        if (bankInfo[key]) {
+            if (typeof bankInfo[key] !== 'string' || bankInfo[key].length > 128) {
+                throw errorUtils.createAppError(errors.INVALID_INPUT_DATA);
+            }
+        }
+    }
+};
+
+exports.validateUsernamePass = function (user, callback) {
+
+    if (user === undefined || user === null) {
+        return callback(errorUtils.createAppError(errors.INVALID_AUTHORIZATION_HEADER));
     }
 
-    if ( user.username === undefined ) {
-        return callback( errorUtil.createAppError( errors.MEMBER_NO_USERNAME ));  
+    if (user.username === undefined) {
+        return callback(errorUtils.createAppError(errors.MEMBER_NO_USERNAME));
     }
 
-    if ( user.password === undefined ) {
-        return callback( errorUtil.createAppError( errors.MEMBER_NO_PASSWORD ));        
+    if (user.password === undefined) {
+        return callback(errorUtils.createAppError(errors.MEMBER_NO_PASSWORD));
     }
 
-    callback( null );
+    callback(null);
 
 };
 
-exports.validateUserPass = function( user, callback ) {
+exports.validateUserPass = function (user, callback) {
 
-    if ( user.username === undefined ) {
-        return callback( errorUtil.createAppError( errors.MEMBER_NO_USERNAME ));  
+    if (user.username === undefined) {
+        return callback(errorUtils.createAppError(errors.MEMBER_NO_USERNAME));
     }
 
-    if ( user.password === undefined ) {
-        return callback( errorUtil.createAppError( errors.MEMBER_NO_PASSWORD ));        
+    if (user.password === undefined) {
+        return callback(errorUtils.createAppError(errors.MEMBER_NO_PASSWORD));
     }
 
-    if ( user.email === undefined ) {
-        return callback( errorUtil.createAppError( errors.MEMBER_NO_EMAIL ));
+    if (user.email === undefined) {
+        return callback(errorUtils.createAppError(errors.MEMBER_NO_EMAIL));
     }
 
-    callback( null );
+    callback(null);
 
 };

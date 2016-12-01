@@ -13,6 +13,7 @@ angular.module('orders')
             'GLOBAL_CONSTANT',
             function orderEditController($scope, $rootScope, $routeParams, OrdersService, $location, $http, $window, GLOBAL_CONSTANT) {
         		$scope.orderCode = $routeParams.orderCode;
+        		window.scrollTo(0, 0);
 	        	$scope.currencies = [];
 	        	$scope.order = undefined;
 	        	
@@ -141,6 +142,7 @@ angular.module('orders')
         		}
         		
         		$scope.onSubmit = function(){
+        			window.scrollTo(0, 0);
         			$scope.submitLoading = true;
         			$scope.hasError = false;
         			var updateOrderRequest = {};

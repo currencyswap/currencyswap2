@@ -53,6 +53,7 @@
                             <label class="control-label">Full name</label>
                             <input type="text" name="fullName" class="form-control" ng-model="user.fullName" ng-minlength="{{GLOBAL_CONSTANT.LIMIT_FIELDS_INFO.FULLNAME_MIN}}" minlength="{{GLOBAL_CONSTANT.LIMIT_FIELDS_INFO.FULLNAME_MIN}}" maxlength="{{GLOBAL_CONSTANT.LIMIT_FIELDS_INFO.FULLNAME_MAX}}" placeholder = "Full name">
                             <label class="error" ng-show="registerForm.fullName.$error.minlength">Fullname is too short.</label>
+                            <label class="error" ng-show="registerForm.fullName.$error.maxlength">Fullname is too long.</label>
                         </div>
                     </div>
                     <div class="mb10">

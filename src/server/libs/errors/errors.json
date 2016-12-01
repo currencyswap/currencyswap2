@@ -258,5 +258,21 @@
     "NATIONALID_EXCEED_MAX_LENGTH": {
         "code": 105,
         "message": "{NATIONALID_EXCEED_MAX_LENGTH}"
+    },
+    "BIRTHDAY_IS_NOT_DATE_TYPE": {
+        "code": 106,
+        "message": "{BIRTHDAY_IS_NOT_DATE_TYPE}"
+    },
+    "INVALID_INPUT_TYPE": {
+        "code": 107,
+        "message": "{INVALID_INPUT_TYPE}"
+    },
+    "INVALID_INPUT_DATA": {
+        "code": 108,
+        "message": "{INVALID_INPUT_DATA}"
+    },
+    "BIRTHDAY_GREATER_THAN_CURRENT_DATE": {
+        "code": 109,
+        "message": "{BIRTHDAY_GREATER_THAN_CURRENT_DATE}"
     }
 }

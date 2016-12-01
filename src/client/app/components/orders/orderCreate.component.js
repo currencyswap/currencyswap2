@@ -13,7 +13,7 @@ angular.module('orders')
             function orderCreateController($scope, $rootScope, OrdersService, $location, $http, $window, GLOBAL_CONSTANT) {
         		
 	        	$scope.currencies = [];
-        		
+	        	window.scrollTo(0, 0);
         		$scope.FIXED_VALUE = GLOBAL_CONSTANT.ORDER_FIXED_VALUE;
         		$scope.EXPIRED_VALUE = GLOBAL_CONSTANT.ORDER_EXPIRED_VALUE;
         		
@@ -135,6 +135,7 @@ angular.module('orders')
         		}
         		
         		$scope.onNextStep = function(){
+        			window.scrollTo(0, 0);
         			$scope.onChangeValue();
         			var dayLive = getExpiredDate();
         			var expiredDate = new Date();
@@ -149,9 +150,11 @@ angular.module('orders')
             	}
         		
         		$scope.onBackStep = function(){
+        			
         			$scope.statusPage = $scope.STATUS_PAGE_VALUE.CREATE;
         			$scope.submitLoading = false;
         			$scope.hasError = false;
+        			window.scrollTo(0, 0);
             	}
         		
         		var goToOrderList = function(){
