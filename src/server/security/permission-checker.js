@@ -95,7 +95,6 @@ var validatePermission = function (permissions, requiredPermissions, callback) {
         }
 
     }
-
     let err = errorUtil.createAppError(errors.PERMISSION_DENIDED);
 
     callback(err);
@@ -158,14 +157,24 @@ exports.collectUserPermission = function (username, callback) {
 
                 console.log('collectUserPermissionFormDB Setup user');
                 if (user) {
-
-                    console.log('JSON %s', JSON.stringify(user.toJSON()));
-                    /*redis.setUserInfo(user.toJSON(), function (err, user) {
-                        console.log('never comes here !!!');
-                        if (err) return next(err);
-                        else return next(null, user);
-                    });*/
-                    redis.setUserInfo(user.toJSON());
+                    user = user.toJSON();
+                    console.log('JSON %s', JSON.stringify(user));
+                    if (user.expiredDate) {
+                        var now = new Date();
+                        var expire = (typeof user.expiredDate === 'string' ? new Date(user.expiredDate) : user.expiredDate);
+                        console.log('now', now);
+                        console.log('expire', expire);
+                        now = now.getTime();
+                        expire = expire.getTime();
+                        console.log('now', now);
+                        console.log('expire', expire);
+                        if (expire < now) {
+                            console.log('Your account get expired', username, 'Expired Time:', user.expiredDate);
+                            var err = errorUtil.createAppError(errors.USER_ACCOUNT_EXPIRED);
+                            return next(err);
+                        }
+                    }
+                    redis.setUserInfo(user);
                     return next(null, user);
                 }
             });
@@ -215,17 +224,20 @@ exports.checkPermission = function (request, response, callback) {
             if (!err) {
                 return callback();
             }
+            
+            var errMsg = errorUtil.getResponseError(err);
 
-            if (err.code == errors.SERVER_GET_PROBLEM.code ||
-                err.code == errors.INVALID_PERMISSION.code) {
-                return response.status(500).send(errorUtil.getResponseError(err));
+            if (err.code == errors.SERVER_GET_PROBLEM.code || err.code == errors.INVALID_PERMISSION.code) {
+                return response.status(500).send(errMsg);
             } else if (err.code == errors.INVALID_REQUEST_PATH.code) {
-                return response.status(400).send(errorUtil.getResponseError(err));
+                return response.status(400).send(errMsg);
             } else if (err.code == errors.USER_IS_NOT_AVAILABLE.code) {
-                return response.status(403).send(errorUtil.getResponseError(err));
+                return response.status(403).send(errMsg);
+            } else if (err.code == errors.USER_ACCOUNT_EXPIRED.code) {
+                return response.status(403).send(errMsg);
             } else {
-                let error = errorUtil.createAppError(errors.PERMISSION_DENIDED);
-                return response.status(403).send(errorUtil.getResponseError(error));
+                errMsg = errorUtil.getResponseError(errorUtil.createAppError(errors.PERMISSION_DENIDED));
+                return response.status(403).send(errMsg);
             }
         });
 };

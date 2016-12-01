@@ -10,8 +10,9 @@ var orderService = require('../services/order-service');
 var supportService = require('../services/support-service');
 var constant = require('../libs/constants/constants');
 var config = require('../global-config');
+var redis = require('./redis');
 
-module.exports = function Checker() {
+module.exports = function Checker(app) {
     var MsgExpiringOrderMap = {};
     var MsgExpiringUserMap = {};
     
@@ -22,24 +23,27 @@ module.exports = function Checker() {
     };
     var setOrderExpired = function(next) {
         var time = new Date();
-        console.log('CronJob Checker::setOrderExpired is starting...', time);
+        console.log('JobChecker::setOrderExpired is starting...', time);
         orderService.getExpiredOrders(time).then(function(orders){
             if (orders.length === 0) {
-                console.log('CronJob Checker::setOrderExpired No items found');
+                if (config.debug) console.log('JobChecker::setOrderExpired No items found');
                 return next();
+            } else {
+                if (config.debug) console.log('JobChecker::setOrderExpired Found', orders.length);
             }
             _performInSeries(orders, function handler(order, next) {
+                if (config.debug) console.log('JobChecker::setOrderExpired For', order.id, order.code, order.give, order.get, order.rate);
                 orderService.updateOrderStatus(order.id, constant.STATUS_TYPE.EXPIRED_ID).then(function(resp){
                     return next();
                 }, function(e){
                     return next();
                 });
             }, function done(){
-                console.log('CronJob Checker::setOrderExpired Completed');
+                if (config.debug) console.log('JobChecker::setOrderExpired Completed');
                 return next();
             });
         }, function(e){
-            console.log('CronJob Checker::setOrderExpired Error', e);
+            console.log('JobChecker::setOrderExpired Error', e);
             return next();
         });
     };
@@ -54,31 +58,34 @@ module.exports = function Checker() {
             MsgExpiringOrderMap['hours'+hours] = hours;
         }
 
-        console.log('CronJob Checker::nofityExpiringOrder is starting...', beforeExpTime);
+        console.log('JobChecker::nofityExpiringOrder is starting...', beforeExpTime);
         orderService.getExpiredOrders(beforeExpTime).then(function(orders){
             if (orders.length === 0) {
-                console.log('CronJob Checker::nofityExpiringOrder No items found');
+                if (config.debug) console.log('JobChecker::nofityExpiringOrder No items found');
                 return;
+            } else {
+                if (config.debug) console.log('JobChecker::nofityExpiringOrder Found', orders.length);
             }
             supportService.getCreator((config.superUsername || 'admin')).then(function(adminUser){
                 var adminId = (adminUser.id || 1);
+                if (config.debug) console.log('JobChecker::nofityExpiringOrder Admin:', adminUser.id, adminUser.username, adminUser.email);
                 _performInSeries(orders, function handler(order, next) {
                     createExpOrderMessage(order, adminId, next);
                 }, function done(){
-                    console.log('CronJob Checker::nofityExpiringOrder Completed');
+                    if (config.debug) console.log('JobChecker::nofityExpiringOrder Completed');
                 });
             }, function(e){
-                console.log('CronJob Checker::nofityExpiringOrder Error', e);
+                console.log('JobChecker::nofityExpiringOrder Error', e);
             });
         }, function(e){
-            console.log('CronJob Checker::nofityExpiringOrder Error', e);
+            console.log('JobChecker::nofityExpiringOrder Error', e);
         });
     };
 
     var createExpOrderMessage = function(order, adminId, next) {
         order = order.toJSON();
         if (MsgExpiringOrderMap[order.id]) {
-            console.log('Message is already sent', order.id, order.code);
+            if (config.debug) console.log('Message is already sent', order.id, order.code);
             return;
         }
         var ownerId = order.owner.id;
@@ -89,19 +96,57 @@ module.exports = function Checker() {
 
         supportService.existMessage(ownerId, title, msg).then(function(msgInst){
             if (msgInst && msgInst.id) {
-                console.log('Message is already sent', ownerId, msg);
+                if (config.debug) console.log('Message is already sent', ownerId, msg);
                 MsgExpiringOrderMap[order.id] = true;
                 return next();
             } else {
               supportService.saveMessage({'title': title, 
               'message': msg, 
               'creatorId': adminId, 'receiverId': ownerId}).then(function(resp){
+                  if (config.debug) console.log('Message is sent', ownerId, msg);
                   MsgExpiringOrderMap[order.id] = true;
                   return next();
               }, function(e){
                   return next();
               });//, 'orderCode': order.code
             }
+        });
+    };
+    
+    var removeSessionOfExpiredUser = function(username) {
+        redis.getUserInfo(username, function (err, user) {
+            if (user && user.username) {
+                console.log('User get expired', username, 'Expired Time:', user.expiredDate);
+                redis.removeUserInfo(username);
+                app.SocketMessage.sendUserExpired(user.id);
+            }
+        });
+    };
+    var setUserExpired = function(next) {
+        var time = new Date();
+        console.log('JobChecker::setUserExpired is starting...', time);
+        userService.getExpiredUsers(time).then(function(users){
+            if (users.length === 0) {
+                if (config.debug) console.log('JobChecker::setUserExpired No items found');
+                return next();
+            } else {
+                if (config.debug) console.log('JobChecker::setUserExpired Found', users.length);
+            }
+            _performInSeries(users, function handler(user, next) {
+                removeSessionOfExpiredUser(user.username);
+                userService.updateUserStatus(user.id, constant.USER_STATUSES.EXPIRED).then(function(resp){
+                    if (config.debug) console.log('JobChecker::setUserExpired updateUserStatus', user.id, user.username, user.email);
+                    return next();
+                }, function(e){
+                    return next();
+                });
+            }, function done(){
+                if (config.debug) console.log('JobChecker::setUserExpired Completed');
+                return next();
+            });
+        }, function(e){
+            console.log('JobChecker::setUserExpired Error', e);
+            return next();
         });
     };
     
@@ -121,31 +166,34 @@ module.exports = function Checker() {
         limitTime.setSeconds(0);
         limitTime.setMilliseconds(0);
 
-        console.log('CronJob Checker::nofityExpiringUser is starting...', beforeExpTime, limitTime);
+        console.log('JobChecker::nofityExpiringUser is starting...', beforeExpTime, limitTime);
         userService.getExpiredUsers(beforeExpTime, limitTime).then(function(users){
             if (users.length === 0) {
-                console.log('CronJob Checker::nofityExpiringUser No items found');
+                if (config.debug) console.log('JobChecker::nofityExpiringUser No items found');
                 return;
+            } else {
+                if (config.debug) console.log('JobChecker::nofityExpiringUser Found', users.length);
             }
             supportService.getCreator((config.superUsername || 'admin')).then(function(adminUser){
                 var adminId = (adminUser.id || 1);
+                if (config.debug) console.log('JobChecker::nofityExpiringUser Admin:', adminUser.id, adminUser.username, adminUser.email);
                 _performInSeries(users, function handler(user, next) {
                     createExpUserMessage(user, adminId, next);
                 }, function done(){
-                    console.log('CronJob Checker::nofityExpiringUser Completed');
+                    if (config.debug) console.log('JobChecker::nofityExpiringUser Completed');
                 });
             }, function(e){
-                console.log('CronJob Checker::nofityExpiringUser Error', e);
+                console.log('JobChecker::nofityExpiringUser Error', e);
             });
         }, function(e){
-            console.log('CronJob Checker::nofityExpiringUser Error', e);
+            console.log('JobChecker::nofityExpiringUser Error', e);
         });
     };
 
     var createExpUserMessage = function(user, adminId, next) {
         user = user.toJSON();
         if (MsgExpiringUserMap[user.id]) {
-            console.log('Message is already sent', user.id, user.code);
+            if (config.debug) console.log('Message is already sent', user.id, user.code);
             return;
         }
         var ownerId = user.id;
@@ -155,13 +203,14 @@ module.exports = function Checker() {
 
         supportService.existMessage(ownerId, title, msg).then(function(msgInst){
             if (msgInst && msgInst.id) {
-                console.log('Message is already sent', ownerId, msg);
+                if (config.debug) console.log('Message is already sent', ownerId, msg);
                 MsgExpiringUserMap[user.id] = true;
                 return next();
             } else {
               supportService.saveMessage({'title': title, 
               'message': msg, 
               'creatorId': adminId, 'receiverId': ownerId}).then(function(resp){
+                  if (config.debug) console.log('Message is sent', ownerId, msg);
                   MsgExpiringUserMap[user.id] = true;
                   return next();
               }, function(e){
@@ -172,24 +221,24 @@ module.exports = function Checker() {
     };
     
     var init = function() {
-        console.log('CronJob Checker::init', new Date());
+        console.log('JobChecker::init', new Date());
         var delay = 10;
         var startTime = new Date();
         startTime.setSeconds(startTime.getSeconds()+delay);
         // run only 1 time at starting app
         var jobOnce = new CronJob(startTime, function() {
             setOrderExpired(nofityExpiringOrder);
-            nofityExpiringUser();
+            setUserExpired(nofityExpiringUser);
             jobOnce.stop();
           }, function () {
               jobEveryHourAtXXMins.start();
-              console.log('CronJob Checker::jobEveryHourAtXXMins is completed', new Date());
+              console.log('JobChecker::jobEveryHourAtXXMins is completed', new Date());
           }, true);
         var jobEveryHourAtXXMins = new CronJob((config.scheduleCheckExpired||'00 00,10,20,30,40,50 * * * *'), function() {
             setOrderExpired(nofityExpiringOrder);
-            nofityExpiringUser();
+            setUserExpired(nofityExpiringUser);
           }, function () {
-              console.log('CronJob Checker::jobEveryHourAtXXMins is completed', new Date());
+              console.log('JobChecker::jobEveryHourAtXXMins is completed', new Date());
           }
         );
     };

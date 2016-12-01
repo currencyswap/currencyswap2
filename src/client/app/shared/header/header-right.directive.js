@@ -34,7 +34,7 @@ angular.module('appHeader').directive('headerRight', function () {
                 $rootScope.isLoading = false;
             };
 
-            $scope.onLogout = function () {
+            $rootScope.logout = $scope.onLogout = function () {
                 $rootScope.loggedIn = false;
                 $rootScope.isLoading = true;
                 CookieService.cleanUpCookies();
@@ -97,6 +97,10 @@ angular.module('appHeader').directive('headerRight', function () {
           // update notification if have the new messages
           $.subscribe('/receive/supportUpdate', function(data) {
               $scope.updateNotification();
+          });
+          $.subscribe('/receive/userExpired', function(data) {
+              alert('Your account gets expired. Please contact Administrator for farther information!');
+              $scope.onLogout();
           });
           $.subscribe('/cs/read/notiMessage', function(msg) {
               $scope.updateNotification();
