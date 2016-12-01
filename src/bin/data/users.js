@@ -70,7 +70,7 @@ module.exports = {
         'email': 'admin2@vsii.com',
         'birthday' : '2016-10-13',
         'registeredDate' : '2016-11-29',
-        'expiredDate': exp,
+        'expiredDate' : '2056-12-31',
         'password': 'p@55word',
         'status' : 'Activated',
         'groups' : ['{ADMIN}']
@@ -81,7 +81,7 @@ module.exports = {
         'email': 'admin3@vsii.com',
         'birthday' : '2016-10-13',
         'registeredDate' : '2016-11-29',
-        'expiredDate': exp,
+        'expiredDate' : '2056-12-31',
         'password': 'p@55word',
         'status' : 'Activated',
         'groups' : ['{ADMIN}']
