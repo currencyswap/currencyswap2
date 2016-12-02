@@ -189,7 +189,7 @@ module.exports = function (app) {
     });
 
     router.get('/confirmed/cancel/:id', function (req, res) {
-        return updateOrderStatus(req, res, constant.STATUS_TYPE.SUBMITTED_ID, constant.MSG.CANCEL_ORDER_CONTENT);
+        return updateOrderStatus(req, res, constant.STATUS_TYPE.CANCELED_ID, constant.MSG.CANCEL_ORDER_CONTENT);
     });
     var countUserCleared = function(userId, orderId, statusId){
     	var count = -1;

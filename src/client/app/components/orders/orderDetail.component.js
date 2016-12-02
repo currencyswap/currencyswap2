@@ -52,7 +52,8 @@ angular.module('orders')
         		}
         		
         		var goToOrderList = function(){
-        			location.href = "/#!/orders/";
+        			//location.href = "/#!/orders/";
+        			getOrderDetail($scope.orderCode);
         		}
         		
         		var goToEdit = function(code){
@@ -72,7 +73,15 @@ angular.module('orders')
     	                    	$scope.submitLoading = false;
     	                        $window.alert('Failure to cancel action!');
     	                    });
-            	    	}else if($scope.orderStatus == $scope.statusType.CONFIRMED){
+            	    	}else if($scope.orderStatus == $scope.statusType.SUBMITTED){
+            	    		OrdersService.cancelSubmittedOrder(orderId).then(function(resp){
+            	    			$scope.submitLoading = false;
+            	    			location.href = "/#!/orders/";
+                            }, function(err){
+                            	$scope.submitLoading = false;
+                            	$window.alert('Failure to cancel action!');
+                            });
+            	    	}else{
             	    		OrdersService.cancelConfirmedOrder(orderId).then(function(resp){
             	    			$scope.submitLoading = false;
             	    			goToOrderList();
@@ -80,14 +89,6 @@ angular.module('orders')
     	                    	$scope.submitLoading = false;
     	                    	$window.alert('Failure to cancel action!');
     	                    });
-            	    	}else if($scope.orderStatus == $scope.statusType.SUBMITTED){
-            	    		OrdersService.cancelSubmittedOrder(orderId).then(function(resp){
-            	    			$scope.submitLoading = false;
-            	    			goToOrderList();
-                            }, function(err){
-                            	$scope.submitLoading = false;
-                            	$window.alert('Failure to cancel action!');
-                            });
             	    	}
             	    }
         		};
@@ -129,5 +130,19 @@ angular.module('orders')
             	    	goToEdit(orderCode);
             	    //}
         		};
+        		
+        		$scope.checkStatusCurrentUserInActivity = function(activities){
+        			var isCleared = false;
+        			if(activities){
+            			for(var i = 0; i < activities.length; i++){
+            				var activity = activities[i];
+            				
+            				if(activity.creator.username == $scope.currentUser.username && activity.statusId == 4){
+            					isCleared = true;
+            				}
+            			}
+        			}
+        			return isCleared;
+        		}
             }]
     });
