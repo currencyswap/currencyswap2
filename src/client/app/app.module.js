@@ -295,9 +295,19 @@ angular.module('currencySwapApp', [
 	    return $filter('date')(date, format);
 	}
 }).filter('filterCurrency', function($filter){
-	return function (value, symbol) {
+	return function (value, symbol, fractionSize) {
+		if(!fractionSize) fractionSize = 0;
+		if(!value){ 
+			return "";
+		}else{
+			value = value + "";
+		}
 	    if (!symbol) symbol = '';
-	    return $filter('currency')(value, symbol);
+	    
+	    if(value && value.indexOf('.') > -1){
+	    	fractionSize = value.length - value.indexOf(".") - 1;
+	    }
+	    return $filter('currency')(value, symbol, fractionSize);
 	}
 }).directive('formatCurrency', ['$filter', function ($filter) {
     return {
@@ -306,7 +316,7 @@ angular.module('currencySwapApp', [
         	var format = "currency";
         	var symbol = "";
         	var fractionSize = 0;
-        	
+        		
             if (!ctrl) return;
 
             ctrl.$formatters.unshift(function (modelValue) {
