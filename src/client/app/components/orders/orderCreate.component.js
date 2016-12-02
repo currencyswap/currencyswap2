@@ -130,6 +130,13 @@ angular.module('orders')
         			return 0;
         		}
         		
+        		/**
+        		 * 	remove .00 of number text
+        		 * */
+        		var reFormatValue = function(numberText){
+        			return parseFloat(numberText) + "";
+        		}
+        		
         		$scope.onNextStep = function(){
         			window.scrollTo(0, 0);
         			$scope.onChangeValue();
@@ -139,6 +146,11 @@ angular.module('orders')
         			
         			$scope.newOrder.dayLive = dayLive;
         			$scope.newOrder.expiredDate = expiredDate;
+        			
+        			$scope.newOrder.give = reFormatValue($scope.newOrder.give);
+        			$scope.newOrder.get = reFormatValue($scope.newOrder.get);
+        			$scope.newOrder.rate = reFormatValue($scope.newOrder.rate);
+        			
         			
         			for(var i in  $scope.currencies){
         				if($scope.newOrder.getCurrencyCode == $scope.currencies[i].code){
