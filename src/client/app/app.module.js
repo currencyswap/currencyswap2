@@ -347,7 +347,7 @@ angular.module('currencySwapApp', [
         		var isNumber = isNaN(plainNumber);
         		
         		//check isNumber
-        		if(isNumber || parseFloat(plainNumber) <= 0 || plainNumber.indexOf("-") > -1 || plainNumber.indexOf(".") > -1){
+        		if(isNumber || parseInt(plainNumber) <= 0 || plainNumber.indexOf("-") > -1 || plainNumber.indexOf(".") > -1){
         			ctrl.$setValidity('numberValied',false);
         		}else{
             		ctrl.$setValidity('numberValied',true);
