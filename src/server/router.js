@@ -5,11 +5,11 @@ var path = require('path');
 var auth = require('./libs/authentication');
 var routes = require('./routes').routes;
 var checker = require('./security/permission-checker');
+var ExpError = require('./libs/errors/error-common');
 
 module.exports = function (app) {
     app.use( routes.HOME, express.static(path.join(__dirname , '../client')));
     // app.use( routes.CLIENT, express.static(path.join(__dirname , '../client/app')));
-
     app.use(routes.CONFIG, require('./controllers/config')(app));
     app.use(routes.API_AUTHENTICATE, require('./controllers/authenticate')(app));
     app.use(routes.API_FORGOT_PASSWORD_VERIFY, require('./controllers/forgotpassword-verifyInfo')(app));
@@ -19,7 +19,6 @@ module.exports = function (app) {
     // LOGIN REQUIRED
     app.use(auth.authenticateByToken);
     app.use(checker.checkPermission);
-
     //
     app.use(routes.API_USERS, require('./controllers/users')(app));
     app.use(routes.API_ORDERS, require('./controllers/orders')(app));
@@ -36,4 +35,6 @@ module.exports = function (app) {
 //          process.exit(1);
 //      }
 //    });
+    app.use(ExpError.errorHandler404);
+    app.use(ExpError.errorHandler500);
 };
