@@ -167,7 +167,6 @@ module.exports = function (app) {
     });
     router.get('/confirmed', function (req, res) {
         service.getUserConfirmedOrders(req.currentUser.id).then(function(resp){
-        	console.log("++++++++++");
         	console.log(JSON.stringify(resp));
             return res.send(resp);
         }, function(err){
