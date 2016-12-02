@@ -20,7 +20,7 @@ angular.module('myProfile')
                 $rootScope.loading = true;
                 $scope.model = {};
                 var currentUser = CookieService.getCurrentUser();
-                $scope.randomNumImg = 0;
+                $scope.randomNumImg = Math.round(Math.floor(Number.MAX_SAFE_INTEGER * Math.random()));;
                 $scope.message = "";
                 $scope.formats = ['MMM dd,yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate'];
                 $scope.format = $scope.formats[0];
@@ -87,7 +87,8 @@ angular.module('myProfile')
                         });
 
                         file.upload.then(function (response) {
-                            $scope.randomNumImg = parseInt(Math.floor(Number.MAX_SAFE_INTEGER * Math.random()));
+                            $scope.randomNumImg = Math.round(Math.floor(Number.MAX_SAFE_INTEGER * Math.random()));
+                            $.publish('/cs/user/update', [$rootScope.user]);
                             $timeout(function () {
                                 file.result = response.data;
                             });
@@ -95,7 +96,7 @@ angular.module('myProfile')
                             if (response.status > 0)
                                 $scope.errorMsg = response.status + ': ' + response.data;
                         }, function (evt) {
-                            file.progress = Math.min(100, parseInt(100.0 *
+                            file.progress = Math.min(100, Math.round(100.0 *
                                 evt.loaded / evt.total));
                         });
                     }

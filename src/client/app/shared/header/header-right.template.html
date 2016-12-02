@@ -30,7 +30,7 @@
                 <!-- My Profile -->
                 <a class="hand-over" data-ng-click="accessMenuItem(item)" data-ng-if="item.isMyProfile">
                     <button type="button" class="btn btn-default dropdown-toggle {{item.isActivated ? 'tb-active' : ''}}" data-toggle="dropdown" data-placement="bottom" title="{{item.name}}">
-                        <img data-ng-src="{{user.avatarUrl}}" alt=""/>
+                        <img data-ng-src="{{user.avatarUrl}}?{{randomNumImg}}" alt=""/>
                         <span class="toolbar-my-profile-name">{{user.fullName}}</span>
                     </button>
                 </a>

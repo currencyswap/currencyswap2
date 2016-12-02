@@ -37,6 +37,7 @@ function startUp() {
     if (err) console.error(err.message);
   });
 
+  require('./libs/generate-client-config')();
   // Bootstrap the application, configure models, datasources and middleware.
   // Sub-apps like REST API are mounted via boot scripts.
   boot(app, __dirname, function (err) {

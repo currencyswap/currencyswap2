@@ -1,73 +1,49 @@
 'use strict';
 
 var appConfig = require('../libs/app-config');
-var routes = require('../routes').routes;
-var util = require('util');
-var errors = require('../libs/errors/errors');
-var ms = require('ms');
-var appRoot = require('app-root-path');
+var fs = require('fs');
+var path = require('path');
 
 module.exports = function (app) {
     var router = app.loopback.Router();
-
-    router.get('/setting.js', function (req, res) {
-
-        var miliseconds = ms(appConfig.getTokenExpired());
-
-        var config = {
-            title: appConfig.getTitle(),
-            footer: appConfig.getFooter(),
-            dateFormat: appConfig.getDateFormat(),
-            cookieExpried: miliseconds
-        };
-
-        var jsContent = util.format('window.appConfig = %s;', JSON.stringify(config));
-
-        res.setHeader('Content-Type', 'application/javascript');
-        res.end(new Buffer(jsContent, 'binary'));
-
-    });
-
-    router.get('/api-routes.js', function (req, res) {
-
-        var apiRoutes = {};
-
-        for (var key in routes) {
-            if (routes[key] !== routes.API && routes[key].indexOf(routes.API) == 0) {
-                apiRoutes[key] = routes[key];
+    var mediaRootPath = appConfig.getMediaFolder();
+    
+    var extSupport = 'png|jpg|tif|gif|svg|jpeg|jfif|tiff|bmp|exif|ppm|pgm|pbm|pnm'.split('|');
+    var appendExt = function(filename) {
+        var found = false;
+        var i = filename.lastIndexOf('.');
+        if (i > 0) {
+            var ext = filename.substring(i+1);
+            if (ext) {
+                ext = ext.toLowerCase();
+                if (extSupport.indexOf(ext) >= 0) {
+                    found = true;
+                }
             }
         }
-
-        var jsContent = util.format('window.apiRoutes = %s;', JSON.stringify(apiRoutes));
-
-        res.setHeader('Content-Type', 'application/javascript');
-        res.end(new Buffer(jsContent, 'binary'));
-    });
-
-    router.get('/error-codes.js', function (req, res) {
-        var errorForClients = {};
-
-        for (var key in errors) {
-            errorForClients[key] = errors[key].code;
+        if (!found) {
+            filename += '.png';
         }
-
-        var jsContent = util.format('window.serverErrors = %s;', JSON.stringify(errorForClients));
-
-        res.setHeader('Content-Type', 'application/javascript');
-        res.end(new Buffer(jsContent, 'binary'));
-    });
-
+        return filename;
+    };
+    var _sendAvatar = function(res, filePath) {
+        console.log('_sendAvatar', filePath)
+        fs.stat(filePath, function(err, stats) {
+          if (err) {
+              var not_found =  path.join(__dirname, '../../client/assets/images', 'default-user.png');
+              res.sendFile(not_found);
+          } else {
+             res.sendFile(filePath);
+          }
+        });
+    };
     router.get('/media/:filename', function (req, res) {
-        var imagePath = appConfig.getMediaFolder() + req.params.filename + '.png';
-        res.setHeader('Content-Type', 'image/png');
-
-        console.log("Media Folder : %s", imagePath );
-        res.sendFile(imagePath, function (err) {
-            if (err) {
-                console.log('profile pic was not found');
-                res.status(299).send({});
-            }
-        }) ;
+        var filename = req.params.filename;
+        if (filename) {
+            filename = appendExt(filename);
+        }
+        var filePath = path.join(mediaRootPath, filename);
+        _sendAvatar(res, filePath) ;
     });
 
     return router;

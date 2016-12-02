@@ -18,7 +18,7 @@ angular.module('orders')
         		$scope.confirmOrders = [];
         		$scope.historyOrders = [];
         		$scope.submittedOrders = [];
-        		$scope.currentUser = $rootScope.user;
+        		$scope.currentUser = CookieService.getCurrentUser();
         		$scope.status = ["Submitted", "Swapping", "Confirmed", "Pending", "Cleared", "Canceled"];
         		$scope.tab = 1;
         		window.scrollTo(0, 0);
@@ -171,7 +171,7 @@ angular.module('orders')
             			for(var i = 0; i < activities.length; i++){
             				var activity = activities[i];
             				
-            				if(activity.creatorId == $rootScope.user.id && activity.statusId == 4){
+            				if(activity.creator.username == $scope.currentUser.username && activity.statusId == 4){
             					isCleared = true;
             				}
             			}
