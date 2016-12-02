@@ -15,9 +15,9 @@ angular.module('orders').factory('OrdersService', ['ConnectorService', function 
         getSumittedOrders: function() { // status = 1 
             return this.get(apiRoutes.API_ORDERS_SUBMITTED);
         },
-		getTotalOrderOfUser: function(){
-			return this.get(apiRoutes.API_ORDERS_TOTAL);
-		},
+                getTotalOrderOfUser: function(){
+                        return this.get(apiRoutes.API_ORDERS_TOTAL);
+                },
         getOrderById : function(id){
             return this.get(apiRoutes.API_ORDERS +  '/' + id);
         },
@@ -30,18 +30,8 @@ angular.module('orders').factory('OrdersService', ['ConnectorService', function 
         getAllOrders: function(){
             return this.get(apiRoutes.API_ORDERS);
         },
-        getCurrenciesList: function(){
-            return this.get(apiRoutes.API_CURRENCIES);
-        },
-        getSuggetOrders: function() { // status = 1 
-            return this.get(apiRoutes.API_ORDERS_SUGGEST);
-        },
-        postSaveNewOrders: function(newOrder){
-        	var data = newOrder;
-            return this.post(apiRoutes.API_ORDERS, data);
-        },
         putUpdateOrder: function(code, updateOrder){
-        	var data = updateOrder;
+                var data = updateOrder;
             return this.put(apiRoutes.API_ORDERS + '/' + code, data);
         },
         getCurrenciesList: function(){
@@ -51,30 +41,30 @@ angular.module('orders').factory('OrdersService', ['ConnectorService', function 
             return this.get(apiRoutes.API_ORDERS_SUGGEST, data);
         },
         postSaveNewOrders: function(newOrder){
-        	var data = newOrder;
+                var data = newOrder;
             return this.post(apiRoutes.API_ORDERS, data);
         },
         cancelSwappingOrder:function(orderId){
-        	return this.get(apiRoutes.API_ORDERS_SWAPPING_CANCEL.replace(":id",orderId));
-		},
-		confirmSwappingOrder:function(orderId){
-			return this.get(apiRoutes.API_ORDERS_SWAPPING_CONFIRM.replace(":id",orderId));
-		},
-		cancelConfirmedOrder: function(orderId){
-			return this.get(apiRoutes.API_ORDERS_CONFIRMED_CANCEL.replace(":id",orderId));
-		},
-		clearConfirmedOrder:function(orderId){
-			return this.get(apiRoutes.API_ORDERS_CONFIRMED_CLEAR.replace(":id",orderId));
-		},
-		cancelSubmittedOrder: function(orderId){
-			return this.get(apiRoutes.API_ORDERS_SUBMITTED_CANCEL.replace(":id",orderId));
-		},
-		editSubmittedOrder: function(orderId){
-			return this.get(apiRoutes.API_ORDERS_SUBMITTED_EDIT.replace(":id",orderId));
-		},
-		swapSubmittedOrder:function(orderId){
-			return this.get(apiRoutes.API_ORDERS_SUBMITTED_SWAP.replace(":id",orderId));
-		}
-		
+                return this.get(apiRoutes.API_ORDERS_SWAPPING_CANCEL.replace(":id",orderId));
+                },
+                confirmSwappingOrder:function(orderId){
+                        return this.get(apiRoutes.API_ORDERS_SWAPPING_CONFIRM.replace(":id",orderId));
+                },
+                cancelConfirmedOrder: function(orderId){
+                        return this.get(apiRoutes.API_ORDERS_CONFIRMED_CANCEL.replace(":id",orderId));
+                },
+                clearConfirmedOrder:function(orderId){
+                        return this.get(apiRoutes.API_ORDERS_CONFIRMED_CLEAR.replace(":id",orderId));
+                },
+                cancelSubmittedOrder: function(orderId){
+                        return this.get(apiRoutes.API_ORDERS_SUBMITTED_CANCEL.replace(":id",orderId));
+                },
+                editSubmittedOrder: function(orderId){
+                        return this.get(apiRoutes.API_ORDERS_SUBMITTED_EDIT.replace(":id",orderId));
+                },
+                swapSubmittedOrder:function(orderId){
+                        return this.get(apiRoutes.API_ORDERS_SUBMITTED_SWAP.replace(":id",orderId));
+                }
+                
     });
 }]);

@@ -60,7 +60,6 @@ angular.module('resetPassword')
                 };
 
                 if ($location.search().resetCode) {
-                    CookieService.cleanUpCookies();
                     var resetCode = $location.search().resetCode;
                     var headers = {};
 
@@ -75,7 +74,8 @@ angular.module('resetPassword')
                     return $http(req)
                         .then(function (response) {
                             if (response.status === GLOBAL_CONSTANT.HTTP_ERROR_STATUS_CODE) {
-                                if (response.data.code === serverErrors.RESET_PWD_CODE_NOT_FOUND) {
+                                if (response.data.code === serverErrors.RESET_PWD_CODE_NOT_FOUND
+                                    || response.data.code === serverErrors.RESET_PWD_CODE_DOES_NOT_MATCH) {
                                     $rootScope.isLoading = false;
                                     $rootScope.error = GLOBAL_CONSTANT.RESET_CODE_EXPIRED_ERROR;
                                     return $location.url(routes.ERROR_PAGE);

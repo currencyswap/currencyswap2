@@ -1,15 +1,16 @@
 'use strict';
+var util = require('util');
+var token = require('./token');
+var async = require('async');
 
-var exports = module.exports;
 var errors = require('./errors/errors');
 var errorUtil = require('./errors/error-util');
 var constant = require('../libs/constants/constants');
-
+var ExpError = require('../libs/errors/error-common');
+var httpHeaderUtil = require('./utilities/http-header-util');
 var redis = require('./redis');
-const util = require('util');
-const httpHeaderUtil = require('./utilities/http-header-util');
-const token = require('./token');
-var async = require('async');
+
+var exports = module.exports;
 
 exports.authenticateByToken = function (request, response, callback) {
     async.waterfall([
@@ -86,6 +87,9 @@ exports.authenticateByToken = function (request, response, callback) {
     ], function (err) {
         if (!err) return callback();
         console.error('ERROR [%s]: %s', err.name, err.message);
-        return response.status(constant.HTTP_FAILURE_CODE).send(err);
+        if (ExpError.isReqService(request)) {
+            return response.status(constant.HTTP_FAILURE_CODE).send(err);
+        }
+        return ExpError.errorHandler404(request, response);
     });
 };

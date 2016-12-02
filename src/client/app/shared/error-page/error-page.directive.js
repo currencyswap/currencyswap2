@@ -23,6 +23,10 @@ angular.module('errorPage').directive('errorPage', ['GLOBAL_CONSTANT', '$window'
                 $scope.isExpiredActiveLink = true;
             }
 
+            if ($scope.error.name === GLOBAL_CONSTANT.RESET_CODE_EXPIRED_ERROR.name) {
+
+            }
+
             $scope.activeLinkExpiredError = $scope.error.name === GLOBAL_CONSTANT.ACTIVE_CODE_EXPIRED_ERROR.name;
 
             $window.scrollTo(0, 0);

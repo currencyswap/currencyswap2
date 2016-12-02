@@ -22,7 +22,7 @@
             <form name="userForm" ng-submit="submitEmail()" novalidate style="background-color: white">
                 <!-- EMAIL -->
                 <div class="form-group" ng-class="{ 'has-error' : (userForm.email.$invalid && !userForm.email.$pristine) || (isEmailNotFound && !userForm.email.$pristine)}">
-                    <input placeholder="example@gmail.com" type="email" name="email" class="form-control" ng-model="verification.submittedEmail" ng-change="onTextBoxChange()">
+                    <input placeholder="example@gmail.com" type="email" name="email" class="form-control" ng-model="verification.submittedEmail" ng-change="onTextBoxChange()" required>
                     <p ng-show="userForm.email.$invalid && !userForm.email.$pristine" class="help-block">Enter a valid email.</p>
                     <p ng-show="(isEmailNotFound)" class="help-block">Your email was not found.</p>
                 </div>
