@@ -17,20 +17,23 @@ module.exports = function (Member) {
         next();
     });
 
-    Member.findByUserId = function (userId, isActivated, callback) {
-
+    Member.findByUserId = function (userId, callback) {
+        /*console.log('userId: ', userId);
+        if (typeof userId !== 'number') {
+            userId = parseInt(userId);
+        }
         if (typeof isActivated == 'function') {
             callback = isActivated;
             isActivated = null;
-        }
+        }*/
 
         var where = {
             id: userId
         };
 
-        if (isActivated !== undefined && isActivated !== null) {
+        /*if (isActivated !== undefined && isActivated !== null) {
             where.isActivated = isActivated;
-        }
+        }*/
 
         var includeGroups = {
             relation: 'groups'
@@ -207,7 +210,10 @@ module.exports = function (Member) {
         };
 
         Member.findOne(filter, function (err, user) {
-            if (err) return callback(errorUtil.createAppError(errors.SERVER_GET_PROBLEM));
+            if (err) {
+                console.error('findOne error: ', err);
+                return callback(errorUtil.createAppError(errors.SERVER_GET_PROBLEM));
+            }
 
             if (!user)  {
 

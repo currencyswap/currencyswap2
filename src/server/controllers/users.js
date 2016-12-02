@@ -28,24 +28,25 @@ module.exports = function (app) {
     });
 
     router.get('/:id', function (req, res) {
+        console.log('get user detail !!!');
         var userId = req.params.id;
         if ( !userId ) {
 
             var err = errorUtil.createAppError( errors.MEMBER_NO_USERID );
 
-            return res.status(403).send( errorUtil.getResponseError( err ) );
+            return res.status(constant.HTTP_FAILURE_CODE).send( errorUtil.getResponseError( err ) );
         }
+
         userService.getUserDetail(userId, function (err, user) {
             if (err) {
-
                 if (err.code === errorUtil.createAppError(errors.SERVER_GET_PROBLEM).code ) {
-                    return res.status( 500 ).send(err);
+                    return res.status( constant.HTTP_FAILURE_CODE ).send(err);
                 }
 
-                return res.status( 400 ).send(err);
+                return res.status( constant.HTTP_FAILURE_CODE ).send(err);
 
             } else {
-                return res.status(200).send(user)
+                return res.status(constant.HTTP_SUCCESS_CODE).send(user)
             }
         });
     });
@@ -176,12 +177,19 @@ module.exports = function (app) {
                                                         filter[prop] = updatingUser[prop];
                                                     }
 
-                                                    user.updateAttributes(filter, function (err, updatedUser) {
+                                                    userService.updateUserInfo(user, filter, function (err, updatedUser) {
                                                         if (err) return next (errorUtil.createAppError(errors.SERVER_GET_PROBLEM));
                                                         else {
                                                             return next (null);
                                                         }
                                                     });
+
+                                                    /*user.updateAttributes(filter, function (err, updatedUser) {
+                                                        if (err) return next (errorUtil.createAppError(errors.SERVER_GET_PROBLEM));
+                                                        else {
+                                                            return next (null);
+                                                        }
+                                                    });*/
                                                 }
                                             })
                                         }
@@ -198,17 +206,27 @@ module.exports = function (app) {
                         filter[prop] = updatingUser[prop];
                     }
 
-                    user.updateAttributes(filter, function (err, updatedUser) {
+                    /*user.updateAttributes(filter, function (err, updatedUser) {
                         if (err) return next (errorUtil.createAppError(errors.SERVER_GET_PROBLEM));
                         else {
                             return next (null);
                         }
-                    })
+                    })*/
+
+                    userService.updateUserInfo(user, filter, function (err, updatedUser) {
+                        if (err) return next (errorUtil.createAppError(errors.SERVER_GET_PROBLEM));
+                        else {
+                            return next (null);
+                        }
+                    });
                 }
 
             }
         ], function (err) {
-            if (err) res.status(constant.HTTP_FAILURE_CODE).send(err);
+            if (err) {
+                console.log('ERROR ------------>', err);
+                res.status(constant.HTTP_FAILURE_CODE).send(err);
+            }
             else res.status(constant.HTTP_SUCCESS_CODE).send({});
         });
     });

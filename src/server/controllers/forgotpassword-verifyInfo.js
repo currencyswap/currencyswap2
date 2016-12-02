@@ -13,7 +13,7 @@ module.exports = function (app) {
         if (!userEmail || typeof userEmail !== 'string') {
             return res.status(constant.HTTP_FAILURE_CODE).send(errorUtils.createAppError(errors.INVALID_INPUT_TYPE))
         }
-        
+
         var options = {};
         var protocolHostAndPort = req.protocol + '://' + req.get('host');
         options.protocolHostAndPort = protocolHostAndPort;

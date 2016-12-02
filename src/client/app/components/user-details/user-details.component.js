@@ -140,24 +140,27 @@ angular.module('userDetails').component('userDetails', {
                 headers[httpHeader.AUTHORIZARION] = autheticateType.BEARER + token;
                 UserDetailsServive.getUser( $routeParams.id, headers ).then(
                     function ( response ) {
-                        console.log('user data from server: ', response.data);
-                        $scope.user = response.data;
-                        $scope.user.currentCellPhone = $scope.user.cellphone;
-                        $scope.user.currentNationalId = $scope.user.nationalId;
-                        $scope.user.currentUserGroup = $scope.user.group;
+                        if (response.status === GLOBAL_CONSTANT.HTTP_ERROR_STATUS_CODE) {
 
-                        $scope.user.birthday = new Date( $scope.user.birthday );
-                        $scope.lastBirthday = $scope.user.birthday;
-                        $scope.user.expiredDate = new Date( $scope.user.expiredDate );
-                        $scope.lastExpiredDate = $scope.user.expiredDate;
-                        $scope.fullName = $scope.user.fullName;
-                        $scope.selectedStatus.selectedStatus = $scope.user.status;
-                        if ($scope.user.group && $scope.user.group === 'User') {
-                            $scope.groupMember = 'Standard Member';
-                        }
+                        } else {
+                            $scope.user = response.data;
+                            $scope.user.currentCellPhone = $scope.user.cellphone;
+                            $scope.user.currentNationalId = $scope.user.nationalId;
+                            $scope.user.currentUserGroup = $scope.user.group;
 
-                        if ($scope.user.group && $scope.user.group === 'Admin') {
-                            $scope.groupMember = 'Admin';
+                            $scope.user.birthday = new Date( $scope.user.birthday );
+                            $scope.lastBirthday = $scope.user.birthday;
+                            $scope.user.expiredDate = new Date( $scope.user.expiredDate );
+                            $scope.lastExpiredDate = $scope.user.expiredDate;
+                            $scope.fullName = $scope.user.fullName;
+                            $scope.selectedStatus.selectedStatus = $scope.user.status;
+                            if ($scope.user.groups[0].name && $scope.user.groups[0].name === 'User') {
+                                $scope.groupMember = 'Standard Member';
+                            }
+
+                            if ($scope.user.groups[0].name && $scope.user.groups[0].name === 'Admin') {
+                                $scope.groupMember = 'Admin';
+                            }
                         }
                     }, function ( err ) {
                         console.error("ERROR : %s", JSON.stringify( err ) );

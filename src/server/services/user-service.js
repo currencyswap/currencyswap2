@@ -652,18 +652,12 @@ exports.activeUserAccount = function (activeCode, callback) {
 };
 
 exports.getUserDetail = function (userId, callback) {
-    app.models.Member.findUserDetailWithEmail(userId, function (err, user) {
-        if (err) return callback(err);
-        user.groups(function (err, groupsOfMember) {
-            if (err) return callback(err);
-            app.models.Group.findById(groupsOfMember[0].groupId, function (err, currentGroup) {
-                if (err) return callback(err);
-                else {
-                    user.group = currentGroup.name;
-                    return callback(null, user);
-                }
-            });
-        });
+    app.models.Member.findByUserId(userId, function (err, user) {
+        if (err) {
+            return callback(err);
+        } else {
+            return callback(null, user);
+        }
     })
 };
 
@@ -680,7 +674,9 @@ exports.getUserByUsernameWithoutRelationModel = function (user, callback) {
 exports.updateUserInfo = function (user, filter, callback) {
     var oldUserStatus = user.status;
     user.updateAttributes(filter, function (err, updatedUser) {
-        if (err) return callback(errorUtil.createAppError(errors.SERVER_GET_PROBLEM));
+        if (err) {
+            return callback(errorUtil.createAppError(errors.SERVER_GET_PROBLEM));
+        }
         else {
             if (oldUserStatus !== constant.USER_STATUSES.ACTIVATED && updatedUser.status === constant.USER_STATUSES.ACTIVATED) {
                 async.waterfall([
@@ -719,11 +715,13 @@ exports.updateUserInfo = function (user, filter, callback) {
                         });
                     }
                 ], function (err) {
-                    if (err) return callback(err);
-                    else return callback(null);
+                    if (err) {
+                        return callback(err);
+                    }
+                    else return callback(null, updatedUser);
                 });
             } else {
-                return callback(null);
+                return callback(null, updatedUser);
             }
         }
     });
