@@ -162,9 +162,9 @@
 				</div>
 			</div>
 			<!-- panel-footer -->
-
+			
 			<div class="table-responsive"
-				ng-if="statusPage == STATUS_PAGE_VALUE.INITIALIZED && (suggestionOrders && suggestionOrders.length)">
+				ng-if="statusPage == STATUS_PAGE_VALUE.INITIALIZED">
 				<div class="dataTables_wrapper no-footer" style="overflow: auto" ng-if="!isDevice">
 					<table class="table table-striped2">
 						<thead>
@@ -193,6 +193,7 @@
 							</tr>
 						</tbody>
 					</table>
+					<div ng-if="!suggestionOrders|| suggestionOrders.length == 0">Item not found</div>
 				</div>
 				
 			</div>

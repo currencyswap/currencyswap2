@@ -93,13 +93,20 @@ module.exports = function (app) {
     var swapSubmittedOrder = function(req, res){
     	var orderId = req.params.id;
     	var userId = 	req.currentUser.id
-        service.swapSubmittedOrder(orderId, userId, constant.STATUS_TYPE.SWAPPING_ID).then(function(resp){
-        	createOrderActivity(orderId, userId, constant.STATUS_TYPE.SWAPPING_ID)
-            return res.send(resp);
-          }, function(err){
-              return res.status(500).send(errorUtil.createAppError(errors.SERVER_GET_PROBLEM));
-          });
-    	
+    	service.getOrderById(orderId).then(function(respOrder){
+    		if(respOrder.statusId != constant.STATUS_TYPE.SUBMITTED_ID){
+    			return res.send({isError : true, message : "Order was swapped by other user!"});
+    		}
+        	
+        	service.swapSubmittedOrder(orderId, userId, constant.STATUS_TYPE.SWAPPING_ID).then(function(resp){
+            	createOrderActivity(orderId, userId, constant.STATUS_TYPE.SWAPPING_ID)
+                return res.send(resp);
+              }, function(err){
+                  return res.status(500).send(errorUtil.createAppError(errors.SERVER_GET_PROBLEM));
+              });
+        }, function(err){
+            return res.status(500).send(errorUtil.createAppError(errors.SERVER_GET_PROBLEM));
+        });
     };
     router.get('/genOrderCode', function (req, res) {
         res.send(generateCode(req.currentUser.id + req.currentUser.username));

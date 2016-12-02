@@ -228,10 +228,20 @@ angular.module('orders')
         		// swapping order
         		$scope.onSwap = function(orderId){
             		var swapOrder = $window.confirm('Are you sure you want to Swap the Order?');
+            		$scope.hasError = false;
             	    if(swapOrder){
 		                OrdersService.swapSubmittedOrder(orderId).then(function(resp){
-		                	goToOrderList();
+		                	if(resp.isError){
+		                		$scope.hasError = true;
+		                		$scope.errorMessage = resp.message;
+		                		//$window.alert(resp.message);
+		                		getSuggestionOrders();
+		                	}else{
+		                		$scope.hasError = false;
+		                		goToOrderList();
+		                	}
 	                    }, function(err){
+	                    	$scope.hasError = true;
 	                        console.log('Failure in saving your message');
 	                    });
             	    }
