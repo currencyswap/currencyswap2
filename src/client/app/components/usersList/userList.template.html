@@ -75,12 +75,13 @@
                             </tr>
                             </tbody>
                         </table>
+                        <p class = "pull-left" ng-if="usersAll.length == 0">No data found</p>
                     </div>
                 </div>
                 <ul uib-pagination
                     total-items="totalItems"
                     items-per-page= "itemsPerPage"
-                    ng-model="current">
+                    ng-model="current" ng-if="usersAll.length > 0">
                 </ul>
             </div>
             <div id="activedUser" class="tab-panel" ng-if="tab==TABSELECTED.ACTIVATED">
@@ -152,12 +153,13 @@
                             </tr>
                             </tbody>
                         </table>
+                        <p class = "pull-left" ng-if="usersActivated.length == 0">No data found</p>
                     </div>
                 </div>
                 <ul uib-pagination
                     total-items="totalItems"
                     items-per-page= "itemsPerPage"
-                    ng-model="current">
+                    ng-model="current" ng-if="usersActivated.length > 0">
                 </ul>
             </div>
             <div id="pendingUser" class="tab-panel" ng-if="tab==TABSELECTED.PENDING">
@@ -229,12 +231,13 @@
                             </tr>
                             </tbody>
                         </table>
+                        <p class = "pull-left" ng-if="usersPending.length == 0">No data found</p>
                     </div>
                 </div>
                 <ul uib-pagination
                     total-items="totalItems"
                     items-per-page= "itemsPerPage"
-                    ng-model="current">
+                    ng-model="current" ng-if="usersPending.length > 0">
                 </ul>
             </div>
         </div>
@@ -253,6 +256,7 @@
         </ul>
         <div class="tab-content ">
             <div id="allUser" class="tab-panel" ng-if="tab==TABSELECTED.ALL">
+                <div class="row"><p class = "pull-left" ng-if="usersAll.length == 0">No data found</p></div>
                 <div ng-repeat="user in usersAll | orderBy:sortType:sortReverse | offset: (current - 1) * itemsPerPage | limitTo:itemsPerPage" class="row order-item-mobile">
                     <div>
                         <div style="width: 60px; float: left;">
@@ -288,10 +292,11 @@
                 <ul uib-pagination
                     total-items="totalItems"
                     items-per-page= "itemsPerPage"
-                    ng-model="current">
+                    ng-model="current" ng-if="usersAll.length > 0">
                 </ul>
             </div>
             <div id="activedUser" class="tab-panel" ng-if="tab==TABSELECTED.ACTIVATED">
+                <div class="row"><p class = "pull-left" ng-if="usersActivated.length == 0">No data found</p></div>
                 <div ng-repeat="user in usersActivated | orderBy:sortType:sortReverse | offset: (current - 1) * itemsPerPage | limitTo:itemsPerPage" class="row order-item-mobile">
                     <div>
                         <div style="width: 60px; float: left;">
@@ -327,10 +332,11 @@
                 <ul uib-pagination
                     total-items="totalItems"
                     items-per-page= "itemsPerPage"
-                    ng-model="current">
+                    ng-model="current" ng-if="usersActivated.length > 0">
                 </ul>
             </div>
             <div id="pendingUser" class="tab-panel" ng-if="tab==TABSELECTED.PENDING">
+                <div class="row"><p class = "pull-left" ng-if="usersPending.length == 0">No data found</p></div>
                 <div ng-repeat="user in usersPending | orderBy:sortType:sortReverse | offset: (current - 1) * itemsPerPage | limitTo:itemsPerPage" class="row order-item-mobile">
                     <div>
                         <div style="width: 60px; float: left;">
@@ -366,7 +372,7 @@
                 <ul uib-pagination
                     total-items="totalItems"
                     items-per-page= "itemsPerPage"
-                    ng-model="current">
+                    ng-model="current" ng-if="usersPending.length > 0">
                 </ul>
             </div>
         </div>

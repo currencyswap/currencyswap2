@@ -271,6 +271,5 @@ angular.module('userList')
                             }
                         });
                 };
-
             }]
     });
