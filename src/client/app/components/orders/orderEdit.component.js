@@ -100,6 +100,12 @@ angular.module('orders')
         			var give = parseFloat($scope.updateOrder.give);
         			var rate = parseFloat($scope.updateOrder.rate);
         			
+        			if(rate > 0){
+        				var rateRound = Math.round(rate * 1000);
+	        			
+	        			rate = rateRound / 1000;
+        			}
+        			
         			if($scope.updateOrder.fixed == $scope.FIXED_VALUE.GIVE){
         				if(fieldChange == $scope.FIXED_VALUE.RATE){
         					if(give > 0 && rate > 0){
