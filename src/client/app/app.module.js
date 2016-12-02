@@ -40,12 +40,10 @@ angular.module('currencySwapApp', [
             $rootScope.isLoading = false;
 
             if ($location.path() === routes.FORGOT_PASSWORD_VERIFY) {
-                CookieService.cleanUpCookies();
                 return $location.path(routes.FORGOT_PASSWORD_VERIFY);
             }
 
             if ($location.search().resetCode) {
-                CookieService.cleanUpCookies();
                 return $location.path(routes.FORGOT_PASSWORD_RESET);
             }
 
