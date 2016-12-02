@@ -8,16 +8,7 @@ angular.module('appHeader').directive('headerRight', function () {
         },
         templateUrl: 'app/shared/header/header-right.template.html',
         controller: function ($rootScope, $scope, $window, $location, $element, $timeout, CookieService, NotiService) {
-            var _fixAvatarUrl = function(avatarUrl) {
-                var iA = avatarUrl.lastIndexOf('?');
-                if (iA > 0) {
-                    avatarUrl = avatarUrl.substring(0, iA+1);
-                } else {
-                    avatarUrl += '?';
-                }
-                avatarUrl += Math.round(Math.random()*10000000);
-                return avatarUrl;
-            };
+            $scope.randomNumImg = Math.round(Math.random()*10000000);
             $scope.user = {
                 permissions: $rootScope.permissions
             };
@@ -26,7 +17,7 @@ angular.module('appHeader').directive('headerRight', function () {
             $scope.toolbarItems = $rootScope.toolsBar;
 
             var cookUser = CookieService.getCurrentUser();
-            var avatarUrl = _fixAvatarUrl(cookUser.avatarUrl ? cookUser.avatarUrl : global.DEF_AVATAR);
+            var avatarUrl = (cookUser.avatarUrl ? cookUser.avatarUrl : global.DEF_AVATAR);
             $scope.user = $.extend({'avatarUrl': avatarUrl, 'username': cookUser.username, 'fullName': ''}, $rootScope.user);
 
             $scope.accessMenuItem = function(item) {
@@ -106,9 +97,9 @@ angular.module('appHeader').directive('headerRight', function () {
               $scope.updateNotification();
           });
           $.subscribe('/cs/user/update', function(user) {
-              var avatarUrl = _fixAvatarUrl(cookUser.avatarUrl ? cookUser.avatarUrl : global.DEF_AVATAR);
               $timeout(function(){
                   $scope.user = $.extend({'avatarUrl': avatarUrl, 'username': '', 'fullName': ''}, $scope.user, user);
+                  $scope.randomNumImg = Math.round(Math.random()*10000000);
               });
           });
         }

@@ -9,7 +9,7 @@
     <!-- This is only visible to small devices -->
     <div class="visible-xs hidden-sm hidden-md hidden-lg">
         <div class="media userlogged">
-            <img alt="" data-ng-src="{{user.avatarUrl}}" class="media-object">
+            <img alt="" data-ng-src="{{user.avatarUrl}}?{{randomNumImg}}" class="media-object">
             <div class="media-body">
                 <h4>{{user.fullName}}</h4>
             </div>
@@ -19,6 +19,7 @@
     <ul class="nav nav-pills nav-stacked nav-bracket mb30">
         <li><a class="hand-over" data-ng-click="accessMenuItem({'route': 'profile'})"><i class="fa fa-user"></i> <span>Profile</span></a></li>
         <li><a class="hand-over" data-ng-click="accessMenuItem({'route': 'notifications'})"><i class="glyphicon glyphicon-envelope"></i> <span>Notifications</span></a></li>
+        <li><a class="hand-over" data-ng-click="accessMenuItem({'route': 'support'})"><i class="fa fa-support"></i> <span>Support</span></a></li>
         <li><a class="hand-over" data-ng-click="accessMenuItem({'route': 'help'})"><i class="fa fa-question-circle"></i> <span>Help</span></a></li>
         <li><a class="hand-over" data-ng-click="onLogout()"><i class="fa fa-sign-out"></i> <span>Sign Out</span></a></li>
     </ul>
