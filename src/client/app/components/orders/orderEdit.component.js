@@ -94,7 +94,6 @@ angular.module('orders')
         				expiredDate : new Date(),
         				dayLive : 0
         		};
-        		console.log("orderEditController ....");
         		
         		$scope.onChangeValue = function(fieldChange){
         			var get = parseFloat($scope.updateOrder.get);
@@ -150,8 +149,8 @@ angular.module('orders')
         		}
         		
         		$scope.onSubmit = function(){
-        			$scope.submitLoading =        			window.scrollTo(0, 0);
- true;
+        			$scope.submitLoading = window.scrollTo(0, 0);
+        			true;
         			$scope.hasError = false;
         			var updateOrderRequest = {};
         			

@@ -33,7 +33,6 @@ angular.module('orders')
         		
         		var getCurrenciesList = function(){
         			OrdersService.getCurrenciesList().then(function(data){
-        				console.log("getCurrenciesList success: " + JSON.stringify(data));
         				$scope.$apply(function(){
         					$scope.currencies = data;
         					if($scope.currencies.length > 2){
@@ -56,7 +55,6 @@ angular.module('orders')
         			}
         			
         			OrdersService.getSuggetOrders(data).then(function(data1){
-        				console.log("getSuggestionOrders : " + JSON.stringify(data1));
         				$scope.$apply(function(){
         					$scope.suggestionOrders = data1;
         				});
@@ -78,7 +76,6 @@ angular.module('orders')
 	        				dayLive : 0
 	        		};
         		}
-        		console.log("orderCreateController ....");
         		
         		if($rootScope.newOrderSave){
         			$scope.newOrder = $rootScope.newOrderSave;

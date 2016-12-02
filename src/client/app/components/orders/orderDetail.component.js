@@ -14,7 +14,6 @@ angular.module('orders')
             '$window',
             'GLOBAL_CONSTANT',
             function orderDetailController($scope, $rootScope, $route,$routeParams, OrdersService, CookieService, $location, $http, $window, GLOBAL_CONSTANT) {
-        		console.log("orderDetailController ....");
         		window.scrollTo(0, 0);
         		$scope.submitLoading = false;
         		
@@ -30,7 +29,6 @@ angular.module('orders')
         		
         		var getOrderDetail = function(orderCode){
         			OrdersService.getOrderByCode(orderCode).then(function(data){
-        				console.log("getOrderDetail success: " + JSON.stringify(data));
         				$scope.$apply(function(){
         					if(data){
         						$scope.orderNotExisted = false;
@@ -126,10 +124,10 @@ angular.module('orders')
         		
         		// Clear edit order
         		$scope.onEdit = function(orderCode){
-            		var editOrder = $window.confirm('Are you sure you want to edit the Order?');
-            	    if(editOrder){
+            		//var editOrder = $window.confirm('Are you sure you want to edit the Order?');
+            	    //if(editOrder){
             	    	goToEdit(orderCode);
-            	    }
+            	    //}
         		};
             }]
     });
