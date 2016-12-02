@@ -200,6 +200,8 @@ angular.module('myProfile')
                                     $scope.errorCellphoneExisted = true;
                                 }
                             } else {
+                                var userInst = {username:updatingUser.username, fullName:updatingUser.fullName};
+                                $.publish('/cs/user/update', [userInst]);
                                 $scope.getUserInfo();
                                 $scope.gifLoading = false;
                                 $scope.message = 'Successful: Your info has been updated';
