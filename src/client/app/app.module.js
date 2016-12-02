@@ -310,7 +310,9 @@ angular.module('currencySwapApp', [
             if (!ctrl) return;
 
             ctrl.$formatters.unshift(function (modelValue) {
+            	ctrl.$setValidity('numberValied',true);
             	//console.log("viewValue $formatters : " + modelValue);
+            	
             	if(!modelValue){
             		return "";
             	}
@@ -322,12 +324,11 @@ angular.module('currencySwapApp', [
             	}else{
             		fractionSize = 0;
             	}
-            	
                 return $filter(format)(modelValue, symbol, fractionSize);
             });
 
             ctrl.$parsers.unshift(function (viewValue) {
-            	
+            	ctrl.$setValidity('numberValied',true);
             	//console.log("viewValue : " + viewValue);
             	
         		//var plainNumber = viewValue.replace(/[^\d|\-+|\.+]/g, '');

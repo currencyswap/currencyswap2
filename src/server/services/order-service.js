@@ -102,20 +102,26 @@ exports.getUserConfirmedOrders = function (userId) {
 	var activitiesRelation = {
             'relation' : 'activities',
             'scope' : {
-
-                    'fields' : [ 'creatorId', 'orderId', 'statusId']
+                    'fields' : [ 'creatorId', 'orderId', 'statusId'],
+                    'include' : [
+                                 	{
+                                 		'relation' : 'creator',
+                                        'scope' : {
+                                                'fields' : [ 'id', 'username', 'fullName','status']
+                                        }
+                                 	}
+                                ]
             }
 	};
 	activitiesRelation.scope['where'] =  {'creatorId': userId}
     var filter = {
-            'where': {
-            and: [{ or: [{'ownerId': userId}, 
-                         {'accepterId': userId}] 
-                            },
-                  {or : [ {'statusId': constant.STATUS_TYPE.CONFIRMED_ID}, { 'statusId': constant.STATUS_TYPE.PENDING_ID} ]}
-            ]
-    },
-    'include' : [ ownerRelation, accepterRelation, giveCurrencyRelation, getCurrencyRelation, statusRelation, activitiesRelation]
+			'where': {
+	            	and: [
+	            	      { or: [{'ownerId': userId}, {'accepterId': userId}]},
+	            	      {or : [ {'statusId': constant.STATUS_TYPE.CONFIRMED_ID}, { 'statusId': constant.STATUS_TYPE.PENDING_ID} ]}
+	                ]
+			},
+			'include' : [ ownerRelation, accepterRelation, giveCurrencyRelation, getCurrencyRelation, statusRelation, activitiesRelation]
     };
     return dbUtil.executeModelFn(app.models.Order, 'find', filter);
 };
