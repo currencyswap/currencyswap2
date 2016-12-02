@@ -118,7 +118,9 @@ angular.module('myProfile')
                 $scope.changeStateToEdit = function () {
                     $scope.isEditting = true;
                 };
-
+                $scope.cancelEditting = function () {
+                    $scope.isEditting = false;
+                };
                 $scope.onDOBChange = function () {
                     $scope.greaterThanCurrentDate = false;
                 };

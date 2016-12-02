@@ -145,10 +145,13 @@
                     </div>
                 </fieldset>
                 <div class="panel-footer">
-                    <button class="btn btn-success center-block" ng-click="changeStateToEdit()" ng-if="!isEditting">EDIT
-                    </button>
-                    <button class="btn btn-success center-block" ng-click="saveUserInfo()" ng-if="isEditting">SAVE
-                    </button>
+                    <div class="col-sm-6 col-sm-offset-0">
+                        <button class="btn btn-warning" ng-click="cancelEditting()" ng-if="isEditting">Cancel</button>
+                        <button class="btn btn-success" ng-click="changeStateToEdit()" ng-if="!isEditting">EDIT
+                        </button>
+                        <button class="btn btn-success" ng-click="saveUserInfo()" ng-if="isEditting">SAVE
+                        </button>
+                    </div>
                     <div class="loaders" align="center" ng-show="gifLoading">
                         <img src="../../../assets/images/loaders/loader1.gif" alt="">
                     </div>
