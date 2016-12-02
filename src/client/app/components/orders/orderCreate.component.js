@@ -181,8 +181,8 @@ angular.module('orders')
         			newOrderRequest.get = $scope.newOrder.get;
         			newOrderRequest.rate = $scope.newOrder.rate;
         			newOrderRequest.dayLive = $scope.newOrder.dayLive;
-        			newOrderRequest.getCurrencyid = $scope.newOrder.getCurrencyid;
-        			newOrderRequest.giveCurrencyid = $scope.newOrder.giveCurrencyid;
+        			newOrderRequest.getCurrencyId = $scope.newOrder.getCurrencyId;
+        			newOrderRequest.giveCurrencyId = $scope.newOrder.giveCurrencyId;
         			
         			OrdersService.postSaveNewOrders(newOrderRequest).then(function(data){
         				$scope.submitLoading = false;
