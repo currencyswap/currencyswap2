@@ -653,21 +653,18 @@ exports.activeUserAccount = function (activeCode, callback) {
 
 exports.getUserDetail = function (userId, callback) {
     app.models.Member.findByUserId(userId, function (err, user) {
-        if (err) {
-            return callback(err);
-        } else {
-            return callback(null, user);
-        }
+        return callback( err, user );
     })
 };
 
 exports.getUserByUsernameWithoutRelationModel = function (user, callback) {
     app.models.Member.findUserByUserName(user.username, function (err, userObj) {
-        if (err) return (errorUtil.createAppError(errors.SERVER_GET_PROBLEM));
-        else {
-            if (!userObj) return (errorUtil.createAppError(errors.NO_USER_FOUND_IN_DB));
-            else return callback(null, userObj)
-        }
+        
+        if (err) return errorUtil.createAppError(errors.SERVER_GET_PROBLEM);
+
+        if (!userObj) return errorUtil.createAppError(errors.NO_USER_FOUND_IN_DB);
+
+        return callback(null, userObj);
     });
 };
 
