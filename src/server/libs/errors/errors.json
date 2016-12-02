@@ -276,7 +276,11 @@
         "message": "{BIRTHDAY_GREATER_THAN_CURRENT_DATE}"
     },
     "USER_ACCOUNT_EXPIRED": {
-         "code": 403,
+         "code": 110,
          "message": "{USER_ACCOUNT_EXPIRED}"
+     },
+     "USER_ACCOUNT_BLOCKED": {
+         "code": 111,
+         "message": "{USER_ACCOUNT_BLOCKED}"
      }
 }

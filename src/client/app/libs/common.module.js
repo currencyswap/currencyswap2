@@ -107,6 +107,14 @@ angular.module('common').factory('ConnectorService', ['$rootScope', '$q', 'Cooki
         }
         return msg;
       };
+      var _getErrorCode = function(resp) {
+          var e = resp.responseJSON;
+          var code = 0;
+          if (e && (e.code || (e.error && e.error.code))) {
+              code = e.code||e.error.code;
+          }
+          return code;
+        };
 
       var _ajax = function(method, url, data, headers) {
           // update token header
@@ -124,7 +132,8 @@ angular.module('common').factory('ConnectorService', ['$rootScope', '$q', 'Cooki
             data: data
           }).fail(function(resp){
               var msg = _getErrorMsg(resp);
-              console.warn('Error Message:', msg);
+              var code = _getErrorCode(resp);
+              console.warn('Error Message:', code, msg);
               if (!window._csDismisses) {
                   window._csDismisses = {};
               }
@@ -132,8 +141,8 @@ angular.module('common').factory('ConnectorService', ['$rootScope', '$q', 'Cooki
                   return;
               }
               window._csDismisses[msg] = true;
-            if (msg === 'Your account gets expired') {
-                alert('Your account gets expired. Please contact Administrator for farther information!');
+            if (code == 110 || code == 111) {
+                alert(msg);
                 $rootScope.logout();
             } else {
                 alert(msg);

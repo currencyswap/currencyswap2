@@ -12,6 +12,7 @@ var exports = module.exports;
 var util = require('util');
 var redis = require('../libs/redis');
 var permissionConverter = require('../converters/permission-converter');
+var constant = require('../libs/constants/constants');
 
 var collectPermissionFromRules = function (request, permissionItem) {
     console.log('permissionItem.rules', permissionItem.rules);
@@ -174,6 +175,17 @@ exports.collectUserPermission = function (username, callback) {
                             return next(err);
                         }
                     }
+                    if (user.status === constant.USER_STATUSES.EXPIRED) {
+                        console.log('Your account get expired', username, 'Expired Time:', user.expiredDate);
+                        var err = errorUtil.createAppError(errors.USER_ACCOUNT_EXPIRED);
+                        return next(err);
+                    }
+                    // TODO Need to remove user session from redis when set user to be blocked
+//                    if (user.status === constant.USER_STATUSES.BLOCKED) {
+//                        console.log('Your account get blocked', username);
+//                        var err = errorUtil.createAppError(errors.USER_ACCOUNT_BLOCKED);
+//                        return next(err);
+//                    }
                     redis.setUserInfo(user);
                     return next(null, user);
                 }
@@ -234,6 +246,8 @@ exports.checkPermission = function (request, response, callback) {
             } else if (err.code == errors.USER_IS_NOT_AVAILABLE.code) {
                 return response.status(403).send(errMsg);
             } else if (err.code == errors.USER_ACCOUNT_EXPIRED.code) {
+                return response.status(403).send(errMsg);
+            } else if (err.code == errors.USER_ACCOUNT_BLOCKED.code) {
                 return response.status(403).send(errMsg);
             } else {
                 errMsg = errorUtil.getResponseError(errorUtil.createAppError(errors.PERMISSION_DENIDED));
