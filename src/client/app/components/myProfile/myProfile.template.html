@@ -33,7 +33,7 @@
                             <div class="form-group">
                                 <label class="control-label" for="fullname">Full Name</label>
                                 <input ng-model="model.fullName" id="fullname" class="form-control"
-                                       type="text" maxlength="60">
+                                       type="text" minlength="{{GLOBAL_CONSTANT.LIMIT_FIELDS_INFO.FULLNAME_MIN}}" maxlength="{{GLOBAL_CONSTANT.LIMIT_FIELDS_INFO.FULLNAME_MAX}}">
                             </div>
                             <div class="form-group" ng-class="{ 'has-error' : greaterThanCurrentDate}">
                                 <label class="control-label">Birthday</label>
@@ -70,32 +70,32 @@
                             </div>
                             <div class="form-group" ng-class="{ 'has-error' : errorCellphoneExisted}">
                                 <label class="control-label">Cell phone</label>
-                                <input class="form-control" type="text" ng-model="model.cellphone" maxlength="20" ng-change="onCellphoneChange()">
+                                <input class="form-control" type="text" ng-model="model.cellphone" minlength="{{GLOBAL_CONSTANT.LIMIT_FIELDS_INFO.CELLPHONE_MIN}}" maxlength="{{GLOBAL_CONSTANT.LIMIT_FIELDS_INFO.CELLPHONE_MAX}}" ng-change="onCellphoneChange()">
                                 <label class="error" ng-show="errorCellphoneExisted">Cellphone existed</label>
                             </div>
                             <div class="form-group" ng-class="{ 'has-error' : errorNationalIdExisted}">
                                 <label class="control-label">Passport/National ID</label>
-                                <input class="form-control" type="text" ng-model="model.nationalId" maxlength="20" ng-change="onNationalIdChange()">
+                                <input class="form-control" type="text" ng-model="model.nationalId" minlength="{{GLOBAL_CONSTANT.LIMIT_FIELDS_INFO.PP_NATIONAL_MIN}}" maxlength="{{GLOBAL_CONSTANT.LIMIT_FIELDS_INFO.PP_NATIONAL_MAX}}" ng-change="onNationalIdChange()">
                                 <label class="error" ng-show="errorNationalIdExisted" >National ID/Passport ID existed</label>
                             </div>
                             <div class="form-group">
                                 <label class="control-label">Address</label>
-                                <input class="form-control" type="text" ng-model="model.address" maxlength="80">
+                                <input class="form-control" type="text" ng-model="model.address" minlength="{{GLOBAL_CONSTANT.LIMIT_FIELDS_INFO.ADDRESS_MIN}}" maxlength="{{GLOBAL_CONSTANT.LIMIT_FIELDS_INFO.ADDRESS_MAX}}">
                             </div>
                             <div class="form-group">
                                 <label class="control-label">City</label>
-                                <input class="form-control" type="text" ng-model="model.city" maxlength="20">
+                                <input class="form-control" type="text" ng-model="model.city" minlength="{{GLOBAL_CONSTANT.LIMIT_FIELDS_INFO.CITY_MIN}}" maxlength="{{GLOBAL_CONSTANT.LIMIT_FIELDS_INFO.CITY_MAX}}">
                             </div>
                             <div class="form-group">
                                 <country-state-user country="model.country" state="model.state"></country-state-user>
                             </div>
                             <div class="form-group">
                                 <label class="control-label">Postcode</label>
-                                <input class="form-control" type="text" ng-model="model.postcode" maxlength="20">
+                                <input class="form-control" type="text" ng-model="model.postcode" minlength="{{GLOBAL_CONSTANT.LIMIT_FIELDS_INFO.POSTCODE_MIN}}" maxlength="{{GLOBAL_CONSTANT.LIMIT_FIELDS_INFO.POSTCODE_MAX}}">
                             </div>
                             <div class="form-group">
                                 <label class="control-label">Profession</label>
-                                <input class="form-control" type="text" ng-model="model.profession" maxlength="30">
+                                <input class="form-control" type="text" ng-model="model.profession" minlength="{{GLOBAL_CONSTANT.LIMIT_FIELDS_INFO.PROFESSION_MIN}}" maxlength="{{GLOBAL_CONSTANT.LIMIT_FIELDS_INFO.PROFESSION_MAX}}">
                             </div>
                         </form>
                         <div class="mb30"></div>
@@ -105,15 +105,15 @@
                         <form id="msgFormBankInfo" name="msgForm" novalidate="novalidate">
                             <div class="form-group">
                                 <label class="control-label">Account Name</label>
-                                <input class="form-control" type="text" ng-model="model.bankAccountName" maxlength="300">
+                                <input class="form-control" type="text" ng-model="model.bankAccountName" minlength="{{GLOBAL_CONSTANT.LIMIT_FIELDS_INFO.ACC_NAME_MIN}}" maxlength="{{GLOBAL_CONSTANT.LIMIT_FIELDS_INFO.ACC_NAME_MAX}}">
                             </div>
                             <div class="form-group">
                                 <label class="control-label">Account Number</label>
-                                <input class="form-control" type="text" ng-model="model.bankAccountNumber" maxlength="50">
+                                <input class="form-control" type="text" ng-model="model.bankAccountNumber" minlength="{{GLOBAL_CONSTANT.LIMIT_FIELDS_INFO.ACC_NUM_MIN}}" maxlength="{{GLOBAL_CONSTANT.LIMIT_FIELDS_INFO.ACC_NUM_MAX}}">
                             </div>
                             <div class="form-group">
                                 <label class="control-label">Bank Name</label>
-                                <input class="form-control" type="text" ng-model="model.bankName"  maxlength="300">
+                                <input class="form-control" type="text" ng-model="model.bankName"  minlength="{{GLOBAL_CONSTANT.LIMIT_FIELDS_INFO.BANK_NAME_MIN}}" maxlength="{{GLOBAL_CONSTANT.LIMIT_FIELDS_INFO.BANK_NAME_MAX}}">
                             </div>
                             <div class="form-group">
                                 <country-select country="model.bankCountry"></country-select>
