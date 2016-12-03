@@ -183,13 +183,6 @@ module.exports = function (app) {
                                                             return next (null);
                                                         }
                                                     });
-
-                                                    /*user.updateAttributes(filter, function (err, updatedUser) {
-                                                        if (err) return next (errorUtil.createAppError(errors.SERVER_GET_PROBLEM));
-                                                        else {
-                                                            return next (null);
-                                                        }
-                                                    });*/
                                                 }
                                             })
                                         }
@@ -206,13 +199,6 @@ module.exports = function (app) {
                         filter[prop] = updatingUser[prop];
                     }
 
-                    /*user.updateAttributes(filter, function (err, updatedUser) {
-                        if (err) return next (errorUtil.createAppError(errors.SERVER_GET_PROBLEM));
-                        else {
-                            return next (null);
-                        }
-                    })*/
-
                     userService.updateUserInfo(user, filter, function (err, updatedUser) {
                         if (err) return next (errorUtil.createAppError(errors.SERVER_GET_PROBLEM));
                         else {
@@ -224,7 +210,6 @@ module.exports = function (app) {
             }
         ], function (err) {
             if (err) {
-                console.log('ERROR ------------>', err);
                 res.status(constant.HTTP_FAILURE_CODE).send(err);
             }
             else res.status(constant.HTTP_SUCCESS_CODE).send({});
