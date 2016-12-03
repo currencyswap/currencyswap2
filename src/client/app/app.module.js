@@ -324,19 +324,21 @@ angular.module('currencySwapApp', [
             	if(!modelValue){
             		return "";
             	}
-            	if(modelValue.indexOf(".") > -1){
-            		fractionSize = modelValue.length - modelValue.indexOf(".") - 1;
-            		if(fractionSize > 2){
-            			fractionSize = 2;
-            		}
-            	}else{
-            		fractionSize = 0;
-            	}
                 return $filter(format)(modelValue, symbol, fractionSize);
             });
 
             ctrl.$parsers.unshift(function (viewValue) {
             	ctrl.$setValidity('numberValied',true);
+            	
+            	if(!viewValue){
+            		return "";
+            	}
+            	
+            	if(viewValue && viewValue.length > 20){
+            		viewValue = viewValue.substr(0, 21);
+    				elem.val(viewValue);
+    			}
+            	
             	//console.log("viewValue : " + viewValue);
             	
         		//var plainNumber = viewValue.replace(/[^\d|\-+|\.+]/g, '');
@@ -345,28 +347,89 @@ angular.module('currencySwapApp', [
         		var isNumber = isNaN(plainNumber);
         		
         		//check isNumber
-        		if(isNumber || parseFloat(plainNumber) <= 0 || plainNumber.indexOf("-") > -1 || plainNumber.indexOf(".") == plainNumber.length - 1){
+        		if(isNumber || parseInt(plainNumber) <= 0 || plainNumber.indexOf("-") > -1 || plainNumber.indexOf(".") > -1){
         			ctrl.$setValidity('numberValied',false);
         		}else{
-        			if(!viewValue){
-                		return "";
-                	}
-        			
-                	if(plainNumber.indexOf(".") > -1){
-                		fractionSize = plainNumber.length - plainNumber.indexOf(".") - 1;
-                		if(fractionSize > 2){
-                			fractionSize = 2;
-                			//plainNumber = plainNumber.substr(0, plainNumber.indexOf(".") + fractionSize + 1);
-                		}
-                	}else{
-                		fractionSize = 0;
-                	}
-                	
             		ctrl.$setValidity('numberValied',true);
+            		
             		var value = $filter(format)(plainNumber, symbol, fractionSize);
                     elem.val(value);
+                    
                     var result = value.replace(/[^\d|\.+]/g, '');
                     return result;
+        		}
+            });
+        }
+    };
+}]).directive('formatRate', ['$filter', function ($filter) {
+    return {
+        require: '?ngModel',
+        link: function (scope, elem, attrs, ctrl) {
+        	var fractionSize = 0;
+            if (!ctrl) return;
+
+            ctrl.$formatters.unshift(function (modelValue) {
+            	ctrl.$setValidity('numberValied',true);
+            	//console.log("viewValue $formatters : " + modelValue);
+            	
+            	if(!modelValue){
+            		return "";
+            	}else{
+            		modelValue = modelValue + '';
+            	}
+            	
+            	if(modelValue.indexOf(".") > -1){
+            		var fractionSize = modelValue.length - modelValue.indexOf(".") - 1;
+            		if(fractionSize > 3){
+            			var viewModelNumber = Math.round(parseFloat(modelValue) * 1000);
+            			modelValue = viewModelNumber / 1000 + "";
+            		}
+            	}
+            	
+            	if(parseFloat(modelValue) == 0){
+            		ctrl.$setValidity('numberValied',false);
+            	}
+            	return modelValue;
+                
+            });
+
+            ctrl.$parsers.unshift(function (viewValue) {
+            	ctrl.$setValidity('numberValied',true);
+            	
+            	if(!viewValue){
+            		return "";
+            	}
+            	
+            	if(viewValue && viewValue.length > 20){
+            		viewValue = viewValue.substr(0, 21);
+    				elem.val(viewValue);
+    			}
+            	
+        		var isNumber = isNaN(viewValue);
+        		
+        		//check isNumber
+        		if(isNumber || parseFloat(viewValue) <= 0 || viewValue.indexOf("-") > -1){
+        			ctrl.$setValidity('numberValied',false);
+        		}else{
+        			if(viewValue.indexOf(".") > -1){
+                		var fractionSize = viewValue.length - viewValue.indexOf(".") - 1;
+                		if(fractionSize > 3){
+                			var viewValueNumber = Math.round(parseFloat(viewValue) * 1000);
+                			viewValue = viewValueNumber / 1000 + "";
+                		}
+                	}
+                	
+        			if(parseFloat(viewValue) == 0){
+        				ctrl.$setValidity('numberValied',false);
+        			}else{
+        				viewValue = parseFloat(viewValue) + "";
+            			
+                		ctrl.$setValidity('numberValied',true);
+                		
+                        elem.val(viewValue);
+                        
+                        return viewValue;
+        			}
         		}
             });
         }
