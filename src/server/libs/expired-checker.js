@@ -33,7 +33,7 @@ module.exports = function Checker(app) {
             }
             _performInSeries(orders, function handler(order, next) {
                 if (config.debug) console.log('JobChecker::setOrderExpired For', order.id, order.code, order.give, order.get, order.rate);
-                orderService.updateOrderStatus(order.id, constant.STATUS_TYPE.EXPIRED_ID).then(function(resp){
+                orderService.setOrderExpired(order.id, time).then(function(resp){
                     return next();
                 }, function(e){
                     return next();

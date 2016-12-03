@@ -226,6 +226,12 @@ exports.getExpiredOrders = function (time, limitTime) {
     }
     return dbUtil.executeModelFn(app.models.Order, 'find', filter);
 };
+exports.setOrderExpired = function (orderId, time) {
+    var order = { 'statusId': constant.STATUS_TYPE.EXPIRED_ID, 'updated': new Date() };
+    var where = { 'and': [{ 'id': orderId }, {'statusId': constant.STATUS_TYPE.SUBMITTED_ID}, {'expired': {'lt': time}}] };
+    return dbUtil.executeModelFn(app.models.Order, 'updateAll', where, order);
+};
+
 exports.deleteOrder = function(orderId, userId) {
     var where = {and : [{ 'id': orderId },
                         {'ownerId': userId}]};
