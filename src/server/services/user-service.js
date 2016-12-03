@@ -675,7 +675,7 @@ exports.updateUserInfo = function (user, filter, callback) {
             return callback(errorUtil.createAppError(errors.SERVER_GET_PROBLEM));
         }
         else {
-            if (oldUserStatus !== constant.USER_STATUSES.ACTIVATED && updatedUser.status === constant.USER_STATUSES.ACTIVATED) {
+            if (oldUserStatus === constant.USER_STATUSES.PENDING_APPROVAL && updatedUser.status === constant.USER_STATUSES.ACTIVATED) {
                 async.waterfall([
                     function (next) {
                         // construct mail options
@@ -692,7 +692,7 @@ exports.updateUserInfo = function (user, filter, callback) {
                             + '<title>Account Approval</title>'
                             + '</head>'
                             + '<body>'
-                            + '<p>You account has been activated by Administrator, from now on, You can use your account to login to Currency Swap system.</p>'
+                            + '<p>Your account <b>' +updatedUser.username+ '</b> has been activated by Administrator, from now on, You can use your account to login to Currency Swap system.</p>'
                             + '<p>Thanks and best regards</p>'
                             + '<p>Currency Swap</p>'
                             + '</body>'

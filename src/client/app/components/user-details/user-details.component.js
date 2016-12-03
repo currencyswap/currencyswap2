@@ -125,6 +125,8 @@ angular.module('userDetails').component('userDetails', {
             $scope.userStatusesList.pending = GLOBAL_CONSTANT.PENDING_USER_STATUS;
             $scope.userStatusesList.new = GLOBAL_CONSTANT.NEW_USER_STATUS;
             $scope.userStatusesList.deactivated = GLOBAL_CONSTANT.DEACTIVATED_USER_STATUS;
+            $scope.userStatusesList.expired = GLOBAL_CONSTANT.EXPIRED_USER_STATUS;
+
 
             $scope.onChangeCellPhone = function () {
                 $scope.errorCellphoneIdExisted = false;
