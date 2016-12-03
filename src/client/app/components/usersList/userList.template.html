@@ -75,7 +75,7 @@
                             </tr>
                             </tbody>
                         </table>
-                        <div ng-if="usersAll.length == 0">Item not found</div>
+                        <div ng-if="usersAll.length == 0">No user found</div>
                     </div>
                 </div>
                 <ul uib-pagination
@@ -153,7 +153,7 @@
                             </tr>
                             </tbody>
                         </table>
-                        <div ng-if="usersActivated.length == 0">Item not found</div>
+                        <div ng-if="usersActivated.length == 0">No user found</div>
                     </div>
                 </div>
                 <ul uib-pagination
@@ -231,7 +231,7 @@
                             </tr>
                             </tbody>
                         </table>
-                        <div ng-if="usersPending.length == 0">Item not found</div>
+                        <div ng-if="usersPending.length == 0">No user found</div>
                     </div>
                 </div>
                 <ul uib-pagination
@@ -256,7 +256,7 @@
         </ul>
         <div class="tab-content ">
             <div id="allUser" class="tab-panel" ng-if="tab==TABSELECTED.ALL">
-                <div class="row" ng-if="usersAll.length == 0">Item not found</div>
+                <div class="row" ng-if="usersAll.length == 0">No user found</div>
                 <div ng-repeat="user in usersAll | orderBy:sortType:sortReverse | offset: (current - 1) * itemsPerPage | limitTo:itemsPerPage" class="row order-item-mobile">
                     <div>
                         <div style="width: 60px; float: left;">
@@ -296,7 +296,7 @@
                 </ul>
             </div>
             <div id="activedUser" class="tab-panel" ng-if="tab==TABSELECTED.ACTIVATED">
-                <div class="row" ng-if="usersActivated.length == 0">Item not found</div>
+                <div class="row" ng-if="usersActivated.length == 0">No user found</div>
                 <div ng-repeat="user in usersActivated | orderBy:sortType:sortReverse | offset: (current - 1) * itemsPerPage | limitTo:itemsPerPage" class="row order-item-mobile">
                     <div>
                         <div style="width: 60px; float: left;">
@@ -336,7 +336,7 @@
                 </ul>
             </div>
             <div id="pendingUser" class="tab-panel" ng-if="tab==TABSELECTED.PENDING">
-                <div class="row" ng-if="usersPending.length == 0">Item not found</div>
+                <div class="row" ng-if="usersPending.length == 0">No user found</div>
                 <div ng-repeat="user in usersPending | orderBy:sortType:sortReverse | offset: (current - 1) * itemsPerPage | limitTo:itemsPerPage" class="row order-item-mobile">
                     <div>
                         <div style="width: 60px; float: left;">

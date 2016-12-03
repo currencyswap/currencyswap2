@@ -47,7 +47,7 @@
 								</tr>
 							</tbody>
 						</table>
-						<div ng-if="!swappingOrders|| swappingOrders.length == 0">Item not found</div>
+						<div ng-if="!swappingOrders|| swappingOrders.length == 0">No item found</div>
 					</div>
 					<div id="confirmedOrders" class="dataTables_wrapper no-footer" style="overflow: auto">
 						<div class="confirmed-order-title" style="text-align: left; color: #366144; font-size: 18px;">Confirmed Orders</div>
@@ -90,7 +90,7 @@
 
 							</tbody>
 						</table>
-						<div ng-if="!confirmOrders|| confirmOrders.length == 0">Item not found</div>
+						<div ng-if="!confirmOrders|| confirmOrders.length == 0">No item found</div>
 					</div>
                 </div>
 <!--                 <ul uib-pagination
@@ -133,7 +133,7 @@
 								</tr>
 							</tbody>
 						</table>
-						<div ng-if="!submittedOrders|| submittedOrders.length == 0">Item not found</div>
+						<div ng-if="!submittedOrders|| submittedOrders.length == 0">No item found</div>
 					</div>
                 </div>
 <!--                 <ul uib-pagination
@@ -174,7 +174,7 @@
 								</tr>
 							</tbody>
 						</table>
-						<div ng-if="!historyOrders|| historyOrders.length == 0">Item not found</div>
+						<div ng-if="!historyOrders|| historyOrders.length == 0">No item found</div>
 					</div>
 					
                 </div>
@@ -263,7 +263,7 @@
 						</div>
 					</div>
 				</div>
-				<div ng-if="!swappingOrders || swappingOrders.length == 0">Item not found</div>
+				<div ng-if="!swappingOrders || swappingOrders.length == 0">No item found</div>
 
 			</div>
 			<div id="confirmOrders" class="tab-panel" ng-if="tab==4">
@@ -327,7 +327,7 @@
 
 						</div>
 					</div>
-					<div ng-if="!confirmOrders || confirmOrders.length == 0">Item not found</div>
+					<div ng-if="!confirmOrders || confirmOrders.length == 0">No item found</div>
 				</div>
 			</div>
 			<div id="submittedOrders" class="tab-panel" ng-if="tab==2">
@@ -375,7 +375,7 @@
 
 						</div>
 					</div>
-					<div ng-if="!submittedOrders || submittedOrders.length == 0">Item not found</div>
+					<div ng-if="!submittedOrders || submittedOrders.length == 0">No item found</div>
 				</div>
 			</div>
 			<div id="historyOrders" class="tab-panel" ng-if="tab==3">
@@ -424,7 +424,7 @@
 						</div>
 
 					</div>
-					<div ng-if="!historyOrders || historyOrders.length == 0">Item not found</div>
+					<div ng-if="!historyOrders || historyOrders.length == 0">No item found</div>
 				</div>
 			</div>
 		</div>
