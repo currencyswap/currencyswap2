@@ -58,11 +58,10 @@ module.exports = function (app) {
             var title = null;
             var msg = null;
             if(statusId == constant.STATUS_TYPE.SUBMITTED_ID){
-                title = "Order " + order.code + "has been cancelled";
-                msg = title + ' at ' + new Date();
+                title = msg = "Order " + order.code + "has been cancelled";;
             } else {
                 title = "Order " + order.code + "has updated";
-                msg = "Order " + order.code + " has been changed from " + getStatusName(statusId - 2) + " to " +getStatusName(statusId - 1)  + ' at ' + new Date();
+                msg = "Order " + order.code + " has been changed from " + getStatusName(statusId - 2) + " to " +getStatusName(statusId - 1);
             }
             service.updateOrderStatus(orderId, statusId, creatorId).then(function(resp){
                 if(statusId == constant.STATUS_TYPE.SUBMITTED_ID){
@@ -112,8 +111,8 @@ module.exports = function (app) {
                 }
 
                 service.swapOrder(orderId, userId).then(function(resp){
-                    saveMessage('Request swapping', 'Order ' + respOrder.code + ' at ' + new Date(), userId, respOrder.ownerId, respOrder.code);
-                    createOrderActivity(orderId, userId, constant.STATUS_TYPE.SWAPPING_ID, 'Request swapping');
+                    saveMessage('Swapping request', 'Order ' + respOrder.code, userId, respOrder.ownerId, respOrder.code);
+                    createOrderActivity(orderId, userId, constant.STATUS_TYPE.SWAPPING_ID, 'Swapping request');
                 return res.send(resp);
               }, function(err){
                   return res.status(500).send(errorUtil.createAppError(errors.SERVER_GET_PROBLEM));
