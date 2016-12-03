@@ -96,9 +96,15 @@ angular.module('orders')
         		};
         		
         		$scope.onChangeValue = function(fieldChange){
-        			var get = parseFloat($scope.updateOrder.get);
-        			var give = parseFloat($scope.updateOrder.give);
+        			var get = parseInt($scope.updateOrder.get);
+        			var give = parseInt($scope.updateOrder.give);
         			var rate = parseFloat($scope.updateOrder.rate);
+        			
+        			if(rate > 0){
+        				var rateRound = Math.round(rate * 1000);
+	        			
+	        			rate = rateRound / 1000;
+        			}
         			
         			if($scope.updateOrder.fixed == $scope.FIXED_VALUE.GIVE){
         				if(fieldChange == $scope.FIXED_VALUE.RATE){

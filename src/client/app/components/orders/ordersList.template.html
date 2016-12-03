@@ -14,8 +14,8 @@
 							<thead>
 								<tr>
 									<th class="col-sm-1 order-item-header">Order Id</th>
-									<th class="col-sm-1 order-item-header">Date</th>
-									<th class="col-sm-1 order-item-header">Expired Date</th>
+									<th class="col-sm-1 order-item-header">Created Date</th>
+									<th class="col-sm-1 order-item-header">Updated Date</th>
 									<th class="col-sm-1 order-item-header">Get</th>
 									<th class="col-sm-1 order-item-header">Give</th>
 									<th class="col-sm-1 order-item-header">Rate</th>
@@ -30,7 +30,7 @@
 								<tr ng-repeat="swappingOrder in swappingOrders" class="order-row-{{$index % 2}}">
 									<td class="col-sm-1 order-item-content"><a href="/#!/orders/{{swappingOrder.code}}">{{swappingOrder.code}}</a></td>
 									<td class="col-sm-1 order-item-content order-date">{{swappingOrder.created | filterDate}}</td>
-									<td class="col-sm-1 order-item-content order-date">{{swappingOrder.expired | filterDate}}</td>
+									<td class="col-sm-1 order-item-content order-date">{{swappingOrder.updated | filterDate}}</td>
 									<td class="col-sm-1 order-item-content">{{swappingOrder.get | filterCurrency}} {{swappingOrder.getCurrency.code}}</td>
 									<td class="col-sm-1 order-item-content">{{swappingOrder.give | filterCurrency}} {{swappingOrder.giveCurrency.code}}</td>
 									<td class="col-sm-1 order-item-content">{{swappingOrder.rate}}</td>
@@ -55,8 +55,8 @@
 							<thead>
 								<tr>
 									<th class="col-sm-1 order-item-header"  order-header>Order Id</th>
-									<th class="col-sm-1 order-item-header">Date</th>
-									<th class="col-sm-1 order-item-header">Expired Date</th>
+									<th class="col-sm-1 order-item-header">Created Date</th>
+									<th class="col-sm-1 order-item-header">Updated Date</th>
 									<th class="col-sm-1 order-item-header">Get</th>
 									<th class="col-sm-1 order-item-header">Give</th>
 									<th class="col-sm-1 order-item-header">Rate</th>
@@ -71,7 +71,7 @@
 								<tr ng-repeat="confirmOrder in confirmOrders" class="order-row-{{$index % 2}}">
 									<td class="col-sm-1 order-item-content"><a href="/#!/orders/{{confirmOrder.code}}/">{{confirmOrder.code}}</a></td>
 									<td class="col-sm-1 order-item-content order-date">{{confirmOrder.created | filterDate}}</td>
-									<td class="col-sm-1 order-item-content order-date" >{{confirmOrder.expired | filterDate}}</td>
+									<td class="col-sm-1 order-item-content order-date" >{{confirmOrder.updated | filterDate}}</td>
 									<td class="col-sm-1 order-item-content">{{confirmOrder.get | filterCurrency}} {{confirmOrder.getCurrency.code}}</td>
 									<td class="col-sm-1 order-item-content">{{confirmOrder.give | filterCurrency}} {{confirmOrder.giveCurrency.code}}</td>
 									<td class="col-sm-1 order-item-content">{{confirmOrder.rate}}</td>
@@ -81,7 +81,7 @@
 									<td class="col-sm-1 order-item-content order-status-{{confirmOrder.statusId}}">{{confirmOrder.status.name}}</td>
 									<td class="col-sm-2">
 										<div class="order-action">
-											<div class="btn button-order-list button-cancel-confirm" ng-click="cancelConfirmedOrder(confirmOrder.id);">Cancel</div>
+											<div class="btn button-order-list button-cancel-confirm" ng-click="cancelConfirmedOrder(confirmOrder.id);" ng-if="(confirmOrder.statusId != 4)">Cancel</div>
 											<div class="btn button-order-list button-clear-confirm" ng-if="(confirmOrder.statusId == 3) || !checkStatusCurrentUserInActivity(confirmOrder.activities)" ng-click="clearConfirmedOrder(confirmOrder.id);">Clear</div>
 										</div>
 									</td>
@@ -149,8 +149,8 @@
 							<thead>
 								<tr>
 									<th class="col-sm-1 order-item-header">Order Id</th>
-									<th class="col-sm-1 order-item-header">Date</th>
-									<th class="col-sm-1 order-item-header">Expired Date</th>
+									<th class="col-sm-1 order-item-header">Created Date</th>
+									<th class="col-sm-1 order-item-header">Closed Date</th>
 									<th class="col-sm-1 order-item-header">Get</th>
 									<th class="col-sm-1 order-item-header">Give</th>
 									<th class="col-sm-1 order-item-header">Rate</th>
@@ -164,7 +164,7 @@
 								<tr ng-repeat="historyOrder in historyOrders" class="order-row-{{$index % 2}}">
 									<td class="col-sm-1 order-item-content"><a href="/#!/orders/{{historyOrder.code}}">{{historyOrder.code}}</a></td>
 									<td class="col-sm-1 order-item-content order-date">{{historyOrder.created | filterDate}}</td>
-									<td class="col-sm-1 order-item-content order-date">{{historyOrder.expired | filterDate}}</td>
+									<td class="col-sm-1 order-item-content order-date">{{historyOrder.updated | filterDate}}</td>
 									<td class="col-sm-1 order-item-content">{{historyOrder.get | filterCurrency}} {{historyOrder.getCurrency.code}}</td>
 									<td class="col-sm-1 order-item-content">{{historyOrder.give | filterCurrency}} {{historyOrder.giveCurrency.code}}</td>
 									<td class="col-sm-1 order-item-content">{{historyOrder.rate}}</td>
@@ -216,11 +216,11 @@
 						</div>
 						<div >
 							<div style="width: 50%; float: left;">
-								<span class="order-label-mobile">Date: </span>{{swappingOrder.created|
+								<span class="order-label-mobile">Created Date: </span>{{swappingOrder.created|
 								filterDate}}
 							</div>
 							<div style="width: 50%; float: left;">
-								<span class="order-label-mobile">Expired: </span>{{swappingOrder.expired|
+								<span class="order-label-mobile">Updated Date: </span>{{swappingOrder.updated|
 								filterDate}}
 							</div>
 						</div>
@@ -279,11 +279,11 @@
 						</div>
 						<div style="width: 100%;">
 							<div style="width: 50%; float: left;">
-								<span class="order-label-mobile">Date: </span>{{confirmOrder.created|
+								<span class="order-label-mobile">Created Date: </span>{{confirmOrder.created|
 								filterDate}}
 							</div>
 							<div style="width: 50%; float: left;">
-								<span class="order-label-mobile">Expired: </span>{{confirmOrder.expired|
+								<span class="order-label-mobile">Updated Date: </span>{{confirmOrder.updated|
 								filterDate}}
 							</div>
 						</div>
@@ -388,11 +388,11 @@
 						</div>
 						<div style="width: 100%;">
 							<div style="width: 50%; float: left;">
-								<span class="order-label-mobile">Date: </span>{{historyOrder.created|
+								<span class="order-label-mobile">Created : </span>{{historyOrder.created|
 								filterDate}}
 							</div>
 							<div style="width: 50%; float: left;">
-								<span class="order-label-mobile">Expired: </span>{{historyOrder.expired|
+								<span class="order-label-mobile">Closed: </span>{{historyOrder.updated|
 								filterDate}}
 							</div>
 						</div>

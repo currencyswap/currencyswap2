@@ -32,7 +32,7 @@
 										</label>
 									</div>
 								</div>
-								<p ng-show="orderCreateForm.give.$invalid && !orderCreateForm.give.$pristine" class="help-block ">Give number is invalid.</p>
+								<p ng-show="orderCreateForm.give.$invalid && !orderCreateForm.give.$pristine" class="help-block ">Give is invalid integer number.</p>
 								<p ng-show="orderCreateForm.giveCurrency.$invalid && !orderCreateForm.giveCurrency.$pristine" class="help-block ">Give currency is invalid.</p>
 							</div>
 						</div>
@@ -57,7 +57,7 @@
 										</div>
 									</div>
 								</div>
-								<p ng-show="orderCreateForm.get.$invalid && !orderCreateForm.get.$pristine" class="help-block ">Get number is invalid.</p>
+								<p ng-show="orderCreateForm.get.$invalid && !orderCreateForm.get.$pristine" class="help-block ">Get is invalid integer number.</p>
 								<p ng-show="orderCreateForm.getCurrency.$invalid && !orderCreateForm.getCurrency.$pristine" class="help-block ">Get currency is invalid.</p>
 							</div>
 						</div>
@@ -69,7 +69,7 @@
 									class="asterisk">*</span>
 								<div class="form-inline rate-row">
 									<div class="input-group">
-										<input type="number" name="rate" class="form-control" ng-model="updateOrder.rate" ng-change="onChangeValue(FIXED_VALUE.RATE);" focus-me="focusRate" required>
+										<input type="number" name="rate" class="form-control" ng-model="updateOrder.rate" format-rate ng-change="onChangeValue(FIXED_VALUE.RATE);" focus-me="focusRate" required>
 									</div>
 									<div class="input-group">
 										<div class="form-group">
