@@ -281,7 +281,7 @@ angular.module('currencySwapApp', [
         POSTCODE_MIN: 0,
         POSTCODE_MAX: 10,
         ACC_NAME_MIN: 0,
-        ACC_NAME_MAX: 25,
+        ACC_NAME_MAX: 255,
         ACC_NUM_MIN:0,
         ACC_NUM_MAX: 25,
         BANK_NAME_MIN: 0,

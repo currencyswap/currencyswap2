@@ -1,6 +1,6 @@
 <div class="signinpanel" ng-if="isSubmitEmailForm">
     <div class="row">
-        <div class="col-sm-4 col-sm-offset-4">
+        <div class="col-sm-6 col-sm-offset-3">
             <div class="signin-info">
                 <div class="logopanel">
                     <h1><span>[</span> {{title}} <span>]</span></h1>
@@ -10,7 +10,7 @@
     </div>
     <div class="mb20"></div>
     <div class="row">
-        <div class="col-sm-4 col-sm-offset-4">
+        <div class="col-sm-6 col-sm-offset-3">
             <div class="alert alert-warning">
                 <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
                 Please fill your <strong>registered email</strong> to reset your password
@@ -18,7 +18,7 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-sm-4 col-sm-offset-4">
+        <div class="col-sm-6 col-sm-offset-3">
             <form name="userForm" ng-submit="submitEmail()" novalidate style="background-color: white">
                 <!-- EMAIL -->
                 <div class="form-group" ng-class="{ 'has-error' : (userForm.email.$invalid && !userForm.email.$pristine) || (isEmailNotFound && !userForm.email.$pristine)}">
