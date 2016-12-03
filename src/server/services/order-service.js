@@ -76,14 +76,19 @@ exports.updateOrderByCode = function (code, updateOrder) {
     updateOrder.updated = new Date();
     return dbUtil.executeModelFn(app.models.Order, 'updateAll', where, updateOrder);
 };
-exports.updateOrderStatus = function (orderId, statusId) {
+exports.updateOrderStatus = function (orderId, statusId, userId) {
     var order = { 'statusId': statusId, 'updated': new Date() };
-    var where = { 'and': [{ 'id': orderId }, {'statusId': {'neq': statusId}}] };
+    var where = { 'and': [{ 'id': orderId }, {'statusId': {'neq': statusId}}, {or: [{'accepterId' : userId}, {'ownerId': userId}]}] };
+    // reset item
+//    if(statusId == constant.STATUS_TYPE.SUBMITTED_ID){
+//        order.accepterId = 0;
+//    }
     return dbUtil.executeModelFn(app.models.Order, 'updateAll', where, order);
 };
-exports.swapSubmittedOrder = function(orderId, accepterId, statusId){
-    var order = { 'statusId': statusId , 'accepterId' : accepterId, 'updated': new Date()};
-    var where = { 'and': [{ 'id': orderId }, {'statusId': {'neq': statusId}}] };
+exports.swapOrder = function(orderId, accepterId){
+    var time = new Date();
+    var order = { 'statusId': constant.STATUS_TYPE.SWAPPING_ID , 'accepterId' : accepterId, 'updated': time};
+    var where = { 'and': [{ 'id': orderId }, {'statusId': constant.STATUS_TYPE.SUBMITTED_ID}, {'ownerId': {'neq': accepterId}}, {'expired': {'gt': time}}] };
     return dbUtil.executeModelFn(app.models.Order, 'updateAll', where, order);
 }
 exports.getUserSwappingOrders = function (userId) {
@@ -95,7 +100,8 @@ exports.getUserSwappingOrders = function (userId) {
                   { statusId: constant.STATUS_TYPE.SWAPPING_ID }
             ]
     },
-    'include' : [ ownerRelation, accepterRelation, giveCurrencyRelation, getCurrencyRelation, statusRelation, activitiesRelation]
+    'include' : [ ownerRelation, accepterRelation, giveCurrencyRelation, getCurrencyRelation, statusRelation, activitiesRelation],
+    'order': 'id DESC'
     };
     return dbUtil.executeModelFn(app.models.Order, 'find', filter);
 };
@@ -122,7 +128,8 @@ exports.getUserConfirmedOrders = function (userId) {
                               {or : [ {'statusId': constant.STATUS_TYPE.CONFIRMED_ID}, { 'statusId': constant.STATUS_TYPE.PENDING_ID} ]}
                         ]
                         },
-                        'include' : [ ownerRelation, accepterRelation, giveCurrencyRelation, getCurrencyRelation, statusRelation, activitiesRelation]
+                        'include' : [ ownerRelation, accepterRelation, giveCurrencyRelation, getCurrencyRelation, statusRelation, activitiesRelation],
+                        'order': 'id DESC'
     };
     return dbUtil.executeModelFn(app.models.Order, 'find', filter);
 };
@@ -134,7 +141,8 @@ exports.getUserSubmittedOrders = function (userId) {
                   { statusId: constant.STATUS_TYPE.SUBMITTED_ID }
             ]
     },
-    'include' : [ ownerRelation, accepterRelation, giveCurrencyRelation, getCurrencyRelation, statusRelation, activitiesRelation]
+    'include' : [ ownerRelation, accepterRelation, giveCurrencyRelation, getCurrencyRelation, statusRelation, activitiesRelation],
+    'order': 'id DESC'
     };
     return dbUtil.executeModelFn(app.models.Order, 'find', filter);
 };
@@ -147,7 +155,8 @@ exports.getUserHistoryOrders = function (userId) {
                   {or : [ {'statusId': constant.STATUS_TYPE.CLEARED_ID}, { 'statusId': constant.STATUS_TYPE.CANCELED_ID} ]}
             ]
     },
-    'include' : [ ownerRelation, accepterRelation, giveCurrencyRelation, getCurrencyRelation, statusRelation]
+    'include' : [ ownerRelation, accepterRelation, giveCurrencyRelation, getCurrencyRelation, statusRelation],
+    'order': 'id DESC'
     };
     return dbUtil.executeModelFn(app.models.Order, 'find', filter);
 };
@@ -219,7 +228,8 @@ exports.getExpiredOrders = function (time, limitTime) {
                   { 'statusId': constant.STATUS_TYPE.SUBMITTED_ID }
             ]
     },
-    'include' : [ ownerRelation, giveCurrencyRelation, getCurrencyRelation]
+    'include' : [ ownerRelation, giveCurrencyRelation, getCurrencyRelation],
+    'order': 'id ASC'
     };
     if (limitTime) {
         filter.where.and.push({'expired': {'gt': limitTime}});
@@ -251,7 +261,8 @@ exports.getOrderActivity = function (orderId) {
     var filter = {
             'where': {
                 'orderId': orderId,
-            }
+            },
+            'order': 'id ASC'
     };
     return dbUtil.executeModelFn(app.models.OrderActivity, 'find', filter);
 };
@@ -271,7 +282,8 @@ exports.getUserAllOrders = function (userId) {
     var filter = {
                 'where': { or: [{'ownerId': userId}, 
                             {'accepterId': userId}] 
-            }
+            },
+            'order': 'id DESC'
     };
     return dbUtil.executeModelFn(app.models.Order, 'find', filter);
 };

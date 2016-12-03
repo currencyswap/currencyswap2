@@ -839,11 +839,6 @@ exports.getExpiredUsers = function (time, limitTime) {
     }
     return dbUtil.executeModelFn(app.models.Member, 'find', filter);
 };
-exports.updateUserStatus = function (userId, status) {
-    var item = { 'status': status };
-    var where = { 'id': userId };
-    return dbUtil.executeModelFn(app.models.Member, 'updateAll', where, item);
-};
 exports.setUserExpired = function (userId, time) {
     var item = { 'status': constant.USER_STATUSES.EXPIRED };
     var where = { and: [{ 'id': userId }, {'expiredDate': {'lt': time}}, { 'status': constant.USER_STATUSES.ACTIVATED }] };
