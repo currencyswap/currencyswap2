@@ -134,7 +134,7 @@ module.exports = function Checker(app) {
             }
             _performInSeries(users, function handler(user, next) {
                 removeSessionOfExpiredUser(user.username);
-                userService.updateUserStatus(user.id, constant.USER_STATUSES.EXPIRED).then(function(resp){
+                userService.setUserExpired(user.id, time).then(function(resp){
                     if (config.debug) console.log('JobChecker::setUserExpired updateUserStatus', user.id, user.username, user.email);
                     return next();
                 }, function(e){
