@@ -132,8 +132,6 @@ angular.module('userList')
                 $scope.sortType     = 'fullName'; // set the default sort type
                 $scope.sortReverse  = false;  // set the default sort order
                 $scope.isDevice = $.device;
-                $scope.users = [];
-                $scope.allUser = [];
                 $scope.usersAll = [];
                 $scope.usersActivated = [];
                 $scope.usersPending = [];
@@ -166,14 +164,14 @@ angular.module('userList')
                 $scope.changeStateToEdit = function () {
                     $scope.isEditting = true;
                 };
-                $scope.onAllClick = function () {
+
+                $scope.getUserInfo = function () {
                     $scope.randomNumImg = parseInt(Math.floor(Number.MAX_SAFE_INTEGER * Math.random()));
                     $scope.tab = $scope.TABSELECTED.ALL;
                     $scope.errorSetOwnRole = false;
                     $scope.isEditting = false;
                     $scope.detailUserView = false;
 
-                    $scope.users = [];
                     $scope.usersAll = [];
                     var token = CookieService.getToken();
                     var headers = {};
@@ -189,9 +187,14 @@ angular.module('userList')
                     UserListService.fetchAllUser(headers,success,failed)
                         .then(function (response) {
                             if (response.status === GLOBAL_CONSTANT.HTTP_SUCCESS_STATUS_CODE) {
-                                $scope.allUsers = response.data;
-                                $scope.usersAll = $scope.allUsers;
-                                $scope.totalItems = $scope.usersAll.length;
+                                $scope.usersAll = response.data;
+                                $scope.usersAll.forEach(function (user) {
+                                    if (user.status === GLOBAL_CONSTANT.ACTIVATED_USER_STATUS) {
+                                        $scope.usersActivated.push(user)
+                                    } if (user.status === GLOBAL_CONSTANT.PENDING_USER_STATUS) {
+                                        $scope.usersPending.push(user);
+                                    }
+                                });
                                 $scope.$evalAsync();
                             } else {
                                 $rootScope.error = {};
@@ -201,75 +204,35 @@ angular.module('userList')
                             }
                         });
                 };
-
-                $scope.onAllClick();
+                $scope.onAllClick = function () {
+                    $scope.randomNumImg = parseInt(Math.floor(Number.MAX_SAFE_INTEGER * Math.random()));
+                    $scope.tab = $scope.TABSELECTED.ALL;
+                    $scope.errorSetOwnRole = false;
+                    $scope.isEditting = false;
+                    $scope.detailUserView = false;
+                    $scope.totalItems = $scope.usersAll.length;
+                    $scope.$evalAsync();
+                };
 
                 $scope.onActivatedClick = function () {
                     $scope.tab = $scope.TABSELECTED.ACTIVATED;
                     $scope.detailUserView = false;
                     $scope.isEditting = false;
-                    $scope.allUser = [];
-                    $scope.usersActivated = [];
-                    var token = CookieService.getToken();
-                    var headers = {};
-
-                    headers[httpHeader.CONTENT_TYPE] = contentTypes.JSON;
-                    headers[httpHeader.AUTHORIZARION] = autheticateType.BEARER + token;
-
-                    UserListService.fetchAllUser(headers)
-                        .then(function (response) {
-                            if (response.status === GLOBAL_CONSTANT.HTTP_SUCCESS_STATUS_CODE) {
-                                $scope.allUsers = response.data;
-                                $scope.allUsers.forEach(function (user) {
-                                    if (user.status === GLOBAL_CONSTANT.ACTIVATED_USER_STATUS) {
-                                        $scope.usersActivated.push(user)
-                                        $scope.$evalAsync();
-                                    } else {
-                                        //do nothing
-                                    }
-                                });
-                                $scope.totalItems = $scope.usersActivated.length;
-                            } else {
-                                $rootScope.error = {};
-                                $rootScope.error.status = GLOBAL_CONSTANT.SERVER_GOT_PROBLEM_STATUS;
-                                $rootScope.error.message = GLOBAL_CONSTANT.SERVER_GOT_PROBLEM_MSG;
-                                $window.scrollTo(0, 0);
-                            }
-                        });
+                    $scope.totalItems = $scope.usersActivated.length;
                 };
 
                 $scope.onPendingClick = function () {
                     $scope.tab = $scope.TABSELECTED.PENDING;
                     $scope.detailUserView = false;
                     $scope.isEditting = false;
-                    $scope.allUser = [];
-                    $scope.usersPending = [];
-                    var token = CookieService.getToken();
-                    var headers = {};
-
-                    headers[httpHeader.CONTENT_TYPE] = contentTypes.JSON;
-                    headers[httpHeader.AUTHORIZARION] = autheticateType.BEARER + token;
-
-                    UserListService.fetchAllUser(headers)
-                        .then(function (response) {
-                            if (response.status === GLOBAL_CONSTANT.HTTP_SUCCESS_STATUS_CODE) {
-                                $scope.allUsers = response.data;
-                                $scope.allUsers.forEach(function (user) {
-                                    if (user.status === GLOBAL_CONSTANT.PENDING_USER_STATUS) {
-                                        $scope.usersPending.push(user);
-                                        $scope.$evalAsync();
-                                    } else {
-                                        //do nothing
-                                    }
-                                });
-                                $scope.totalItems = $scope.usersPending.length;
-                            } else {
-                                $rootScope.error = {};
-                                $rootScope.error.status = GLOBAL_CONSTANT.SERVER_GOT_PROBLEM_STATUS;
-                                $rootScope.error.message = GLOBAL_CONSTANT.SERVER_GOT_PROBLEM_MSG;
-                                $window.scrollTo(0, 0);
-                            }
-                        });
+                    $scope.totalItems = $scope.usersPending.length;
                 };
+
+                $scope.initalizeInfo = function () {
+                    $scope.getUserInfo();
+                    $scope.onAllClick();
+                };
+
+                $scope.initalizeInfo();
             }]
     });

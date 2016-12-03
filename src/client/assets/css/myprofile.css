@@ -1,7 +1,7 @@
 .my-profile {
 }
 .my-profile .avatar-size {
-    width: auto;
+    width: 64px;
     height: 64px;
     max-width: 64px;
 }
@@ -16,7 +16,7 @@
 }
 @media only screen and (max-width: 768px) {
     .my-profile .avatar-size {
-        width: auto;
+        width: 64px;
         height: 64px;
         max-width: 64px;
     }
@@ -24,7 +24,7 @@
 
 @media only screen and (max-width: 414px) {
     .my-profile .avatar-size {
-        width: auto;
+        width: 64px;
         height: 64px;
         max-width: 64px;
     }
@@ -32,7 +32,7 @@
 
 @media only screen and (max-width: 375px) {
     .my-profile .avatar-size {
-        width: auto;
+        width: 64px;
         height: 64px;
         max-width: 64px;
     }
@@ -40,7 +40,7 @@
 
 @media only screen and (max-width: 360px) {
     .my-profile .avatar-size {
-        width: auto;
+        width: 64px;
         height: 64px;
         max-width: 64px;
     }
@@ -48,7 +48,7 @@
 
 @media only screen and (max-width: 320px) {
     .my-profile .avatar-size {
-        width: auto;
+        width: 64px;
         height: 64px;
     }
 }
