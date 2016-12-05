@@ -317,7 +317,7 @@
 						<div style="width: 100%;">
 							<div class="order-action">
 								<div class="btn button-order-list button-cancel-confirm"
-									ng-if="(confirmOrder.statusId == 3) || currentUser.username!=confirmOrder.owner.username"
+									ng-if="(confirmOrder.statusId != 4)"
 									ng-click="cancelConfirmedOrder(confirmOrder.id);">Cancel</div>
 								<div class="btn button-order-list button-clear-confirm"
 									ng-if="(confirmOrder.statusId == 3) || !checkStatusCurrentUserInActivity(confirmOrder.activities)"
