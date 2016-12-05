@@ -60,7 +60,7 @@ module.exports = function (app) {
         } catch (err) {
             return res.status(constant.HTTP_FAILURE_CODE).send(err);
         }
-
+        
         async.waterfall([
             function (next) {
                 userService.getUserByUsernameWithoutRelationModel(updatingUser, function (err, user) {

@@ -38,6 +38,7 @@ exports.validateEditedProfileRequestObject = function (clientUserObj) {
 
     exports.validateUsername(clientUserObj.username);
 
+    console.log("clientUserObj.currentPwd: ", clientUserObj.currentPwd);
     if (clientUserObj.newPwd && clientUserObj.passwordCompare && clientUserObj.currentPwd) {
         exports.validateEditedPassword(clientUserObj.currentPwd, clientUserObj.newPwd, clientUserObj.passwordCompare);
     }

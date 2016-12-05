@@ -26,12 +26,10 @@ module.exports = function (app) {
             options.protocolHostAndPort = protocolHostAndPort;
 
             var clientUserData = req.body.newUser;
-
             try {
                 userValidation.validateRegisterRequestObject(clientUserData);
                 var serverUserData = userConverter.convertUserData(clientUserData);
             } catch (err) {
-                console.log('ERROR: ', err);
                 return res.status(constant.HTTP_FAILURE_CODE).send(err);
             }
 
