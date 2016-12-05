@@ -23,7 +23,7 @@
                             <label class="error" ng-show="registerForm.username.$error.required && registerForm.username.$dirty" >This field is required.</label>
                             <label class="error" ng-show="registerForm.username.$error.minlength" >Username is too short.</label>
                             <label class="error" ng-show="fieldError === serverErrors.USERNAME_EXCEED_MAX_LENGTH
-                                                          || fieldError === serverErrors.USERNAME_IS_NOT_STRING" >{{getMessageError(fieldError)}}</label>
+                                                          || fieldError === serverErrors.USERNAME_IS_NOT_STRING" >{{messageErrorValidate}}</label>
                         </div>
                     </div>
                     <div class="form-group"
@@ -36,16 +36,16 @@
                             <label class="error" ng-show="registerForm.email.$error.required && registerForm.email.$dirty" >This field is required.</label>
                             <label class="error" ng-show="registerForm.email.$error.minlength" >Email is too short.</label>
                             <label class="error" ng-show="fieldError === serverErrors.EMAIL_IS_NOT_STRING
-                                                          || fieldError === serverErrors.EMAIL_IS_INVALID || fieldError === serverErrors.EMAIL_EXCEED_MAX_LENGTH" >{{getMessageError(fieldError)}}</label>
+                                                          || fieldError === serverErrors.EMAIL_IS_INVALID || fieldError === serverErrors.EMAIL_EXCEED_MAX_LENGTH" >{{messageErrorValidate}}</label>
                         </div>
                     </div>
                     <div class="form-group" ng-class="{'has-error' : registerForm.password.$invalid && !registerForm.password.$pristine}">
                         <label class="control-label">Password</label> <span class="asterisk">*</span><a data-toggle="popover" data-trigger="hover" data-content="Password at least 8 characters"><i style="font-size:15px; color: #4d4e4e" class="fa fa-question-circle" ng-click="showPopover()"></i></a>
-                        <input class="form-control" type="password" name="password" required data-ng-model="user.password" ng-minlength="8" placeholder="Enter your password"  minlength="{{GLOBAL_CONSTANT.LIMIT_FIELDS_INFO.PWD_MIN}}" maxlength="{{GLOBAL_CONSTANT.LIMIT_FIELDS_INFO.PWD_MAX}}" >
+                        <input class="form-control" ng-change="inputChanging()" type="password" name="password" required data-ng-model="user.password" ng-minlength="8" placeholder="Enter your password"  minlength="{{GLOBAL_CONSTANT.LIMIT_FIELDS_INFO.PWD_MIN}}" maxlength="{{GLOBAL_CONSTANT.LIMIT_FIELDS_INFO.PWD_MAX}}" >
                         <label class="error" ng-show="registerForm.password.$error.minlength" >Password is too short.</label>
                         <label class="error" ng-show="registerForm.password.$error.required && registerForm.password.$dirty" >This field is required.</label>
                         <label class="error" ng-show="fieldError === serverErrors.PASSWORD_EXCEED_MAX_LENGTH
-                                                          || fieldError === serverErrors.REQUEST_NO_PASSWORD|| fieldError === serverErrors.PASSWORD_IS_NOT_STRING" >{{getMessageError(fieldError)}}</label>
+                                                          || fieldError === serverErrors.REQUEST_NO_PASSWORD|| fieldError === serverErrors.PASSWORD_IS_NOT_STRING" >{{messageErrorValidate}}</label>
                     </div>
                     <div class="form-group" ng-class="{'has-error' : registerForm.passwordCompare.$invalid && !registerForm.passwordCompare.$pristine}">
                         <label class="control-label">Re-type Password</label> <span class="asterisk">*</span>
@@ -57,26 +57,26 @@
                          ng-class="{ 'has-error' : registerForm.fullName.$invalid && !registerForm.fullName.$pristine }">
                         <div class="mb10">
                             <label class="control-label">Full name</label>
-                            <input type="text" name="fullName" class="form-control" ng-model="user.fullName" ng-minlength="{{GLOBAL_CONSTANT.LIMIT_FIELDS_INFO.FULLNAME_MIN}}" minlength="{{GLOBAL_CONSTANT.LIMIT_FIELDS_INFO.FULLNAME_MIN}}" maxlength="{{GLOBAL_CONSTANT.LIMIT_FIELDS_INFO.FULLNAME_MAX}}" placeholder = "Full name">
+                            <input  ng-change="inputChanging()" type="text" name="fullName" class="form-control" ng-model="user.fullName" ng-minlength="{{GLOBAL_CONSTANT.LIMIT_FIELDS_INFO.FULLNAME_MIN}}" minlength="{{GLOBAL_CONSTANT.LIMIT_FIELDS_INFO.FULLNAME_MIN}}" maxlength="{{GLOBAL_CONSTANT.LIMIT_FIELDS_INFO.FULLNAME_MAX}}" placeholder = "Full name">
                             <label class="error" ng-show="registerForm.fullName.$error.minlength">Fullname is too short.</label>
                             <label class="error" ng-show="registerForm.fullName.$error.maxlength">Fullname is too long.</label>
                             <label class="error" ng-show="fieldError === serverErrors.FULLNAME_IS_NOT_STRING
-                                                          || fieldError === serverErrors.FULLNAME_EXCEED_MAX_LENGTH" >{{getMessageError(fieldError)}}</label>
+                                                          || fieldError === serverErrors.FULLNAME_EXCEED_MAX_LENGTH" >{{messageErrorValidate}}</label>
                         </div>
                     </div>
                     <div class="mb10">
                         <label class="control-label">Profession</label>
-                        <input class="form-control" type="text" ng-model="user.profession" placeholder="Your profession here" minlength="{{GLOBAL_CONSTANT.LIMIT_FIELDS_INFO.PROFESSION_MIN}}" maxlength="{{GLOBAL_CONSTANT.LIMIT_FIELDS_INFO.PROFESSION_MAX}}">
-                        <label class="error" ng-show="fieldError === serverErrors.PROFESSION_EXCEED_MAX_LENGTH" >{{getMessageError(fieldError)}}</label>
+                        <input class="form-control" ng-change="inputChanging()" type="text" ng-model="user.profession" placeholder="Your profession here" minlength="{{GLOBAL_CONSTANT.LIMIT_FIELDS_INFO.PROFESSION_MIN}}" maxlength="{{GLOBAL_CONSTANT.LIMIT_FIELDS_INFO.PROFESSION_MAX}}">
+                        <label class="error" ng-show="fieldError === serverErrors.PROFESSION_EXCEED_MAX_LENGTH" >{{messageErrorValidate}}</label>
                     </div>
 
                     <div class="form-group"
                          ng-class="{ 'has-error' : cellphoneExisted}">
                         <div class="mb10">
                             <label class="control-label">Cellphone</label>
-                            <input type="text" class="form-control" ng-model="user.cellphone" focus-me="focusCellphone" placeholder="Your cellphone here" minlength="{{GLOBAL_CONSTANT.LIMIT_FIELDS_INFO.CELLPHONE_MIN}}" maxlength="{{GLOBAL_CONSTANT.LIMIT_FIELDS_INFO.CELLPHONE_MAX}}">
+                            <input ng-change="inputChanging()" type="text" class="form-control" ng-model="user.cellphone" focus-me="focusCellphone" placeholder="Your cellphone here" minlength="{{GLOBAL_CONSTANT.LIMIT_FIELDS_INFO.CELLPHONE_MIN}}" maxlength="{{GLOBAL_CONSTANT.LIMIT_FIELDS_INFO.CELLPHONE_MAX}}">
                             <label class="error" ng-show="cellphoneExisted">Your cellphone number is already in use.</label>
-                            <label class="error" ng-show="fieldError === serverErrors.CELLPHONE_EXCEED_MAX_LENGTH" >{{getMessageError(fieldError)}}</label>
+                            <label class="error" ng-show="fieldError === serverErrors.CELLPHONE_EXCEED_MAX_LENGTH" >{{messageErrorValidate}}</label>
                         </div>
                     </div>
 
