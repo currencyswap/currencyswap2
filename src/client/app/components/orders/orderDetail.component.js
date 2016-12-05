@@ -110,7 +110,7 @@ angular.module('orders')
         		
         		// Confirm swapping order
         		$scope.onConfirm = function(orderId){
-        			var msg = 'State of this order will be changed to Pending. Do you want continue?';
+        			var msg = 'State of this order will be changed to Confirmed. Do you want continue?';
             		var confirmOrder = $window.confirm(msg);
             	    if(confirmOrder){
             	    	$scope.submitLoading = true;
@@ -127,6 +127,7 @@ angular.module('orders')
         		// Clear confirmed order
         		$scope.onClear = function(orderId){
         			var msg= 'State of this order will be changed to Cleared. Do you want continue?';
+//        			State of this order will be changed to Pending. Do you want continue?
             		var clearOrder = $window.confirm(msg);
             	    if(clearOrder){
             	    	$scope.submitLoading = true;
