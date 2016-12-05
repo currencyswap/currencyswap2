@@ -17,7 +17,7 @@
     margin-bottom: 5px;
 }
 .createOrderPanel .panel .panel-body,
-  .detailOrderPanel .panel .panel-body{
+  .detailOrderPanel{
     padding: 20px 10px;
   }
 
@@ -127,17 +127,21 @@
     font-size: 22px;
     font-weight: bold;
 }
-.detailOrderPanel .panel .panel-body .row-order-status{
+.detailOrderPanel .row-order-status{
 	display: inline-flex;
 	margin-bottom: 20px;
 }
+.detailOrderPanel .row-order-status .col-order-status{
+	width: 72px;
+	float: left;
+}
 
-.detailOrderPanel .panel .panel-body .row-order-status .col-order-status .order-status-label {
+.detailOrderPanel .row-order-status .col-order-status .order-status-label {
     width: 72px;
     text-align: center;
 }
 
-.detailOrderPanel .panel .panel-body .row-order-status .col-order-status .order-status-item{
+.detailOrderPanel .row-order-status .col-order-status .order-status-item{
 	height : 12px;
 	width: 12px;
 	border-width: 2px;
@@ -147,36 +151,41 @@
 	
 }
 
-.detailOrderPanel .panel .panel-body .row-order-status .col-order-status.order-status-current .order-status-label{
+.detailOrderPanel .row-order-status .col-order-status.order-status-current .order-status-label{
 	font-weight: bold;
 }
 
-.detailOrderPanel .panel .panel-body .row-order-status .col-order-status.order-status-current .order-status-item{
+.detailOrderPanel .row-order-status .col-order-status.order-status-current .order-status-item{
 	height: 16px;
 	width: 16px;
 	border-radius: 8px;
 	margin: 1px auto;
 }
-.detailOrderPanel .panel .panel-body .row-order-status .col-order-status.order-status-1.order-status-current .order-status-item {
+.detailOrderPanel .row-order-status .col-order-status.order-status-1.order-status-current .order-status-item {
 	background-color: #6299e8;	
 }
-.detailOrderPanel .panel .panel-body .row-order-status .col-order-status.order-status-2.order-status-current .order-status-item{
+.detailOrderPanel .row-order-status .col-order-status.order-status-2.order-status-current .order-status-item{
 	background-color: #159d21;
 }
-.detailOrderPanel .panel .panel-body .row-order-status .col-order-status.order-status-3.order-status-current .order-status-item{
+.detailOrderPanel .row-order-status .col-order-status.order-status-3.order-status-current .order-status-item{
 	background-color: #366144;
 }
-.detailOrderPanel .panel .panel-body .row-order-status .col-order-status.order-status-4.order-status-current .order-status-item{
+.detailOrderPanel .row-order-status .col-order-status.order-status-4.order-status-current .order-status-item{
 	background-color: #b17197;
 }
-.detailOrderPanel .panel .panel-body .row-order-status .col-order-status.order-status-5.order-status-current .order-status-item{
+.detailOrderPanel .row-order-status .col-order-status.order-status-5.order-status-current .order-status-item{
 	background-color: #fea340;
 }
-.detailOrderPanel .panel .panel-body .row-order-status .col-order-status.order-status-6.order-status-current .order-status-item{
+.detailOrderPanel .row-order-status .col-order-status.order-status-6.order-status-current .order-status-item{
 	background-color: #ff0658;
 }
 
-.detailOrderPanel .panel .panel-body .row-order-status .col-order-line .order-line{
+.detailOrderPanel .row-order-status .col-order-line{
+	width: 60px;
+	float: left;
+}
+
+.detailOrderPanel .row-order-status .col-order-line .order-line{
 	height : 2px;
 	min-width: 20px;
 	border-radius: 1px;
@@ -185,35 +194,38 @@
 	width: 60px;
 }
 
-.detailOrderPanel .panel .panel-body .row-order-status .col-order-line.col-order-line-pass .order-line{
+.detailOrderPanel .row-order-status .col-order-line.col-order-line-pass .order-line{
 	height : 4px;
-	margin: 7px -10px;
+	margin: 7px 0px;
 	background-color: #000000;
 }
 
 @media screen and (max-width: 640px) {
-	.detailOrderPanel .panel .panel-body .row-order-status .col-order-line .order-line{
-		width: 40px;
+	.detailOrderPanel .row-order-status .col-order-line .order-line,
+	.detailOrderPanel .row-order-status .col-order-line{
+		width: 60px;
 	}
 }
 
 @media screen and (max-width: 480px) {
 	.createOrderPanel .panel .panel-body,
 	.createOrderPanel .panel .panel-heading,
-	.detailOrderPanel .panel .panel-body,
+	.detailOrderPanel,
 	.detailOrderPanel .panel .panel-heading{
 		padding: 20px 10px;
 	}
 
-	.detailOrderPanel .panel .panel-body .row-order-status .col-order-line .order-line{
+	.detailOrderPanel .row-order-status .col-order-line .order-line,
+	.detailOrderPanel .row-order-status .col-order-line{
 		width: 20px;
 	}
-	.detailOrderPanel .panel .panel-body .row-order-status .col-order-status{
+	.detailOrderPanel .row-order-status .col-order-status{
+		width: 45px;
 		margin-right: 2px;
 		margin-left: 2px;
 	}
-	.detailOrderPanel .panel .panel-body .row-order-status .col-order-status .order-status-label {
-	    width: 60px;
+	.detailOrderPanel .row-order-status .col-order-status .order-status-label {
+	    width: 45px;
 	    text-align: center;
 	    white-space: nowrap;
 	    text-overflow: ellipsis;
@@ -222,37 +234,38 @@
 }
 
 @media screen and (max-width: 320px) {
-	.detailOrderPanel .panel .panel-body .row-order-status .col-order-status .order-status-label {
-	    width: 55px;
+	.detailOrderPanel .row-order-status .col-order-status .order-status-label,
+	.detailOrderPanel .row-order-status .col-order-status {
+	    width: 35px;
 	}
 }
 
-.detailOrderPanel .panel .panel-body .row-initialized .row-order-time .control-label span{
+.detailOrderPanel .row-initialized .row-order-time .control-label span{
 	font-weight: bold;
 	margin-right: 10px;
 }
 
-.detailOrderPanel .panel .panel-body .row-initialized .row-order-actor .control-label span{
+.detailOrderPanel .row-initialized .row-order-actor .control-label span{
 	font-weight: bold;
 	margin-right: 10px;
 }
 
-.detailOrderPanel .panel .panel-body .row-initialized .row-order-actor .row-order-actor-accepter span.row-order-actor-accepter-value{
+.detailOrderPanel .row-initialized .row-order-actor .row-order-actor-accepter span.row-order-actor-accepter-value{
 	font-weight: normal;
 	color: #6299e8;
 }
 
-.detailOrderPanel .panel .panel-body .row-initialized .row-give .row-title-give{
+.detailOrderPanel .row-initialized .row-give .row-title-give{
 	font-weight: bold;
 	color: #366144;
 }
 
-.detailOrderPanel .panel .panel-body .row-initialized .row-get .row-title-get{
+.detailOrderPanel .row-initialized .row-get .row-title-get{
 	font-weight: bold;
 	color: #159d21;
 }
 
-.detailOrderPanel .panel .panel-body .row-initialized .row-rate .row-title-rate{
+.detailOrderPanel .row-initialized .row-rate .row-title-rate{
 	font-weight: bold;
 	color: #fea340;
 }
