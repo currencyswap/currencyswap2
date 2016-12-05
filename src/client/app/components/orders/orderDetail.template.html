@@ -59,11 +59,12 @@
 				<div class="col form-inline">
 					<div class="row mb10 row-order-time">
 						<label class="control-label col-md-3"><span>Created date </span> {{order.created | filterDate}}</label> 
-						<label class="control-label col-md-3 row-order-time-update"><span>Updated date </span> {{order.updated | filterDate}}</label> 
+						<label class="control-label col-md-3 row-order-time-update" ng-if="order.statusId!=1"><span>Updated date </span> {{order.updated | filterDate}}</label>
+						<label class="control-label col-md-3 row-order-time-update" ng-if="order.statusId==1"><span>Expired date </span> {{order.expired | filterDate}}</label> 
 					</div>
 					<div class="row mb10 row-order-actor">
 						<label class="control-label col-md-3"><span>Initializer </span> {{order.owner.fullName||order.owner.username}}</label> 
-						<label class="control-label col-md-3 row-order-actor-accepter" ng-if="order.accepterId"><span>Accepter </span> <span class="row-order-actor-accepter-value">{{order.accepter.fullName||order.accepter.username}}</span></label> 
+						<label class="control-label col-md-3 row-order-actor-accepter" ng-if="order.accepterId && order.statusId!=1"><span>Accepter </span> <span class="row-order-actor-accepter-value">{{order.accepter.fullName||order.accepter.username}}</span></label> 
 					</div>
 					<div class="row mb10 row-give">
 						<label class="control-label col-md-2 row-title-give">Give</label> 

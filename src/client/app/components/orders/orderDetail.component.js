@@ -52,8 +52,8 @@ angular.module('orders')
         		}
         		
         		var goToOrderList = function(){
-        			//location.href = "/#!/orders/";
-        			getOrderDetail($scope.orderCode);
+        			location.href = "/#!/orders/";
+//        			getOrderDetail($scope.orderCode);
         		}
         		
         		var goToEdit = function(code){
@@ -62,13 +62,18 @@ angular.module('orders')
         		
         		// Cancel swapping order        		
         		$scope.onCancel = function(orderId){
-            		var cancelOrder = $window.confirm('Are you sure you want to cancel the Order?');
+            		var cancelOrder = $window.confirm('Are you sure you want to cancel the Order 12?');
             	    if(cancelOrder){
             	    	$scope.submitLoading = true;
             	    	if($scope.orderStatus == $scope.statusType.SWAPPING){
             	    		OrdersService.cancelSwappingOrder(orderId).then(function(resp){
             	    			$scope.submitLoading = false;
-            	    			goToOrderList();
+            	    			if($scope.isOwnerOrder){
+            	    				getOrderDetail($scope.orderCode);	
+            	    			} else {
+            	    				goToOrderList();
+            	    			}
+            	    			
     	                    }, function(err){
     	                    	$scope.submitLoading = false;
     	                        $window.alert('Failure to cancel action!');
@@ -84,7 +89,7 @@ angular.module('orders')
             	    	}else{
             	    		OrdersService.cancelConfirmedOrder(orderId).then(function(resp){
             	    			$scope.submitLoading = false;
-            	    			goToOrderList();
+            	    			getOrderDetail($scope.orderCode);
     	                    }, function(err){
     	                    	$scope.submitLoading = false;
     	                    	$window.alert('Failure to cancel action!');
@@ -100,7 +105,7 @@ angular.module('orders')
             	    	$scope.submitLoading = true;
 		                OrdersService.confirmSwappingOrder(orderId).then(function(resp){
 		                	$scope.submitLoading = false;
-		                	goToOrderList();
+		                	getOrderDetail($scope.orderCode);
 	                    }, function(err){
 	                    	$scope.submitLoading = false;
 	                    	$window.alert('Failure to confirm action!');
@@ -115,7 +120,7 @@ angular.module('orders')
             	    	$scope.submitLoading = true;
 		                OrdersService.clearConfirmedOrder(orderId).then(function(resp){
 		                	$scope.submitLoading = false;
-		                	goToOrderList();
+		                	getOrderDetail($scope.orderCode);
 	                    }, function(err){
 	                    	$scope.submitLoading = false;
 	                    	$window.alert('Failure to clear action!');
