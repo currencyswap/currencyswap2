@@ -19,7 +19,7 @@ angular.module('orders')
         		$scope.historyOrders = [];
         		$scope.submittedOrders = [];
         		$scope.currentUser = CookieService.getCurrentUser();
-        		$scope.status = ["Submitted", "Swapping", "Confirmed", "Pending", "Cleared", "Canceled"];
+        		$scope.status = ["Submitted", "Swapping", "Confirmed", "Pending", "Cleared", "Cancelled"];
         		$scope.tab = 1;
         		window.scrollTo(0, 0);
         		var getSwappingOrders = function () {

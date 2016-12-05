@@ -249,7 +249,7 @@ angular.module('currencySwapApp', [
         CONFIRMED: "Confirmed",
         PENDING: "Pending",
         CLEARED: "Cleared",
-        CANCELED: "Canceled",
+        CANCELED: "Cancelled",
         EXPIRED: "Expired",
         SUBMITTED_ID: 1,
         SWAPPING_ID: 2,
