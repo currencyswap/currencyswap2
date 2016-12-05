@@ -49,7 +49,7 @@
                     </div>
                     <div class="form-group" ng-class="{'has-error' : registerForm.passwordCompare.$invalid && !registerForm.passwordCompare.$pristine}">
                         <label class="control-label">Re-type Password</label> <span class="asterisk">*</span>
-                        <input class="form-control" type="password" name="passwordCompare" required data-ng-model="user.passwordCompare" data-ng-match="user.password" minlength="{{GLOBAL_CONSTANT.LIMIT_FIELDS_INFO.PWD_MIN}}" maxlength="{{GLOBAL_CONSTANT.LIMIT_FIELDS_INFO.PWD_MAX}}"/>
+                        <input class="form-control" type="password" name="passwordCompare" required data-ng-model="user.passwordCompare" data-ng-match="user.password" minlength="{{GLOBAL_CONSTANT.LIMIT_FIELDS_INFO.PWD_MIN}}" maxlength="{{GLOBAL_CONSTANT.LIMIT_FIELDS_INFO.PWD_MAX}}" placeholder = "Re-enter your password"/>
                         <label class="error" data-ng-show="!registerForm.passwordCompare.$error.required && registerForm.passwordCompare.$error.match">Password does not match.</label>
                         <label class="error" ng-show="registerForm.passwordCompare.$error.required && registerForm.passwordCompare.$dirty" >This field is required.</label>
                     </div>
@@ -98,19 +98,19 @@
                          ng-class="{ 'has-error' : nationalIdExisted}">
                         <div class="mb10">
                             <label class="control-label">Passport/National ID</label>
-                            <input type="text" class="form-control" ng-model="user.nationalId" focus-me="focusNationalId" minlength="{{GLOBAL_CONSTANT.LIMIT_FIELDS_INFO.PP_NATIONAL_MIN}}" maxlength="{{GLOBAL_CONSTANT.LIMIT_FIELDS_INFO.PP_NATIONAL_MAX}}">
+                            <input type="text" class="form-control" ng-model="user.nationalId" focus-me="focusNationalId" minlength="{{GLOBAL_CONSTANT.LIMIT_FIELDS_INFO.PP_NATIONAL_MIN}}" maxlength="{{GLOBAL_CONSTANT.LIMIT_FIELDS_INFO.PP_NATIONAL_MAX}}" placeholder = "Your passport/national id here">
                             <label class="error" ng-show="nationalIdExisted">Your National Id is already in use.</label>
                         </div>
                     </div>
 
                     <div class="mb10">
                         <label class="control-label">Address</label>
-                        <input class="form-control" type="text" ng-model="user.address" minlength="{{GLOBAL_CONSTANT.LIMIT_FIELDS_INFO.ADDRESS_MIN}}" maxlength="{{GLOBAL_CONSTANT.LIMIT_FIELDS_INFO.ADDRESS_MAX}}">
+                        <input class="form-control" type="text" ng-model="user.address" minlength="{{GLOBAL_CONSTANT.LIMIT_FIELDS_INFO.ADDRESS_MIN}}" maxlength="{{GLOBAL_CONSTANT.LIMIT_FIELDS_INFO.ADDRESS_MAX}}" placeholder = "Your address here">
                     </div>
 
                     <div class="mb10">
                         <label class="control-label">City</label>
-                        <input class="form-control" type="text" ng-model="user.city" minlength="{{GLOBAL_CONSTANT.LIMIT_FIELDS_INFO.CITY_MIN}}" maxlength="{{GLOBAL_CONSTANT.LIMIT_FIELDS_INFO.CITY_MAX}}">
+                        <input class="form-control" type="text" ng-model="user.city" minlength="{{GLOBAL_CONSTANT.LIMIT_FIELDS_INFO.CITY_MIN}}" maxlength="{{GLOBAL_CONSTANT.LIMIT_FIELDS_INFO.CITY_MAX}}" placeholder = "Your city here">
                     </div>
 
                     <div class="mb10">
@@ -118,7 +118,7 @@
                     </div>
                     <div class="mb10">
                         <label class="control-label">Post Code</label>
-                        <input class="form-control" type="text" ng-model="user.postcode" minlength="{{GLOBAL_CONSTANT.LIMIT_FIELDS_INFO.POSTCODE_MIN}}" maxlength="{{GLOBAL_CONSTANT.LIMIT_FIELDS_INFO.POSTCODE_MAX}}">
+                        <input class="form-control" type="text" ng-model="user.postcode" minlength="{{GLOBAL_CONSTANT.LIMIT_FIELDS_INFO.POSTCODE_MIN}}" maxlength="{{GLOBAL_CONSTANT.LIMIT_FIELDS_INFO.POSTCODE_MAX}}" placeholder = "Your post code here">
                     </div>
                     <div class="mb30"></div>
                     <hr>
