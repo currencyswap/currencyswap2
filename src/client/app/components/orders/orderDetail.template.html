@@ -59,8 +59,9 @@
 				<div class="col form-inline">
 					<div class="row mb10 row-order-time">
 						<label class="control-label col-md-3"><span>Created Date </span> {{order.created | filterDate}}</label> 
-						<label class="control-label col-md-3 row-order-time-update" ng-if="order.statusId!=1"><span>Closed Date </span> {{order.updated | filterDate}}</label>
-						<label class="control-label col-md-3 row-order-time-update" ng-if="order.statusId==1"><span>Expired Date </span> {{order.expired | filterDate}}</label> 
+						<label class="control-label col-md-3 row-order-time-update" ng-if="order.statusId>=5"><span>Closed Date </span> {{order.updated | filterDate}}</label>
+						<label class="control-label col-md-3 row-order-time-update" ng-if="order.statusId==1"><span>Expired Date </span> {{order.expired | filterDate}}</label>
+						<label class="control-label col-md-3 row-order-time-update" ng-if="order.statusId>1 && order.statusId < 5"><span>Updated Date </span> {{order.expired | filterDate}}</label> 
 					</div>
 					<div class="row mb10 row-order-actor">
 						<label class="control-label col-md-3"><span>Initializer </span> {{order.owner.fullName||order.owner.username}}</label> 

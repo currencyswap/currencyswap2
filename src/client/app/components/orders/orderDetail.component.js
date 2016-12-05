@@ -62,7 +62,17 @@ angular.module('orders')
         		
         		// Cancel swapping order        		
         		$scope.onCancel = function(orderId){
-            		var cancelOrder = $window.confirm('Are you sure you want to cancel the Order 12?');
+        			var msg = '';
+        			if($scope.isOwnerOrder && $scope.orderStatus == $scope.statusType.SWAPPING)
+        				msg = 'State of this order will be changed to Submitted. Do you want continue?';
+        			else if(!$scope.isOwnerOrder && $scope.orderStatus == $scope.statusType.SWAPPING)
+        				msg = 'If you cancel, this order will be removed from your list. Do you want continue?';
+        			else if($scope.orderStatus == $scope.statusType.SUBMITTED)
+        				msg='If you cancel, this order will be deleted. Do you want continue?'
+        			else 
+        				msg = 'State of this order will be changed to Cancelled. Do you want continue?';
+        			
+            		var cancelOrder = $window.confirm(msg);
             	    if(cancelOrder){
             	    	$scope.submitLoading = true;
             	    	if($scope.orderStatus == $scope.statusType.SWAPPING){
@@ -100,7 +110,8 @@ angular.module('orders')
         		
         		// Confirm swapping order
         		$scope.onConfirm = function(orderId){
-            		var confirmOrder = $window.confirm('Are you sure you want to confirm the Order?');
+        			var msg = 'State of this order will be changed to Pending. Do you want continue?';
+            		var confirmOrder = $window.confirm(msg);
             	    if(confirmOrder){
             	    	$scope.submitLoading = true;
 		                OrdersService.confirmSwappingOrder(orderId).then(function(resp){
@@ -115,7 +126,8 @@ angular.module('orders')
         		
         		// Clear confirmed order
         		$scope.onClear = function(orderId){
-            		var clearOrder = $window.confirm('Are you sure you want to clear the Order?');
+        			var msg= 'State of this order will be changed to Cleared. Do you want continue?';
+            		var clearOrder = $window.confirm(msg);
             	    if(clearOrder){
             	    	$scope.submitLoading = true;
 		                OrdersService.clearConfirmedOrder(orderId).then(function(resp){

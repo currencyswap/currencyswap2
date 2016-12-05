@@ -87,8 +87,11 @@ angular.module('orders')
         		};
         		$scope.getOrderById = getOrderById;
         		// Cancel swapping order        		
-        		var cancelSwappingOrder = function(orderId){
-            		var cancelOrder = $window.confirm('Are you sure you want to cancel the Order?');
+        		var cancelSwappingOrder = function(orderId, ownerUsername){
+        			var msg = 'If you cancel, this order will be removed from your list. Do you want continue?';
+        			if($scope.currentUser.username==ownerUsername)
+        				msg = 'State of this order will be changed to Submitted. Do you want continue?';
+            		var cancelOrder = $window.confirm(msg);
             	    if(cancelOrder){
 		                OrdersService.cancelSwappingOrder(orderId).then(function(resp){
 		                	if(resp.isError){
@@ -103,7 +106,7 @@ angular.module('orders')
         		$scope.cancelSwappingOrder = cancelSwappingOrder;
         		// Confirm swapping order
         		var confirmSwappingOrder = function(orderId){
-            		var swappingOrder = $window.confirm('Are you sure you want to clear the Order?');
+            		var swappingOrder = $window.confirm('State of this order will be changed to Confirmed. Do you want continue?');
             	    if(swappingOrder){
 		                OrdersService.confirmSwappingOrder(orderId).then(function(resp){
 		                	if(resp.isError){
@@ -118,8 +121,9 @@ angular.module('orders')
         		};
         		$scope.confirmSwappingOrder = confirmSwappingOrder;
         		// Cancel confirmed order        		
-        		var cancelConfirmedOrder = function(orderId){
-            		var cancelOrder = $window.confirm('Are you sure you want to cancel the Order?');
+        		var cancelConfirmedOrder = function(orderId, statusId){
+        			var msg = 'State of this order will be changed to Cancelled. Do you want continue?';
+            		var cancelOrder = $window.confirm(msg);
             	    if(cancelOrder){
 		                OrdersService.cancelConfirmedOrder(orderId).then(function(resp){
 		                	if(resp.isError){
@@ -138,8 +142,13 @@ angular.module('orders')
         		};
         		$scope.cancelConfirmedOrder = cancelConfirmedOrder;
         		// Clear confirmed order
-        		var clearConfirmedOrder = function(orderId){
-            		var clearOrder = $window.confirm('Are you sure you want to clear the Order?');
+        		var clearConfirmedOrder = function(orderId, statusId){
+        			var msg = 'State of this order will be changed to Pending. Do you want continue?';
+        			if(statusId == 4){
+        				msg= 'State of this order will be changed to Cleared. Do you want continue?';
+        			}
+
+            		var clearOrder = $window.confirm(msg);
             	    if(clearOrder){
 		                OrdersService.clearConfirmedOrder(orderId).then(function(resp){
 		                	if(resp.isError){
@@ -158,7 +167,7 @@ angular.module('orders')
         		$scope.clearConfirmedOrder = clearConfirmedOrder;
         		// Cancel submitted order
         		var cancelSubmittedOrder = function(orderId){
-            		var cancelOrder = $window.confirm('Are you sure you want to cancel the Order?');
+            		var cancelOrder = $window.confirm('If you cancel, this order will be deleted. Do you want continue?');
             	    if(cancelOrder){
     	                OrdersService.cancelSubmittedOrder(orderId).then(function(resp){
 		                	if(resp.isError){
