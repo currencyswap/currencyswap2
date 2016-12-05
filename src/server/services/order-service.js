@@ -111,13 +111,15 @@ exports.getUserConfirmedOrders = function (userId) {
             'scope' : {
                     'fields' : [ 'creatorId', 'orderId', 'statusId'],
                     'include' : [
-                                        {
-                                                'relation' : 'creator',
-                                        'scope' : {
-                                                'fields' : [ 'id', 'username', 'fullName','status']
-                                        }
-                                        }
-                                ]
+                                 	{
+                                 		'relation' : 'creator',
+                                 		'scope' : {
+                                 			'fields' : [ 'username']
+                                 		}
+                                 	}
+                                ],
+                     'order': 'created DESC',
+                     'limit' : 1
             }
         };
         activitiesRelation.scope['where'] =  {'creatorId': userId}

@@ -167,14 +167,11 @@ angular.module('orders')
         		$scope.editSubmittedOrder = editSubmittedOrder;
         		$scope.checkStatusCurrentUserInActivity = function(activities){
         			var isCleared = false;
-        			if(activities){
-            			for(var i = 0; i < activities.length; i++){
-            				var activity = activities[i];
-            				
-            				if(activity.creator.username == $scope.currentUser.username && activity.statusId == 4){
-            					isCleared = true;
-            				}
-            			}
+        			if(activities && activities.length > 0){
+        				var activity = activities[0];
+        				if(activity.creator.username == $scope.currentUser.username && activity.statusId == 4){
+        					isCleared = true;
+        				}
         			}
         			return isCleared;
         		}
