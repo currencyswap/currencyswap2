@@ -15,7 +15,7 @@
 								<tr>
 									<th class="col-sm-1 order-item-header">Order Id</th>
 									<th class="col-sm-1 order-item-header">Created Date</th>
-									<th class="col-sm-1 order-item-header">Updated Date</th>
+									<th class="col-sm-1 order-item-header">Expired Date</th>
 									<th class="col-sm-1 order-item-header">Get</th>
 									<th class="col-sm-1 order-item-header">Give</th>
 									<th class="col-sm-1 order-item-header">Rate</th>
@@ -106,7 +106,7 @@
 							<thead>
 								<tr>
 									<th class="col-sm-1 order-item-header">Order Id</th>
-									<th class="col-sm-1 order-item-header">Date</th>
+									<th class="col-sm-1 order-item-header">Created Date</th>
 									<th class="col-sm-1 order-item-header">Expired Date</th>
 									<th class="col-sm-1 order-item-header">Get</th>
 									<th class="col-sm-1 order-item-header">Give</th>
@@ -216,11 +216,11 @@
 						</div>
 						<div >
 							<div style="width: 50%; float: left;">
-								<span class="order-label-mobile">Created Date: </span>{{swappingOrder.created|
+								<span class="order-label-mobile">Created: </span>{{swappingOrder.created|
 								filterDate}}
 							</div>
 							<div style="width: 50%; float: left;">
-								<span class="order-label-mobile">Updated Date: </span>{{swappingOrder.updated|
+								<span class="order-label-mobile">Updated: </span>{{swappingOrder.updated|
 								filterDate}}
 							</div>
 						</div>
@@ -279,11 +279,11 @@
 						</div>
 						<div style="width: 100%;">
 							<div style="width: 50%; float: left;">
-								<span class="order-label-mobile">Created Date: </span>{{confirmOrder.created|
+								<span class="order-label-mobile">Created: </span>{{confirmOrder.created|
 								filterDate}}
 							</div>
 							<div style="width: 50%; float: left;">
-								<span class="order-label-mobile">Updated Date: </span>{{confirmOrder.updated|
+								<span class="order-label-mobile">Updated: </span>{{confirmOrder.updated|
 								filterDate}}
 							</div>
 						</div>
@@ -339,7 +339,7 @@
 						</div>
 						<div style="width: 100%;">
 							<div style="width: 50%; float: left;">
-								<span class="order-label-mobile">Date: </span>{{submittedOrder.created|
+								<span class="order-label-mobile">Created: </span>{{submittedOrder.created|
 								filterDate}}
 							</div>
 							<div style="width: 50%; float: left;">
@@ -388,7 +388,7 @@
 						</div>
 						<div style="width: 100%;">
 							<div style="width: 50%; float: left;">
-								<span class="order-label-mobile">Created : </span>{{historyOrder.created|
+								<span class="order-label-mobile">Created: </span>{{historyOrder.created|
 								filterDate}}
 							</div>
 							<div style="width: 50%; float: left;">

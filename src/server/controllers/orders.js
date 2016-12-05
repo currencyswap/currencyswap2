@@ -52,6 +52,7 @@ module.exports = function (app) {
         var orderId = req.params.id;
         var creatorId = req.currentUser.id
         service.getOrderById(orderId).then(function(order){
+
             var ownerId = order.ownerId;
             var accepterId = order.accepterId;
             var msgReceiverUserId = (creatorId == ownerId ? accepterId: ownerId);
@@ -61,23 +62,28 @@ module.exports = function (app) {
                 title = msg = "Order " + order.code + " has been cancelled";;
             } else {
                 title = "Order " + order.code + " has updated";
-                msg = "Order " + order.code + " has been changed from " + getStatusName(statusId - 2) + " to " +getStatusName(statusId - 1);
+                msg = "Order " + order.code + " has been changed from " + getStatusName(statusId - 1) + " to " +getStatusName(statusId);
             }
-            service.updateOrderStatus(orderId, statusId, creatorId).then(function(resp){
-                if(statusId == constant.STATUS_TYPE.SUBMITTED_ID){
-                     service.removeOrderActivity(orderId);
-                } else {
-                     createOrderActivity(orderId, creatorId, statusId, activityMessage);
-                }
-                if (msgReceiverUserId) {
-                    saveMessage(title, msg, creatorId, msgReceiverUserId, order.code);
-                } else {
-                    console.log('No message was sent due to unknown receiver')
-                }
-                return res.send(resp);
-             }, function(err){
-                   return res.status(500).send(errorUtil.createAppError(errors.SERVER_GET_PROBLEM));
-               });
+        	if(order.statusId == statusId){
+        		return res.send({isError : true, message: msg});
+        	} else {                
+                service.updateOrderStatus(orderId, statusId, creatorId).then(function(resp){
+                    if(statusId == constant.STATUS_TYPE.SUBMITTED_ID){
+                         service.removeOrderActivity(orderId);
+                    } else {
+                         createOrderActivity(orderId, creatorId, statusId, activityMessage);
+                    }
+                    if (msgReceiverUserId) {
+                        saveMessage(title, msg, creatorId, msgReceiverUserId, order.code);
+                    } else {
+                        console.log('No message was sent due to unknown receiver')
+                    }
+                    return res.send(resp);
+                 }, function(err){
+                       return res.status(500).send(errorUtil.createAppError(errors.SERVER_GET_PROBLEM));
+                 });        		
+        	}
+
         },function(err){
             return res.status(500).send(errorUtil.createAppError(errors.SERVER_GET_PROBLEM));
         });
