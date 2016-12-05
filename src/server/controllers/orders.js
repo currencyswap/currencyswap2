@@ -64,7 +64,11 @@ module.exports = function (app) {
                 msg = "Order " + order.code + " has been changed from " + getStatusName(statusId - 2) + " to " +getStatusName(statusId - 1);
             }
             service.updateOrderStatus(orderId, statusId, creatorId).then(function(resp){
-            	createOrderActivity(orderId, creatorId, statusId, activityMessage);
+                if(statusId == constant.STATUS_TYPE.SUBMITTED_ID){
+                     service.removeOrderActivity(orderId);
+                } else {
+                     createOrderActivity(orderId, creatorId, statusId, activityMessage);
+                }
                 if (msgReceiverUserId) {
                     saveMessage(title, msg, creatorId, msgReceiverUserId, order.code);
                 } else {
