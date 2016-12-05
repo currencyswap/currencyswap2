@@ -91,12 +91,56 @@ angular.module('register')
                     $scope.emailExisted = false;
                 };
                 $scope.user.birthday = new Date();
+                $scope.serverErrors = serverErrors;
+                $scope.fieldError = 0;
+                $scope.getMessageError = function (errorCode) {
+                    $scope.gifLoading = false;
+                    if (errorCode === serverErrors.USERNAME_EXCEED_MAX_LENGTH){
+                        return "Username too long.";
+                    }
+                    if (errorCode === serverErrors.PASSWORD_EXCEED_MAX_LENGTH){
+
+                        return "Password too long.";
+                    }
+                    if (errorCode === serverErrors.EMAIL_EXCEED_MAX_LENGTH){
+                        return "Email too long.";
+                    }
+                    if (errorCode === serverErrors.REQUEST_NO_USERNAME){
+                        return "Username is empty.";
+                    }
+                    if (errorCode === serverErrors.USERNAME_IS_NOT_STRING){
+                        return "Username is invalid.";
+                    }
+                    if (errorCode === serverErrors.REQUEST_NO_PASSWORD){
+                        return "Password is empty.";
+                    }
+                    if (errorCode === serverErrors.PASSWORD_IS_NOT_STRING){
+                        return "Password is invalid.";
+                    }
+                    if (errorCode === serverErrors.EMAIL_IS_NOT_STRING || errorCode === serverErrors.EMAIL_IS_INVALID){
+                        return "Email is invalid.";
+                    }
+                    if (errorCode === serverErrors.FULLNAME_IS_NOT_STRING){
+                        return "Full name is invalid.";
+                    }
+                    if (errorCode === serverErrors.FULLNAME_EXCEED_MAX_LENGTH){
+                        return "Full name too long.";
+                    }
+                    if (errorCode === serverErrors.CELLPHONE_EXCEED_MAX_LENGTH){
+                        return "Cellphone too long.";
+                    }
+                    if (errorCode === serverErrors.PROFESSION_EXCEED_MAX_LENGTH){
+                        return "Profession too long.";
+                    }
+                }
                 $scope.onSubmit = function () {
+                    $scope.fieldError = 0;
                     $scope.gifLoading = true;
                     var newUser = RegisterService.compressUserDataToObj($scope.user);
                     RegisterService.submitRequest(newUser)
                         .then(function (response) {
                             if (response.status === GLOBAL_CONSTANT.HTTP_ERROR_STATUS_CODE) { //handle error response
+                                $scope.fieldError = response.data.code;
                                 if (response.data.code === serverErrors.TRANSACTION_INIT_FAIL
                                     || response.data.code === serverErrors.COULD_NOT_SAVE_USER_TO_DB
                                     || response.data.code === serverErrors.COULD_NOT_SAVE_USER_ADDR_TO_DB
@@ -111,25 +155,25 @@ angular.module('register')
                                     return $location.url(routes.ERROR_PAGE);
                                 }
 
-                                if (response.data.code === serverErrors.USERNAME_EXCEED_MAX_LENGTH
-                                    || response.data.code === serverErrors.PASSWORD_EXCEED_MAX_LENGTH
-                                    || response.data.code === serverErrors.EMAIL_EXCEED_MAX_LENGTH
-                                    || response.data.code === serverErrors.REQUEST_NO_USERNAME
-                                    || response.data.code === serverErrors.USERNAME_IS_NOT_STRING
-                                    || response.data.code === serverErrors.REQUEST_NO_PASSWORD
-                                    || response.data.code === serverErrors.PASSWORD_IS_NOT_STRING
-                                    || response.data.code === serverErrors.EMAIL_IS_NOT_STRING
-                                    || response.data.code === serverErrors.EMAIL_IS_INVALID
-                                    || response.data.code === serverErrors.FULLNAME_IS_NOT_STRING
-                                    || response.data.code === serverErrors.FULLNAME_EXCEED_MAX_LENGTH
-                                    || response.data.code === serverErrors.CELLPHONE_EXCEED_MAX_LENGTH
-                                    || response.data.code === serverErrors.PROFESSION_EXCEED_MAX_LENGTH) {
-
-                                    $rootScope.isLoading = false;
-                                    $rootScope.error = GLOBAL_CONSTANT.BAD_REQUEST_ERROR;
-
-                                    return $location.url(routes.ERROR_PAGE);
-                                }
+                                // if (response.data.code === serverErrors.USERNAME_EXCEED_MAX_LENGTH
+                                //     || response.data.code === serverErrors.PASSWORD_EXCEED_MAX_LENGTH
+                                //     || response.data.code === serverErrors.EMAIL_EXCEED_MAX_LENGTH
+                                //     || response.data.code === serverErrors.REQUEST_NO_USERNAME
+                                //     || response.data.code === serverErrors.USERNAME_IS_NOT_STRING
+                                //     || response.data.code === serverErrors.REQUEST_NO_PASSWORD
+                                //     || response.data.code === serverErrors.PASSWORD_IS_NOT_STRING
+                                //     || response.data.code === serverErrors.EMAIL_IS_NOT_STRING
+                                //     || response.data.code === serverErrors.EMAIL_IS_INVALID
+                                //     || response.data.code === serverErrors.FULLNAME_IS_NOT_STRING
+                                //     || response.data.code === serverErrors.FULLNAME_EXCEED_MAX_LENGTH
+                                //     || response.data.code === serverErrors.CELLPHONE_EXCEED_MAX_LENGTH
+                                //     || response.data.code === serverErrors.PROFESSION_EXCEED_MAX_LENGTH) {
+                                //
+                                //     $rootScope.isLoading = false;
+                                //     $rootScope.error = GLOBAL_CONSTANT.BAD_REQUEST_ERROR;
+                                //
+                                //     return $location.url(routes.ERROR_PAGE);
+                                // }
 
                                 if (response.data.code === serverErrors.USER_NAME_EXISTED) {
                                     $scope.userExisted = true;
@@ -154,6 +198,7 @@ angular.module('register')
                                     $scope.gifLoading = false;
                                     $scope.focusCellphone = true;
                                 }
+                                $scope.gifLoading = false;
                             } else { //handle success response
                                 $scope.gifLoading = false;
                                 $scope.registerSuccess = true;
@@ -170,6 +215,7 @@ angular.module('register')
                     console.log("EMAIL===",$scope.user.email);
                 }
                 $scope.backToLogin = function () {
+                    $scope.fieldError = 0;
                     $location.url(routes.LOGIN);
                 };
                 
