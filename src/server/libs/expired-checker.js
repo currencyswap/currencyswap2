@@ -48,7 +48,7 @@ module.exports = function Checker(app) {
         });
     };
     
-    var nofityExpiringOrder = function() {
+    var notifyExpiringOrder = function() {
         var beforeExpTime = new Date();
         beforeExpTime.setDate(beforeExpTime.getDate()+config.notifyExpireBeforeDays);
         var hours = beforeExpTime.getHours();
@@ -58,27 +58,27 @@ module.exports = function Checker(app) {
             MsgExpiringOrderMap['hours'+hours] = hours;
         }
 
-        console.log('JobChecker::nofityExpiringOrder is starting...', beforeExpTime);
+        console.log('JobChecker::notifyExpiringOrder is starting...', beforeExpTime);
         orderService.getExpiredOrders(beforeExpTime).then(function(orders){
             if (orders.length === 0) {
-                if (config.debug) console.log('JobChecker::nofityExpiringOrder No items found');
+                if (config.debug) console.log('JobChecker::notifyExpiringOrder No items found');
                 return;
             } else {
-                if (config.debug) console.log('JobChecker::nofityExpiringOrder Found', orders.length);
+                if (config.debug) console.log('JobChecker::notifyExpiringOrder Found', orders.length);
             }
             supportService.getCreator((config.superUsername || 'admin')).then(function(adminUser){
                 var adminId = (adminUser.id || 1);
-                if (config.debug) console.log('JobChecker::nofityExpiringOrder Admin:', adminUser.id, adminUser.username, adminUser.email);
+                if (config.debug) console.log('JobChecker::notifyExpiringOrder Admin:', adminUser.id, adminUser.username, adminUser.email);
                 _performInSeries(orders, function handler(order, next) {
                     createExpOrderMessage(order, adminId, next);
                 }, function done(){
-                    if (config.debug) console.log('JobChecker::nofityExpiringOrder Completed');
+                    if (config.debug) console.log('JobChecker::notifyExpiringOrder Completed');
                 });
             }, function(e){
-                console.log('JobChecker::nofityExpiringOrder Error', e);
+                console.log('JobChecker::notifyExpiringOrder Error', e);
             });
         }, function(e){
-            console.log('JobChecker::nofityExpiringOrder Error', e);
+            console.log('JobChecker::notifyExpiringOrder Error', e);
         });
     };
 
@@ -150,7 +150,7 @@ module.exports = function Checker(app) {
         });
     };
     
-    var nofityExpiringUser = function() {
+    var notifyExpiringUser = function() {
         var beforeExpTime = new Date();
         beforeExpTime.setDate(beforeExpTime.getDate()+config.notifyExpireBeforeDays);
         var hours = beforeExpTime.getHours();
@@ -166,27 +166,27 @@ module.exports = function Checker(app) {
         limitTime.setSeconds(0);
         limitTime.setMilliseconds(0);
 
-        console.log('JobChecker::nofityExpiringUser is starting...', beforeExpTime, limitTime);
+        console.log('JobChecker::notifyExpiringUser is starting...', beforeExpTime, limitTime);
         userService.getExpiredUsers(beforeExpTime, limitTime).then(function(users){
             if (users.length === 0) {
-                if (config.debug) console.log('JobChecker::nofityExpiringUser No items found');
+                if (config.debug) console.log('JobChecker::notifyExpiringUser No items found');
                 return;
             } else {
-                if (config.debug) console.log('JobChecker::nofityExpiringUser Found', users.length);
+                if (config.debug) console.log('JobChecker::notifyExpiringUser Found', users.length);
             }
             supportService.getCreator((config.superUsername || 'admin')).then(function(adminUser){
                 var adminId = (adminUser.id || 1);
-                if (config.debug) console.log('JobChecker::nofityExpiringUser Admin:', adminUser.id, adminUser.username, adminUser.email);
+                if (config.debug) console.log('JobChecker::notifyExpiringUser Admin:', adminUser.id, adminUser.username, adminUser.email);
                 _performInSeries(users, function handler(user, next) {
                     createExpUserMessage(user, adminId, next);
                 }, function done(){
-                    if (config.debug) console.log('JobChecker::nofityExpiringUser Completed');
+                    if (config.debug) console.log('JobChecker::notifyExpiringUser Completed');
                 });
             }, function(e){
-                console.log('JobChecker::nofityExpiringUser Error', e);
+                console.log('JobChecker::notifyExpiringUser Error', e);
             });
         }, function(e){
-            console.log('JobChecker::nofityExpiringUser Error', e);
+            console.log('JobChecker::notifyExpiringUser Error', e);
         });
     };
 
@@ -227,16 +227,16 @@ module.exports = function Checker(app) {
         startTime.setSeconds(startTime.getSeconds()+delay);
         // run only 1 time at starting app
         var jobOnce = new CronJob(startTime, function() {
-            setOrderExpired(nofityExpiringOrder);
-            setUserExpired(nofityExpiringUser);
+            setOrderExpired(notifyExpiringOrder);
+            setUserExpired(notifyExpiringUser);
             jobOnce.stop();
           }, function () {
               jobEveryHourAtXXMins.start();
               console.log('JobChecker::jobEveryHourAtXXMins is completed', new Date());
           }, true);
         var jobEveryHourAtXXMins = new CronJob((config.scheduleCheckExpired||'00 00,10,20,30,40,50 * * * *'), function() {
-            setOrderExpired(nofityExpiringOrder);
-            setUserExpired(nofityExpiringUser);
+            setOrderExpired(notifyExpiringOrder);
+            setUserExpired(notifyExpiringUser);
           }, function () {
               console.log('JobChecker::jobEveryHourAtXXMins is completed', new Date());
           }
