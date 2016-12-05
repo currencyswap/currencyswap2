@@ -668,6 +668,20 @@ exports.getUserByUsernameWithoutRelationModel = function (user, callback) {
     });
 };
 
+var _cleanExpiredOrBlockedUserSession = function(user) {
+    if (user.status === constant.USER_STATUSES.BLOCKED || user.status === constant.USER_STATUSES.EXPIRED) {
+        redis.removeUserInfo(user.username);
+    } else if (user.expiredDate) {
+        var now = new Date();
+        var expire = (typeof user.expiredDate === 'string' ? new Date(user.expiredDate) : user.expiredDate);
+        now = now.getTime();
+        expire = expire.getTime();
+        if (expire < now) {
+            console.log('User get expired', user.username, 'Expired Time:', user.expiredDate);
+            redis.removeUserInfo(user.username);
+        }
+    }
+};
 exports.updateUserInfo = function (user, filter, callback) {
     var oldUserStatus = user.status;
     user.updateAttributes(filter, function (err, updatedUser) {
@@ -675,6 +689,7 @@ exports.updateUserInfo = function (user, filter, callback) {
             return callback(errorUtil.createAppError(errors.SERVER_GET_PROBLEM));
         }
         else {
+            _cleanExpiredOrBlockedUserSession(updatedUser);
             if (oldUserStatus === constant.USER_STATUSES.PENDING_APPROVAL && updatedUser.status === constant.USER_STATUSES.ACTIVATED) {
                 async.waterfall([
                     function (next) {

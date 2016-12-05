@@ -181,11 +181,11 @@ exports.collectUserPermission = function (username, callback) {
                         return next(err);
                     }
                     // TODO Need to remove user session from redis when set user to be blocked
-//                    if (user.status === constant.USER_STATUSES.BLOCKED) {
-//                        console.log('Your account get blocked', username);
-//                        var err = errorUtil.createAppError(errors.USER_ACCOUNT_BLOCKED);
-//                        return next(err);
-//                    }
+                    if (user.status === constant.USER_STATUSES.BLOCKED) {
+                        console.log('Your account get blocked', username);
+                        var err = errorUtil.createAppError(errors.USER_ACCOUNT_BLOCKED);
+                        return next(err);
+                    }
                     redis.setUserInfo(user);
                     return next(null, user);
                 }
