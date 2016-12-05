@@ -91,45 +91,42 @@ angular.module('orders')
         			if(rate > 0){
         				var rateRound = Math.round(rate * NUMBER_FOR_CONVERT);
 	        			
-	        			rate = rateRound / NUMBER_FOR_CONVERT;
+        				$scope.newOrder.rate = rateRound / NUMBER_FOR_CONVERT;
         			}
         			
         			if($scope.newOrder.fixed == $scope.FIXED_VALUE.GIVE){
         				if(fieldChange == $scope.FIXED_VALUE.RATE){
         					if(give > 0 && rate > 0){
-        						get = give * rate;
+        						$scope.newOrder.get = give * rate;
         					}
         				}else{
         					if(give > 0 && get > 0){
-            					rate = get / give;
+        						$scope.newOrder.rate = get / give;
             				}
         				}
         			}else if($scope.newOrder.fixed == $scope.FIXED_VALUE.GET){
         				if(fieldChange == $scope.FIXED_VALUE.RATE){
         					if(rate > 0 && get > 0){
-        						give = get / rate;
+        						$scope.newOrder.give = get / rate;
         					}
         				}else{
         					if(give > 0 && get > 0){
-            					rate = get / give;
+        						$scope.newOrder.rate = get / give;
             				}
         				}
         			}else{
         				$scope.newOrder.fixed = $scope.FIXED_VALUE.RATE;
         				if(fieldChange == $scope.FIXED_VALUE.GIVE){
         					if(give > 0 && rate > 0){
-        						get = give * rate;
+        						$scope.newOrder.get = give * rate;
         					}
         				}else{
         					if(rate > 0 && get > 0){
-            					give = get / rate;
+        						$scope.newOrder.give = get / rate;
             				}
         				}
         			}
         			
-        			$scope.newOrder.get = get + "";
-        			$scope.newOrder.give = give + "";
-        			$scope.newOrder.rate = rate + "";
         		}
         		
         		var getExpiredDate = function(){
