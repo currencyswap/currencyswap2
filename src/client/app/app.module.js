@@ -307,6 +307,23 @@ angular.module('currencySwapApp', [
 	    }
 	    return $filter('currency')(value, symbol, fractionSize);
 	}
+}).filter('filterRate', function($filter){
+	return function (value, fractionSize) {
+		if(!fractionSize) fractionSize = 0;
+		if(!value){ 
+			return "";
+		}else{
+			value = value + "";
+		}
+	    
+	    if(value && value.indexOf('.') > -1){
+	    	fractionSize = value.length - value.indexOf(".") - 1;
+	    	if(fractionSize > 7) {
+	    		fractionSize = 7;
+	    	}
+	    }
+	    return $filter('number')(value, fractionSize);
+	}
 }).directive('formatCurrency', ['$filter', function ($filter) {
     return {
         require: '?ngModel',

@@ -91,6 +91,9 @@ angular.module('orders')
             		var cancelOrder = $window.confirm('Are you sure you want to cancel the Order?');
             	    if(cancelOrder){
 		                OrdersService.cancelSwappingOrder(orderId).then(function(resp){
+		                	if(resp.isError){
+		                		alert(resp.message);
+		                	}
 		                	getSwappingOrders();
 	                    }, function(err){
 	                        console.log('Failure in saving your message');
@@ -103,6 +106,9 @@ angular.module('orders')
             		var swappingOrder = $window.confirm('Are you sure you want to clear the Order?');
             	    if(swappingOrder){
 		                OrdersService.confirmSwappingOrder(orderId).then(function(resp){
+		                	if(resp.isError){
+		                		alert(resp.message);
+		                	}
 		                	getSwappingOrders();
 		            		getConfirmedOrders();
 	                    }, function(err){
@@ -116,6 +122,9 @@ angular.module('orders')
             		var cancelOrder = $window.confirm('Are you sure you want to cancel the Order?');
             	    if(cancelOrder){
 		                OrdersService.cancelConfirmedOrder(orderId).then(function(resp){
+		                	if(resp.isError){
+		                		alert(resp.message);
+		                	}
 		                	if(!$.device){
 		                		$scope.getWorkingOrders();
 		                	}else{ 
@@ -133,6 +142,9 @@ angular.module('orders')
             		var clearOrder = $window.confirm('Are you sure you want to clear the Order?');
             	    if(clearOrder){
 		                OrdersService.clearConfirmedOrder(orderId).then(function(resp){
+		                	if(resp.isError){
+		                		alert(resp.message);
+		                	}
 		                	if(!$.device){
 		                		$scope.getWorkingOrders();
 		                	}else{ 
@@ -149,6 +161,9 @@ angular.module('orders')
             		var cancelOrder = $window.confirm('Are you sure you want to cancel the Order?');
             	    if(cancelOrder){
     	                OrdersService.cancelSubmittedOrder(orderId).then(function(resp){
+		                	if(resp.isError){
+		                		alert(resp.message);
+		                	}
     	                	getSubmittedOrders();
                         }, function(err){
                             console.log('Failure in saving your message');

@@ -122,6 +122,9 @@
 }
 
 /*Order detail start*/
+.detailOrderPanel .panel .panel-body{
+	padding: 20px 5px;
+}
 .detailOrderPanel .panel .panel-title{
 	color: #b17197;
     font-size: 22px;
@@ -189,7 +192,7 @@
 	height : 2px;
 	min-width: 20px;
 	border-radius: 1px;
-	margin: 8px -10px;
+	margin: 8px 0px;
 	background-color: #6b6b6b;
 	width: 60px;
 }

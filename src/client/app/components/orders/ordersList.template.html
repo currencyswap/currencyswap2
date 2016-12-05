@@ -15,7 +15,7 @@
 								<tr>
 									<th class="col-sm-1 order-item-header">Order Id</th>
 									<th class="col-sm-1 order-item-header">Created Date</th>
-									<th class="col-sm-1 order-item-header">Updated Date</th>
+									<th class="col-sm-1 order-item-header">Expired Date</th>
 									<th class="col-sm-1 order-item-header">Get</th>
 									<th class="col-sm-1 order-item-header">Give</th>
 									<th class="col-sm-1 order-item-header">Rate</th>
@@ -33,7 +33,7 @@
 									<td class="col-sm-1 order-item-content order-date">{{swappingOrder.updated | filterDate}}</td>
 									<td class="col-sm-1 order-item-content">{{swappingOrder.get | filterCurrency}} {{swappingOrder.getCurrency.code}}</td>
 									<td class="col-sm-1 order-item-content">{{swappingOrder.give | filterCurrency}} {{swappingOrder.giveCurrency.code}}</td>
-									<td class="col-sm-1 order-item-content">{{swappingOrder.rate}}</td>
+									<td class="col-sm-1 order-item-content">{{swappingOrder.rate | filterRate}}</td>
 									
 									<td class="col-sm-1 order-item-content">{{swappingOrder.owner.username}}</td>
 									<td class="col-sm-1 order-item-content">{{swappingOrder.accepter.username}}</td>
@@ -74,7 +74,7 @@
 									<td class="col-sm-1 order-item-content order-date" >{{confirmOrder.updated | filterDate}}</td>
 									<td class="col-sm-1 order-item-content">{{confirmOrder.get | filterCurrency}} {{confirmOrder.getCurrency.code}}</td>
 									<td class="col-sm-1 order-item-content">{{confirmOrder.give | filterCurrency}} {{confirmOrder.giveCurrency.code}}</td>
-									<td class="col-sm-1 order-item-content">{{confirmOrder.rate}}</td>
+									<td class="col-sm-1 order-item-content">{{confirmOrder.rate | filterRate}}</td>
 									
 									<td class="col-sm-1 order-item-content">{{confirmOrder.owner.username}}</td>
 									<td class="col-sm-1 order-item-content">{{confirmOrder.accepter.username}}</td>
@@ -106,7 +106,7 @@
 							<thead>
 								<tr>
 									<th class="col-sm-1 order-item-header">Order Id</th>
-									<th class="col-sm-1 order-item-header">Date</th>
+									<th class="col-sm-1 order-item-header">Created Date</th>
 									<th class="col-sm-1 order-item-header">Expired Date</th>
 									<th class="col-sm-1 order-item-header">Get</th>
 									<th class="col-sm-1 order-item-header">Give</th>
@@ -122,7 +122,7 @@
 									<td class="col-sm-1 order-item-content order-date">{{submittedOrder.expired | filterDate}}</td>
 									<td class="col-sm-1 order-item-content">{{submittedOrder.get | filterCurrency}} {{submittedOrder.getCurrency.code}}</td>
 									<td class="col-sm-1 order-item-content">{{submittedOrder.give | filterCurrency}} {{submittedOrder.giveCurrency.code}}</td>
-									<td class="col-sm-1 order-item-content">{{submittedOrder.rate}}</td>
+									<td class="col-sm-1 order-item-content">{{submittedOrder.rate | filterRate}}</td>
 									<td class="col-sm-1 order-item-content order-status-{{submittedOrder.statusId}}">{{submittedOrder.status.name}}</td>
 									<td class="col-sm-2">
 										<div class="order-action">
@@ -167,7 +167,7 @@
 									<td class="col-sm-1 order-item-content order-date">{{historyOrder.updated | filterDate}}</td>
 									<td class="col-sm-1 order-item-content">{{historyOrder.get | filterCurrency}} {{historyOrder.getCurrency.code}}</td>
 									<td class="col-sm-1 order-item-content">{{historyOrder.give | filterCurrency}} {{historyOrder.giveCurrency.code}}</td>
-									<td class="col-sm-1 order-item-content">{{historyOrder.rate}}</td>
+									<td class="col-sm-1 order-item-content">{{historyOrder.rate | filterRate}}</td>
 									<td class="col-sm-1 order-item-content">{{historyOrder.owner.username}}</td>
 									<td class="col-sm-1 order-item-content">{{historyOrder.accepter.username}}</td>
 									<td class="col-sm-1 order-item-content order-status-{{historyOrder.statusId}}">{{historyOrder.status.name}}</td>
@@ -216,11 +216,11 @@
 						</div>
 						<div >
 							<div style="width: 50%; float: left;">
-								<span class="order-label-mobile">Created Date: </span>{{swappingOrder.created|
+								<span class="order-label-mobile">Created: </span>{{swappingOrder.created|
 								filterDate}}
 							</div>
 							<div style="width: 50%; float: left;">
-								<span class="order-label-mobile">Updated Date: </span>{{swappingOrder.updated|
+								<span class="order-label-mobile">Updated: </span>{{swappingOrder.updated|
 								filterDate}}
 							</div>
 						</div>
@@ -236,7 +236,7 @@
 						</div>
 						<div>
 							<div style="width: 50%; float: left;">
-								<span class="order-label-mobile">Rate: </span>{{swappingOrder.rate}}
+								<span class="order-label-mobile">Rate: </span>{{swappingOrder.rate | filterRate}}
 							</div>
 							<div style="width: 50%; float: left;">
 								<span class="order-label-mobile">State: </span>{{swappingOrder.status.name}}
@@ -279,11 +279,11 @@
 						</div>
 						<div style="width: 100%;">
 							<div style="width: 50%; float: left;">
-								<span class="order-label-mobile">Created Date: </span>{{confirmOrder.created|
+								<span class="order-label-mobile">Created: </span>{{confirmOrder.created|
 								filterDate}}
 							</div>
 							<div style="width: 50%; float: left;">
-								<span class="order-label-mobile">Updated Date: </span>{{confirmOrder.updated|
+								<span class="order-label-mobile">Updated: </span>{{confirmOrder.updated|
 								filterDate}}
 							</div>
 						</div>
@@ -299,7 +299,7 @@
 						</div>
 						<div style="width: 100%;">
 							<div style="width: 50%; float: left;">
-								<span class="order-label-mobile">Rate: </span>{{confirmOrder.rate}}
+								<span class="order-label-mobile">Rate: </span>{{confirmOrder.rate | filterRate}}
 							</div>
 							<div style="width: 50%; float: left;">
 								<span class="order-label-mobile">State: </span>{{confirmOrder.status.name}}
@@ -339,7 +339,7 @@
 						</div>
 						<div style="width: 100%;">
 							<div style="width: 50%; float: left;">
-								<span class="order-label-mobile">Date: </span>{{submittedOrder.created|
+								<span class="order-label-mobile">Created: </span>{{submittedOrder.created|
 								filterDate}}
 							</div>
 							<div style="width: 50%; float: left;">
@@ -359,7 +359,7 @@
 						</div>
 						<div style="width: 100%;">
 							<div style="width: 50%; float: left;">
-								<span class="order-label-mobile">Rate: </span>{{submittedOrder.rate}}
+								<span class="order-label-mobile">Rate: </span>{{submittedOrder.rate | filterRate}}
 							</div>
 							<div style="width: 50%; float: left;">
 								<span class="order-label-mobile">State: </span>{{submittedOrder.status.name}}
@@ -388,7 +388,7 @@
 						</div>
 						<div style="width: 100%;">
 							<div style="width: 50%; float: left;">
-								<span class="order-label-mobile">Created : </span>{{historyOrder.created|
+								<span class="order-label-mobile">Created: </span>{{historyOrder.created|
 								filterDate}}
 							</div>
 							<div style="width: 50%; float: left;">
@@ -408,7 +408,7 @@
 						</div>
 						<div style="width: 100%;">
 							<div style="width: 50%; float: left;">
-								<span class="order-label-mobile">Rate: </span>{{historyOrder.rate}}
+								<span class="order-label-mobile">Rate: </span>{{historyOrder.rate | filterRate}}
 							</div>
 							<div style="width: 50%; float: left;">
 								<span class="order-label-mobile">State: </span>{{historyOrder.status.name}}
