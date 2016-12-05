@@ -49,11 +49,18 @@ exports.getOrderById = function (id) {
     };
     return dbUtil.executeModelFn(app.models.Order, 'findOne', filter);
 };
-exports.getOrderByCode = function (orderCode, userId) {
+exports.getOrderByCode = function (orderCode, userId, isCheckExpired) {
     var filter = {
-            'where': { and : [{'code': orderCode} , {or : [{'ownerId' : userId}, {'accepterId' : userId}]}]},
+            'where': { and : [{'code': orderCode}]},
             'include' : [ ownerRelation, accepterRelation, giveCurrencyRelation, getCurrencyRelation, statusRelation, activitiesRelation]
     };
+    if(userId){
+    	filter.where.and.push({or : [{'ownerId' : userId}, {'accepterId' : userId}]});
+    }
+    if(isCheckExpired){
+    	var statusExpiredId = constant.STATUS_TYPE.EXPIRED_ID;
+    	filter.where.and.push({'statusId' : {'neq': statusExpiredId}});
+    }
     return dbUtil.executeModelFn(app.models.Order, 'findOne', filter);
 };
 exports.getOrderForEdit = function (orderCode, userId, statusId) {

@@ -339,7 +339,8 @@ module.exports = function (app) {
     router.get('/:code', function (req, res) {
         var userId = req.currentUser.id;
         var orderCode = req.params.code;
-        service.getOrderByCode(orderCode, userId).then(function(resp){
+        var isCheckExpired = true;
+        service.getOrderByCode(orderCode, userId, isCheckExpired).then(function(resp){
                 return res.send(resp);
         }, function(err){
             return res.status(500).send(errorUtil.createAppError(errors.SERVER_GET_PROBLEM));

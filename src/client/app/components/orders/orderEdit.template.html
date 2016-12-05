@@ -88,7 +88,7 @@
 								<label class="control-label">Alive Period</label> <span class="asterisk">*</span>
 								<div class="form-group">
 									<label class="radio-inline" ng-repeat="expiredValue in EXPIRED_VALUE"> 
-										<input type="radio" name="expired" ng-model="updateOrder.expired" value="{{expiredValue.key}}"> {{expiredValue.value}}
+										<input type="radio" name="expired" ng-model="updateOrder.expired" value="{{expiredValue.key}}" ng-disabled="!checkShowOptionExpried(expiredValue.dayLive, updateOrder.created)"> {{expiredValue.value}}
 									</label>
 								</div>
 							</div>

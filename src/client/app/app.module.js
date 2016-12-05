@@ -365,6 +365,9 @@ angular.module('currencySwapApp', [
     return {
         require: '?ngModel',
         link: function (scope, elem, attrs, ctrl) {
+        	var NUMBER_SIZE = 7;
+        	var NUMBER_FOR_CONVERT = 10000000;
+        	
         	var fractionSize = 0;
             if (!ctrl) return;
 
@@ -380,9 +383,9 @@ angular.module('currencySwapApp', [
             	
             	if(modelValue.indexOf(".") > -1){
             		var fractionSize = modelValue.length - modelValue.indexOf(".") - 1;
-            		if(fractionSize > 3){
-            			var viewModelNumber = Math.round(parseFloat(modelValue) * 1000);
-            			modelValue = viewModelNumber / 1000 + "";
+            		if(fractionSize > NUMBER_SIZE){
+            			var viewModelNumber = Math.round(parseFloat(modelValue) * NUMBER_FOR_CONVERT);
+            			modelValue = viewModelNumber / NUMBER_FOR_CONVERT + "";
             		}
             	}
             	
@@ -413,9 +416,9 @@ angular.module('currencySwapApp', [
         		}else{
         			if(viewValue.indexOf(".") > -1){
                 		var fractionSize = viewValue.length - viewValue.indexOf(".") - 1;
-                		if(fractionSize > 3){
-                			var viewValueNumber = Math.round(parseFloat(viewValue) * 1000);
-                			viewValue = viewValueNumber / 1000 + "";
+                		if(fractionSize > NUMBER_SIZE){
+                			var viewValueNumber = Math.round(parseFloat(viewValue) * NUMBER_FOR_CONVERT);
+                			viewValue = viewValueNumber / NUMBER_FOR_CONVERT + "";
                 		}
                 	}
                 	

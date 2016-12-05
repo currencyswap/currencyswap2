@@ -82,48 +82,54 @@ angular.module('orders')
         		}
         		
         		$scope.onChangeValue = function(fieldChange){
+        			var NUMBER_FOR_CONVERT = 10000000;
+        			
         			var get = parseInt($scope.newOrder.get);
         			var give = parseInt($scope.newOrder.give);
         			var rate = parseFloat($scope.newOrder.rate);
         			
         			if(rate > 0){
-        				var rateRound = Math.round(rate * 1000);
+        				var rateRound = Math.round(rate * NUMBER_FOR_CONVERT);
 	        			
-	        			rate = rateRound / 1000;
+	        			rate = rateRound / NUMBER_FOR_CONVERT;
         			}
         			
         			if($scope.newOrder.fixed == $scope.FIXED_VALUE.GIVE){
         				if(fieldChange == $scope.FIXED_VALUE.RATE){
         					if(give > 0 && rate > 0){
-        						$scope.newOrder.get = give * rate;
+        						get = give * rate;
         					}
         				}else{
         					if(give > 0 && get > 0){
-            					$scope.newOrder.rate = get / give;
+            					rate = get / give;
             				}
         				}
         			}else if($scope.newOrder.fixed == $scope.FIXED_VALUE.GET){
         				if(fieldChange == $scope.FIXED_VALUE.RATE){
         					if(rate > 0 && get > 0){
-        						$scope.newOrder.give = get / rate;
+        						give = get / rate;
         					}
         				}else{
         					if(give > 0 && get > 0){
-            					$scope.newOrder.rate = get / give;
+            					rate = get / give;
             				}
         				}
         			}else{
         				$scope.newOrder.fixed = $scope.FIXED_VALUE.RATE;
         				if(fieldChange == $scope.FIXED_VALUE.GIVE){
         					if(give > 0 && rate > 0){
-        						$scope.newOrder.get = give * rate;
+        						get = give * rate;
         					}
         				}else{
         					if(rate > 0 && get > 0){
-            					$scope.newOrder.give = get / rate;
+            					give = get / rate;
             				}
         				}
         			}
+        			
+        			$scope.newOrder.get = get + "";
+        			$scope.newOrder.give = give + "";
+        			$scope.newOrder.rate = rate + "";
         		}
         		
         		var getExpiredDate = function(){

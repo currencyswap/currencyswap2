@@ -69,6 +69,7 @@ angular.module('orders')
         						var created = new Date($scope.order.created);
         	        			var expired = new Date($scope.order.expired);
         	        			$scope.updateOrder.expired = setExpired(created, expired);
+        	        			$scope.updateOrder.created = $scope.order.created;
         						
         					}else{
         						$scope.orderNotExisted = true;
@@ -96,14 +97,16 @@ angular.module('orders')
         		};
         		
         		$scope.onChangeValue = function(fieldChange){
+        			var NUMBER_FOR_CONVERT = 10000000;
+        			
         			var get = parseInt($scope.updateOrder.get);
         			var give = parseInt($scope.updateOrder.give);
         			var rate = parseFloat($scope.updateOrder.rate);
         			
         			if(rate > 0){
-        				var rateRound = Math.round(rate * 1000);
+        				var rateRound = Math.round(rate * NUMBER_FOR_CONVERT);
 	        			
-	        			rate = rateRound / 1000;
+	        			rate = rateRound / NUMBER_FOR_CONVERT;
         			}
         			
         			if($scope.updateOrder.fixed == $scope.FIXED_VALUE.GIVE){
@@ -203,6 +206,19 @@ angular.module('orders')
         			}
         			
         			return true;
+        		}
+        		
+        		$scope.checkShowOptionExpried = function(dayLive, created){
+        			var currentDate = new Date();
+        			
+        			var expired = new Date(created);
+                    expired.setDate(expired.getDate() + dayLive);
+                    
+                    if(expired.getTime() >= currentDate.getTime()){
+                    	return true;
+                    }else{
+                    	return false;
+                    }
         		}
             }]
     });
