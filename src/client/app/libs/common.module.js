@@ -93,21 +93,112 @@ angular.module('common', ['ngRoute', 'cookieManager', 'permission', 'navigation'
     };
     _retreiveUser();
 });
-
+window.Messages = {
+        // Error messages handled by error code
+           unknown_error_code : "Unknown error, code: ",
+           error_message_less200 : "The server understands and is willing to comply with the client's request",
+           error_message_less300 : "The request has succeeded",
+           error_message_less400 : "The requested resource resides temporarily under a different location",
+           error_message_400 : "Bad Request: The request could not be understood by the server due to malformed syntax",
+           error_message_401_unauthorized : "Unauthorized: The request requires user authentication",
+           error_message_401_can_not_authenticate : "Could not authenticate due to incorrect User Name or Password. Please try again.",
+           error_message_403 : "Your have no permission to access the specific resource",
+           error_message_404 :  "Could not find anything matching the specific request",
+           error_message_408 : "The request gets timed out",
+           error_message_417 : "Expected failure",
+           error_message_500 : "The server encountered an unexpected condition which prevented it from fulfilling the request",
+           error_message_501 : "The server does not support the functionality required to fulfill the request",
+           error_message_502 : "The server, while acting as a gateway or proxy, received an invalid response from the upstream server",
+           error_message_503 : "The server is currently unable to handle the request due to a temporary overloading or maintenance of the server",
+           error_message_504 : "The server, while acting as a gateway or proxy, did not receive a timely response from the upstream server",
+           error_message_505 : "The server does not support, or refuses to support",
+           server_error      : "Error in server. Please try again later.",
+           the_request_gets_timeout : "The request gets timed out",
+           please_check_connection : "Your connection experienced an error. Please ensure that you are connected and try again.",
+   };
+window.getErrorMsg = function(isSignin, status, statusText) {
+    var sta = parseInt(status); 
+    var txt = statusText;
+    var msg = Messages.unknown_error_code + status;
+    if (sta < 100) { //return code is Unknown
+            if ('timeout' == txt) {
+                    msg = Messages.the_request_gets_timeout;
+            } else if ('error' == txt) {
+                    msg = Messages.please_check_connection;
+            } else {
+                    msg = txt||Messages.please_check_connection;
+            }
+    } else if (sta < 200) { //Informational 1xx
+            msg = Messages.error_message_less200;
+    } else if (sta < 300) { //Successful 2xx
+            msg = Messages.error_message_less300;
+    } else if (sta < 400) { //Redirection 3xx
+            msg = Messages.error_message_less400;
+    } else if (sta < 500) { //Client Error 4xx
+            switch (sta) {
+            case 400:
+                    msg = Messages.error_message_400;
+                    break;
+            case 401:
+                    if (isSignin) {
+                            msg = Messages.error_message_401_can_not_authenticate;
+                    } else {
+                            msg = Messages.error_message_401_unauthorized;
+                    }
+                    break;
+            case 403:
+                    msg = Messages.error_message_403;
+                    break;
+            case 404:
+                    msg = Messages.error_message_404;
+                    break;
+            case 408:
+                    msg = Messages.error_message_408;
+                    break;
+            case 417:
+                    msg = Messages.error_message_417;
+                    break;
+            }
+    } else { //Server Error 5xx
+            switch (sta) {
+            case 500:
+                    msg = Messages.error_message_500;
+                    break;
+            case 501:
+                    msg = Messages.error_message_501;
+                    break;
+            case 502:
+                    msg = Messages.error_message_502;
+                    break;
+            case 503:
+                    msg = Messages.error_message_503;
+                    break;
+            case 504:
+                    msg = Messages.error_message_504;
+                    break;
+            case 505:
+                    msg = Messages.error_message_505;
+                    break;
+            }
+    }
+    return msg;
+};
 angular.module('common').factory('ConnectorService', ['$rootScope', '$q', 'CookieService', function ($rootScope, $q, CookieService) {
-    var debug = true;
-    var timeout = 60000;//1 min for each request
+    var debug = window.debug||true;
+    var timeout = 40000;//40 seconds for each request
     var token = null;
 
-      var _getErrorMsg = function(resp) {
+      var getServerErrorMsg = function(resp) {
         var e = resp.responseJSON;
-        var msg = 'Unknown Error';
+        var msg = Messages.please_check_connection;
         if (e && (e.message || (e.error && e.error.message))) {
           msg = e.message||e.error.message;
+        } else if (resp.status >= 0){
+            window.getErrorMsg(false, resp.status, resp.statusText);
         }
         return msg;
       };
-      var _getErrorCode = function(resp) {
+      var getServerErrorCode = function(resp) {
           var e = resp.responseJSON;
           var code = 0;
           if (e && (e.code || (e.error && e.error.code))) {
@@ -130,10 +221,11 @@ angular.module('common').factory('ConnectorService', ['$rootScope', '$q', 'Cooki
                 xhr.setRequestHeader("Authorization", autheticateType.BEARER + token);
             },
             data: data
-          }).fail(function(resp){
-              var msg = _getErrorMsg(resp);
-              var code = _getErrorCode(resp);
-              console.warn('Error Message:', code, msg);
+          }).fail(function(jqXHR, textStatus, errorThrown){
+              var msg = getServerErrorMsg(jqXHR, textStatus);
+              var code = getServerErrorCode(jqXHR);
+              console.warn('Error Message:', jqXHR.status, code, msg);
+              //console.warn('Error jqXHR:', textStatus, errorThrown, jqXHR);
               if (!window._csDismisses) {
                   window._csDismisses = {};
               }
@@ -147,19 +239,21 @@ angular.module('common').factory('ConnectorService', ['$rootScope', '$q', 'Cooki
             } else {
                 alert(msg);
             }
-            window._csDismisses[msg] = false;
+            setTimeout(function(){
+                window._csDismisses[msg] = false;
+            }, 600);
           }).always(function(){
               if (debug) {
                   console.log('Request GET done');
               }
-          }).done(function(data){
+          }).done(function(data, textStatus, jqXHR){
               if (debug) {
-                  console.log('Response', JSON.stringify(data));
+                  console.log('Response', textStatus, JSON.stringify(data));
               }
           });
        };
         return {
-          getErrorMsg: _getErrorMsg,
+          getErrorMsg: getServerErrorMsg,
           get: function(url, data, headers) {
             return _ajax('GET', url, data, headers);
           },
