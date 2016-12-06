@@ -186,21 +186,18 @@ angular.module('myProfile')
                                 if (response.data.code === serverErrors.BIRTHDAY_GREATER_THAN_CURRENT_DATE) {
                                     $scope.gifLoading = false;
                                     $scope.greaterThanCurrentDate = true;
-                                }
-
-                                if (response.data.code === serverErrors.INVALID_PASSWORD) {
+                                }else if (response.data.code === serverErrors.INVALID_PASSWORD) {
                                     $scope.gifLoading = false;
                                     $scope.invalidPassword = true;
-                                }
-
-                                if (response.data.code === serverErrors.NATIONAL_ID_EXISTED) {
+                                }else if (response.data.code === serverErrors.NATIONAL_ID_EXISTED) {
                                     $scope.gifLoading = false;
                                     $scope.errorNationalIdExisted = true;
-                                }
-
-                                if (response.data.code === serverErrors.CELLPHONE_EXISTED) {
+                                }else if (response.data.code === serverErrors.CELLPHONE_EXISTED) {
                                     $scope.gifLoading = false;
                                     $scope.errorCellphoneExisted = true;
+                                }else {
+                                    $scope.gifLoading = false;
+                                    $scope.message = response.data.message;
                                 }
                             } else {
                                 var userInst = {username:updatingUser.username, fullName:updatingUser.fullName};
