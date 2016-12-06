@@ -81,23 +81,18 @@ exports.validatePassword = function (password) {
 
 exports.validateEditedPassword = function (currentPassword, newPassword, confirmationPassword) {
     if (typeof currentPassword !== 'string') {
-        console.log('1');
         throw errorUtils.createAppError(errors.INVALID_INPUT_DATA);
     }
     if ((md5(currentPassword)).length > 64) {
-        console.log('2');
         throw errorUtils.createAppError(errors.INVALID_INPUT_DATA);
     }
     if (newPassword !== confirmationPassword) {
-        console.log('3');
         throw errorUtils.createAppError(errors.INVALID_INPUT_DATA);
     }
     if (typeof newPassword !== 'string') {
-        console.log('4');
         throw errorUtils.createAppError(errors.INVALID_INPUT_DATA);
     }
     if (newPassword.length < 8 || (md5(newPassword)).length > 64) {
-        console.log('5');
         throw errorUtils.createAppError(errors.INVALID_INPUT_DATA);
     }
 };
