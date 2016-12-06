@@ -59,10 +59,10 @@ module.exports = function (app) {
             var title = null;
             var msg = null;
             if(statusId == constant.STATUS_TYPE.SUBMITTED_ID){
-                title = msg = "Order " + order.code + " has been cancelled";;
+                title = msg = "Order " + order.code + " has been cancelled";
             } else {
                 title = "Order " + order.code + " has updated";
-                msg = "Order " + order.code + " has been changed from " + getStatusName(statusId - 1) + " to " +getStatusName(statusId);
+                msg = "Order " + order.code + " has been changed from " + getStatusName(order.statusId) + " to " +getStatusName(statusId);
             }
         	if(order.statusId == statusId){
         		return res.send({isError : true, message: msg});

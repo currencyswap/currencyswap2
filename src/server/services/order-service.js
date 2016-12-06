@@ -83,8 +83,11 @@ exports.updateOrderByCode = function (code, updateOrder) {
     updateOrder.updated = new Date();
     return dbUtil.executeModelFn(app.models.Order, 'updateAll', where, updateOrder);
 };
-exports.updateOrderStatus = function (orderId, statusId, userId) {
+exports.updateOrderStatus = function (orderId, statusId, userId, isResetAccepter) {
     var order = { 'statusId': statusId, 'updated': new Date() };
+    if(statusId == constant.STATUS_TYPE.SUBMITTED_ID){
+    	order.accepterId = 0;
+    }
     var where = { 'and': [{ 'id': orderId }, {'statusId': {'neq': statusId}}, {or: [{'accepterId' : userId}, {'ownerId': userId}]}] };
     // reset item
 //    if(statusId == constant.STATUS_TYPE.SUBMITTED_ID){
