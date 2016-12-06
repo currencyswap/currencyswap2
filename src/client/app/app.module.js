@@ -327,9 +327,9 @@ angular.module('currencySwapApp', [
 		}
 	    if (!symbol) symbol = '';
 	    
-	    if(value && value.indexOf('.') > -1){
-	    	fractionSize = value.length - value.indexOf(".") - 1;
-	    }
+//	    if(value && value.indexOf('.') > -1){
+//	    	fractionSize = value.length - value.indexOf(".") - 1;
+//	    }
 	    return $filter('currency')(value, symbol, fractionSize);
 	}
 }).filter('filterRate', function($filter){
