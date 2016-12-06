@@ -41,6 +41,7 @@ exports.validateEditedProfileRequestObject = function (clientUserObj) {
     if (clientUserObj.newPwd && clientUserObj.passwordCompare && clientUserObj.currentPwd) {
         exports.validateEditedPassword(clientUserObj.currentPwd, clientUserObj.newPwd, clientUserObj.passwordCompare);
     }
+
     exports.validateEmail(clientUserObj.email);
     exports.validateFullName(clientUserObj.fullName);
     exports.validateBirthDay(clientUserObj.birthday);
@@ -80,24 +81,23 @@ exports.validatePassword = function (password) {
 };
 
 exports.validateEditedPassword = function (currentPassword, newPassword, confirmationPassword) {
+    if (currentPassword.length < 8) {
+        throw errorUtils.createAppError(errors.INVALID_PASSWORD);
+    }
+
     if (typeof currentPassword !== 'string') {
-        console.log('1');
         throw errorUtils.createAppError(errors.INVALID_INPUT_DATA);
     }
     if ((md5(currentPassword)).length > 64) {
-        console.log('2');
         throw errorUtils.createAppError(errors.INVALID_INPUT_DATA);
     }
     if (newPassword !== confirmationPassword) {
-        console.log('3');
         throw errorUtils.createAppError(errors.INVALID_INPUT_DATA);
     }
     if (typeof newPassword !== 'string') {
-        console.log('4');
         throw errorUtils.createAppError(errors.INVALID_INPUT_DATA);
     }
     if (newPassword.length < 8 || (md5(newPassword)).length > 64) {
-        console.log('5');
         throw errorUtils.createAppError(errors.INVALID_INPUT_DATA);
     }
 };
