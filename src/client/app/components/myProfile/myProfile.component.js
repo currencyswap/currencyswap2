@@ -28,13 +28,13 @@ angular.module('myProfile')
                 $scope.GLOBAL_CONSTANT = GLOBAL_CONSTANT;
                 var profilePicReq = {
                     method: httpMethods.GET,
-                    url: '/config/' + currentUser.username
+                    url: '/config/media/' + currentUser.username
                 };
 
-                $http(profilePicReq)
-                    .then(function (response) {
-                        return;
-                    });
+//                $http(profilePicReq)
+//                    .then(function (response) {
+//                        return;
+//                    });
 
                 var token = CookieService.getToken();
 
