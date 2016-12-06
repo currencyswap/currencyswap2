@@ -188,15 +188,19 @@ angular.module('myProfile')
                                     $scope.gifLoading = false;
                                     $scope.greaterThanCurrentDate = true;
                                 }else if (response.data.code === serverErrors.INVALID_PASSWORD) {
+                                    $scope.isEditting = true;
                                     $scope.gifLoading = false;
                                     $scope.invalidPassword = true;
                                 } else if (response.data.code === serverErrors.NATIONAL_ID_EXISTED) {
+                                    $scope.isEditting = true;
                                     $scope.gifLoading = false;
                                     $scope.errorNationalIdExisted = true;
                                 }else if (response.data.code === serverErrors.CELLPHONE_EXISTED) {
+                                    $scope.isEditting = true;
                                     $scope.gifLoading = false;
                                     $scope.errorCellphoneExisted = true;
                                 }else if (response.data.code === serverErrors.INVALID_INPUT_DATA){
+                                    $scope.isEditting = true;
                                     $scope.gifLoading = false;
                                     $scope.message = 'Failed: ' + response.data.message;
                                 }else {
