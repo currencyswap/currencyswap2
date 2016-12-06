@@ -67,13 +67,18 @@ module.exports = function (app) {
                     if (err) return next(err);
                     else {
                         if (updatingUser.currentPwd){
+                            if (!updatingUser.newPassword || !updatingUser.passwordCompare || updatingUser.newPassword !== updatingUser.passwordCompare) {
+                                return next (errorUtil.createAppError(errors.INVALID_INPUT_DATA))
+                            }
+
                             if (md5(updatingUser.currentPwd) !== user.password) {
                                 return next(errorUtil.createAppError(errors.INVALID_PASSWORD));
                             }
                         } else {
                             if (updatingUser.newPassword || updatingUser.passwordCompare) {
-                                return next(errorUtil.createAppError(errors.INVALID_PASSWORD));
+                                return next (errorUtil.createAppError(errors.INVALID_INPUT_DATA));
                             }
+                            //return next(errorUtil.createAppError(errors.INVALID_PASSWORD));
                         }
                         return next(null, user);
                     }

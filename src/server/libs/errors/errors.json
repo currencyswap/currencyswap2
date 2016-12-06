@@ -282,5 +282,9 @@
      "USER_ACCOUNT_BLOCKED": {
          "code": 111,
          "message": "{USER_ACCOUNT_BLOCKED}"
-     }
+     },
+    "SAVING_PASSWORD_ERROR": {
+        "code": 112,
+        "message": "{SAVING_PASSWORD_ERROR}"
+    }
 }

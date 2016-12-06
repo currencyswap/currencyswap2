@@ -128,6 +128,7 @@ angular.module('myProfile')
 
                 $scope.onChangeCurrentPwd = function () {
                     $scope.invalidPassword = false;
+                    $scope.currentPasswordChanged = true;
                 };
 
                 $scope.onNationalIdChange = function () {
@@ -195,6 +196,9 @@ angular.module('myProfile')
                                 }else if (response.data.code === serverErrors.CELLPHONE_EXISTED) {
                                     $scope.gifLoading = false;
                                     $scope.errorCellphoneExisted = true;
+                                }else if (response.data.code === serverErrors.INVALID_INPUT_DATA){
+                                    $scope.gifLoading = false;
+                                    $scope.message = 'Failed: ' + response.data.message;
                                 }else {
                                     $scope.gifLoading = false;
                                     $scope.message = 'Failed: ' + response.data.message;
