@@ -54,7 +54,7 @@ module.exports = function (app) {
     router.post('/:id', function (req, res) {
         var admin = req.currentUser;
         var updatingUser = req.body;
-
+        console.log('updatingUser: ', updatingUser);
         try {
             userValidation.validateEditedProfileRequestObject(updatingUser);
         } catch (err) {
@@ -174,9 +174,15 @@ module.exports = function (app) {
                                                     for (var prop in updatingUser) {
                                                         if (prop === 'username' || prop === 'id' || prop === 'email' || prop === 'addresses') continue;
                                                         if (prop === 'newPwd') filter.password = md5(updatingUser[prop]);
+                                                        if (prop === 'expiredDate') {
+                                                            if (new Date(updatingUser.expiredDate) < new Date(Date.now())) {
+                                                                filter.status = constant.USER_STATUSES.EXPIRED;
+                                                                updatingUser.status = constant.USER_STATUSES.EXPIRED;
+                                                            }
+                                                        }
                                                         filter[prop] = updatingUser[prop];
                                                     }
-
+                                                    console.log('filter when saving 1: ', filter);
                                                     userService.updateUserInfo(user, filter, function (err, updatedUser) {
                                                         if (err) return next (errorUtil.createAppError(errors.SERVER_GET_PROBLEM));
                                                         else {
@@ -196,9 +202,14 @@ module.exports = function (app) {
                     for (var prop in updatingUser) {
                         if (prop === 'username' || prop === 'id' || prop === 'email' || prop === 'addresses') continue;
                         if (prop === 'newPwd') filter.password = md5(updatingUser[prop]);
+                        if (prop === 'expiredDate') {
+                            if (new Date(updatingUser.expiredDate) < new Date(Date.now())) {
+                                updatingUser.status = constant.USER_STATUSES.EXPIRED;
+                            }
+                        }
                         filter[prop] = updatingUser[prop];
                     }
-
+                    console.log('filter when saving 2: ', filter);
                     userService.updateUserInfo(user, filter, function (err, updatedUser) {
                         if (err) return next (errorUtil.createAppError(errors.SERVER_GET_PROBLEM));
                         else {
