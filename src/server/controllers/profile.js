@@ -71,7 +71,9 @@ module.exports = function (app) {
                                 return next(errorUtil.createAppError(errors.INVALID_PASSWORD));
                             }
                         } else {
-                            return next(errorUtil.createAppError(errors.INVALID_PASSWORD));
+                            if (updatingUser.newPassword || updatingUser.passwordCompare) {
+                                return next(errorUtil.createAppError(errors.INVALID_PASSWORD));
+                            }
                         }
                         return next(null, user);
                     }
