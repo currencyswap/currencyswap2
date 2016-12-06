@@ -152,10 +152,10 @@ module.exports = function (app) {
                                                     var filter = {};
                                                     for (var prop in updatingUser) {
                                                         if (prop === 'username' || prop === 'id' || prop === 'email' || prop === 'addresses') continue;
-                                                        if (prop === 'newPwd') filter.password = md5(updatingUser[prop]);
+                                                        if (prop === 'newPassword') filter.password = md5(updatingUser[prop]);
                                                         filter[prop] = updatingUser[prop];
                                                     }
-
+                                                    console.log('filter when updating 1: ', filter);
                                                     user.updateAttributes(filter, function (err, updatedUser) {
                                                         if (err) return next (err);
                                                         else {
@@ -177,7 +177,7 @@ module.exports = function (app) {
                         if (prop === 'newPwd') filter.password = md5(updatingUser[prop]);
                         filter[prop] = updatingUser[prop];
                     }
-
+                    console.log('filter when updating 2: ', filter);
                     user.updateAttributes(filter, function (err, updatedUser) {
                         if (err) return next (err);
                         else {
