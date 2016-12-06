@@ -41,6 +41,7 @@ exports.validateEditedProfileRequestObject = function (clientUserObj) {
     if (clientUserObj.newPwd && clientUserObj.passwordCompare && clientUserObj.currentPwd) {
         exports.validateEditedPassword(clientUserObj.currentPwd, clientUserObj.newPwd, clientUserObj.passwordCompare);
     }
+
     exports.validateEmail(clientUserObj.email);
     exports.validateFullName(clientUserObj.fullName);
     exports.validateBirthDay(clientUserObj.birthday);
@@ -80,6 +81,10 @@ exports.validatePassword = function (password) {
 };
 
 exports.validateEditedPassword = function (currentPassword, newPassword, confirmationPassword) {
+    if (currentPassword.length < 8) {
+        throw errorUtils.createAppError(errors.INVALID_PASSWORD);
+    }
+
     if (typeof currentPassword !== 'string') {
         throw errorUtils.createAppError(errors.INVALID_INPUT_DATA);
     }

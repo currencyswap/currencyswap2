@@ -70,6 +70,8 @@ module.exports = function (app) {
                             if (md5(updatingUser.currentPwd) !== user.password) {
                                 return next(errorUtil.createAppError(errors.INVALID_PASSWORD));
                             }
+                        } else {
+                            return next(errorUtil.createAppError(errors.INVALID_PASSWORD));
                         }
                         return next(null, user);
                     }
@@ -173,7 +175,7 @@ module.exports = function (app) {
                     var filter = {};
                     for (var prop in updatingUser) {
                         if (prop === 'username' || prop === 'id' || prop === 'email' || prop === 'addresses') continue;
-                        if (prop === 'newPwd') filter.password = md5(updatingUser[prop]);
+                        if (prop === 'newPassword') filter.password = md5(updatingUser[prop]);
                         filter[prop] = updatingUser[prop];
                     }
                     user.updateAttributes(filter, function (err, updatedUser) {
