@@ -98,7 +98,7 @@
                          ng-class="{ 'has-error' : nationalIdExisted}">
                         <div class="mb10">
                             <label class="control-label">Passport/National ID</label>
-                            <input type="text" class="form-control" ng-model="user.nationalId" focus-me="focusNationalId" minlength="{{GLOBAL_CONSTANT.LIMIT_FIELDS_INFO.PP_NATIONAL_MIN}}" maxlength="{{GLOBAL_CONSTANT.LIMIT_FIELDS_INFO.PP_NATIONAL_MAX}}" placeholder = "Your passport/national id here">
+                            <input ng-change="inputChanging()" type="text" class="form-control" ng-model="user.nationalId" focus-me="focusNationalId" minlength="{{GLOBAL_CONSTANT.LIMIT_FIELDS_INFO.PP_NATIONAL_MIN}}" maxlength="{{GLOBAL_CONSTANT.LIMIT_FIELDS_INFO.PP_NATIONAL_MAX}}" placeholder = "Your passport/national id here">
                             <label class="error" ng-show="nationalIdExisted">Your National Id is already in use.</label>
                         </div>
                     </div>
@@ -118,7 +118,7 @@
                     </div>
                     <div class="mb10">
                         <label class="control-label">Post Code</label>
-                        <input class="form-control" type="text" ng-model="user.postcode" minlength="{{GLOBAL_CONSTANT.LIMIT_FIELDS_INFO.POSTCODE_MIN}}" maxlength="{{GLOBAL_CONSTANT.LIMIT_FIELDS_INFO.POSTCODE_MAX}}" placeholder = "Your post code here">
+                        <input ng-change="inputChanging()" class="form-control" type="text" ng-model="user.postcode" minlength="{{GLOBAL_CONSTANT.LIMIT_FIELDS_INFO.POSTCODE_MIN}}" maxlength="{{GLOBAL_CONSTANT.LIMIT_FIELDS_INFO.POSTCODE_MAX}}" placeholder = "Your post code here">
                     </div>
                     <div class="mb30"></div>
                     <hr>

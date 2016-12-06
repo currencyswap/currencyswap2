@@ -131,6 +131,10 @@ angular.module('register')
                 $scope.onSubmit = function () {
                     $scope.fieldError = 0;
                     $scope.messageErrorValidate  = '';
+                    $scope.userExisted = false;
+                    $scope.nationalIdExisted = false;
+                    $scope.cellphoneExisted = false;
+                    $scope.emailExisted = false;
                     $scope.gifLoading = true;
                     var newUser = RegisterService.compressUserDataToObj($scope.user);
                     RegisterService.submitRequest(newUser)
@@ -183,6 +187,10 @@ angular.module('register')
                 $scope.inputChanging = function () {
                     $scope.messageErrorValidate = '';
                     $scope.fieldError = 0;
+                    $scope.userExisted = false;
+                    $scope.nationalIdExisted = false;
+                    $scope.cellphoneExisted = false;
+                    $scope.emailExisted = false;
                 }
                 $scope.changeEmail = function () {
                     console.log("EMAIL===",$scope.user.email);
