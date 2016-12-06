@@ -144,7 +144,7 @@
                     </div>
 
                     <br>
-                    <button type="submit" class="btn btn-success btn-block" ng-disabled="registerForm.$invalid">SIGN UP</button>
+                    <button type="submit" class="btn btn-success btn-block" ng-disabled="registerForm.$invalid || gifLoading">SIGN UP</button>
                     <div class="loaders" align="center" ng-show="gifLoading">
                         <img src="../../../assets/images/loaders/loader1.gif" alt="">
                     </div>

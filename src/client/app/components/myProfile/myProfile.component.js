@@ -197,7 +197,7 @@ angular.module('myProfile')
                                     $scope.errorCellphoneExisted = true;
                                 }else {
                                     $scope.gifLoading = false;
-                                    $scope.message = response.data.message;
+                                    $scope.message = 'Failed: ' + response.data.message;
                                 }
                             } else {
                                 var userInst = {username:updatingUser.username, fullName:updatingUser.fullName};
