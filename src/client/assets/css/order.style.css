@@ -203,6 +203,12 @@
 	background-color: #000000;
 }
 
+@media screen and (min-width: 641px) {
+	.detailOrderPanel .panel .panel-body{
+		padding: 20px;
+	}
+}
+
 @media screen and (max-width: 640px) {
 	.detailOrderPanel .row-order-status .col-order-line .order-line,
 	.detailOrderPanel .row-order-status .col-order-line{
