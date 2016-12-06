@@ -134,7 +134,20 @@ angular.module('myProfile')
                 $scope.onNationalIdChange = function () {
                     $scope.errorNationalIdExisted = false;
                 };
-
+                $scope.isMatched = false;
+                $scope.changeNewPass = function () {
+                    if($scope.model.newPwd === $scope.model.passwordCompare) {
+                        $scope.isMatched = true;
+                    }else {
+                        $scope.isMatched = false;
+                    }
+                };
+                $scope.checkMatchReInput = function () {
+                    if($scope.model.passwordCompare != $scope.model.newPwd){
+                        return false;
+                    }
+                    return true;
+                };
                 $scope.onCellphoneChange = function () {
                     $scope.errorCellphoneExisted = false;
                 };
