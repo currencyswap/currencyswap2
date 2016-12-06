@@ -128,18 +128,21 @@
                             <form id="msgFormChangePass" name="pswForm" novalidate="novalidate">
                                 <div class="form-group" ng-class="{ 'has-error' : invalidPassword}">
                                     <label class="control-label">Current Password</label>
-                                    <input class="form-control" type="password" ng-model="model.currentPwd" ng-change="onChangeCurrentPwd()">
+                                    <input class="form-control" type="password" name="currentpassword" ng-model="model.currentPwd" ng-change="onChangeCurrentPwd()" ng-required="model.newPwd || model.passwordCompare">
                                     <label class="error" ng-show="invalidPassword">Invalid password</label>
+                                    <label class="error" ng-show="(model.newPwd || model.passwordCompare)&&!model.currentPwd">Fill your current password if you want to change it</label>
                                 </div>
                                 <div class="form-group" data-ng-class="{'has-error' : pswForm.password.$invalid && !pswForm.password.$pristine}">
                                     <label class="control-label">New Password</label>
-                                    <input class="form-control" type="password" name="password" data-ng-model="model.newPwd" ng-minlength="8">
+                                    <input class="form-control" type="password" name="password" data-ng-model="model.newPwd" ng-minlength="8" ng-required="model.currentPwd"">
                                     <label class="error" ng-show="pswForm.password.$error.minlength">Password is too short.</label>
+                                    <label class="error" ng-show="pswForm.password.$error.required && pswForm.password.$dirty" >This field is required.</label>
                                 </div>
-                                <div class="form-group" data-ng-class="{'has-error' : pswForm.passwordCompare.$invalid && !pswForm.passwordCompare.$pristine}">
+                                <div class="form-group" data-ng-class="{'has-error' : model.currentPwd && pswForm.passwordCompare.$invalid && !pswForm.passwordCompare.$pristine}">
                                     <label class="control-label">Re-enter Password</label>
-                                    <input class="form-control" type="password" name="passwordCompare" data-ng-model="model.passwordCompare" data-ng-match="model.newPwd"/>
-                                    <label class="error" ng-show="pswForm.passwordCompare.$error.match">Password does not match.</label>
+                                    <input class="form-control" type="password" name="passwordCompare" data-ng-model="model.passwordCompare" data-ng-match="model.newPwd" ng-required="model.currentPwd"/>
+                                    <label class="error" ng-show="!pswForm.passwordCompare.$error.required&&model.currentPwd && pswForm.passwordCompare.$error.match">Password does not match.</label>
+                                    <label class="error" ng-show="pswForm.passwordCompare.$error.required && pswForm.passwordCompare.$dirty" >This field is required.</label>
                                 </div>
                             </form>
                         </div>
@@ -151,7 +154,7 @@
                             <button class="btn btn-warning" ng-click="cancelEditting()" ng-if="isEditting">Cancel</button>
                             <button class="btn btn-success" ng-click="changeStateToEdit()" ng-if="!isEditting">Edit
                             </button>
-                            <button class="btn btn-success" ng-click="saveUserInfo()" ng-if="isEditting">Save
+                            <button class="btn btn-success" ng-click="saveUserInfo()" ng-if="isEditting" ng-disabled="pswForm.$invalid">Save
                             </button>
                         </div>
                     </div>
