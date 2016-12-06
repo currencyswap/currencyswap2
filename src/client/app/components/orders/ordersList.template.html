@@ -15,7 +15,7 @@
 								<tr>
 									<th class="col-sm-1 order-item-header">Order Id</th>
 									<th class="col-sm-1 order-item-header">Created Date</th>
-									<th class="col-sm-1 order-item-header">Expired Date</th>
+									<th class="col-sm-1 order-item-header">Updated Date</th>
 									<th class="col-sm-1 order-item-header">Get</th>
 									<th class="col-sm-1 order-item-header">Give</th>
 									<th class="col-sm-1 order-item-header">Rate</th>
@@ -40,7 +40,7 @@
 									<td class="col-sm-1 order-item-content order-status-{{swappingOrder.statusId}}">{{swappingOrder.status.name}}</td>
 									<td class="col-sm-2">
 										<div class="order-action">
-											<div class="btn button-order-list button-cancel-swapping" ng-click="cancelSwappingOrder(swappingOrder.id);">Cancel</div>
+											<div class="btn button-order-list button-cancel-swapping" ng-click="cancelSwappingOrder(swappingOrder.id, swappingOrder.owner.username);">Cancel</div>
 											<div class="btn button-order-list button-confirm-swapping" ng-if="currentUser.username==swappingOrder.owner.username" ng-click="confirmSwappingOrder(swappingOrder.id);">Confirm</div>
 										</div>
 									</td>
@@ -81,8 +81,8 @@
 									<td class="col-sm-1 order-item-content order-status-{{confirmOrder.statusId}}">{{confirmOrder.status.name}}</td>
 									<td class="col-sm-2">
 										<div class="order-action">
-											<div class="btn button-order-list button-cancel-confirm" ng-click="cancelConfirmedOrder(confirmOrder.id);" ng-if="(confirmOrder.statusId != 4)">Cancel</div>
-											<div class="btn button-order-list button-clear-confirm" ng-if="(confirmOrder.statusId == 3) || !checkStatusCurrentUserInActivity(confirmOrder.activities)" ng-click="clearConfirmedOrder(confirmOrder.id);">Clear</div>
+											<div class="btn button-order-list button-cancel-confirm" ng-click="cancelConfirmedOrder(confirmOrder.id, confirmOrder.statusId);" ng-if="(confirmOrder.statusId != 4)">Cancel</div>
+											<div class="btn button-order-list button-clear-confirm" ng-if="(confirmOrder.statusId == 3) || !checkStatusCurrentUserInActivity(confirmOrder.activities)" ng-click="clearConfirmedOrder(confirmOrder.id, confirmOrder.statusId);">Clear</div>
 										</div>
 									</td>
 
@@ -253,7 +253,7 @@
 						<div >
 							<div class="order-action">
 								<div class="btn button-order-list button-cancel-swapping"
-									ng-click="cancelSwappingOrder(swappingOrder.id);">Cancel</div>
+									ng-click="cancelSwappingOrder(swappingOrder.id, swappingOrder.owner.username);">Cancel</div>
 								<div class="btn button-order-list button-confirm-swapping"
 									ng-if="currentUser.username==swappingOrder.owner.username"
 									ng-click="confirmSwappingOrder(swappingOrder.id);">Confirm</div>
@@ -318,10 +318,10 @@
 							<div class="order-action">
 								<div class="btn button-order-list button-cancel-confirm"
 									ng-if="(confirmOrder.statusId != 4)"
-									ng-click="cancelConfirmedOrder(confirmOrder.id);">Cancel</div>
+									ng-click="cancelConfirmedOrder(confirmOrder.id, confirmOrder.statusId);">Cancel</div>
 								<div class="btn button-order-list button-clear-confirm"
 									ng-if="(confirmOrder.statusId == 3) || !checkStatusCurrentUserInActivity(confirmOrder.activities)"
-									ng-click="clearConfirmedOrder(confirmOrder.id);">Clear</div>
+									ng-click="clearConfirmedOrder(confirmOrder.id, confirmOrder.statusId);">Clear</div>
 							</div>
 
 
