@@ -34,9 +34,27 @@ angular.module('currencySwapApp', [
     
     var init = function() {
         $rootScope.$on("$routeChangeStart", routeChanged);
-        //$rootScope.$on("$locationChangeStart", routeChanged);
+        //$rootScope.$on("$locationChangeStart", locationChangeHandler);
 
-        if (!token) {
+        if (token) {
+            if ($location.path() === routes.FORGOT_PASSWORD_VERIFY) {
+                $rootScope.isLoading = false;
+                CookieService.cleanUpCookies();
+                return $location.path(routes.FORGOT_PASSWORD_VERIFY);
+            }
+
+            if ($location.search().resetCode) {
+                $rootScope.isLoading = false;
+                CookieService.cleanUpCookies();
+                return $location.path(routes.FORGOT_PASSWORD_RESET);
+            }
+
+            if ($location.search().activeCode) {
+                $rootScope.isLoading = false;
+                CookieService.cleanUpCookies();
+                return $location.path(routes.REGISTER);
+            }
+        } else {
             $rootScope.isLoading = false;
 
             if ($location.path() === routes.FORGOT_PASSWORD_VERIFY) {
@@ -57,24 +75,6 @@ angular.module('currencySwapApp', [
             } else {
                 console.log('Unknown action, nothing need to be done at this point');
                 return;
-            }
-        } else {
-            if ($location.path() === routes.FORGOT_PASSWORD_VERIFY) {
-                $rootScope.isLoading = false;
-                CookieService.cleanUpCookies();
-                return $location.path(routes.FORGOT_PASSWORD_VERIFY);
-            }
-
-            if ($location.search().resetCode) {
-                $rootScope.isLoading = false;
-                CookieService.cleanUpCookies();
-                return $location.path(routes.FORGOT_PASSWORD_RESET);
-            }
-
-            if ($location.search().activeCode) {
-                $rootScope.isLoading = false;
-                CookieService.cleanUpCookies();
-                return $location.path(routes.REGISTER);
             }
         }
         
@@ -99,8 +99,23 @@ angular.module('currencySwapApp', [
         }
     };
 
-    var routeChanged = function (event, next, current) {
-        if ( !$rootScope.loggedIn || !$rootScope.permissions ) return;
+    var routeChanged = function (event, next, prev) {
+        if ( $rootScope.loggedIn) {
+              console.log('Authorized user');
+        } else {
+              console.log('Unautorized user');
+              if ($location.path() == routes.LOGIN) {
+                  console.log('Valid request');
+              } else {
+                  console.log('Invalid request');
+                  $location.path(routes.LOGIN);
+              }
+              return;
+        }
+        if ( !$rootScope.permissions ) {
+            console.log('Access denied');
+            return;
+        }
 
         redirectToDefaultPath();
 
@@ -109,8 +124,13 @@ angular.module('currencySwapApp', [
         }
 
         NavigationHelper.updateNavigationBar();
-
     };
+    
+//    var locationChangeHandler = function (event, next, prev) {
+//        console.log('routeChanged2routeChanged2routeChanged2...........22222222222222', next, prev)
+//        console.log('$location.path()', $location.path());
+//        console.log('token', token);
+//    };
 
     var retreiveUserPerm = function() {
         PermissionService.getCurrentPermission(token).then(
