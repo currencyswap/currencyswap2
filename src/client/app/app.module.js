@@ -104,7 +104,12 @@ angular.module('currencySwapApp', [
               console.log('Authorized user');
         } else {
               console.log('Unautorized user');
-              if ($location.path() == routes.LOGIN) {
+              var curPath = $location.path();
+              if (curPath == routes.LOGIN ||
+                      curPath == routes.LOGOUT ||
+                      curPath == routes.REGISTER ||
+                      curPath == routes.FORGOT_PASSWORD_VERIFY ||
+                      curPath == routes.FORGOT_PASSWORD_RESET) {
                   console.log('Valid request');
               } else {
                   console.log('Invalid request');
