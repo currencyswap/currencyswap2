@@ -146,8 +146,7 @@ angular.module('register')
                                     || response.data.code === serverErrors.COULD_NOT_SAVE_USER_ADDR_TO_DB
                                     || response.data.code === serverErrors.COULD_NOT_SAVE_USER_GR_TO_DB
                                     || response.data.code === serverErrors.ERROR_TX_ROLLBACK
-                                    || response.data.code === serverErrors.ERROR_TX_COMMIT
-                                    || response.data.code === serverErrors.ERR_COULD_NOT_SEND_MAIL) {
+                                    || response.data.code === serverErrors.ERROR_TX_COMMIT) {
 
                                     $rootScope.isLoading = false;
                                     $rootScope.error = GLOBAL_CONSTANT.SERVER_GOT_PROBLEM_ERROR;
