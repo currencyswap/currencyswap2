@@ -28,13 +28,13 @@ angular.module('myProfile')
                 $scope.GLOBAL_CONSTANT = GLOBAL_CONSTANT;
                 var profilePicReq = {
                     method: httpMethods.GET,
-                    url: '/config/' + currentUser.username
+                    url: '/config/media/' + currentUser.username
                 };
 
-                $http(profilePicReq)
-                    .then(function (response) {
-                        return;
-                    });
+//                $http(profilePicReq)
+//                    .then(function (response) {
+//                        return;
+//                    });
 
                 var token = CookieService.getToken();
 
@@ -189,7 +189,7 @@ angular.module('myProfile')
                                 }else if (response.data.code === serverErrors.INVALID_PASSWORD) {
                                     $scope.gifLoading = false;
                                     $scope.invalidPassword = true;
-                                }else if (response.data.code === serverErrors.NATIONAL_ID_EXISTED) {
+                                } else if (response.data.code === serverErrors.NATIONAL_ID_EXISTED) {
                                     $scope.gifLoading = false;
                                     $scope.errorNationalIdExisted = true;
                                 }else if (response.data.code === serverErrors.CELLPHONE_EXISTED) {
