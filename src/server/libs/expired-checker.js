@@ -92,7 +92,7 @@ module.exports = function Checker(app) {
         var title = constant.MSG.ORDER_EXPIRE_SOON_TITLE;
         var msg = 'Order: ' + order.code + ', Give: ' + order.give + ' ' + order.giveCurrency.code+ '-' + order.giveCurrency.name
                 + ', Get: ' + order.get + ' ' + order.getCurrency.code+ '-' + order.getCurrency.name +', Rate: ' + order.rate 
-                    + ', Created: ' + (order.created.toString()) + ', Expired: ' + (order.expired.toString(), 'orderCode': order.orderCode);
+                    + ', Created: ' + (order.created.toString()) + ', Expired: ' + (order.expired.toString());
 
         supportService.existMessage(ownerId, title, msg).then(function(msgInst){
             if (msgInst && msgInst.id) {
@@ -102,7 +102,7 @@ module.exports = function Checker(app) {
             } else {
               supportService.saveMessage({'title': title, 
               'message': msg, 
-              'creatorId': adminId, 'receiverId': ownerId}).then(function(resp){
+              'creatorId': adminId, 'receiverId': ownerId, 'orderCode': order.orderCode}).then(function(resp){
                   if (config.debug) console.log('Message is sent', ownerId, msg);
                   MsgExpiringOrderMap[order.id] = true;
                   return next();
