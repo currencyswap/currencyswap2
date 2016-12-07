@@ -13,12 +13,12 @@
 						<table class="table table-striped2">
 							<thead>
 								<tr>
-									<th class="col-sm-1 order-item-header">Order Id</th>
-									<th class="col-sm-1 order-item-header">Created Date</th>
-									<th class="col-sm-1 order-item-header">Updated Date</th>
-									<th class="col-sm-1 order-item-header">Get</th>
-									<th class="col-sm-1 order-item-header">Give</th>
-									<th class="col-sm-1 order-item-header">Rate</th>
+									<th class="col-sm-1 order-item-header" ng-click="sortBy('code', 'working')">Order Id<span class="sortorder" ng-show="propertyName.working === 'code'" ng-class="{reverse: reverse.working}"></span></th>
+									<th class="col-sm-1 order-item-header" ng-click="sortBy('created', 'working')">Created Date <span class="sortorder" ng-show="propertyName.working === 'created'" ng-class="{reverse: reverse.working}"></span></th>
+									<th class="col-sm-1 order-item-header" ng-click="sortBy('updated', 'working')">Updated Date<span class="sortorder" ng-show="propertyName.working === 'updated'" ng-class="{reverse: reverse.working}"></span></th>
+									<th class="col-sm-1 order-item-header" ng-click="sortBy('get', 'working')">Get<span class="sortorder" ng-show="propertyName.working === 'get'" ng-class="{reverse: reverse.working}"></span></th>
+									<th class="col-sm-1 order-item-header" ng-click="sortBy('give', 'working')">Give<span class="sortorder" ng-show="propertyName.working === 'give'" ng-class="{reverse: reverse.working}"></span></th>
+									<th class="col-sm-1 order-item-header" ng-click="sortBy('rate', 'working')">Rate<span class="sortorder" ng-show="propertyName.working === 'rate'" ng-class="{reverse: reverse.working}"></span></th>
 									
 									<th class="col-sm-1 order-item-header">Initializer</th>
 									<th class="col-sm-1 order-item-header">Accepter</th>
@@ -27,7 +27,7 @@
 								</tr>
 							</thead>
 							<tbody>
-								<tr ng-repeat="swappingOrder in swappingOrders" class="order-row-{{$index % 2}}">
+								<tr ng-repeat="swappingOrder in swappingOrders | orderBy:propertyName.working:reverse.working" class="order-row-{{$index % 2}}" >
 									<td class="col-sm-1 order-item-content"><a href="/#!/orders/{{swappingOrder.code}}">{{swappingOrder.code}}</a></td>
 									<td class="col-sm-1 order-item-content order-date">{{swappingOrder.created | filterDate}}</td>
 									<td class="col-sm-1 order-item-content order-date">{{swappingOrder.updated | filterDate}}</td>
@@ -54,13 +54,14 @@
 						<table class="table table-striped2">
 							<thead>
 								<tr>
-									<th class="col-sm-1 order-item-header"  order-header>Order Id</th>
-									<th class="col-sm-1 order-item-header">Created Date</th>
-									<th class="col-sm-1 order-item-header">Updated Date</th>
-									<th class="col-sm-1 order-item-header">Get</th>
-									<th class="col-sm-1 order-item-header">Give</th>
-									<th class="col-sm-1 order-item-header">Rate</th>
-									
+									<th class="col-sm-1 order-item-header" ng-click="sortBy('code', 'confirmed')">Order Id<span class="sortorder" ng-show="propertyName.confirmed === 'code'" ng-class="{reverse: reverse.confirmed}"></span></th>
+									<th class="col-sm-1 order-item-header" ng-click="sortBy('created', 'confirmed')">Created Date <span class="sortorder" ng-show="propertyName.confirmed === 'created'" ng-class="{reverse: reverse.confirmed}"></span></th>
+									<th class="col-sm-1 order-item-header" ng-click="sortBy('updated', 'confirmed')">Updated Date<span class="sortorder" ng-show="propertyName.confirmed === 'updated'" ng-class="{reverse: reverse.confirmed}"></span></th>
+									<th class="col-sm-1 order-item-header" ng-click="sortBy('get', 'confirmed')">Get<span class="sortorder" ng-show="propertyName.confirmed === 'get'" ng-class="{reverse: reverse.confirmed}"></span></th>
+									<th class="col-sm-1 order-item-header" ng-click="sortBy('give', 'confirmed')">Give<span class="sortorder" ng-show="propertyName.confirmed === 'give'" ng-class="{reverse: reverse.confirmed}"></span></th>
+									<th class="col-sm-1 order-item-header" ng-click="sortBy('rate', 'confirmed')">Rate<span class="sortorder" ng-show="propertyName.confirmed === 'rate'" ng-class="{reverse: reverse.confirmed}"></span></th>
+
+
 									<th class="col-sm-1 order-item-header">Initializer</th>
 									<th class="col-sm-1 order-item-header">Accepter</th>
 									<th class="col-sm-1 order-item-header">State</th>
@@ -68,7 +69,7 @@
 								</tr>
 							</thead>
 							<tbody>
-								<tr ng-repeat="confirmOrder in confirmOrders" class="order-row-{{$index % 2}}">
+								<tr ng-repeat="confirmOrder in confirmOrders | orderBy:propertyName.confirmed:reverse.confirmed" class="order-row-{{$index % 2}}">
 									<td class="col-sm-1 order-item-content"><a href="/#!/orders/{{confirmOrder.code}}/">{{confirmOrder.code}}</a></td>
 									<td class="col-sm-1 order-item-content order-date">{{confirmOrder.created | filterDate}}</td>
 									<td class="col-sm-1 order-item-content order-date" >{{confirmOrder.updated | filterDate}}</td>
@@ -105,18 +106,19 @@
 						<table class="table table-striped2">
 							<thead>
 								<tr>
-									<th class="col-sm-1 order-item-header">Order Id</th>
-									<th class="col-sm-1 order-item-header">Created Date</th>
-									<th class="col-sm-1 order-item-header">Expired Date</th>
-									<th class="col-sm-1 order-item-header">Get</th>
-									<th class="col-sm-1 order-item-header">Give</th>
-									<th class="col-sm-1 order-item-header">Rate</th>
+									<th class="col-sm-1 order-item-header" ng-click="sortBy('code', 'submitted')">Order Id<span class="sortorder" ng-show="propertyName.submitted === 'code'" ng-class="{reverse: reverse.submitted}"></span></th>
+									<th class="col-sm-1 order-item-header" ng-click="sortBy('created', 'submitted')">Created Date <span class="sortorder" ng-show="propertyName.submitted === 'created'" ng-class="{reverse: reverse.submitted}"></span></th>
+									<th class="col-sm-1 order-item-header" ng-click="sortBy('updated', 'submitted')">Updated Date<span class="sortorder" ng-show="propertyName.submitted === 'updated'" ng-class="{reverse: reverse.submitted}"></span></th>
+									<th class="col-sm-1 order-item-header" ng-click="sortBy('get', 'submitted')">Get<span class="sortorder" ng-show="propertyName.submitted === 'get'" ng-class="{reverse: reverse.submitted}"></span></th>
+									<th class="col-sm-1 order-item-header" ng-click="sortBy('give', 'submitted')">Give<span class="sortorder" ng-show="propertyName.submitted === 'give'" ng-class="{reverse: reverse.submitted}"></span></th>
+									<th class="col-sm-1 order-item-header" ng-click="sortBy('rate', 'submitted')">Rate<span class="sortorder" ng-show="propertyName.submitted === 'rate'" ng-class="{reverse: reverse.submitted}"></span></th>
+
 									<th class="col-sm-1 order-item-header">State</th>
 									<th class="col-sm-2 order-item-header"></th>
 								</tr>
 							</thead>
 							<tbody>
-								<tr ng-repeat="submittedOrder in submittedOrders" class="order-row-{{$index % 2}}">
+								<tr ng-repeat="submittedOrder in submittedOrders | orderBy:propertyName.submitted:reverse.submitted" class="order-row-{{$index % 2}}">
 									<td class="col-sm-1 order-item-content"><a href="/#!/orders/{{submittedOrder.code}}">{{submittedOrder.code}}</a></td>
 									<td class="col-sm-1 order-item-content order-date">{{submittedOrder.created | filterDate}}</td>
 									<td class="col-sm-1 order-item-content order-date">{{submittedOrder.expired | filterDate}}</td>
@@ -148,12 +150,13 @@
 						<table class="table table-striped2" >
 							<thead>
 								<tr>
-									<th class="col-sm-1 order-item-header">Order Id</th>
-									<th class="col-sm-1 order-item-header">Created Date</th>
-									<th class="col-sm-1 order-item-header">Closed Date</th>
-									<th class="col-sm-1 order-item-header">Get</th>
-									<th class="col-sm-1 order-item-header">Give</th>
-									<th class="col-sm-1 order-item-header">Rate</th>
+									<th class="col-sm-1 order-item-header" ng-click="sortBy('code', 'history')">Order Id<span class="sortorder" ng-show="propertyName.history === 'code'" ng-class="{reverse: reverse.history}"></span></th>
+									<th class="col-sm-1 order-item-header" ng-click="sortBy('created', 'history')">Created Date <span class="sortorder" ng-show="propertyName.history === 'created'" ng-class="{reverse: reverse.history}"></span></th>
+									<th class="col-sm-1 order-item-header" ng-click="sortBy('updated', 'history')">Closed Date<span class="sortorder" ng-show="propertyName.history === 'updated'" ng-class="{reverse: reverse.history}"></span></th>
+									<th class="col-sm-1 order-item-header" ng-click="sortBy('get', 'history')">Get<span class="sortorder" ng-show="propertyName.history === 'get'" ng-class="{reverse: reverse.history}"></span></th>
+									<th class="col-sm-1 order-item-header" ng-click="sortBy('give', 'history')">Give<span class="sortorder" ng-show="propertyName.history === 'give'" ng-class="{reverse: reverse.history}"></span></th>
+									<th class="col-sm-1 order-item-header" ng-click="sortBy('rate', 'history')">Rate<span class="sortorder" ng-show="propertyName.history === 'rate'" ng-class="{reverse: reverse.history}"></span></th>
+									
 									<th class="col-sm-1 order-item-header">Initializer</th>
 									<th class="col-sm-1 order-item-header">Accepter</th>
 									<th class="col-sm-1 order-item-header">State</th>
@@ -161,7 +164,7 @@
 								</tr>
 							</thead>
 							<tbody>
-								<tr ng-repeat="historyOrder in historyOrders" class="order-row-{{$index % 2}}">
+								<tr ng-repeat="historyOrder in historyOrders | orderBy:propertyName.history:reverse.history" class="order-row-{{$index % 2}}">
 									<td class="col-sm-1 order-item-content"><a href="/#!/orders/{{historyOrder.code}}">{{historyOrder.code}}</a></td>
 									<td class="col-sm-1 order-item-content order-date">{{historyOrder.created | filterDate}}</td>
 									<td class="col-sm-1 order-item-content order-date">{{historyOrder.updated | filterDate}}</td>

@@ -322,3 +322,11 @@
 	padding: 5px 0px;
 	background: white;
 	border-bottom: 1px solid #eee;}
+.sortorder:after {
+  content: '\25b2';
+  font-size: 12px;
+}
+.sortorder.reverse:after {
+  content: '\25bc';
+  font-size: 12px;
+}
