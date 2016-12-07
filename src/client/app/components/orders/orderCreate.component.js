@@ -12,6 +12,8 @@ angular.module('orders')
             'GLOBAL_CONSTANT',
             function orderCreateController($scope, $rootScope, OrdersService, $location, $http, $window, GLOBAL_CONSTANT) {
         		
+        		$scope.isFirstView = true;
+        		
 	        	$scope.currencies = [];
 	        	window.scrollTo(0, 0);
         		$scope.FIXED_VALUE = GLOBAL_CONSTANT.ORDER_FIXED_VALUE;
@@ -63,6 +65,23 @@ angular.module('orders')
         			});
         		}
         		
+        		var getLastOrderCreated = function(){
+        			OrdersService.getLastOrderCreated().then(function(data){
+        				console.log("getLastOrderCreated data: " + JSON.stringify(data));
+        				$scope.$apply(function(){
+        					if(data && !data.isNoData && data.order){
+        						$scope.newOrder.give = data.order.give;
+        						$scope.newOrder.rate = data.order.rate;
+        						$scope.newOrder.get = data.order.get;
+        						$scope.newOrder.giveCurrencyCode = data.order.giveCurrency.code;
+        						$scope.newOrder.getCurrencyCode = data.order.getCurrency.code;
+        					}
+        				});
+        			},function(err){
+        				console.log("getLastOrderCreated err: " + JSON.stringify(err));
+        			});
+        		}
+        		
         		if(!$scope.newOrder){
 	        		$scope.newOrder = {
 	        				give : "",
@@ -70,15 +89,16 @@ angular.module('orders')
 	        				get : "",
 	        				getCurrencyCode : "",
 	        				rate : "",
-	        				fixed : $scope.FIXED_VALUE.GIVE,
+	        				fixed : $scope.FIXED_VALUE.RATE,
 	        				expired : $scope.EXPIRED_VALUE[0].key,
 	        				expiredDate : new Date(),
 	        				dayLive : 0
 	        		};
         		}
         		
-        		if($rootScope.newOrderSave){
-        			$scope.newOrder = $rootScope.newOrderSave;
+        		if($scope.isFirstView){
+        			$scope.isFirstView = false;
+        			getLastOrderCreated();
         		}
         		
         		$scope.onChangeValue = function(fieldChange){

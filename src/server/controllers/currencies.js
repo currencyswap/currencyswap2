@@ -14,7 +14,9 @@ module.exports = function (app) {
     
     router.get('/', function (req, res) {
 
-    	var filter = {}
+    	var filter = {
+    			'order': 'position ASC'
+    	};
         service.filterCurrency(filter).then(function(resp){
         	return res.send(resp);
         }, function(err){

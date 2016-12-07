@@ -356,20 +356,34 @@ module.exports = function (app) {
         });
     });
     
-    router.get('/:code', function (req, res) {
+    router.get('/edit/:code', function (req, res) {
         var userId = req.currentUser.id;
-        var orderCode = req.params.code;
-        var isCheckExpired = true;
-        service.getOrderByCode(orderCode, userId, isCheckExpired).then(function(resp){
+        var code = req.params.code;
+        service.getOrderForEdit(code, userId, constant.STATUS_TYPE.SUBMITTED_ID).then(function(resp){
                 return res.send(resp);
         }, function(err){
             return res.status(500).send(errorUtil.createAppError(errors.SERVER_GET_PROBLEM));
         });
     });
-    router.get('/edit/:code', function (req, res) {
+    
+    router.get('/lastcreated', function (req, res) {
         var userId = req.currentUser.id;
-        var code = req.params.code;
-        service.getOrderForEdit(code, userId, constant.STATUS_TYPE.SUBMITTED_ID).then(function(resp){
+        service.getLastOrderCreated(userId).then(function(resp){
+        	if(resp && resp.length > 0){
+        		return res.send({isSuccessfull:true, order : resp[0]});
+        	}else{
+        		return res.send({isSuccessfull:true, isNoData : true});
+        	}
+        }, function(err){
+            return res.status(500).send(errorUtil.createAppError(errors.SERVER_GET_PROBLEM));
+        });
+    });
+    
+    router.get('/:code', function (req, res) {
+        var userId = req.currentUser.id;
+        var orderCode = req.params.code;
+        var isCheckExpired = true;
+        service.getOrderByCode(orderCode, userId, isCheckExpired).then(function(resp){
                 return res.send(resp);
         }, function(err){
             return res.status(500).send(errorUtil.createAppError(errors.SERVER_GET_PROBLEM));

@@ -63,6 +63,16 @@ exports.getOrderByCode = function (orderCode, userId, isCheckExpired) {
     }
     return dbUtil.executeModelFn(app.models.Order, 'findOne', filter);
 };
+
+exports.getLastOrderCreated = function (userId) {
+    var filter = {
+            'where': { and : [{'ownerId': userId}]},
+            'order': 'created DESC',
+            'include' : [ ownerRelation, accepterRelation, giveCurrencyRelation, getCurrencyRelation, statusRelation, activitiesRelation]
+    };
+    return dbUtil.executeModelFn(app.models.Order, 'find', filter);
+};
+
 exports.getOrderForEdit = function (orderCode, userId, statusId) {
     var filter = {
             'where': { and : [{'code': orderCode} , {'ownerId' : userId}, {'statusId' : statusId}]},
