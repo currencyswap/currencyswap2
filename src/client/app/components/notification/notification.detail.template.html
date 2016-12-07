@@ -6,7 +6,8 @@
       </div>
       <div class="modal-body">
       
-    <p class="msg-content">{{item.message}}</p>
+    <p class="msg-content" data-ng-bind-html="item.message2" data-ng-if="item.orderCode" data-ng-click="closeDetail($event)"></p>
+    <p class="msg-content" data-ng-if="!item.orderCode">{{item.message}}</p>
     <div class="msg-issue">
     <small class="text-muted">Sender: <strong>{{item.creator.username}}</strong></small>
     <small class="text-muted"> - {{item.created | date : 'MMM dd, yyyy hh:mm a'}}</small><br>

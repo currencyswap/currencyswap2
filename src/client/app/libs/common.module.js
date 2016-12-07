@@ -73,12 +73,23 @@ angular.module('common', ['ngRoute', 'cookieManager', 'permission', 'navigation'
           return modalForm;
     };
     $rootScope.openMessageModel = function (item) {
-          $rootScope.createModel('app/components/notification/notification.detail.template.html', function($scope, $timeout, $uibModalInstance, inputData){
+          $rootScope.createModel('app/components/notification/notification.detail.template.html', function($scope, $timeout, $sce, $uibModalInstance, inputData){
               $scope.item = inputData;
+              var orderLink = '<a href="/#!{LINK}{CODE}">{CODE}</a>';
+              var orderCode = $scope.item.orderCode;
+              var re = new RegExp(orderCode, 'ig');
+              if (orderCode) {
+                  $scope.item.message2 = $scope.item.message.replace(re, orderLink.replace(/\{LINK\}/g, routes.ORDERS).replace(/\{CODE\}/g, orderCode));
+              }
               $scope.cancel = function() {
                   console.log('No thing change');
                   $uibModalInstance.dismiss();
                 };
+               $scope.closeDetail = function(e){
+                   if (e.target.tagName == 'A' || e.target.tagName == 'a') {
+                       $scope.cancel();
+                   }
+               }
           }, item);
         };
     var _retreiveUser = function() {
