@@ -324,9 +324,19 @@
 	border-bottom: 1px solid #eee;}
 .sortorder:after {
   content: '\25b2';
-  font-size: 12px;
+  font-size: 11px;
+  color: #666666;
 }
 .sortorder.reverse:after {
   content: '\25bc';
-  font-size: 12px;
+  font-size: 11px;
+  color: #666666;
+}
+
+#list-order .fa.fa-unsorted {
+	color: #999999;
+	margin: 0 2px 0 0;
+}
+#list-order .fa.fa-unsorted, #list-order .fa.fa-sort {
+	margin: 0 0 0 2px;
 }
