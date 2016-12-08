@@ -94,7 +94,7 @@ angular.module('register')
                     $scope.fieldError = 0;
                     $scope.messageErrorValidate  = '';
                 };
-                $scope.user.birthday = new Date();
+                $scope.user.birthday;
                 $scope.serverErrors = serverErrors;
                 $scope.fieldError = 0;
                 $scope.messageErrorValidate  = '';
