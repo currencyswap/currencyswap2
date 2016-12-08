@@ -19,10 +19,10 @@
 									<th class="col-sm-1 order-item-header" ng-click="sortBy('get', 'working')"><a href="">Get<span class="fa" ng-class="{reverse: reverse.working, 'fa-caret-up':(propertyName.working === 'get' && !reverse.working), 'fa-caret-down':(propertyName.working === 'get' && reverse.working), 'fa-unsorted': !(propertyName.working === 'get')}"></span></a></th>
 									<th class="col-sm-1 order-item-header" ng-click="sortBy('give', 'working')"><a href="">Give<span class="fa" ng-class="{reverse: reverse.working, 'fa-caret-up':(propertyName.working === 'give' && !reverse.working), 'fa-caret-down':(propertyName.working === 'give' && reverse.working), 'fa-unsorted': !(propertyName.working === 'give')}"></span></a></th>
 									<th class="col-sm-1 order-item-header" ng-click="sortBy('rate', 'working')"><a href="">Rate<span class="fa" ng-class="{reverse: reverse.working, 'fa-caret-up':(propertyName.working === 'rate' && !reverse.working), 'fa-caret-down':(propertyName.working === 'rate' && reverse.working), 'fa-unsorted': !(propertyName.working === 'rate')}"></span></a></th>
-									<!-- <th class="col-sm-1 order-item-header" ng-click="sortBy('username', 'working')"><a href="">Initializer<span class="fa" ng-class="{reverse: reverse.working, 'fa-sort':(propertyName.working === 'username'), 'fa-unsorted': !(propertyName.working === 'username')}"></span></a></th>-->
-									<th class="col-sm-1 order-item-header"><a href="">Initializer</a></th>
-									<th class="col-sm-1 order-item-header"><a href="">Accepter</a></th>
-									<th class="col-sm-1 order-item-header"><a href="">State</a></th>
+									<th class="col-sm-1 order-item-header" ng-click="sortBy('owner.username', 'working')"><a href="">Initializer<span class="fa" ng-class="{reverse: reverse.working, 'fa-caret-up':(propertyName.working === 'owner.username' && !reverse.working), 'fa-caret-down':(propertyName.working === 'owner.username' && reverse.working), 'fa-unsorted': !(propertyName.working === 'owner.username')}"></span></a></th>
+ 									<th class="col-sm-1 order-item-header" ng-click="sortBy('accepter.username', 'working')"><a href="">Accepter<span class="fa" ng-class="{reverse: reverse.working, 'fa-caret-up':(propertyName.working === 'accepter.username' && !reverse.working), 'fa-caret-down':(propertyName.working === 'accepter.username' && reverse.working), 'fa-unsorted': !(propertyName.working === 'accepter.username')}"></span></a></th>
+									<th class="col-sm-1 order-item-header" ng-click="sortBy('status.name', 'working')"><a href="">State<span class="fa" ng-class="{reverse: reverse.working, 'fa-caret-up':(propertyName.working === 'status.name' && !reverse.working), 'fa-caret-down':(propertyName.working === 'status.name' && reverse.working), 'fa-unsorted': !(propertyName.working === 'status.name')}"></span></a></th>
+
 									<th class="col-sm-2 order-item-header"></th>
 								</tr>
 							</thead>
@@ -60,17 +60,10 @@
 									<th class="col-sm-1 order-item-header" ng-click="sortBy('get', 'confirmed')"><a href="">Get<span class="fa" ng-class="{reverse: reverse.confirmed, 'fa-caret-up':(propertyName.confirmed === 'get' && !reverse.confirmed), 'fa-caret-down':(propertyName.confirmed === 'get' && reverse.confirmed), 'fa-unsorted': !(propertyName.confirmed === 'get')}"></span></a></th>
 									<th class="col-sm-1 order-item-header" ng-click="sortBy('give', 'confirmed')"><a href="">Give<span class="fa" ng-class="{reverse: reverse.confirmed, 'fa-caret-up':(propertyName.confirmed === 'give' && !reverse.confirmed), 'fa-caret-down':(propertyName.confirmed === 'give' && reverse.confirmed), 'fa-unsorted': !(propertyName.confirmed === 'give')}"></span></a></th>
 									<th class="col-sm-1 order-item-header" ng-click="sortBy('rate', 'confirmed')"><a href="">Rate<span class="fa" ng-class="{reverse: reverse.confirmed, 'fa-caret-up':(propertyName.confirmed === 'rate' && !reverse.confirmed), 'fa-caret-down':(propertyName.confirmed === 'rate' && reverse.confirmed), 'fa-unsorted': !(propertyName.confirmed === 'rate')}"></span></a></th>
-<!-- 								
-									<th class="col-sm-1 order-item-header" ng-click="sortBy('code', 'confirmed')"><a href="">Order Id<span class="fa"  ng-class="{'reverse': reverse.confirmed, 'fa-sort':(propertyName.confirmed === 'code'), 'fa-unsorted': !(propertyName.confirmed === 'code')}"></span></a></th>
-									<th class="col-sm-1 order-item-header" ng-click="sortBy('created', 'confirmed')"><a href="">Created Date <span class="fa" ng-class="{reverse: reverse.confirmed, 'fa-sort':(propertyName.confirmed === 'created'), 'fa-unsorted': !(propertyName.confirmed === 'created')}"></span></a></th>
-									<th class="col-sm-1 order-item-header" ng-click="sortBy('updated', 'confirmed')"><a href="">Updated Date<span class="fa" ng-class="{reverse: reverse.confirmed, 'fa-sort':(propertyName.confirmed === 'updated'), 'fa-unsorted': !(propertyName.confirmed === 'updated')}"></span></a></th>
-									<th class="col-sm-1 order-item-header" ng-click="sortBy('get', 'confirmed')"><a href="">Get<span class="fa" ng-class="{reverse: reverse.confirmed, 'fa-sort':(propertyName.confirmed === 'get'), 'fa-unsorted': !(propertyName.confirmed === 'get')}"></span></a></th>
-									<th class="col-sm-1 order-item-header" ng-click="sortBy('give', 'confirmed')"><a href="">Give<span class="fa" ng-class="{reverse: reverse.confirmed, 'fa-sort':(propertyName.confirmed === 'give'), 'fa-unsorted': !(propertyName.confirmed === 'give')}"></span></a></th>
-									<th class="col-sm-1 order-item-header" ng-click="sortBy('rate', 'confirmed')"><a href="">Rate<span class="fa" ng-class="{reverse: reverse.confirmed, 'fa-sort':(propertyName.confirmed === 'rate'), 'fa-unsorted': !(propertyName.confirmed === 'rate')}"></span></a></th> -->
-									<!-- <th class="col-sm-1 order-item-header" ng-click="sortBy('username', 'confirmed')"><a href="">Initializer<span class="fa" ng-class="{reverse: reverse.confirmed 'fa-sort':(propertyName.confirmed === 'username'), 'fa-unsorted': !(propertyName.confirmed === 'username')}"></span></a></th> -->
-									<th class="col-sm-1 order-item-header"><a href="">Initializer</a></th>
-									<th class="col-sm-1 order-item-header"><a href="">Accepter</a></th>
-									<th class="col-sm-1 order-item-header"><a href="">State</a></th>
+									
+									<th class="col-sm-1 order-item-header" ng-click="sortBy('owner.username', 'confirmed')"><a href="">Initializer<span class="fa" ng-class="{reverse: reverse.confirmed, 'fa-caret-up':(propertyName.confirmed === 'owner.username' && !reverse.confirmed), 'fa-caret-down':(propertyName.confirmed === 'owner.username' && reverse.confirmed), 'fa-unsorted': !(propertyName.confirmed === 'owner.username')}"></span></a></th>
+ 									<th class="col-sm-1 order-item-header" ng-click="sortBy('accepter.username', 'confirmed')"><a href="">Accepter<span class="fa" ng-class="{reverse: reverse.confirmed, 'fa-caret-up':(propertyName.confirmed === 'accepter.username' && !reverse.confirmed), 'fa-caret-down':(propertyName.confirmed === 'accepter.username' && reverse.confirmed), 'fa-unsorted': !(propertyName.confirmed === 'accepter.username')}"></span></a></th>
+									<th class="col-sm-1 order-item-header" ng-click="sortBy('status.name', 'confirmed')"><a href="">State<span class="fa" ng-class="{reverse: reverse.confirmed, 'fa-caret-up':(propertyName.confirmed === 'status.name' && !reverse.confirmed), 'fa-caret-down':(propertyName.confirmed === 'status.name' && reverse.confirmed), 'fa-unsorted': !(propertyName.confirmed === 'status.name')}"></span></a></th>
 									<th class="col-sm-2 order-item-header"></th>
 								</tr>
 							</thead>
@@ -118,8 +111,7 @@
 									<th class="col-sm-1 order-item-header" ng-click="sortBy('get', 'submitted')"><a href="">Get<span class="fa" ng-class="{reverse: reverse.submitted, 'fa-caret-up':(propertyName.submitted === 'get' && !reverse.submitted), 'fa-caret-down':(propertyName.submitted === 'get' && reverse.submitted), 'fa-unsorted': !(propertyName.submitted === 'get')}"></span></a></th>
 									<th class="col-sm-1 order-item-header" ng-click="sortBy('give', 'submitted')"><a href="">Give<span class="fa" ng-class="{reverse: reverse.submitted, 'fa-caret-up':(propertyName.submitted === 'give' && !reverse.submitted), 'fa-caret-down':(propertyName.submitted === 'give' && reverse.submitted), 'fa-unsorted': !(propertyName.submitted === 'give')}"></span></a></th>
 									<th class="col-sm-1 order-item-header" ng-click="sortBy('rate', 'submitted')"><a href="">Rate<span class="fa" ng-class="{reverse: reverse.submitted, 'fa-caret-up':(propertyName.submitted === 'rate' && !reverse.submitted), 'fa-caret-down':(propertyName.submitted === 'rate' && reverse.submitted), 'fa-unsorted': !(propertyName.submitted === 'rate')}"></span></a></th>
-
-									<th class="col-sm-1 order-item-header"><a href="">State</a></th>
+									<th class="col-sm-1 order-item-header" ng-click="sortBy('status.name', 'submitted')"><a href="">State<span class="fa" ng-class="{reverse: reverse.submitted, 'fa-caret-up':(propertyName.submitted === 'status.name' && !reverse.submitted), 'fa-caret-down':(propertyName.submitted === 'status.name' && reverse.submitted), 'fa-unsorted': !(propertyName.submitted === 'status.name')}"></span></a></th>
 									<th class="col-sm-2 order-item-header"></th>
 								</tr>
 							</thead>
@@ -163,10 +155,9 @@
 									<th class="col-sm-1 order-item-header" ng-click="sortBy('give', 'history')"><a href="">Give<span class="fa" ng-class="{reverse: reverse.history, 'fa-caret-up':(propertyName.history === 'give' && !reverse.history), 'fa-caret-down':(propertyName.history === 'give' && reverse.history), 'fa-unsorted': !(propertyName.history === 'give')}"></span></a></th>
 									<th class="col-sm-1 order-item-header" ng-click="sortBy('rate', 'history')"><a href="">Rate<span class="fa" ng-class="{reverse: reverse.history, 'fa-caret-up':(propertyName.history === 'rate' && !reverse.history), 'fa-caret-down':(propertyName.history === 'rate' && reverse.history), 'fa-unsorted': !(propertyName.history === 'rate')}"></span></a></th>
 
-									<th class="col-sm-1 order-item-header"><a href="">Initializer</a></th>
-									<th class="col-sm-1 order-item-header"><a href="">Accepter</a></th>
-									<th class="col-sm-1 order-item-header"><a href="">State</a></th>
-
+									<th class="col-sm-1 order-item-header" ng-click="sortBy('owner.username', 'history')"><a href="">Initializer<span class="fa" ng-class="{reverse: reverse.history, 'fa-caret-up':(propertyName.history === 'owner.username' && !reverse.history), 'fa-caret-down':(propertyName.history === 'owner.username' && reverse.history), 'fa-unsorted': !(propertyName.history === 'owner.username')}"></span></a></th>
+ 									<th class="col-sm-1 order-item-header" ng-click="sortBy('accepter.username', 'history')"><a href="">Accepter<span class="fa" ng-class="{reverse: reverse.history, 'fa-caret-up':(propertyName.history === 'accepter.username' && !reverse.history), 'fa-caret-down':(propertyName.history === 'accepter.username' && reverse.history), 'fa-unsorted': !(propertyName.history === 'accepter.username')}"></span></a></th>
+									<th class="col-sm-1 order-item-header" ng-click="sortBy('status.name', 'history')"><a href="">State<span class="fa" ng-class="{reverse: reverse.history, 'fa-caret-up':(propertyName.history === 'status.name' && !reverse.history), 'fa-caret-down':(propertyName.history === 'status.name' && reverse.history), 'fa-unsorted': !(propertyName.history === 'status.name')}"></span></a></th>
 									
 								</tr>
 							</thead>
