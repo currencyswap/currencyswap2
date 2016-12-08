@@ -139,8 +139,7 @@ exports.getUserConfirmedOrders = function (userId) {
                                  		}
                                  	}
                                 ],
-                     'order': 'created DESC',
-                     'limit' : 1
+                     'order': 'created DESC'
             }
         };
         activitiesRelation.scope['where'] =  {'creatorId': userId}
