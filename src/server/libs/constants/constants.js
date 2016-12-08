@@ -17,7 +17,8 @@ module.exports = {
         SWAPPING_ORDER_CONTENT : "Swapping Order",
         CONFIRM_ORDER_CONTENT : "Confirmed Order",
         CLEAR_ORDER_CONTENT : "Cleared Order",
-        CANCEL_ORDER_CONTENT : "Cancel Order"
+        CANCEL_ORDER_CONTENT : "Cancel Order",
+        PENDING_ORDER_CONTENT: "Pending Order"
     },
     PASSWORD_FIELD: 'password',
     STATUS_FIELD: 'status',
