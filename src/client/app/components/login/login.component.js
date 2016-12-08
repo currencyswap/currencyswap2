@@ -16,9 +16,7 @@ angular.module('loginForm')
                 $scope.title = appConfig.title;
                 $scope.errors = [];
                 $scope.isExpired = false;
-                var token = CookieService.getToken();
-
-                if (token) return $location.path(routes.HOME);
+                $scope.user = {'username': localStorage.getItem( 'username' )||'', 'password': ''};
 
                 $scope.onUsernameChange = function () {
                     $scope.loginErrMsg = null;
@@ -64,6 +62,7 @@ angular.module('loginForm')
                                                 } else {
                                                     $rootScope.permissions = response.data;
                                                     $rootScope.loggedIn = true;
+                                                    localStorage.setItem( 'username', $scope.user.username );
 
                                                     $location.path(routes.HOME);
 
@@ -136,6 +135,11 @@ angular.module('loginForm')
 
                 $scope.onRegister = function () {
                     $location.path(routes.REGISTER);
+                };
+                // init
+                var token = CookieService.getToken();
+                if (token) {
+                    return $location.path(routes.HOME);
                 }
             }]
     });

@@ -45,7 +45,8 @@ exports.filterOrders = function (filter) {
 
 exports.getOrderById = function (id) {
     var filter = {
-            'where': { 'id': id }
+            'where': { 'id': id },
+            'include' : [ ownerRelation, accepterRelation, giveCurrencyRelation, getCurrencyRelation]
     };
     return dbUtil.executeModelFn(app.models.Order, 'findOne', filter);
 };

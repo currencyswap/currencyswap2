@@ -15,7 +15,7 @@ var permissionConverter = require('../converters/permission-converter');
 var constant = require('../libs/constants/constants');
 
 var collectPermissionFromRules = function (request, permissionItem) {
-    console.log('permissionItem.rules', permissionItem.rules);
+    //console.log('permissionItem.rules', permissionItem.rules);
     for (let idx in permissionItem.rules) {
         let rule = permissionItem.rules[idx];
 
@@ -38,7 +38,7 @@ var collectRequiredPermissions = function (request, callback) {
         let per = permissionMap.permissions[key];
         let route = routes.getRoute(per.route);
 
-        console.log('route : %s', route);
+        //console.log('route : %s', route);
 
         let pattern = new UrlPattern(route);
 
@@ -103,8 +103,8 @@ var validatePermission = function (permissions, requiredPermissions, callback) {
 };
 
 var checkPermissionInRequest = function (request, permissions, callback) {
-    console.log('PATH %s', request.path);
-    console.log('METHOD %s', request.method);
+    console.log('PATH', request.method, request.path);
+    //console.log('METHOD %s', request.method);
 
     async.waterfall([
         function (next) {
@@ -163,12 +163,8 @@ exports.collectUserPermission = function (username, callback) {
                     if (user.expiredDate) {
                         var now = new Date();
                         var expire = (typeof user.expiredDate === 'string' ? new Date(user.expiredDate) : user.expiredDate);
-                        console.log('now', now);
-                        console.log('expire', expire);
                         now = now.getTime();
                         expire = expire.getTime();
-                        console.log('now', now);
-                        console.log('expire', expire);
                         if (expire < now) {
                             console.log('Your account get expired', username, 'Expired Time:', user.expiredDate);
                             var err = errorUtil.createAppError(errors.USER_ACCOUNT_EXPIRED);
@@ -194,7 +190,7 @@ exports.collectUserPermission = function (username, callback) {
         function (user, next) {
             let permissions = permissionConverter.getPermissionsFormUser(user);
 
-            console.log( 'PERMISSION %s', JSON.stringify( permissions ) );
+            //console.log( 'PERMISSION %s', JSON.stringify( permissions ) );
 
             next(null, user, permissions);
         }], function (err, user, permissions) {
