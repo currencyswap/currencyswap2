@@ -333,10 +333,10 @@
   color: #666666;
 }
 
-#list-order .fa.fa-unsorted {
+#list-order .fa.fa-unsorted ,#list-user .fa.fa-unsorted {
 	color: #999999;
 	margin: 0 2px 0 0;
 }
-#list-order .fa.fa-unsorted, #list-order .fa.fa-sort {
+#list-order .fa.fa-unsorted, #list-order .fa.fa-sort ,#list-user .fa.fa-unsorted, #list-user .fa.fa-sort {
 	margin: 0 0 0 2px;
 }
