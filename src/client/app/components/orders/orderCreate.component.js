@@ -176,9 +176,9 @@ angular.module('orders')
         			$scope.newOrder.dayLive = dayLive;
         			$scope.newOrder.expiredDate = expiredDate;
         			
-        			$scope.newOrder.give = reFormatValue($scope.newOrder.give);
-        			$scope.newOrder.get = reFormatValue($scope.newOrder.get);
-        			$scope.newOrder.rate = reFormatValue($scope.newOrder.rate);
+//        			$scope.newOrder.give = reFormatValue($scope.newOrder.give);
+//        			$scope.newOrder.get = reFormatValue($scope.newOrder.get);
+//        			$scope.newOrder.rate = reFormatValue($scope.newOrder.rate);
         			
         			
         			for(var i in  $scope.currencies){
