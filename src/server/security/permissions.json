@@ -71,6 +71,17 @@
                     "isAlive": true
                 }
             ]
+        },{
+            "route": "{API_ORDERS_LAST_CREATED}",
+            "rules" : [
+                {
+                    "methods" : ["GET"],
+                    "requiredPermissions": [
+                        "{VIEW_OWN_ORDERS}", "{MAINTAIN_OWN_ORDERS}"
+                    ],
+                    "isAlive": true
+                }
+            ]
         },
         {
             "route": "{API_ORDERS_SWAPPING}",

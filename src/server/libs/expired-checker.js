@@ -102,7 +102,7 @@ module.exports = function Checker(app) {
             } else {
               supportService.saveMessage({'title': title, 
               'message': msg, 
-              'creatorId': adminId, 'receiverId': ownerId}).then(function(resp){
+              'creatorId': adminId, 'receiverId': ownerId, 'orderCode': order.code}).then(function(resp){
                   if (config.debug) console.log('Message is sent', ownerId, msg);
                   MsgExpiringOrderMap[order.id] = true;
                   return next();

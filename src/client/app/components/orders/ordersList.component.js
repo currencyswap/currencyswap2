@@ -30,6 +30,12 @@ angular.module('orders')
                         console.log('Failure in saving your message');
                     });
         		};
+        		$scope.reverse = {'working': false, 'confirmed': false, 'submitted': false, 'history': false};
+        		$scope.propertyName = {'working': 'updated', 'confirmed': 'updated', 'submitted': 'updated', 'history': 'updated'};
+        		$scope.sortBy = function(propertyName, listName) {
+        		    $scope.reverse[listName] = ($scope.propertyName[listName] === propertyName) ? !$scope.reverse[listName] : false;
+        		    $scope.propertyName[listName] = propertyName;
+        		  };
         		var getConfirmedOrders = function () {
         			if($.device){
         				$scope.tab = 4;

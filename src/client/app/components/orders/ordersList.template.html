@@ -1,4 +1,4 @@
-<div class="row order-content" ng-if="!isDevice">
+<div class="row order-content" ng-if="!isDevice" id="list-order">
     <div class="col-md-8 order-tabs">
         <ul class="nav nav-tabs">
             <li class="active"><a href="" data-toggle="tab" ng-click="getWorkingOrders();"><strong>Working</strong></a></li>
@@ -13,21 +13,21 @@
 						<table class="table table-striped2">
 							<thead>
 								<tr>
-									<th class="col-sm-1 order-item-header">Order Id</th>
-									<th class="col-sm-1 order-item-header">Created Date</th>
-									<th class="col-sm-1 order-item-header">Updated Date</th>
-									<th class="col-sm-1 order-item-header">Get</th>
-									<th class="col-sm-1 order-item-header">Give</th>
-									<th class="col-sm-1 order-item-header">Rate</th>
-									
-									<th class="col-sm-1 order-item-header">Initializer</th>
-									<th class="col-sm-1 order-item-header">Accepter</th>
-									<th class="col-sm-1 order-item-header">State</th>
+									<th class="col-sm-1 order-item-header" ng-click="sortBy('code', 'working')"><a href="">Order Id<span class="fa"  ng-class="{'reverse': reverse.working, 'fa-caret-up':(propertyName.working === 'code' && !reverse.working), 'fa-caret-down':(propertyName.working === 'code' && reverse.working), 'fa-unsorted': !(propertyName.working === 'code')}"></span></a></th>
+									<th class="col-sm-1 order-item-header" ng-click="sortBy('created', 'working')"><a href="">Created Date <span class="fa" ng-class="{reverse: reverse.working, 'fa-caret-up':(propertyName.working === 'created' && !reverse.working), 'fa-caret-down':(propertyName.working === 'created' && reverse.working), 'fa-unsorted': !(propertyName.working === 'created')}"></span></a></th>
+									<th class="col-sm-1 order-item-header" ng-click="sortBy('updated', 'working')"><a href="">Updated Date<span class="fa" ng-class="{reverse: reverse.working, 'fa-caret-up':(propertyName.working === 'updated' && !reverse.working), 'fa-caret-down':(propertyName.working === 'updated' && reverse.working), 'fa-unsorted': !(propertyName.working === 'updated')}"></span></a></th>
+									<th class="col-sm-1 order-item-header" ng-click="sortBy('get', 'working')"><a href="">Get<span class="fa" ng-class="{reverse: reverse.working, 'fa-caret-up':(propertyName.working === 'get' && !reverse.working), 'fa-caret-down':(propertyName.working === 'get' && reverse.working), 'fa-unsorted': !(propertyName.working === 'get')}"></span></a></th>
+									<th class="col-sm-1 order-item-header" ng-click="sortBy('give', 'working')"><a href="">Give<span class="fa" ng-class="{reverse: reverse.working, 'fa-caret-up':(propertyName.working === 'give' && !reverse.working), 'fa-caret-down':(propertyName.working === 'give' && reverse.working), 'fa-unsorted': !(propertyName.working === 'give')}"></span></a></th>
+									<th class="col-sm-1 order-item-header" ng-click="sortBy('rate', 'working')"><a href="">Rate<span class="fa" ng-class="{reverse: reverse.working, 'fa-caret-up':(propertyName.working === 'rate' && !reverse.working), 'fa-caret-down':(propertyName.working === 'rate' && reverse.working), 'fa-unsorted': !(propertyName.working === 'rate')}"></span></a></th>
+									<th class="col-sm-1 order-item-header" ng-click="sortBy('owner.username', 'working')"><a href="">Initializer<span class="fa" ng-class="{reverse: reverse.working, 'fa-caret-up':(propertyName.working === 'owner.username' && !reverse.working), 'fa-caret-down':(propertyName.working === 'owner.username' && reverse.working), 'fa-unsorted': !(propertyName.working === 'owner.username')}"></span></a></th>
+ 									<th class="col-sm-1 order-item-header" ng-click="sortBy('accepter.username', 'working')"><a href="">Accepter<span class="fa" ng-class="{reverse: reverse.working, 'fa-caret-up':(propertyName.working === 'accepter.username' && !reverse.working), 'fa-caret-down':(propertyName.working === 'accepter.username' && reverse.working), 'fa-unsorted': !(propertyName.working === 'accepter.username')}"></span></a></th>
+									<th class="col-sm-1 order-item-header" ng-click="sortBy('status.name', 'working')"><a href="">State<span class="fa" ng-class="{reverse: reverse.working, 'fa-caret-up':(propertyName.working === 'status.name' && !reverse.working), 'fa-caret-down':(propertyName.working === 'status.name' && reverse.working), 'fa-unsorted': !(propertyName.working === 'status.name')}"></span></a></th>
+
 									<th class="col-sm-2 order-item-header"></th>
 								</tr>
 							</thead>
 							<tbody>
-								<tr ng-repeat="swappingOrder in swappingOrders" class="order-row-{{$index % 2}}">
+								<tr ng-repeat="swappingOrder in swappingOrders | orderBy:propertyName.working:reverse.working" class="order-row-{{$index % 2}}" >
 									<td class="col-sm-1 order-item-content"><a href="/#!/orders/{{swappingOrder.code}}">{{swappingOrder.code}}</a></td>
 									<td class="col-sm-1 order-item-content order-date">{{swappingOrder.created | filterDate}}</td>
 									<td class="col-sm-1 order-item-content order-date">{{swappingOrder.updated | filterDate}}</td>
@@ -54,21 +54,21 @@
 						<table class="table table-striped2">
 							<thead>
 								<tr>
-									<th class="col-sm-1 order-item-header"  order-header>Order Id</th>
-									<th class="col-sm-1 order-item-header">Created Date</th>
-									<th class="col-sm-1 order-item-header">Updated Date</th>
-									<th class="col-sm-1 order-item-header">Get</th>
-									<th class="col-sm-1 order-item-header">Give</th>
-									<th class="col-sm-1 order-item-header">Rate</th>
+									<th class="col-sm-1 order-item-header" ng-click="sortBy('code', 'confirmed')"><a href="">Order Id<span class="fa"  ng-class="{'reverse': reverse.confirmed, 'fa-caret-up':(propertyName.confirmed === 'code' && !reverse.confirmed), 'fa-caret-down':(propertyName.confirmed === 'code' && reverse.confirmed), 'fa-unsorted': !(propertyName.confirmed === 'code')}"></span></a></th>
+									<th class="col-sm-1 order-item-header" ng-click="sortBy('created', 'confirmed')"><a href="">Created Date <span class="fa" ng-class="{reverse: reverse.confirmed, 'fa-caret-up':(propertyName.confirmed === 'created' && !reverse.confirmed), 'fa-caret-down':(propertyName.confirmed === 'created' && reverse.confirmed), 'fa-unsorted': !(propertyName.confirmed === 'created')}"></span></a></th>
+									<th class="col-sm-1 order-item-header" ng-click="sortBy('updated', 'confirmed')"><a href="">Updated Date<span class="fa" ng-class="{reverse: reverse.confirmed, 'fa-caret-up':(propertyName.confirmed === 'updated' && !reverse.confirmed), 'fa-caret-down':(propertyName.confirmed === 'updated' && reverse.confirmed), 'fa-unsorted': !(propertyName.confirmed === 'updated')}"></span></a></th>
+									<th class="col-sm-1 order-item-header" ng-click="sortBy('get', 'confirmed')"><a href="">Get<span class="fa" ng-class="{reverse: reverse.confirmed, 'fa-caret-up':(propertyName.confirmed === 'get' && !reverse.confirmed), 'fa-caret-down':(propertyName.confirmed === 'get' && reverse.confirmed), 'fa-unsorted': !(propertyName.confirmed === 'get')}"></span></a></th>
+									<th class="col-sm-1 order-item-header" ng-click="sortBy('give', 'confirmed')"><a href="">Give<span class="fa" ng-class="{reverse: reverse.confirmed, 'fa-caret-up':(propertyName.confirmed === 'give' && !reverse.confirmed), 'fa-caret-down':(propertyName.confirmed === 'give' && reverse.confirmed), 'fa-unsorted': !(propertyName.confirmed === 'give')}"></span></a></th>
+									<th class="col-sm-1 order-item-header" ng-click="sortBy('rate', 'confirmed')"><a href="">Rate<span class="fa" ng-class="{reverse: reverse.confirmed, 'fa-caret-up':(propertyName.confirmed === 'rate' && !reverse.confirmed), 'fa-caret-down':(propertyName.confirmed === 'rate' && reverse.confirmed), 'fa-unsorted': !(propertyName.confirmed === 'rate')}"></span></a></th>
 									
-									<th class="col-sm-1 order-item-header">Initializer</th>
-									<th class="col-sm-1 order-item-header">Accepter</th>
-									<th class="col-sm-1 order-item-header">State</th>
+									<th class="col-sm-1 order-item-header" ng-click="sortBy('owner.username', 'confirmed')"><a href="">Initializer<span class="fa" ng-class="{reverse: reverse.confirmed, 'fa-caret-up':(propertyName.confirmed === 'owner.username' && !reverse.confirmed), 'fa-caret-down':(propertyName.confirmed === 'owner.username' && reverse.confirmed), 'fa-unsorted': !(propertyName.confirmed === 'owner.username')}"></span></a></th>
+ 									<th class="col-sm-1 order-item-header" ng-click="sortBy('accepter.username', 'confirmed')"><a href="">Accepter<span class="fa" ng-class="{reverse: reverse.confirmed, 'fa-caret-up':(propertyName.confirmed === 'accepter.username' && !reverse.confirmed), 'fa-caret-down':(propertyName.confirmed === 'accepter.username' && reverse.confirmed), 'fa-unsorted': !(propertyName.confirmed === 'accepter.username')}"></span></a></th>
+									<th class="col-sm-1 order-item-header" ng-click="sortBy('status.name', 'confirmed')"><a href="">State<span class="fa" ng-class="{reverse: reverse.confirmed, 'fa-caret-up':(propertyName.confirmed === 'status.name' && !reverse.confirmed), 'fa-caret-down':(propertyName.confirmed === 'status.name' && reverse.confirmed), 'fa-unsorted': !(propertyName.confirmed === 'status.name')}"></span></a></th>
 									<th class="col-sm-2 order-item-header"></th>
 								</tr>
 							</thead>
 							<tbody>
-								<tr ng-repeat="confirmOrder in confirmOrders" class="order-row-{{$index % 2}}">
+								<tr ng-repeat="confirmOrder in confirmOrders | orderBy:propertyName.confirmed:reverse.confirmed" class="order-row-{{$index % 2}}">
 									<td class="col-sm-1 order-item-content"><a href="/#!/orders/{{confirmOrder.code}}/">{{confirmOrder.code}}</a></td>
 									<td class="col-sm-1 order-item-content order-date">{{confirmOrder.created | filterDate}}</td>
 									<td class="col-sm-1 order-item-content order-date" >{{confirmOrder.updated | filterDate}}</td>
@@ -105,18 +105,18 @@
 						<table class="table table-striped2">
 							<thead>
 								<tr>
-									<th class="col-sm-1 order-item-header">Order Id</th>
-									<th class="col-sm-1 order-item-header">Created Date</th>
-									<th class="col-sm-1 order-item-header">Expired Date</th>
-									<th class="col-sm-1 order-item-header">Get</th>
-									<th class="col-sm-1 order-item-header">Give</th>
-									<th class="col-sm-1 order-item-header">Rate</th>
-									<th class="col-sm-1 order-item-header">State</th>
+									<th class="col-sm-1 order-item-header" ng-click="sortBy('code', 'submitted')"><a href="">Order Id<span class="fa"  ng-class="{'reverse': reverse.submitted, 'fa-caret-up':(propertyName.submitted === 'code' && !reverse.submitted), 'fa-caret-down':(propertyName.submitted === 'code' && reverse.submitted), 'fa-unsorted': !(propertyName.submitted === 'code')}"></span></a></th>
+									<th class="col-sm-1 order-item-header" ng-click="sortBy('created', 'submitted')"><a href="">Created Date <span class="fa" ng-class="{reverse: reverse.submitted, 'fa-caret-up':(propertyName.submitted === 'created' && !reverse.submitted), 'fa-caret-down':(propertyName.submitted === 'created' && reverse.submitted), 'fa-unsorted': !(propertyName.submitted === 'created')}"></span></a></th>
+									<th class="col-sm-1 order-item-header" ng-click="sortBy('updated', 'submitted')"><a href="">Updated Date<span class="fa" ng-class="{reverse: reverse.submitted, 'fa-caret-up':(propertyName.submitted === 'updated' && !reverse.submitted), 'fa-caret-down':(propertyName.submitted === 'updated' && reverse.submitted), 'fa-unsorted': !(propertyName.submitted === 'updated')}"></span></a></th>
+									<th class="col-sm-1 order-item-header" ng-click="sortBy('get', 'submitted')"><a href="">Get<span class="fa" ng-class="{reverse: reverse.submitted, 'fa-caret-up':(propertyName.submitted === 'get' && !reverse.submitted), 'fa-caret-down':(propertyName.submitted === 'get' && reverse.submitted), 'fa-unsorted': !(propertyName.submitted === 'get')}"></span></a></th>
+									<th class="col-sm-1 order-item-header" ng-click="sortBy('give', 'submitted')"><a href="">Give<span class="fa" ng-class="{reverse: reverse.submitted, 'fa-caret-up':(propertyName.submitted === 'give' && !reverse.submitted), 'fa-caret-down':(propertyName.submitted === 'give' && reverse.submitted), 'fa-unsorted': !(propertyName.submitted === 'give')}"></span></a></th>
+									<th class="col-sm-1 order-item-header" ng-click="sortBy('rate', 'submitted')"><a href="">Rate<span class="fa" ng-class="{reverse: reverse.submitted, 'fa-caret-up':(propertyName.submitted === 'rate' && !reverse.submitted), 'fa-caret-down':(propertyName.submitted === 'rate' && reverse.submitted), 'fa-unsorted': !(propertyName.submitted === 'rate')}"></span></a></th>
+									<th class="col-sm-1 order-item-header" ng-click="sortBy('status.name', 'submitted')"><a href="">State<span class="fa" ng-class="{reverse: reverse.submitted, 'fa-caret-up':(propertyName.submitted === 'status.name' && !reverse.submitted), 'fa-caret-down':(propertyName.submitted === 'status.name' && reverse.submitted), 'fa-unsorted': !(propertyName.submitted === 'status.name')}"></span></a></th>
 									<th class="col-sm-2 order-item-header"></th>
 								</tr>
 							</thead>
 							<tbody>
-								<tr ng-repeat="submittedOrder in submittedOrders" class="order-row-{{$index % 2}}">
+								<tr ng-repeat="submittedOrder in submittedOrders | orderBy:propertyName.submitted:reverse.submitted" class="order-row-{{$index % 2}}">
 									<td class="col-sm-1 order-item-content"><a href="/#!/orders/{{submittedOrder.code}}">{{submittedOrder.code}}</a></td>
 									<td class="col-sm-1 order-item-content order-date">{{submittedOrder.created | filterDate}}</td>
 									<td class="col-sm-1 order-item-content order-date">{{submittedOrder.expired | filterDate}}</td>
@@ -148,20 +148,21 @@
 						<table class="table table-striped2" >
 							<thead>
 								<tr>
-									<th class="col-sm-1 order-item-header">Order Id</th>
-									<th class="col-sm-1 order-item-header">Created Date</th>
-									<th class="col-sm-1 order-item-header">Closed Date</th>
-									<th class="col-sm-1 order-item-header">Get</th>
-									<th class="col-sm-1 order-item-header">Give</th>
-									<th class="col-sm-1 order-item-header">Rate</th>
-									<th class="col-sm-1 order-item-header">Initializer</th>
-									<th class="col-sm-1 order-item-header">Accepter</th>
-									<th class="col-sm-1 order-item-header">State</th>
+									<th class="col-sm-1 order-item-header" ng-click="sortBy('code', 'history')"><a href="">Order Id<span class="fa"  ng-class="{'reverse': reverse.history, 'fa-caret-up':(propertyName.history === 'code' && !reverse.history), 'fa-caret-down':(propertyName.history === 'code' && reverse.history), 'fa-unsorted': !(propertyName.history === 'code')}"></span></a></th>
+									<th class="col-sm-1 order-item-header" ng-click="sortBy('created', 'history')"><a href="">Created Date <span class="fa" ng-class="{reverse: reverse.history, 'fa-caret-up':(propertyName.history === 'created' && !reverse.history), 'fa-caret-down':(propertyName.history === 'created' && reverse.history), 'fa-unsorted': !(propertyName.history === 'created')}"></span></a></th>
+									<th class="col-sm-1 order-item-header" ng-click="sortBy('updated', 'history')"><a href="">Updated Date<span class="fa" ng-class="{reverse: reverse.history, 'fa-caret-up':(propertyName.history === 'updated' && !reverse.history), 'fa-caret-down':(propertyName.history === 'updated' && reverse.history), 'fa-unsorted': !(propertyName.history === 'updated')}"></span></a></th>
+									<th class="col-sm-1 order-item-header" ng-click="sortBy('get', 'history')"><a href="">Get<span class="fa" ng-class="{reverse: reverse.history, 'fa-caret-up':(propertyName.history === 'get' && !reverse.history), 'fa-caret-down':(propertyName.history === 'get' && reverse.history), 'fa-unsorted': !(propertyName.history === 'get')}"></span></a></th>
+									<th class="col-sm-1 order-item-header" ng-click="sortBy('give', 'history')"><a href="">Give<span class="fa" ng-class="{reverse: reverse.history, 'fa-caret-up':(propertyName.history === 'give' && !reverse.history), 'fa-caret-down':(propertyName.history === 'give' && reverse.history), 'fa-unsorted': !(propertyName.history === 'give')}"></span></a></th>
+									<th class="col-sm-1 order-item-header" ng-click="sortBy('rate', 'history')"><a href="">Rate<span class="fa" ng-class="{reverse: reverse.history, 'fa-caret-up':(propertyName.history === 'rate' && !reverse.history), 'fa-caret-down':(propertyName.history === 'rate' && reverse.history), 'fa-unsorted': !(propertyName.history === 'rate')}"></span></a></th>
+
+									<th class="col-sm-1 order-item-header" ng-click="sortBy('owner.username', 'history')"><a href="">Initializer<span class="fa" ng-class="{reverse: reverse.history, 'fa-caret-up':(propertyName.history === 'owner.username' && !reverse.history), 'fa-caret-down':(propertyName.history === 'owner.username' && reverse.history), 'fa-unsorted': !(propertyName.history === 'owner.username')}"></span></a></th>
+ 									<th class="col-sm-1 order-item-header" ng-click="sortBy('accepter.username', 'history')"><a href="">Accepter<span class="fa" ng-class="{reverse: reverse.history, 'fa-caret-up':(propertyName.history === 'accepter.username' && !reverse.history), 'fa-caret-down':(propertyName.history === 'accepter.username' && reverse.history), 'fa-unsorted': !(propertyName.history === 'accepter.username')}"></span></a></th>
+									<th class="col-sm-1 order-item-header" ng-click="sortBy('status.name', 'history')"><a href="">State<span class="fa" ng-class="{reverse: reverse.history, 'fa-caret-up':(propertyName.history === 'status.name' && !reverse.history), 'fa-caret-down':(propertyName.history === 'status.name' && reverse.history), 'fa-unsorted': !(propertyName.history === 'status.name')}"></span></a></th>
 									
 								</tr>
 							</thead>
 							<tbody>
-								<tr ng-repeat="historyOrder in historyOrders" class="order-row-{{$index % 2}}">
+								<tr ng-repeat="historyOrder in historyOrders | orderBy:propertyName.history:reverse.history" class="order-row-{{$index % 2}}">
 									<td class="col-sm-1 order-item-content"><a href="/#!/orders/{{historyOrder.code}}">{{historyOrder.code}}</a></td>
 									<td class="col-sm-1 order-item-content order-date">{{historyOrder.created | filterDate}}</td>
 									<td class="col-sm-1 order-item-content order-date">{{historyOrder.updated | filterDate}}</td>

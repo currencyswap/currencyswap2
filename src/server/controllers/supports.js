@@ -10,7 +10,7 @@ module.exports = function (app) {
     var router = app.loopback.Router();
 
     router.get('/creator', function (req, res, next) {
-        console.log('req.currentUser', req.currentUser);
+        //console.log('req.currentUser', req.currentUser);
         service.getCreatorById(req.currentUser.id).then(function(resp){
             return res.send(resp);
         }, function(err){

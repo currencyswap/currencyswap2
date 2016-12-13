@@ -1,4 +1,4 @@
-<div class="row order-content" ng-if="!isDevice">
+<div class="row order-content" ng-if="!isDevice" id="list-user">
     <div class="col-md-8 order-tabs">
         <ul class="nav nav-tabs">
             <li class="active"><a data-toggle="tab" ng-click="onAllClick()"><strong>All</strong></a></li>
@@ -17,6 +17,7 @@
                                         Full name
                                         <span ng-show="sortType == 'fullName' && !sortReverse" class="fa fa-caret-down"></span>
                                         <span ng-show="sortType == 'fullName' && sortReverse" class="fa fa-caret-up"></span>
+                                        <span ng-show="sortType != 'fullName'" class="fa fa-unsorted"></span>
                                     </a>
                                 </th>
                                 <th class="col-sm-1 order-item-header" style="min-width: 100px">
@@ -24,6 +25,7 @@
                                         Username
                                         <span ng-show="sortType == 'userName' && !sortReverse" class="fa fa-caret-down"></span>
                                         <span ng-show="sortType == 'userName' && sortReverse" class="fa fa-caret-up"></span>
+                                        <span ng-show="sortType != 'userName'" class="fa fa-unsorted"></span>
                                     </a>
                                 </th>
                                 <th class="col-sm-1 order-item-header">
@@ -31,6 +33,7 @@
                                         Email
                                         <span ng-show="sortType == 'email' && !sortReverse" class="fa fa-caret-down"></span>
                                         <span ng-show="sortType == 'email' && sortReverse" class="fa fa-caret-up"></span>
+                                        <span ng-show="sortType != 'email'" class="fa fa-unsorted"></span>
                                     </a>
                                 </th>
                                 <th class="col-sm-1 order-item-header" style="min-width: 100px">
@@ -38,6 +41,7 @@
                                         Cellphone
                                         <span ng-show="sortType == 'cellphone' && !sortReverse" class="fa fa-caret-down"></span>
                                         <span ng-show="sortType == 'cellphone' && sortReverse" class="fa fa-caret-up"></span>
+                                        <span ng-show="sortType != 'cellphone'" class="fa fa-unsorted"></span>
                                     </a>
                                 </th>
                                 <th class="col-sm-1 order-item-header" style="min-width: 150px">
@@ -45,6 +49,7 @@
                                         Registered Date
                                         <span ng-show="sortType == 'registeredDate' && !sortReverse" class="fa fa-caret-down"></span>
                                         <span ng-show="sortType == 'registeredDate' && sortReverse" class="fa fa-caret-up"></span>
+                                        <span ng-show="sortType != 'registeredDate'" class="fa fa-unsorted"></span>
                                     </a>
                                 </th>
                                 <th class="col-sm-1 order-item-header" style="min-width: 150px">
@@ -52,6 +57,7 @@
                                         Expired Date
                                         <span ng-show="sortType == 'expiredDate' && !sortReverse" class="fa fa-caret-down"></span>
                                         <span ng-show="sortType == 'expiredDate' && sortReverse" class="fa fa-caret-up"></span>
+                                        <span ng-show="sortType != 'expiredDate'" class="fa fa-unsorted"></span>
                                     </a>
                                 </th>
                                 <th class="col-sm-1 order-item-header">
@@ -59,6 +65,7 @@
                                         Status
                                         <span ng-show="sortType == 'status' && !sortReverse" class="fa fa-caret-down"></span>
                                         <span ng-show="sortType == 'status' && sortReverse" class="fa fa-caret-up"></span>
+                                        <span ng-show="sortType != 'status'" class="fa fa-unsorted"></span>
                                     </a>
                                 </th>
                             </tr>
@@ -95,6 +102,7 @@
                                         Full name
                                         <span ng-show="sortType == 'fullName' && !sortReverse" class="fa fa-caret-down"></span>
                                         <span ng-show="sortType == 'fullName' && sortReverse" class="fa fa-caret-up"></span>
+                                        <span ng-show="sortType != 'fullName'" class="fa fa-unsorted"></span>
                                     </a>
                                 </th>
                                 <th class="col-sm-1 order-item-header" style="min-width: 100px">
@@ -102,6 +110,7 @@
                                         Username
                                         <span ng-show="sortType == 'userName' && !sortReverse" class="fa fa-caret-down"></span>
                                         <span ng-show="sortType == 'userName' && sortReverse" class="fa fa-caret-up"></span>
+                                        <span ng-show="sortType != 'userName'" class="fa fa-unsorted"></span>
                                     </a>
                                 </th>
                                 <th class="col-sm-1 order-item-header">
@@ -109,6 +118,7 @@
                                         Email
                                         <span ng-show="sortType == 'email' && !sortReverse" class="fa fa-caret-down"></span>
                                         <span ng-show="sortType == 'email' && sortReverse" class="fa fa-caret-up"></span>
+                                        <span ng-show="sortType != 'email'" class="fa fa-unsorted"></span>
                                     </a>
                                 </th>
                                 <th class="col-sm-1 order-item-header" style="min-width: 100px">
@@ -116,6 +126,7 @@
                                         Cellphone
                                         <span ng-show="sortType == 'cellphone' && !sortReverse" class="fa fa-caret-down"></span>
                                         <span ng-show="sortType == 'cellphone' && sortReverse" class="fa fa-caret-up"></span>
+                                        <span ng-show="sortType != 'cellphone'" class="fa fa-unsorted"></span>
                                     </a>
                                 </th>
                                 <th class="col-sm-1 order-item-header" style="min-width: 150px">
@@ -123,6 +134,7 @@
                                         Registered Date
                                         <span ng-show="sortType == 'registeredDate' && !sortReverse" class="fa fa-caret-down"></span>
                                         <span ng-show="sortType == 'registeredDate' && sortReverse" class="fa fa-caret-up"></span>
+                                        <span ng-show="sortType != 'registeredDate'" class="fa fa-unsorted"></span>
                                     </a>
                                 </th>
                                 <th class="col-sm-1 order-item-header" style="min-width: 150px">
@@ -130,6 +142,7 @@
                                         Expired Date
                                         <span ng-show="sortType == 'expiredDate' && !sortReverse" class="fa fa-caret-down"></span>
                                         <span ng-show="sortType == 'expiredDate' && sortReverse" class="fa fa-caret-up"></span>
+                                        <span ng-show="sortType != 'expiredDate'" class="fa fa-unsorted"></span>
                                     </a>
                                 </th>
                                 <th class="col-sm-1 order-item-header">
@@ -137,6 +150,7 @@
                                         Status
                                         <span ng-show="sortType == 'status' && !sortReverse" class="fa fa-caret-down"></span>
                                         <span ng-show="sortType == 'status' && sortReverse" class="fa fa-caret-up"></span>
+                                        <span ng-show="sortType != 'status'" class="fa fa-unsorted"></span>
                                     </a>
                                 </th>
                             </tr>
@@ -173,6 +187,7 @@
                                         Full name
                                         <span ng-show="sortType == 'fullName' && !sortReverse" class="fa fa-caret-down"></span>
                                         <span ng-show="sortType == 'fullName' && sortReverse" class="fa fa-caret-up"></span>
+                                        <span ng-show="sortType != 'fullName'" class="fa fa-unsorted"></span>
                                     </a>
                                 </th>
                                 <th class="col-sm-1 order-item-header" style="min-width: 100px">
@@ -180,6 +195,7 @@
                                         Username
                                         <span ng-show="sortType == 'userName' && !sortReverse" class="fa fa-caret-down"></span>
                                         <span ng-show="sortType == 'userName' && sortReverse" class="fa fa-caret-up"></span>
+                                        <span ng-show="sortType != 'userName'" class="fa fa-unsorted"></span>
                                     </a>
                                 </th>
                                 <th class="col-sm-1 order-item-header">
@@ -187,6 +203,7 @@
                                         Email
                                         <span ng-show="sortType == 'email' && !sortReverse" class="fa fa-caret-down"></span>
                                         <span ng-show="sortType == 'email' && sortReverse" class="fa fa-caret-up"></span>
+                                        <span ng-show="sortType != 'email'" class="fa fa-unsorted"></span>
                                     </a>
                                 </th>
                                 <th class="col-sm-1 order-item-header" style="min-width: 100px">
@@ -194,6 +211,7 @@
                                         Cellphone
                                         <span ng-show="sortType == 'cellphone' && !sortReverse" class="fa fa-caret-down"></span>
                                         <span ng-show="sortType == 'cellphone' && sortReverse" class="fa fa-caret-up"></span>
+                                        <span ng-show="sortType != 'cellphone'" class="fa fa-unsorted"></span>
                                     </a>
                                 </th>
                                 <th class="col-sm-1 order-item-header" style="min-width: 150px">
@@ -201,6 +219,7 @@
                                         Registered Date
                                         <span ng-show="sortType == 'registeredDate' && !sortReverse" class="fa fa-caret-down"></span>
                                         <span ng-show="sortType == 'registeredDate' && sortReverse" class="fa fa-caret-up"></span>
+                                        <span ng-show="sortType != 'registeredDate'" class="fa fa-unsorted"></span>
                                     </a>
                                 </th>
                                 <th class="col-sm-1 order-item-header" style="min-width: 150px">
@@ -208,6 +227,7 @@
                                         Expired Date
                                         <span ng-show="sortType == 'expiredDate' && !sortReverse" class="fa fa-caret-down"></span>
                                         <span ng-show="sortType == 'expiredDate' && sortReverse" class="fa fa-caret-up"></span>
+                                        <span ng-show="sortType != 'expiredDate'" class="fa fa-unsorted"></span>
                                     </a>
                                 </th>
                                 <th class="col-sm-1 order-item-header">
@@ -215,6 +235,7 @@
                                         Status
                                         <span ng-show="sortType == 'status' && !sortReverse" class="fa fa-caret-down"></span>
                                         <span ng-show="sortType == 'status' && sortReverse" class="fa fa-caret-up"></span>
+                                        <span ng-show="sortType != 'status'" class="fa fa-unsorted"></span>
                                     </a>
                                 </th>
                             </tr>

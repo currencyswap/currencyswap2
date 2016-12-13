@@ -35,57 +35,47 @@ angular.module('currencySwapApp', [
     var init = function() {
         $rootScope.$on("$routeChangeStart", routeChanged);
         //$rootScope.$on("$locationChangeStart", locationChangeHandler);
-
+        var isVerifyingPass = function() {
+            if ($location.path() === routes.FORGOT_PASSWORD_VERIFY ||
+                    $location.search().resetCode || $location.search().activeCode) {
+                // cleanup current session
+                $rootScope.isLoading = false;
+                CookieService.cleanUpCookies();
+                if ($location.search().resetCode) {
+                    $location.path(routes.FORGOT_PASSWORD_RESET);
+                }
+                if ($location.search().activeCode) {
+                    $location.path(routes.REGISTER);
+                }
+                return true;
+            }
+            return false;
+        };
         if (token) {
-            if ($location.path() === routes.FORGOT_PASSWORD_VERIFY) {
-                $rootScope.isLoading = false;
-                CookieService.cleanUpCookies();
-                return $location.path(routes.FORGOT_PASSWORD_VERIFY);
+            // exist user session but user trying to verify or reset his/her password
+            if (isVerifyingPass()) {
+                return;
             }
-
-            if ($location.search().resetCode) {
-                $rootScope.isLoading = false;
-                CookieService.cleanUpCookies();
-                return $location.path(routes.FORGOT_PASSWORD_RESET);
-            }
-
-            if ($location.search().activeCode) {
-                $rootScope.isLoading = false;
-                CookieService.cleanUpCookies();
-                return $location.path(routes.REGISTER);
-            }
+            retreiveUserPerm();
         } else {
+            // user session not exist
             $rootScope.isLoading = false;
-
-            if ($location.path() === routes.FORGOT_PASSWORD_VERIFY) {
-                return $location.path(routes.FORGOT_PASSWORD_VERIFY);
-            }
-
-            if ($location.search().resetCode) {
-                return $location.path(routes.FORGOT_PASSWORD_RESET);
-            }
-
-            if ($location.search().activeCode) {
-                $rootScope.isLoading = false;
-                return $location.path(routes.REGISTER);
+            if (isVerifyingPass()) {
+                return;
             }
 
             if ($location.path() != routes.LOGIN) {
                 return $location.path(routes.LOGIN);
-            } else {
-                console.log('Unknown action, nothing need to be done at this point');
-                return;
             }
         }
-        
-        retreiveUserPerm();
     };
     
     
     var redirectToDefaultPath = function () {
-        if ($location.path() == routes.LOGIN || 
-            $location.path() == routes.ROOT || 
-            $location.path() == routes.HOME ) {
+        var curPath = $location.path();
+        if (curPath == routes.LOGIN || 
+                curPath == routes.ROOT || 
+                curPath == routes.HOME ) {
 
             var defaultPath = routes.HOME;
 
@@ -112,8 +102,12 @@ angular.module('currencySwapApp', [
                       curPath == routes.FORGOT_PASSWORD_RESET) {
                   console.log('Valid request');
               } else {
-                  console.log('Invalid request');
-                  $location.path(routes.LOGIN);
+                  if (token) {
+                      console.log('Request with token', curPath);
+                  } else {
+                      console.log('Invalid request');
+                      $location.path(routes.LOGIN);
+                  }
               }
               return;
         }

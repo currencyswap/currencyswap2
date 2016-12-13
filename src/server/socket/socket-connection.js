@@ -25,7 +25,7 @@ module.exports = function(io, socket) {
       socket.emit('/server/pong', {'successful':true, 'message': 'server said: Hallo to you!', 'client-message': data});
   });
   socket.on('/server/init', function(initializeData){
-      console.log('/server/init', JSON.stringify(initializeData));
+      //console.log('/server/init', JSON.stringify(initializeData));
       if (!initializeData || !initializeData.message) {
           console.log(socket.id, 'Have no initialize data for this socket');
       }

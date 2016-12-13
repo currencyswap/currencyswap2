@@ -203,6 +203,12 @@
 	background-color: #000000;
 }
 
+@media screen and (min-width: 641px) {
+	.detailOrderPanel .panel .panel-body{
+		padding: 20px;
+	}
+}
+
 @media screen and (max-width: 640px) {
 	.detailOrderPanel .row-order-status .col-order-line .order-line,
 	.detailOrderPanel .row-order-status .col-order-line{
@@ -316,3 +322,21 @@
 	padding: 5px 0px;
 	background: white;
 	border-bottom: 1px solid #eee;}
+.sortorder:after {
+  content: '\25b2';
+  font-size: 11px;
+  color: #666666;
+}
+.sortorder.reverse:after {
+  content: '\25bc';
+  font-size: 11px;
+  color: #666666;
+}
+
+#list-order .fa.fa-unsorted ,#list-user .fa.fa-unsorted {
+	color: #999999;
+	margin: 0 2px 0 0;
+}
+#list-order .fa.fa-unsorted, #list-order .fa.fa-sort ,#list-user .fa.fa-unsorted, #list-user .fa.fa-sort {
+	margin: 0 0 0 2px;
+}

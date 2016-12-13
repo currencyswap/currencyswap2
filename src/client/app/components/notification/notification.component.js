@@ -68,15 +68,15 @@ angular.module('notification')
                         msg.reads.push({'created': new Date()});
                     }
 
-                    if (msg.orderCode) {
-                        $timeout(function(){
-                            $location.path( routes.ORDERS + msg.orderCode );
-                        });
-                    } else {
+//                    if (msg.orderCode) {
+//                        $timeout(function(){
+//                            $location.path( routes.ORDERS + msg.orderCode );
+//                        });
+//                    } else {
                         $rootScope.openMessageModel(msg);
-                    }
+//                    }
                   };
-                
+
                   $.subscribe('/cs/read/headMessage', function(msg) {
                       for (var i=0; i<$scope.messages.length; i++) {
                           if ($scope.messages[i].id === msg.id) {

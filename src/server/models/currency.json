@@ -12,6 +12,12 @@
     "validateUpsert": true
   },
   "properties": {
+     "position": {
+      "type": "number",
+      "required": true,
+      "default": 0,
+      "description": "The POSITION that use to order the list of currency which one will be important one and show on top of the list"
+    },
     "code": {
       "type": "string",
       "length": 32,
@@ -20,6 +26,11 @@
     "name": {
       "type": "string",
       "length": 128
+    },
+    "region": {
+      "type": "string",
+      "length": 128,
+      "description":"The REGION base on the location of geographic that the country/money belong to"
     }
   },
   "validations": [],

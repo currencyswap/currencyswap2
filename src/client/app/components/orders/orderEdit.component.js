@@ -90,7 +90,7 @@ angular.module('orders')
         				get : "",
         				getCurrencyCode : "",
         				rate : "",
-        				fixed : $scope.FIXED_VALUE.GIVE,
+        				fixed : $scope.FIXED_VALUE.RATE,
         				expired : $scope.EXPIRED_VALUE[0].key,
         				expiredDate : new Date(),
         				dayLive : 0

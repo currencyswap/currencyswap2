@@ -19,7 +19,7 @@ exports.authenticateByToken = function (request, response, callback) {
         },
         function (headerStr, next) {
             token.getSignature(headerStr, function (err, sign) {
-                console.log('Signnature : %s', sign);
+                //console.log('Signnature : %s', sign);
                 next(err, headerStr, sign);
             });
         },
@@ -36,8 +36,8 @@ exports.authenticateByToken = function (request, response, callback) {
 
                 let obj = JSON.parse(value);
 
-                console.log('secret : %s', obj.secret);
-                console.log('username : %s', obj.username);
+                //console.log('secret : %s', obj.secret);
+                //console.log('username : %s', obj.username);
 
                 next(err, headerStr, obj.secret, obj.username);
             });
@@ -48,7 +48,7 @@ exports.authenticateByToken = function (request, response, callback) {
             });
         },
         function (decode, username, next) {
-            console.log('secret : %s', JSON.stringify(decode));
+            //console.log('secret : %s', JSON.stringify(decode));
             if (decode.username !== username) {
                 let err = errorUtil.createAppError(errors.INVALID_TOKEN_API_KEY);
                 err.message = util.format(err.message, decode.username);
@@ -67,12 +67,8 @@ exports.authenticateByToken = function (request, response, callback) {
                     if (user.expiredDate) {
                         var now = new Date();
                         var expire = (typeof user.expiredDate === 'string' ? new Date(user.expiredDate) : user.expiredDate);
-                        console.log('now', now);
-                        console.log('expire', expire);
                         now = now.getTime();
                         expire = expire.getTime();
-                        console.log('now', now);
-                        console.log('expire', expire);
                         if (expire < now) {
                             console.log('User get expired', username, 'Expired Time:', user.expiredDate);
                             redis.removeUserInfo(username);
