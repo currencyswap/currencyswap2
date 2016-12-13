@@ -127,6 +127,10 @@ angular.module('loginForm')
                                     }
                                 }
                             }
+                        }, function (error) {
+                            if (error && error.message === GLOBAL_CONSTANT.EMPTY_USERNAME_OR_PASSWORD) {
+                                $scope.loginErrMsg = GLOBAL_CONSTANT.EMPTY_USERNAME_OR_PASSWORD;
+                            }
                         })
                 };
 

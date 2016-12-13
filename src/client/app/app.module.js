@@ -256,6 +256,7 @@ angular.module('currencySwapApp', [
     STANDARD_USER_ROLE: 'User',
     DEACTIVATED_USER_STATUS: 'Deactivated',
     INVALID_USER_NAME_OR_PWD_MSG: 'Invalid username/password',
+    EMPTY_USERNAME_OR_PASSWORD: 'Empty username/password',
     ACCOUNT_IS_NOT_ACTIVATED_MSG: 'Account is not activated',
     ACCOUNT_IS_EXPIRED: 'Your account was expired',
     ORDER_FIXED_VALUE : {

@@ -1,11 +1,11 @@
 'use strict';
 
-angular.module('loginForm').factory('LoginService', ['$http', '$q', 'OrdersService','GLOBAL_CONSTANT',function ($http, $q, OrdersService) {
+angular.module('loginForm').factory('LoginService', ['$http', '$q', 'OrdersService','GLOBAL_CONSTANT',function ($http, $q, OrdersService, GLOBAL_CONSTANT) {
     return {
         authenticate: function (user) {
             if (!user || !user.username || !user.password) {
                 return $q.reject({
-                    message: 'Empty username or password !'
+                    message: GLOBAL_CONSTANT.EMPTY_USERNAME_OR_PASSWORD
                 });
             } else {
                 var headers = {};
