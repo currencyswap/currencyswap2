@@ -245,3 +245,22 @@ exports.validateUserPass = function (user, callback) {
     callback(null);
 
 };
+
+exports.validateInviteRequest = function (inviter, registrationEmail) {
+    if (!inviter) {
+        throw errorUtils.createAppError(errors.NO_INVITER);
+    }
+
+    if (typeof inviter !== 'string' || inviter.length > 64) {
+        throw errorUtils.createAppError(errors.INVALID_INPUT_DATA);
+    }
+
+    if (!email) {
+        throw errorUtils.createAppError(errors.REQUEST_NO_EMAIL);
+    }
+
+    if (typeof email !== 'string' || email.length > 64) {
+        throw errorUtils.createAppError(errors.INVALID_INPUT_DATA);
+    }
+
+};

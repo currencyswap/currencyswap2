@@ -28,7 +28,6 @@ module.exports = {
             'country' : 'Vietnam',
             'postcode': '130634'
         }],
-        'inviter': "admin",
         'groups' : ['{USER}'],
         'invitees': [
             {
@@ -42,10 +41,10 @@ module.exports = {
             },
             {
                 'inviteeId': 5
-            },
-            {
-                'inviteeId': 6
             }
+        ],
+        'inviters': [
+            {'inviterId': 6}
         ]
     },
     'demouser2': {

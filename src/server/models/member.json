@@ -103,8 +103,17 @@
     },
     "invitees": {
       "type": "hasMany",
-      "model": "Invitees",
-      "foreignKey": "memberId"
+      "model": "Member",
+      "foreignKey": "inviterId",
+      "through": "Invitations",
+      "keyThrough": "inviteeId"
+    },
+    "inviters": {
+      "type": "hasMany",
+      "model": "Member",
+      "foreignKey": "inviteeId",
+      "through": "Invitations",
+      "keyThrough": "inviterId"
     }
   },
   "acls": [],

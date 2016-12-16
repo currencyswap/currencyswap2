@@ -28,7 +28,6 @@ module.exports = function (app) {
     });
 
     router.get('/:id', function (req, res) {
-        console.log('get user detail !!!');
         var userId = req.params.id;
         if ( !userId ) {
 
@@ -46,6 +45,7 @@ module.exports = function (app) {
                 return res.status( constant.HTTP_FAILURE_CODE ).send(err);
 
             } else {
+                console.log(user);
                 return res.status(constant.HTTP_SUCCESS_CODE).send(user)
             }
         });
@@ -54,7 +54,6 @@ module.exports = function (app) {
     router.post('/:id', function (req, res) {
         var admin = req.currentUser;
         var updatingUser = req.body;
-        console.log('updatingUser: ', updatingUser);
         try {
             userValidation.validateEditedProfileRequestObject(updatingUser);
         } catch (err) {

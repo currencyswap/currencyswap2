@@ -52,12 +52,30 @@ exports.createUser = function (user, callback) {
             }
 
             user.invitees.forEach(function (invitee) {
-                invitee.memberId = instance.id;
+                invitee.inviterId = instance.id;
             });
 
-            app.models.Invitees.create(user.invitees, txObject, function (err) {
+            app.models.Invitations.create(user.invitees, txObject, function (err) {
                 if (err) {
-                    console.error('Error on saving invitees for user', err);
+                    console.error('Error on saving Invitations for user', err);
+                    return next(new Error({message: 'Saving invitees error'}), txObject);
+                } else {
+                    return next(err, txObject, instance);
+                }
+            });
+        },
+        function (txObject, instance, next) {
+            if (!user.inviters || user.inviters.length <= 0) {
+                return next(null, txObject, instance);
+            }
+
+            user.inviters.forEach(function (inviter) {
+                inviter.inviteeId = instance.id;
+            });
+
+            app.models.Invitations.create(user.inviters, txObject, function (err) {
+                if (err) {
+                    console.error('Error on saving Invitations for user', err);
                     return next(new Error({message: 'Saving invitees error'}), txObject);
                 } else {
                     return next(err, txObject, instance);

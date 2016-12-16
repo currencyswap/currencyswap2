@@ -1,5 +1,5 @@
 {
-  "name": "Invitees",
+  "name": "Invitations",
   "base": "PersistedModel",
   "idInjection": true,
   "indexes": {
@@ -12,7 +12,7 @@
     "validateUpsert": true
   },
   "properties": {
-    "memberId": {
+    "inviterId": {
       "type": "number",
       "required": true
     },
@@ -22,13 +22,6 @@
     }
   },
   "validations": [],
-  "relations": {
-    "member": {
-      "type": "belongsTo",
-      "model": "Member",
-      "foreignKey": "memberId"
-    }
-  },
   "acls": [],
   "methods": {}
 }

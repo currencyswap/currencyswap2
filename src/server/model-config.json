@@ -61,7 +61,7 @@
     "dataSource": "CSwapDB",
     "public": false
   },
-  "Invitees": {
+  "Invitations": {
     "dataSource": "CSwapDB",
     "public": false
   }

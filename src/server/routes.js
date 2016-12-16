@@ -34,6 +34,7 @@ const Routes = {
     API_MY_PROFILE: '/api/profile',
     API_PERMISSIONS: '/api/permissions',
     API_SUPPORTS : '/api/supports',
+    API_INVITE: '/api/invite',
     API_SUPPORTS_CREATOR: '/api/supports/creator',
     API_SUPPORTS_MARKREAD: '/api/supports/markRead',
     API_FORGOT_PASSWORD_VERIFY: '/api/forgotpassword/verify',
