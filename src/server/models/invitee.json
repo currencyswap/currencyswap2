@@ -1,0 +1,34 @@
+{
+  "name": "Invitees",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "indexes": {
+    "INVITEE_INVITEEID_UNQ_IDX": {
+      "columns": "inviteeId",
+      "kind": "unique"
+    }
+  },
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "memberId": {
+      "type": "number",
+      "required": true
+    },
+    "inviteeId": {
+      "type": "number",
+      "required": true
+    }
+  },
+  "validations": [],
+  "relations": {
+    "member": {
+      "type": "belongsTo",
+      "model": "Member",
+      "foreignKey": "memberId"
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

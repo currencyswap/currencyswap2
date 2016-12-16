@@ -20,7 +20,8 @@ var routes = {
     FORGOT_PASSWORD_VERIFY: '/forgotpassword/verify',
     FORGOT_PASSWORD_RESET: '/forgotpassword/reset/',
     ERROR_PAGE: '/error',
-    API_ORDERS_TOTAL: '/orders/total'
+    API_ORDERS_TOTAL: '/orders/total',
+    INVITE: '/invite'
 };
 
 var navigation = [
@@ -88,6 +89,14 @@ var navigation = [
         requiredPermissions: [permissions.EDIT_PROFILE],
         position: global.TOOLSBAR,
         icon : 'fa fa-question-circle',
+        id: 'toolbar-help'
+    },
+    {
+        route: routes.INVITE,
+        name: 'Help',
+        requiredPermissions: [permissions.MAINTAIN_OWN_ORDERS],
+        position: global.TOOLSBAR,
+        icon : 'fa fa-group',
         id: 'toolbar-help'
     },
     {

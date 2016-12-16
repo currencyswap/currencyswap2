@@ -47,6 +47,24 @@ exports.createUser = function (user, callback) {
             });
         },
         function (txObject, instance, next) {
+            if (!user.invitees || user.invitees.length <= 0) {
+                return next(null, txObject, instance);
+            }
+
+            user.invitees.forEach(function (invitee) {
+                invitee.memberId = instance.id;
+            });
+
+            app.models.Invitees.create(user.invitees, txObject, function (err) {
+                if (err) {
+                    console.error('Error on saving invitees for user', err);
+                    return next(new Error({message: 'Saving invitees error'}), txObject);
+                } else {
+                    return next(err, txObject, instance);
+                }
+            });
+        },
+        function (txObject, instance, next) {
             if (!user.addresses || user.addresses.length <= 0) {
                 return next(null, txObject, instance);
             }
@@ -653,6 +671,7 @@ exports.activeUserAccount = function (activeCode, callback) {
 
 exports.getUserDetail = function (userId, callback) {
     app.models.Member.findByUserId(userId, function (err, user) {
+        console.log('user with addresses and groups: ', user);
         return callback( err, user );
     })
 };

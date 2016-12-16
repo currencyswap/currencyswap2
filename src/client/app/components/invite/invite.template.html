@@ -1,10 +1,39 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>$Title$</title>
-</head>
-<body>
-$END$
-</body>
-</html>
+<div class="signinpanel">
+    <div class="row">
+        <div class="col-sm-6 col-sm-offset-3">
+            <div class="signin-info">
+                <div class="logopanel">
+                    <h1><span>[</span> {{title}} <span>]</span></h1>
+                </div><!-- logopanel -->
+            </div><!-- signin0-info -->
+        </div>
+    </div>
+    <div class="mb20"></div>
+    <div class="row">
+        <div class="col-sm-6 col-sm-offset-3">
+            <div class="alert alert-warning">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                Please fill your invitee's <strong>email</strong> to send him/her a link to register
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-6 col-sm-offset-3">
+            <form name="userForm" ng-submit="submitEmail()" novalidate style="background-color: white">
+                <!-- EMAIL -->
+                <div class="form-group" ng-class="{ 'has-error' : (userForm.email.$invalid && !userForm.email.$pristine) || (isEmailNotFound && !userForm.email.$pristine)}">
+                    <input placeholder="example@gmail.com" type="email" name="email" class="form-control" ng-model="verification.submittedEmail" ng-change="onTextBoxChange()" required>
+                    <p ng-show="userForm.email.$invalid && !userForm.email.$pristine" class="help-block">Enter a valid email.</p>
+                    <p ng-show="(isEmailNotFound)" class="help-block">Your email was not found.</p>
+                </div>
+                <button type="submit" class="btn btn-block btn-success" ng-disabled="userForm.$invalid">Invite</button>
+                <div class="mb10"></div>
+                <div class="loaders" align="center" ng-show="gifLoading">
+                    <img src="../../../assets/images/loaders/loader1.gif" alt="">
+                </div>
+            </form>
+        </div>
+    </div>
+    <footer></footer>
+
+</div>

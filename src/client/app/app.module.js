@@ -19,6 +19,7 @@ angular.module('currencySwapApp', [
     'notification',
     'myProfile',
     'orders',
+    'invite',
     'ngFileUpload',
     'homePage',
     'navigation',

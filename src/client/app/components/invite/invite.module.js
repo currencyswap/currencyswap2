@@ -1,3 +1,3 @@
-/**
- * Created by dqlgnoleth on 16/12/2016.
- */
+'use-strict';
+
+angular.module('invite', ['ngRoute']);
