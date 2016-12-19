@@ -3,9 +3,12 @@
   "base": "PersistedModel",
   "idInjection": true,
   "indexes": {
-    "INVITEE_INVITEEID_UNQ_IDX": {
+    "INVITATIONS_INVITEEID_UNQ_IDX": {
       "columns": "inviteeId",
       "kind": "unique"
+    },
+    "INVITATIONS_INVITER_IDX": {
+      "columns": "inviterId"
     }
   },
   "options": {
@@ -18,7 +21,8 @@
     },
     "inviteeId": {
       "type": "number",
-      "required": true
+      "required": true,
+      "id": true
     }
   },
   "validations": [],

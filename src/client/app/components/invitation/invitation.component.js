@@ -15,12 +15,14 @@ angular.module('invitation')
                 $scope.isSubmitEmailForm = true;
 
                 $scope.submitEmail = function (submittedEmail) {
+                    $scope.gifLoading = true;
                     InvitationService.invite(submittedEmail)
                         .then(function (response) {
-                            console.log('is it here ???');
+                            $scope.gifLoading = false;
                             $scope.isSubmitSuccess = true;
                             $scope.$apply();
                         }, function (err) {
+                            $scope.gifLoading = false;
                             console.log('error on submit invite request');
                         })
                 };

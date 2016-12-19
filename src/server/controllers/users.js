@@ -45,7 +45,6 @@ module.exports = function (app) {
                 return res.status( constant.HTTP_FAILURE_CODE ).send(err);
 
             } else {
-                console.log(user);
                 return res.status(constant.HTTP_SUCCESS_CODE).send(user)
             }
         });

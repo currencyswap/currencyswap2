@@ -65,7 +65,7 @@ exports.createUser = function (user, callback) {
             });
         },
         function (txObject, instance, next) {
-            if (!user.groups || user.groups.lengh <= 0) {
+            if (!user.groups || user.groups.length <= 0) {
                 return next(null, txObject, instance);
             }
 
@@ -680,7 +680,6 @@ exports.activeUserAccount = function (activeCode, callback) {
 
 exports.getUserDetail = function (userId, callback) {
     app.models.Member.findByUserId(userId, function (err, user) {
-        console.log('user with addresses and groups: ', user);
         return callback( err, user );
     })
 };
