@@ -30,7 +30,7 @@
                          ng-class="{ 'has-error' : (registerForm.email.$invalid && !registerForm.email.$pristine) || emailExisted}">
                         <div class="mb10">
                             <label class="control-label">Email</label> <span class="asterisk">*</span><a data-toggle="popover" data-trigger="hover" data-content="Important: Email must be valid"><i style="font-size:15px; color: #4d4e4e" class="fa fa-question-circle" ng-click="showPopover()"></i></a>
-                            <input ng-change="onEmailChange()" type="email" name="email" class="form-control" ng-model="user.email" focus-me="focusEmail" placeholder="Email" minlength="{{GLOBAL_CONSTANT.LIMIT_FIELDS_INFO.EMAIL_MIN}}" maxlength="{{GLOBAL_CONSTANT.LIMIT_FIELDS_INFO.EMAIL_MAX}}" required>
+                            <input ng-change="onEmailChange()" ng-readonly="user.inviteeEmail" type="email" name="email" class="form-control" ng-model="user.email" focus-me="focusEmail" placeholder="Email" minlength="{{GLOBAL_CONSTANT.LIMIT_FIELDS_INFO.EMAIL_MIN}}" maxlength="{{GLOBAL_CONSTANT.LIMIT_FIELDS_INFO.EMAIL_MAX}}" required>
                             <label class="error" ng-show="emailExisted" >Your email is already in use.</label>
                             <label class="error" ng-show="!registerForm.email.$error.minlength && !registerForm.email.$error.required && registerForm.email.$invalid && !registerForm.email.$pristine">Email is not valid.</label>
                             <label class="error" ng-show="registerForm.email.$error.required && registerForm.email.$dirty" >This field is required.</label>

@@ -25,6 +25,7 @@ exports.validateRegisterRequestObject = function (clientUserObj) {
     exports.validateNationalId(clientUserObj.nationalId);
     exports.validateAddresses(clientUserObj.addresses);
     exports.validateBankInfo(bankInfo);
+    exports.validateInviter(clientUserObj.inviter);
 };
 
 exports.validateEditedProfileRequestObject = function (clientUserObj) {
@@ -244,4 +245,35 @@ exports.validateUserPass = function (user, callback) {
 
     callback(null);
 
+};
+
+exports.validateInviteRequest = function (inviter, inviteeEmail) {
+    if (!inviter) {
+        throw errorUtils.createAppError(errors.NO_INVITER);
+    }
+
+    if (typeof inviter !== 'string' || inviter.length > 64) {
+        throw errorUtils.createAppError(errors.INVALID_INPUT_DATA);
+    }
+
+    if (!inviteeEmail) {
+        throw errorUtils.createAppError(errors.REQUEST_NO_EMAIL);
+    }
+
+    if (typeof inviteeEmail !== 'string' || inviteeEmail.length > 64) {
+        throw errorUtils.createAppError(errors.INVALID_INPUT_DATA);
+    }
+
+};
+
+exports.validateInviter = function (inviter) {
+    if (inviter) {
+        if (typeof inviter !== 'string') {
+            throw errorUtils.createAppError(errors.INVALID_INPUT_DATA);
+        }
+
+        if (inviter.length > 64) {
+            throw errorUtils.createAppError(errors.INVALID_INPUT_DATA);
+        }
+    }
 };

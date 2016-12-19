@@ -43,9 +43,17 @@ module.exports = function (Member) {
             relation: 'addresses'
         };
 
+        var includeInvitees = {
+            relation: 'invitees'
+        };
+
+        var includeInviters = {
+            relation: 'inviters'
+        };
+
         var filter = {
             where: where,
-            include: [includeGroups, includeAddresses]
+            include: [includeGroups, includeAddresses, includeInvitees, includeInviters]
         };
 
         Member.findOne(filter, function (err, user) {
@@ -150,6 +158,7 @@ module.exports = function (Member) {
         var filter = {
             where: where
         };
+
         Member.findOne(filter, function (err, user) {
 
             if (err) {

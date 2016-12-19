@@ -10,12 +10,14 @@ angular.module('register')
             '$location',
             '$http',
             '$window',
+            '$base64',
             'GLOBAL_CONSTANT',
-            function registerController($scope, $rootScope, RegisterService, CookieService, $location, $http, $window, GLOBAL_CONSTANT) {
+            function registerController($scope, $rootScope, RegisterService, CookieService, $location, $http, $window, $base64, GLOBAL_CONSTANT) {
                 $scope.showPopover = function () {
                     $('[data-toggle="popover"]').popover();
                 };
                 $scope.GLOBAL_CONSTANT = GLOBAL_CONSTANT;
+                $scope.user = {};
                 $scope.init = function() {
                     $scope.showPopover();
                 };
@@ -65,10 +67,35 @@ angular.module('register')
                         });
                 }
 
+                if ($location.search().inviCode) {
+                    var inviCode = $location.search().inviCode;
+                    if (!validator.isBase64(inviCode)) {
+                        $location.url(routes.REGISTER);
+                    } else {
+                        var decodedInviCode = $base64.decode(inviCode);
+                        if (!decodedInviCode.indexOf(GLOBAL_CONSTANT.INVITATION_CODE_DELIMETER)) {
+                            $location.url(routes.REGISTER);
+                        } else {
+                            var inviterAndEmail = decodedInviCode.split(GLOBAL_CONSTANT.INVITATION_CODE_DELIMETER);
+                            if (!inviterAndEmail[0] || !inviterAndEmail[1]) {
+                                $location.url(routes.REGISTER);
+                            } else {
+                                var inviter = inviterAndEmail[0];
+                                var inviteeEmail = inviterAndEmail[1];
+
+                                RegisterService.validateInviterAndInviteeEmail(inviter, inviteeEmail);
+
+                                $scope.user.email = inviteeEmail;
+                                $scope.user.inviteeEmail = inviteeEmail;
+                                $scope.user.inviter = inviter;
+                            }
+                        }
+                    }
+                }
+
                 $scope.formats = ['dd-MMMM-yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate'];
                 $scope.format = $scope.formats[0];
                 $scope.altInputFormats = ['M!/d!/yyyy'];
-                $scope.user = {};
                 $scope.registerSuccess = false;
                 $scope.startRegister = true;
                 $scope.activeSuccess = false;

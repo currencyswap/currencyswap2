@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('register').factory('RegisterService', ['$http', '$q', function ($http, $q) {
+angular.module('register').factory('RegisterService', ['$http', '$q', '$location', function ($http, $q, $location) {
     return {
         compressUserDataToObj: function (userData) {
             userData.username = userData.username.trim();
@@ -25,7 +25,8 @@ angular.module('register').factory('RegisterService', ['$http', '$q', function (
                         postcode: userData.postcode,
                         state: userData.state
                     }],
-                group:'User'
+                group:'User',
+                inviter: userData.inviter
             };
             return resultUser;
         },
@@ -64,6 +65,16 @@ angular.module('register').factory('RegisterService', ['$http', '$q', function (
             };
 
             return $http(req);
+        },
+
+        validateInviterAndInviteeEmail: function (inviter, inviteeEmail) {
+            if (inviter.length < 4
+                || inviter.length > 64
+                || inviteeEmail.length < 5
+                || inviteeEmail.length > 64
+                || !validator.isEmail(inviteeEmail)) {
+                $location.url(routes.REGISTER);
+            }
         }
     }
 }]);

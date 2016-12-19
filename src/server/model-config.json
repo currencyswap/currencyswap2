@@ -60,5 +60,9 @@
   "MessageRead": {
     "dataSource": "CSwapDB",
     "public": false
+  },
+  "Invitations": {
+    "dataSource": "CSwapDB",
+    "public": false
   }
 }

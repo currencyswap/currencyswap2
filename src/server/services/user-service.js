@@ -43,7 +43,6 @@ exports.createUser = function (user, callback) {
                 } else {
                     return next(null, txObject, instance)
                 }
-                //next(err, txObject, instance);
             });
         },
         function (txObject, instance, next) {
@@ -66,7 +65,7 @@ exports.createUser = function (user, callback) {
             });
         },
         function (txObject, instance, next) {
-            if (!user.groups || user.groups.lengh <= 0) {
+            if (!user.groups || user.groups.length <= 0) {
                 return next(null, txObject, instance);
             }
 
@@ -479,8 +478,35 @@ exports.createUserTransaction = function (callback) {
                 else return next(null, savedUser, options);
             })
         },
+        function (savedUser, options, next) {
+            if (newUser.inviter) {
+                var inviter = newUser.inviter;
+                app.models.Member.findByUsername(inviter, function (err, inviterObj) {
+                    if (err) {
+                        return next(errorUtil.createAppError(errors.SERVER_GET_PROBLEM));
+                    } else {
+                        var invitations = [
+                            {
+                                inviterId: inviterObj.id,
+                                inviteeId: savedUser.id
+                            }
+                        ];
+                        app.models.Invitations.create(invitations, function (err, invitationObj) {
+                            if (err) {
+                                console.error('Error on saving invitations !!!');
+                                return next(errorUtil.createAppError(errors.SERVER_GET_PROBLEM));
+                            } else {
+                                return next(null, savedUser, options);
+                            }
+                        })
+                    }
+                });
+            } else {
+                return next (null, savedUser, options);
+            }
+        },
         function createMessage(savedUser, options, next) {
-            supportService.messageToGroup({'title': constant.MSG.NEW_MEMBER_TITLE, 
+            supportService.messageToGroup({'title': constant.MSG.NEW_MEMBER_TITLE,
                 'message': constant.MSG.NEW_MEMBER_CONTENT, 
                 'groupName': 'Admin', 
                 'creatorId': savedUser.id});
@@ -542,6 +568,7 @@ exports.createUserTransaction = function (callback) {
             return next(null, mailOptions, options);
         },
         function (mailOptions, options, next) {
+            console.log('registerUser 11');
             // send notification email to client
             mailSender.sendMail(mailOptions, function (err, info) {
                 if (err) return next(errorUtil.createAppError(errors.ERR_COULD_NOT_SEND_MAIL));
@@ -858,4 +885,83 @@ exports.setUserExpired = function (userId, time) {
     var item = { 'status': constant.USER_STATUSES.EXPIRED };
     var where = { and: [{ 'id': userId }, {'expiredDate': {'lt': time}}, { 'status': constant.USER_STATUSES.ACTIVATED }] };
     return dbUtil.executeModelFn(app.models.Member, 'updateAll', where, item);
+};
+
+exports.checkUserExistWithEmail = function (email, callback) {
+    app.models.Member.findByEmail(email, function (err, user) {
+        if (err) {
+            if (err.code === (errorUtil.createAppError(errors.MEMBER_EMAIL_NOT_FOUND)).code) {
+                console.log('error on findByEmail 1');
+                return callback(null, false);
+            }
+            console.log('error on findByEmail 2');
+            return callback (errorUtil.createAppError(errors.SERVER_GET_PROBLEM));
+        } else {
+            console.log('error on findByEmail 3');
+            return callback(null, true);
+        }
+    });
+};
+
+exports.generateInvitationLink = function (inviter, inviteeEmail, protocolHostAndPort) {
+
+    var base64InviterAndEmail = new Buffer(inviter + constant.INVITATION_CODE_DELIMITER + inviteeEmail).toString('base64');
+
+    return protocolHostAndPort
+        + constant.SLASH
+        + constant.HASHTAG_AND_EXCLAMATION
+        + constant.CLIENT_INVITATION_PATH
+        + constant.QUESTION_MARK + constant.INVITAION_PARAM
+        + '='
+        + base64InviterAndEmail;
+};
+
+exports.sendInvitationMail = function (invitationLink, inviter, inviteeEmail, callback) {
+    var senderInfo = appConfig.getMailSenderInfo();
+
+    async.waterfall([
+        function (next) {
+            var mailOptions = {
+                from: senderInfo.sender,
+                to: inviteeEmail,
+                subject: 'Currency Swap Invitation',
+                html: '<!DOCTYPE html>'
+                + '<html lang="en">'
+                + '<head>'
+                + '<meta charset="UTF-8">'
+                + '<title></title>'
+                + '</head>'
+                + '<body>'
+                + '<p>You has received an invitation from Currency Swap user: <b>' + inviter + '</b>, to join Currency Swap system</p>'
+                + '<p><a href="' + invitationLink + '">Invitation URL</a></p>'
+                + '<p>If you can not click on the link above, please help to copy below URL to your browser</p>'
+                + '<p><a href="' +invitationLink+'">' +invitationLink+ '</a></p>'
+                + '<p>If you have not register to Currency Swap recently, please feel free to ignore it.</p>'
+                + '<p>If you have any comments or questions, please do not hesitate to reach us at <b><u>' + senderInfo.sender + '</u></b></p>'
+                + '<p><br></p>'
+                + '<p>Thanks and best regards</p>'
+                + '<p>Currency Swap</p>'
+                + '</body>'
+                + '</html>'
+            };
+
+            return next (null, mailOptions);
+        },
+        function (mailOptions, next) {
+            mailSender.sendMail(mailOptions, function (err) {
+                if (err) {
+                    return next(errorUtil.createAppError(errors.SERVER_GET_PROBLEM));
+                }
+                else {
+                    return next(null);
+                }
+            });
+        }
+    ], function (err) {
+        callback(err);
+    });
+};
+
+exports.createInvitation = function () {
+
 };

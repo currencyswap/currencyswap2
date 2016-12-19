@@ -146,6 +146,7 @@ angular.module('userDetails').component('userDetails', {
 
                         } else {
                             $scope.user = response.data;
+                            console.log('user info ==========>', $scope.user);
                             $scope.user.currentCellPhone = $scope.user.cellphone;
                             $scope.user.currentNationalId = $scope.user.nationalId;
                             $scope.user.currentUserGroup = $scope.user.group;

@@ -26,6 +26,7 @@ module.exports = function (app) {
     app.use(routes.API_MY_PROFILE, require('./controllers/profile')(app));
     app.use(routes.API_PERMISSIONS, require('./controllers/permissions')(app));
     app.use(routes.API_SUPPORTS, require('./controllers/supports')(app));
+    app.use(routes.API_INVITE, require('./controllers/invite')(app));
 
 //  catching for any unknown error
 //    process.on('uncaughtException', function(err) {

@@ -93,5 +93,7 @@ exports.convertUserData = function (requestUser) {
 
     if (requestUser.bankCountry) resultUser.bankCountry = requestUser.bankCountry;
 
+    if (requestUser.inviter) resultUser.inviter = requestUser.inviter;
+
     return resultUser;
 };

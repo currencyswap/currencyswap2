@@ -286,5 +286,9 @@
     "SAVING_PASSWORD_ERROR": {
         "code": 112,
         "message": "{SAVING_PASSWORD_ERROR}"
+    },
+    "NO_INVITER": {
+        "code": 113,
+        "message": "{NO_INVITER}"
     }
 }
