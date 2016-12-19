@@ -28,24 +28,7 @@ module.exports = {
             'country' : 'Vietnam',
             'postcode': '130634'
         }],
-        'groups' : ['{USER}'],
-        'invitees': [
-            {
-                'inviteeId': 1
-            },
-            {
-                'inviteeId': 3
-            },
-            {
-                'inviteeId': 4
-            },
-            {
-                'inviteeId': 5
-            }
-        ],
-        'inviters': [
-            {'inviterId': 6}
-        ]
+        'groups' : ['{USER}']
     },
     'demouser2': {
         'username': 'vietnv',

@@ -32,7 +32,7 @@ angular.module('currencySwapApp').config(['$locationProvider', '$routeProvider',
         }).when(routes.NOTIFICATIONS, {
             template: '<notification></notification>'
         }).when(routes.INVITE, {
-            template: '<invite></invite>'
+            template: '<invitation></invitation>'
         }).when(routes.ERROR_PAGE, {
             template: '<error-page></error-page>'
         }).otherwise('');

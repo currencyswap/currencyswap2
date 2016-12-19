@@ -19,12 +19,13 @@ angular.module('currencySwapApp', [
     'notification',
     'myProfile',
     'orders',
-    'invite',
+    'invitation',
     'ngFileUpload',
     'homePage',
     'navigation',
     'angularCountryState',
     'ngSanitize',
+    'base64',
     'ui.bootstrap',
 ]).run(function ($window, $rootScope, $location, CookieService, PermissionService, NavigationHelper) {
     var token = CookieService.getToken();
@@ -52,16 +53,37 @@ angular.module('currencySwapApp', [
             }
             return false;
         };
+
+        var isInvitationRegister = function () {
+            if ($location.search().inviCode) {
+                $rootScope.isLoading = false;
+                CookieService.cleanUpCookies();
+                $location.path(routes.REGISTER);
+                return true;
+            }
+
+            return false;
+        };
+
         if (token) {
             // exist user session but user trying to verify or reset his/her password
             if (isVerifyingPass()) {
                 return;
             }
+
+            if (isInvitationRegister()) {
+                return;
+            }
+
             retreiveUserPerm();
         } else {
             // user session not exist
             $rootScope.isLoading = false;
             if (isVerifyingPass()) {
+                return;
+            }
+
+            if (isInvitationRegister()) {
                 return;
             }
 
@@ -255,6 +277,7 @@ angular.module('currencySwapApp', [
     EMPTY_EMAIL: 'Empty email',
     ACCOUNT_IS_NOT_ACTIVATED_MSG: 'Account is not activated',
     ACCOUNT_IS_EXPIRED: 'Your account was expired',
+    INVITATION_CODE_DELIMETER: '|',
     ORDER_FIXED_VALUE : {
     	"RATE" : "RATE",
 		"GIVE" : "GIVE",
@@ -285,7 +308,7 @@ angular.module('currencySwapApp', [
         USERNAME_MIN: 5,
         USERNAME_MAX: 25,
         EMAIL_MIN: 5,
-        EMAIL_MAX: 255,
+        EMAIL_MAX: 64,
         PWD_MIN: 8,
         PWD_MAX: 25,
         FULLNAME_MIN:0,

@@ -1,33 +1,66 @@
 'use strict';
 
 var AppError = require('../libs/errors/app-error');
-var errors = require('../libs/errors/errors');
 var stringUtil = require('../libs/utilities/string-util');
+var errorUtil = require('../libs/errors/error-util');
+var errors = require('../libs/errors/errors');
 var messages = require('../messages/messages');
 var constant = require('../libs/constants/constants');
+var userService = require('../services/user-service');
 var userValidation = require('../validation/user-validation');
+var async = require('async');
 var util = require('util');
 
 module.exports = function (app) {
     var router = app.loopback.Router();
 
     router.post('/', function (req, res) {
-        console.log('invite controller');
-        var inviter = req.body.currentUser;
-        var registrationEmail = req.body.regEmail;
+        var inviter = req.body.inviter;
+        var inviteeEmail = req.body.regEmail;
+
         //step 1: validate email and validate inviter
         try {
-            userValidation.validateInviteRequest(inviter, registrationEmail);
+            userValidation.validateInviteRequest(inviter, inviteeEmail);
         } catch (err) {
-            return res.status(constant.HTTP_FAILURE_CODE).send(err);
+            return res.status(400).send(err);
         }
-        //step 2: check if email is existed in DB, if not continue
 
-        //step 3: save to redis with key: 'INVITATION:username' value: 'registration email'
-        //step 4: generate registration link in form http://localhost:3000/#!/register?inviter=username&regEmail=email
-        //step 5: send link to email
-
-        res.status(200).send({message: 'SUCCESS'});
+        async.waterfall([
+            function (next) {
+                //step 2: check if email is existed in DB, if not continue
+                userService.checkUserExistWithEmail(inviteeEmail, function (err, existed) {
+                    if (existed) {
+                        return next(errorUtil.createAppError(errors.EMAIL_EXISTED));
+                    } else {
+                        return next (null);
+                    }
+                });
+            },
+            function (next) {
+                //step 4: generate registration link
+                var protocolHostAndPort = req.protocol + '://' + req.get('host');
+                var invitationLink = userService.generateInvitationLink(inviter, inviteeEmail, protocolHostAndPort);
+                return next (null, invitationLink)
+            },
+            function (invitationLink, next) {
+                //step 5: send link to email
+                userService.sendInvitationMail(invitationLink, inviter, inviteeEmail, function (err) {
+                    if (err) {
+                        return next(err);
+                    } else {
+                        return res.status(constant.HTTP_SUCCESS_CODE).send({});
+                    }
+                })
+            }
+        ], function (err) {
+            if (err) {
+                if (err.code === errorUtil.createAppError(errors.SERVER_GET_PROBLEM).code) {
+                    return res.status(500).send(err);
+                } else {
+                    return res.status(400).send(err);
+                }
+            }
+        });
     });
 
     return router;

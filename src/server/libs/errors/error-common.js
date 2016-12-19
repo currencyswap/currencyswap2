@@ -20,6 +20,7 @@ function errorHandler404(req, res) {
 }
 
 function errorHandler500(err, req, res, next) {
+    console.error('ERROR: ', err);
     if (res.headersSent) {
         return next(err);
     }

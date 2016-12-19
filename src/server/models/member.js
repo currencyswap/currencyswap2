@@ -158,6 +158,7 @@ module.exports = function (Member) {
         var filter = {
             where: where
         };
+
         Member.findOne(filter, function (err, user) {
 
             if (err) {
