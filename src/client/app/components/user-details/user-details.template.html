@@ -81,15 +81,13 @@
                             </div>
 
                             <div class="form-group">
-                                <label class="control-label" for="profession">Inviter</label>
+                                <label class="control-label" for="inviter">Inviter</label>
                                 <input ng-model="user.inviter" id="inviter" class="form-control" type="text" readonly>
                             </div>
 
                             <div class="form-group">
                                 <label class="control-label">Invitees</label>
-                                <select name="singleSelect" ng-model="user.invitees[0].username" class="form-control" readonly>
-                                    <option ng-repeat="invitee in user.invitees">{{invitee.username}}</option>
-                                </select>
+                                <input ng-model="user.inviteesInString" id="invitee" class="form-control" type="text" readonly>
                             </div>
 
                             <div class="form-group">

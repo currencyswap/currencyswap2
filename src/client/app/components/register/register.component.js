@@ -82,12 +82,19 @@ angular.module('register')
                             } else {
                                 var inviter = inviterAndEmail[0];
                                 var inviteeEmail = inviterAndEmail[1];
-
                                 RegisterService.validateInviterAndInviteeEmail(inviter, inviteeEmail);
-
-                                $scope.user.email = inviteeEmail;
-                                $scope.user.inviteeEmail = inviteeEmail;
-                                $scope.user.inviter = inviter;
+                                RegisterService.checkEmailInInvitationLink(inviteeEmail)
+                                    .then(function (response) {
+                                        if (response.status === GLOBAL_CONSTANT.HTTP_SUCCESS_STATUS_CODE) {
+                                            $scope.user.email = inviteeEmail;
+                                            $scope.user.inviteeEmail = inviteeEmail;
+                                            $scope.user.inviter = inviter;
+                                        } else {
+                                            $rootScope.isLoading = false;
+                                            $rootScope.error = GLOBAL_CONSTANT.INVITATION_CODE_USED_ERROR;
+                                            $location.url(routes.ERROR_PAGE);
+                                        }
+                                    });
                             }
                         }
                     }

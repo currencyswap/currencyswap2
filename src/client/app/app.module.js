@@ -35,6 +35,7 @@ angular.module('currencySwapApp', [
     $rootScope.currentPage = {};
     
     var init = function() {
+        console.log('global app 1');
         $rootScope.$on("$routeChangeStart", routeChanged);
         //$rootScope.$on("$locationChangeStart", locationChangeHandler);
         var isVerifyingPass = function() {
@@ -66,28 +67,35 @@ angular.module('currencySwapApp', [
         };
 
         if (token) {
+            console.log('global app 2');
             // exist user session but user trying to verify or reset his/her password
             if (isVerifyingPass()) {
+                console.log('global app 3');
                 return;
             }
 
             if (isInvitationRegister()) {
+                console.log('global app 4');
                 return;
             }
 
             retreiveUserPerm();
         } else {
             // user session not exist
+            console.log('global app 5');
             $rootScope.isLoading = false;
             if (isVerifyingPass()) {
+                console.log('global app 6');
                 return;
             }
 
             if (isInvitationRegister()) {
+                console.log('global app 7');
                 return;
             }
 
             if ($location.path() != routes.LOGIN) {
+                console.log('global app 8');
                 return $location.path(routes.LOGIN);
             }
         }
@@ -119,10 +127,11 @@ angular.module('currencySwapApp', [
               console.log('Unautorized user');
               var curPath = $location.path();
               if (curPath == routes.LOGIN ||
-                      curPath == routes.LOGOUT ||
-                      curPath == routes.REGISTER ||
-                      curPath == routes.FORGOT_PASSWORD_VERIFY ||
-                      curPath == routes.FORGOT_PASSWORD_RESET) {
+                  curPath == routes.LOGOUT ||
+                  curPath == routes.REGISTER ||
+                  curPath == routes.FORGOT_PASSWORD_VERIFY ||
+                  curPath == routes.FORGOT_PASSWORD_RESET ||
+                  curPath === routes.ERROR_PAGE) {
                   console.log('Valid request');
               } else {
                   if (token) {
@@ -241,6 +250,12 @@ angular.module('currencySwapApp', [
         status: 'RESET URL IS EXPIRED',
         message: 'Your reset URL is expired and removed from our system. Please help to try again '
     },
+    INVITATION_CODE_USED_ERROR: {
+        name: 'INVITATION_CODE_USED_ERROR',
+        code: 410,
+        status: 'INVITATION CODE HAS BEEN USED',
+        message: 'Your invitation link has been used'
+    },
     EMAIL_COULD_NOT_BE_SENT: {
         name: 'EMAIL_COULD_NOT_BE_SENT',
         code: 503,
@@ -276,7 +291,8 @@ angular.module('currencySwapApp', [
     EMPTY_USERNAME_OR_PASSWORD: 'Empty username/password',
     EMPTY_EMAIL: 'Empty email',
     ACCOUNT_IS_NOT_ACTIVATED_MSG: 'Account is not activated',
-    ACCOUNT_IS_EXPIRED: 'Your account was expired',
+    ACCOUNT_IS_EXPIRED: 'Account is expired',
+    ACCOUNT_IS_BLOCKED: 'Account is blocked',
     INVITATION_CODE_DELIMETER: '|',
     ORDER_FIXED_VALUE : {
     	"RATE" : "RATE",

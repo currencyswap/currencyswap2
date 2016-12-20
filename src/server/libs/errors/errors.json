@@ -290,5 +290,9 @@
     "NO_INVITER": {
         "code": 113,
         "message": "{NO_INVITER}"
+    },
+    "ACCOUNT_IS_BLOCKED": {
+        "code": 114,
+        "message": "{ACCOUNT_IS_BLOCKED}"
     }
 }

@@ -4564,6 +4564,7 @@ header-left .menubar-users {
 /* body {border:1px solid black !important;} */
 .toolbar-profile,
 .toolbar-signout,
+.toolbar-invite,
 .toolbar-my-profile-name,
 header-left .menubar-orders,
 header-left .menubar-users {
@@ -4717,6 +4718,7 @@ header-left .menubar-users {
 .toolbar-support,
 .toolbar-help,
 .toolbar-profile,
+.toolbar-invite,
 .toolbar-signout,
 .toolbar-my-profile-name,
 header-left .menubar-orders,
@@ -4818,6 +4820,7 @@ header-left .menubar-users {
 .toolbar-support,
 .toolbar-help,
 .toolbar-profile,
+.toolbar-invite,
 .toolbar-signout,
 .toolbar-my-profile-name,
 header-left .menubar-orders,

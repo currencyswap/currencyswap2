@@ -287,7 +287,7 @@
                 {
                     "methods" : ["GET", "POST"],
                     "requiredPermissions": [
-                        "{VIEW_OWN_ORDERS}", "{MAINTAIN_OWN_ORDERS}"
+                        "{VIEW_OWN_PERMISSION}"
                     ],
                     "isAlive": true
                 }

@@ -93,11 +93,11 @@ var navigation = [
     },
     {
         route: routes.INVITE,
-        name: 'Help',
-        requiredPermissions: [permissions.MAINTAIN_OWN_ORDERS],
+        name: 'Invite',
+        requiredPermissions: [permissions.VIEW_OWN_ORDERS, permissions.USER_MANAGEMENT],
         position: global.TOOLSBAR,
-        icon : 'fa fa-group',
-        id: 'toolbar-help'
+        icon : 'fa fa-user-plus',
+        id: 'toolbar-invite'
     },
     {
         route: routes.NOTIFICATIONS,
