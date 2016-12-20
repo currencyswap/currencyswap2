@@ -63,6 +63,18 @@ module.exports = function (app) {
         });
     });
 
+    router.get('/', function (req, res) {
+        var inviteeEmail = req.query.email;
+
+        userService.checkUserExistWithEmail(inviteeEmail, function (err, existed) {
+            if (existed) {
+                res.status(constant.HTTP_FAILURE_CODE).send(errorUtil.createAppError(errors.EMAIL_EXISTED));
+            } else {
+                res.status(constant.HTTP_SUCCESS_CODE).send({});
+            }
+        });
+    });
+
     return router;
 };
 

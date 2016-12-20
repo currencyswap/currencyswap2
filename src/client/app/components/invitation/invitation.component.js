@@ -23,6 +23,7 @@ angular.module('invitation')
                             $scope.$apply();
                         }, function (err) {
                             $scope.gifLoading = false;
+                            $scope.$apply();
                             console.log('error on submit invite request');
                         })
                 };

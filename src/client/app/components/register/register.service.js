@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('register').factory('RegisterService', ['$http', '$q', '$location', function ($http, $q, $location) {
+angular.module('register').factory('RegisterService', ['$http', '$q', '$location', 'CookieService', function ($http, $q, $location, CookieService) {
     return {
         compressUserDataToObj: function (userData) {
             userData.username = userData.username.trim();
@@ -75,6 +75,24 @@ angular.module('register').factory('RegisterService', ['$http', '$q', '$location
                 || !validator.isEmail(inviteeEmail)) {
                 $location.url(routes.REGISTER);
             }
+        },
+
+        checkEmailInInvitationLink: function (inviteeEmail) {
+            var token = CookieService.getToken();
+            var headers = {};
+
+            headers[httpHeader.CONTENT_TYPE] = contentTypes.JSON;
+            headers[httpHeader.AUTHORIZARION] = autheticateType.BEARER + token;
+
+            var req = {
+                method: httpMethods.GET,
+                url: apiRoutes.API_INVITE + '?email=' + inviteeEmail,
+                headers: headers,
+            };
+
+            console.log('request to server: ', req);
+
+            return $http(req);
         }
     }
 }]);

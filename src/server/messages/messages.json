@@ -68,5 +68,6 @@
     "BIRTHDAY_GREATER_THAN_CURRENT_DATE": "Your birthday is greater than current date",
     "USER_ACCOUNT_EXPIRED": "Your account gets expired. Please contact Administrator for farther information!",
     "USER_ACCOUNT_BLOCKED": "Your account gets blocked. Please contact Administrator for farther information!",
-    "NO_INVITER": "Request has no inviter"
+    "NO_INVITER": "Request has no inviter",
+    "ACCOUNT_IS_BLOCKED": "Account is blocked"
 }

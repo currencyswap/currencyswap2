@@ -123,6 +123,10 @@ angular.module('loginForm')
                                         if (response.data.code === serverErrors.ACCOUNT_IS_EXPIRED) {
                                             $scope.loginErrMsg = GLOBAL_CONSTANT.ACCOUNT_IS_EXPIRED;
                                         }
+
+                                        if (response.data.code === serverErrors.ACCOUNT_IS_BLOCKED) {
+                                            $scope.loginErrMsg = GLOBAL_CONSTANT.ACCOUNT_IS_BLOCKED;
+                                        }
                                     }
                                 }
                             }

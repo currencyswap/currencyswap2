@@ -8,7 +8,6 @@ angular.module('errorPage').directive('errorPage', ['GLOBAL_CONSTANT', '$window'
         },
         templateUrl: 'app/shared/error-page/error-page.template.html',
         controller: function ($rootScope, $scope, $element) {
-
             $scope.error = $rootScope.error;
 
             console.log('ERROR: ', $scope.error);

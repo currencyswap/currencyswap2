@@ -169,9 +169,16 @@ exports.login = function (user, callback) {
                         return next(errorUtil.createAppError(errors.MEMBER_INVALID_PASSWORD));
                     }
 
-                    // check user status
-                    if (userObj.status !== constant.USER_STATUSES.ACTIVATED) {
+                    if (userObj.status === constant.USER_STATUSES.NEW || userObj.status === constant.USER_STATUSES.PENDING_APPROVAL) {
                         return next(errorUtil.createAppError(errors.ACCOUNT_IS_NOT_ACTIVATED));
+                    }
+
+                    if (userObj.status === constant.USER_STATUSES.EXPIRED) {
+                        return next(errorUtil.createAppError(errors.ACCOUNT_IS_EXPIRED));
+                    }
+
+                    if (userObj.status === constant.USER_STATUSES.BLOCKED) {
+                        return next(errorUtil.createAppError(errors.ACCOUNT_IS_BLOCKED));
                     }
 
                     return next (null, userObj);
@@ -891,13 +898,10 @@ exports.checkUserExistWithEmail = function (email, callback) {
     app.models.Member.findByEmail(email, function (err, user) {
         if (err) {
             if (err.code === (errorUtil.createAppError(errors.MEMBER_EMAIL_NOT_FOUND)).code) {
-                console.log('error on findByEmail 1');
                 return callback(null, false);
             }
-            console.log('error on findByEmail 2');
             return callback (errorUtil.createAppError(errors.SERVER_GET_PROBLEM));
         } else {
-            console.log('error on findByEmail 3');
             return callback(null, true);
         }
     });
