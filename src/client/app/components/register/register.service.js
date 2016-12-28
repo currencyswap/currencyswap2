@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('register').factory('RegisterService', ['$http', '$q', function ($http, $q) {
+angular.module('register').factory('RegisterService', ['$http', '$q', '$location', 'CookieService', function ($http, $q, $location, CookieService) {
     return {
         compressUserDataToObj: function (userData) {
             userData.username = userData.username.trim();
@@ -29,7 +29,8 @@ angular.module('register').factory('RegisterService', ['$http', '$q', function (
                         postcode: userData.postcode,
                         state: userData.state
                     }],
-                group:'User'
+                group:'User',
+                inviter: userData.inviter
             };
             return resultUser;
         },
@@ -66,6 +67,34 @@ angular.module('register').factory('RegisterService', ['$http', '$q', function (
                 headers: headers,
                 data: postData
             };
+
+            return $http(req);
+        },
+
+        validateInviterAndInviteeEmail: function (inviter, inviteeEmail) {
+            if (inviter.length < 4
+                || inviter.length > 64
+                || inviteeEmail.length < 5
+                || inviteeEmail.length > 64
+                || !validator.isEmail(inviteeEmail)) {
+                $location.url(routes.REGISTER);
+            }
+        },
+
+        checkEmailInInvitationLink: function (inviteeEmail) {
+            var token = CookieService.getToken();
+            var headers = {};
+
+            headers[httpHeader.CONTENT_TYPE] = contentTypes.JSON;
+            headers[httpHeader.AUTHORIZARION] = autheticateType.BEARER + token;
+
+            var req = {
+                method: httpMethods.GET,
+                url: apiRoutes.API_INVITE + '?email=' + inviteeEmail,
+                headers: headers,
+            };
+
+            console.log('request to server: ', req);
 
             return $http(req);
         }

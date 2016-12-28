@@ -422,9 +422,9 @@ exports.createUserTransaction = function (callback) {
             })
         },
         function createMessage(savedUser, options, next) {
-            supportService.messageToGroup({'title': constant.MSG.NEW_MEMBER_TITLE, 
-                'message': constant.MSG.NEW_MEMBER_CONTENT, 
-                'groupName': 'Admin', 
+            supportService.messageToGroup({'title': constant.MSG.NEW_MEMBER_TITLE,
+                'message': constant.MSG.NEW_MEMBER_CONTENT,
+                'groupName': 'Admin',
                 'creatorId': savedUser.id});
             return next(null, savedUser.username, savedUser.email, options);
         },
@@ -600,7 +600,7 @@ exports.getUserDetail = function (userId, callback) {
 
 exports.getUserByUsernameWithoutRelationModel = function (user, callback) {
     app.models.Member.findUserByUserName(user.username, function (err, userObj) {
-        
+
         if (err) return errorUtil.createAppError(errors.SERVER_GET_PROBLEM);
 
         if (!userObj) return errorUtil.createAppError(errors.NO_USER_FOUND_IN_DB);

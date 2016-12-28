@@ -222,6 +222,11 @@ angular.module('common').factory('ConnectorService', ['$rootScope', '$q', 'Cooki
           // update token header
           token = CookieService.getToken();
 
+          console.log('method: ', method);
+          console.log('url: ', url);
+          console.log('data: ', data);
+          console.log('headers: ', headers);
+
           return $.ajax({
             url : url,
             type : method,

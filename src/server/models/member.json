@@ -53,6 +53,26 @@
       "type": "string",
       "length": 256
     },
+    "inviter": {
+      "type": "string",
+      "length": 256
+    },
+    "bankAccountName": {
+      "type": "string",
+      "length": 128
+    },
+    "bankAccountNumber": {
+      "type": "string",
+      "length": 128
+    },
+    "bankName": {
+      "type": "string",
+      "length": 128
+    },
+    "bankCountry": {
+      "type": "string",
+      "length": 128
+    },
     "registeredDate": {
       "type": "date",
       "required": true,
@@ -80,6 +100,20 @@
       "type": "hasMany",
       "model": "Address",
       "foreignKey": "memberId"
+    },
+    "invitees": {
+      "type": "hasMany",
+      "model": "Member",
+      "foreignKey": "inviterId",
+      "through": "Invitations",
+      "keyThrough": "inviteeId"
+    },
+    "inviters": {
+      "type": "hasMany",
+      "model": "Member",
+      "foreignKey": "inviteeId",
+      "through": "Invitations",
+      "keyThrough": "inviterId"
     },
     "bankInfo": {
       "type": "hasMany",

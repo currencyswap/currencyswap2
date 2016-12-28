@@ -163,6 +163,14 @@ angular.module('userDetails').component('userDetails', {
                             if ($scope.user.groups[0].name && $scope.user.groups[0].name === 'Admin') {
                                 $scope.groupMember = 'Admin';
                             }
+
+                            if ($scope.user.invitees || $scope.user.invitees.length > 0) {
+                                var inviteeUserNames = [];
+                                $scope.user.invitees.forEach(function (invitee) {
+                                    inviteeUserNames.push(invitee.username);
+                                });
+                                $scope.user.inviteesInString = inviteeUserNames.join(';');
+                            }
                         }
                     }, function ( err ) {
                         console.error("ERROR : %s", JSON.stringify( err ) );

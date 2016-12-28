@@ -15,6 +15,7 @@ module.exports = function (app) {
     app.use(routes.API_FORGOT_PASSWORD_VERIFY, require('./controllers/forgotpassword-verifyInfo')(app));
     app.use(routes.API_FORGOT_PASSWORD_RESET, require('./controllers/forgotpassword-reset')(app));
     app.use(routes.API_REGISTER, require('./controllers/register')(app));
+    app.use(routes.API_INVITE, require('./controllers/invite')(app));
 
     // LOGIN REQUIRED
     app.use(auth.authenticateByToken);

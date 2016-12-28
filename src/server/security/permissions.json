@@ -282,6 +282,18 @@
             ]
         },
         {
+            "route": "{API_INVITE}",
+            "rules" : [
+                {
+                    "methods" : ["GET", "POST"],
+                    "requiredPermissions": [
+                        "{VIEW_OWN_PERMISSION}"
+                    ],
+                    "isAlive": true
+                }
+            ]
+        },
+        {
             "route": "{API_SUPPORTS_CREATOR}",
             "rules" : [
                 {
