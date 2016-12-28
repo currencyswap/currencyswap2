@@ -53,10 +53,6 @@
       "type": "string",
       "length": 256
     },
-    "inviter": {
-      "type": "string",
-      "length": 256
-    },
     "bankAccountName": {
       "type": "string",
       "length": 128
