@@ -454,6 +454,24 @@ exports.createUserTransaction = function (callback) {
                 return next (null, savedUser, options);
             }
         },
+        function (savedUser, options, next) {
+            if (!newUser.banksInfo) {
+                return next (null, savedUser, options);
+            }
+
+            newUser.banksInfo.forEach(function (bankInfo) {
+                bankInfo.memberId = savedUser.id;
+            });
+
+            app.models.BankInfo.create(newUser.banksInfo, function (err, savedBankInfo) {
+                if (err) {
+                    console.error('Error on saving bank info of user');
+                    return next (errorUtil.createAppError(errors.SERVER_GET_PROBLEM));
+                } else {
+                    return next (null, savedUser, options);
+                }
+            });
+        },
         function createMessage(savedUser, options, next) {
             supportService.messageToGroup({'title': constant.MSG.NEW_MEMBER_TITLE,
                 'message': constant.MSG.NEW_MEMBER_CONTENT, 
@@ -462,7 +480,6 @@ exports.createUserTransaction = function (callback) {
             return next(null, savedUser.username, savedUser.email, options);
         },
         function (username, email, options, next) {
-            // generate reset password code
             exports.generateRandomString(function (err, randomString) {
                 if (err) return next(err);
                 else {
