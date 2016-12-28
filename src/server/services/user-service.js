@@ -405,69 +405,11 @@ exports.createUserTransaction = function (callback) {
             })
         },
         function (newUser, options, next) {
-            exports.getUserByUsername(newUser.username, function (err, user) {
+            exports.checkExistedInfo(newUser, function (err) {
                 if (err) {
-                    if (err.code === errorUtil.createAppError(errors.MEMBER_INVALID_USERNAME).code) {
-                        return next(null, newUser, options);
-                    } else {
-                        return next(err);
-                    }
+                    return next (err);
                 } else {
-                    if (user.status === constant.USER_STATUSES.NEW) {
-                        exports.deleteUserAndRelatedAddresses(user, function (err) {
-                            if (err) return next (err);
-                            else return next (null, newUser, options);
-                        })
-                    } else {
-                        return next(errorUtil.createAppError(errors.USER_NAME_EXISTED));
-                    }
-                }
-            });
-        },
-        function (newUser, options, next) {
-            if (!newUser.nationalId) {
-                return next (null, newUser, options);
-            } else {
-                exports.getUserByNationalId(newUser, function (err, foundUser) {
-                    if (err) {
-                        if (err.code === errorUtil.createAppError(errors.NO_USER_FOUND_IN_DB).code) {
-                            return next(null, newUser, options);
-                        } else {
-                            return next(err);
-                        }
-                    } else {
-                        return next (errorUtil.createAppError(errors.NATIONAL_ID_EXISTED));
-                    }
-                });
-            }
-        },
-        function (newUser, options, next) {
-            if (!newUser.cellphone) {
-                return next(null, newUser, options);
-            } else {
-                exports.getUserByCellphone(newUser, function (err, foundUser) {
-                    if (err) {
-                        if (err.code === errorUtil.createAppError(errors.NO_USER_FOUND_IN_DB).code) {
-                            return next(null, newUser, options);
-                        } else {
-                            return next(err);
-                        }
-                    } else {
-                        return next (errorUtil.createAppError(errors.CELLPHONE_EXISTED))
-                    }
-                })
-            }
-        },
-        function (newUser, options, next) {
-            app.models.Member.findByEmail(newUser.email, function (err, foundUser) {
-                if (err) {
-                    if (err.code === errorUtil.createAppError(errors.MEMBER_EMAIL_NOT_FOUND).code) {
-                        return next(null, newUser, options);
-                    } else {
-                        return next (err);
-                    }
-                } else {
-                    return next(errorUtil.createAppError(errors.EMAIL_EXISTED));
+                    return next (null, newUser, options);
                 }
             })
         },
@@ -487,7 +429,6 @@ exports.createUserTransaction = function (callback) {
             return next(null, savedUser.username, savedUser.email, options);
         },
         function (username, email, options, next) {
-            // generate reset password code
             exports.generateRandomString(function (err, randomString) {
                 if (err) return next(err);
                 else {
@@ -858,4 +799,41 @@ exports.setUserExpired = function (userId, time) {
     var item = { 'status': constant.USER_STATUSES.EXPIRED };
     var where = { and: [{ 'id': userId }, {'expiredDate': {'lt': time}}, { 'status': constant.USER_STATUSES.ACTIVATED }] };
     return dbUtil.executeModelFn(app.models.Member, 'updateAll', where, item);
+};
+
+exports.checkExistedInfo = function (newUser, callback) {
+    app.models.Member.findOne({
+        where: {
+            or: [
+                {'username': newUser.username},
+                {'nationalId': newUser.nationalId},
+                {'cellphone': newUser.cellphone},
+                {'email': newUser.email},
+            ]
+        }
+    }, function (err, user) {
+        if (err) {
+            return callback(errorUtil.createAppError(errors.SERVER_GET_PROBLEM));
+        } else {
+            if (!user) {
+                return callback(null);
+            } else {
+                if (user.username === newUser.username) {
+                    return callback(errorUtil.createAppError(errors.USER_NAME_EXISTED))
+                }
+
+                if (user.email === newUser.email) {
+                    return callback(errorUtil.createAppError(errors.EMAIL_EXISTED))
+                }
+
+                if (user.nationalId && user.nationalId === newUser.nationalId) {
+                    return callback(errorUtil.createAppError(errors.NATIONAL_ID_EXISTED))
+                }
+
+                if (user.cellphone && user.cellphone === newUser.cellphone) {
+                    return callback(errorUtil.createAppError(errors.CELLPHONE_EXISTED))
+                }
+            }
+        }
+    })
 };

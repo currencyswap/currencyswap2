@@ -139,6 +139,7 @@ angular.module('register')
                     var newUser = RegisterService.compressUserDataToObj($scope.user);
                     RegisterService.submitRequest(newUser)
                         .then(function (response) {
+                            console.log('response from server: ', response);
                             if (response.status === GLOBAL_CONSTANT.HTTP_ERROR_STATUS_CODE) { //handle error response
                                 $scope.fieldError = response.data.code;
                                 if (response.data.code === serverErrors.TRANSACTION_INIT_FAIL

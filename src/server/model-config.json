@@ -60,5 +60,9 @@
   "MessageRead": {
     "dataSource": "CSwapDB",
     "public": false
+  },
+  "BankInfo": {
+    "dataSource": "CSwapDB",
+    "public": false
   }
 }

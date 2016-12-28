@@ -8,12 +8,7 @@ var md5 = require('js-md5');
 
 exports.validateRegisterRequestObject = function (clientUserObj) {
 
-    var bankInfo = {
-        accountName: clientUserObj.bankAccountName,
-        accountNumber: clientUserObj.bankAccountNumber,
-        bankName: clientUserObj.bankName,
-        bankCountry: clientUserObj.bankCountry
-    };
+    var bankInfo = clientUserObj.bankInfo[0];
 
     exports.validateUsername(clientUserObj.username);
     exports.validatePassword(clientUserObj.password);

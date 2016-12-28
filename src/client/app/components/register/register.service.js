@@ -13,10 +13,14 @@ angular.module('register').factory('RegisterService', ['$http', '$q', function (
                 email: userData.email,
                 nationalId: userData.nationalId,
                 password: userData.password,
-                bankAccountName: userData.bankAccountName,
-                bankAccountNumber: userData.bankAccountNumber,
-                bankName: userData.bankName,
-                bankCountry: userData.bankCountry,
+                bankInfo: [
+                    {
+                        bankAccountName: userData.bankAccountName,
+                        bankAccountNumber: userData.bankAccountNumber,
+                        bankName: userData.bankName,
+                        bankCountry: userData.bankCountry
+                    }
+                ],
                 addresses: [
                     {
                         address: userData.address,
