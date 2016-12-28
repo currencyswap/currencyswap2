@@ -121,6 +121,11 @@
       "type": "belongsTo",
       "model": "StatusType",
       "foreignKey": "statusId"
+    },
+    "bankInfoOfOrder": {
+      "type": "hasOne",
+      "model": "OrderBankInfo",
+      "foreignKey": "orderId"
     }
   },
   "acls": [],
