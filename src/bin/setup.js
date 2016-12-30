@@ -22,6 +22,8 @@ var persGroups = require('../server/security/permissions-groups');
 
 var appConfig = require('../server/libs/app-config');
 
+var exchangeObjs = require('./data/exchanges');
+
 var mapDataModels = [
     {'model': 'Currency', 'values': currencyData.currencies},
     {'model': 'StatusType', 'values': statusData.statuses},
@@ -211,6 +213,17 @@ var migrate = function () {
             },
             function ( users, next) {
                 cleanUpCache(next);
+            },
+            function (next) {
+              console.log('create first exchange record');
+
+              userService.createMultiExchange(exchangeObjs.exchanges, function (err, exchangeRecords) {
+                  if (err) {
+                      return next (err);
+                  } else {
+                      return next (null);
+                  }
+              })
             },
             otherInSeries
         ],

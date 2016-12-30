@@ -316,6 +316,18 @@
                     "isAlive": true
                 }
             ]
+        },
+        {
+            "route": "{API_EXRATE}",
+            "rules" : [
+                {
+                    "methods" : ["GET", "POST"],
+                    "requiredPermissions": [
+                        "{USER_MANAGEMENT}"
+                    ],
+                    "isAlive": true
+                }
+            ]
         }
     ]
 }

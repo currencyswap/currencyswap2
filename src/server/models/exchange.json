@@ -18,26 +18,44 @@
     },
     "usDollarSell": {
       "type": "number",
+      "dataType": "decimal",
+      "precision": 10,
+      "scale": 2,
       "required": true
     },
     "usDollarBuy": {
       "type": "number",
+      "dataType": "decimal",
+      "precision": 10,
+      "scale": 2,
       "required": true
     },
     "poundSell": {
       "type": "number",
+      "dataType": "decimal",
+      "precision": 10,
+      "scale": 2,
       "required": true
     },
     "poundBuy": {
       "type": "number",
+      "dataType": "decimal",
+      "precision": 10,
+      "scale": 2,
       "required": true
     },
     "euroSell": {
       "type": "number",
+      "dataType": "decimal",
+      "precision": 10,
+      "scale": 2,
       "required": true
     },
     "euroBuy": {
       "type": "number",
+      "dataType": "decimal",
+      "precision": 10,
+      "scale": 2,
       "required": true
     }
   },

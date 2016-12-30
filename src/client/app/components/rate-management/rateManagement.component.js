@@ -5,18 +5,23 @@ angular.module('rateManagement')
             '$rootScope',
             '$timeout',
             'SupportService',
+            'RateManagementService',
             'PermissionService',
             'NavigationHelper',
             'GLOBAL_CONSTANT',
-            function rateManagementController($scope, $rootScope, $timeout, SupportService, PermissionService, NavigationHelper, GLOBAL_CONSTANT) {
-                // static data, remove later
-                $scope.todayRates = {usDollarBuy: 123, usDollarSell: 456, euroBuy: 123, euroSell: 456, poundBuy: 123, poundSell: 456};
-                var usDollarMedian = Math.round(($scope.todayRates.usDollarBuy + $scope.todayRates.usDollarSell)/2);
-                var poundMedian = Math.round(($scope.todayRates.poundBuy + $scope.todayRates.poundSell)/2);
-                var euroMedian = Math.round(($scope.todayRates.euroBuy + $scope.todayRates.euroSell)/2);
+            function rateManagementController($scope, $rootScope, $timeout, SupportService, RateManagementService, PermissionService, NavigationHelper, GLOBAL_CONSTANT) {
+                var backupData = {};
+                $scope.undo = function () {
+                    $scope.todayRates = angular.copy(backupData);
+                };
 
-                $scope.todayRates.usDollarMedian = usDollarMedian;
-                $scope.todayRates.poundMedian = poundMedian;
-                $scope.todayRates.euroMedian = euroMedian;
+                RateManagementService.getLatestExchangeRate()
+                    .then(function (response) {
+                        console.log('response from server: ', response);
+                        $scope.todayRates = response;
+                        backupData = angular.copy(response);
+                    }, function (error) {
+                        console.log('response from server: ', error);
+                    })
             }]
     });
