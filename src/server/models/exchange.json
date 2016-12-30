@@ -1,0 +1,47 @@
+{
+  "name": "Exchanges",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "indexes": {
+    "EXCHANGES_CREATED_DATE_UNQ_IDX": {
+      "columns": "createdDate",
+      "kind": "unique"
+    }
+  },
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "createdDate": {
+      "type": "date",
+      "required": true
+    },
+    "usDollarSell": {
+      "type": "number",
+      "required": true
+    },
+    "usDollarBuy": {
+      "type": "number",
+      "required": true
+    },
+    "poundSell": {
+      "type": "number",
+      "required": true
+    },
+    "poundBuy": {
+      "type": "number",
+      "required": true
+    },
+    "euroSell": {
+      "type": "number",
+      "required": true
+    },
+    "euroBuy": {
+      "type": "number",
+      "required": true
+    }
+  },
+  "validations": [],
+  "acls": [],
+  "methods": {}
+}

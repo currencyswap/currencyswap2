@@ -27,7 +27,7 @@ button.tb-active {
 .user-content  .user-item-header {
     background: #cccccc;
 }
-.support-content, .help-content, .notification-content, .createOrderPanel, .user-content, .detailOrderPanel{
+.support-content, .help-content, .notification-content, .createOrderPanel, .user-content, .detailOrderPanel, .rate-management-content{
   margin: 10px auto;
 }
 .support-content, .createOrderPanel {

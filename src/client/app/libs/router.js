@@ -21,7 +21,8 @@ var routes = {
     FORGOT_PASSWORD_RESET: '/forgotpassword/reset/',
     ERROR_PAGE: '/error',
     API_ORDERS_TOTAL: '/orders/total',
-    INVITE: '/invitation'
+    INVITE: '/invitation',
+    EX_RATE: '/exrate'
 };
 
 var navigation = [
@@ -74,6 +75,14 @@ var navigation = [
         position: global.TOOLSBAR,
         icon : 'fa fa-plus',
         id: 'toolbar-create-order'
+    },
+    {
+        route: routes.EX_RATE,
+        name: 'Rate management',
+        requiredPermissions: [permissions.USER_MANAGEMENT],
+        position: global.TOOLSBAR,
+        icon : 'fa fa-dollar',
+        id: 'toolbar-rate-mamangement'
     },
     {
         route: routes.SUPPORT,

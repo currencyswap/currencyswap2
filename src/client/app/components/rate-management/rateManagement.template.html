@@ -1,3 +1,73 @@
-<div>
-    <h1>Rate management page</h1>
+<div class="rate-management-content">
+
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h5>Naira exchanges rate</h5>
+
+            <div class="panel-body panel-body-nopadding">
+                <div>
+                    <div class="table-responsive">
+                        <table class="table table-success mb30">
+                            <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Buy</th>
+                                <th>Median</th>
+                                <th>Sell</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td>US Dollar</td>
+                                <td>
+                                    <input class="inputRate" type="text" ng-model="todayRates.usDollarBuy">
+                                </td>
+                                <td>
+                                    <input class="inputRate" type="text" ng-model="todayRates.usDollarMedian">
+                                </td>
+                                <td>
+                                    <input class="inputRate" type="text" ng-model="todayRates.usDollarSell">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Pound</td>
+                                <td>
+                                    <input class="inputRate" type="text" ng-model="todayRates.poundBuy">
+                                </td>
+                                <td>
+                                    <input class="inputRate" type="text" ng-model="todayRates.poundMedian">
+                                </td>
+                                <td>
+                                    <input class="inputRate" type="text" ng-model="todayRates.poundSell">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Euro</td>
+                                <td>
+                                    <input class="inputRate" type="text" ng-model="todayRates.euroBuy">
+                                </td>
+                                <td>
+                                    <input class="inputRate" type="text" ng-model="todayRates.euroMedian">
+                                </td>
+                                <td>
+                                    <input class="inputRate" type="text" ng-model="todayRates.euroSell">
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div><!-- table-responsive -->
+                </div>
+            </div>
+
+            <div class="panel-footer">
+                <div class="row">
+                    <div class="col">
+                        <button class="btn btn-sm btn-danger" ng-click="save()">Reset</button>
+                        <!--<button class="btn btn-sm btn-primary" ng-click="save()">Get rates</button>-->
+                        <button class="btn btn-sm btn-info" ng-click="save()">Send</button>
+                    </div>
+                </div>
+            </div><!-- panel-footer -->
+        </div>
+    </div>
 </div>

@@ -8,6 +8,9 @@ angular.module('appHeader').directive('leftPanel', function () {
         },
         templateUrl: 'app/shared/header/left-panel.template.html',
         controller: function ($rootScope, $scope, $window, $location, $timeout, $element ,CookieService) {
+
+            $scope.isAdmin = $rootScope.permissions.USER_MANAGEMENT;
+
             var _toggle = function() {
                 if ($('body').css('position') == 'relative') {
                     $rootScope.menuToggle();
@@ -42,19 +45,6 @@ angular.module('appHeader').directive('leftPanel', function () {
                     $scope.randomNumImg = Math.round(Math.random()*10000000);
                 });
             });
-//            $.subscribe('/cs/swipe', function(swiper){
-//                //It is not working as expected
-//                if (swiper.left) {
-//                    if (_isLeftPanelShow()) {
-//                        _toggle();
-//                    }
-//                } else if (swiper.right) {
-//                    _toggle();
-//                }
-//            });
-//            if ($.device) {
-//                $.menuSwipeActions();
-//            };
         }
     };
 });
