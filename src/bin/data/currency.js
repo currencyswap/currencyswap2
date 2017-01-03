@@ -562,7 +562,7 @@ module.exports = {
     }, {
         'position' : 141,
         'code' : 'TOP',
-        'name' : 'Tongan Paʻanga'
+        'name' : 'Tongan Pa\'anga'
     }, {
         'position' : 142,
         'code' : 'TRY',

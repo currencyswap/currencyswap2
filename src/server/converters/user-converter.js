@@ -109,3 +109,21 @@ exports.convertUserData = function (requestUser) {
 
     return resultUser;
 };
+
+exports.convertExRateValueToNumber = function (exRateObj) {
+    try {
+        exRateObj.usDollarBuy = parseInt(exRateObj.usDollarBuy);
+        exRateObj.usDollarSell = parseInt(exRateObj.usDollarSell);
+        exRateObj.poundBuy = parseInt(exRateObj.poundBuy);
+        exRateObj.poundSell = parseInt(exRateObj.poundSell);
+        exRateObj.euroBuy = parseInt(exRateObj.euroBuy);
+        exRateObj.euroSell = parseInt(exRateObj.euroSell);
+    } catch (err) {
+        throw errorUtils.createAppError(errors.INVALID_INPUT_DATA);
+    }
+};
+
+exports.changeCreatedDateToNow = function (exRateObj) {
+    exRateObj.createdDate = new Date(Date.now());
+    return exRateObj;
+};

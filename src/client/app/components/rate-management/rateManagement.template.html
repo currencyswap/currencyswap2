@@ -6,7 +6,7 @@
 
             <div class="panel-body panel-body-nopadding">
                 <div>
-                    <div class="table-responsive">
+                    <div class="table-responsive tableExRate">
                         <table class="table table-success mb30">
                             <thead>
                             <tr>
@@ -20,37 +20,37 @@
                             <tr>
                                 <td>US Dollar</td>
                                 <td>
-                                    <input class="inputRate" type="text" ng-model="todayRates.usDollarBuy">
+                                    <input class="inputRate" ng-change="changeDollarBuy(todayRates.usDollarBuy)" type="number" ng-model="todayRates.usDollarBuy">
                                 </td>
                                 <td>
-                                    <input class="inputRate" type="text" ng-model="todayRates.usDollarMedian">
+                                    <input class="inputRate" type="number" ng-model="todayRates.usDollarMedian" disabled>
                                 </td>
                                 <td>
-                                    <input class="inputRate" type="text" ng-model="todayRates.usDollarSell">
+                                    <input class="inputRate" ng-change="changeDollarSell(todayRates.usDollarSell)" type="number" ng-model="todayRates.usDollarSell">
                                 </td>
                             </tr>
                             <tr>
                                 <td>Pound</td>
                                 <td>
-                                    <input class="inputRate" type="text" ng-model="todayRates.poundBuy">
+                                    <input class="inputRate" ng-change="changePoundBuy(todayRates.poundBuy)" type="number" ng-model="todayRates.poundBuy">
                                 </td>
                                 <td>
-                                    <input class="inputRate" type="text" ng-model="todayRates.poundMedian">
+                                    <input class="inputRate" type="number" ng-model="todayRates.poundMedian" disabled>
                                 </td>
                                 <td>
-                                    <input class="inputRate" type="text" ng-model="todayRates.poundSell">
+                                    <input class="inputRate" ng-change="changePoundSell(todayRates.poundSell)" type="number" ng-model="todayRates.poundSell">
                                 </td>
                             </tr>
                             <tr>
                                 <td>Euro</td>
                                 <td>
-                                    <input class="inputRate" type="text" ng-model="todayRates.euroBuy">
+                                    <input class="inputRate" ng-change="changeEuroBuy(todayRates.euroBuy)" type="number" ng-model="todayRates.euroBuy">
                                 </td>
                                 <td>
-                                    <input class="inputRate" type="text" ng-model="todayRates.euroMedian">
+                                    <input class="inputRate" type="number" ng-model="todayRates.euroMedian" disabled>
                                 </td>
                                 <td>
-                                    <input class="inputRate" type="text" ng-model="todayRates.euroSell">
+                                    <input class="inputRate" ng-change="changeEuroSell(todayRates.euroSell)" type="number" ng-model="todayRates.euroSell">
                                 </td>
                             </tr>
                             </tbody>
@@ -64,7 +64,7 @@
                     <div class="col">
                         <button class="btn btn-sm btn-danger" ng-click="undo()">Undo</button>
                         <!--<button class="btn btn-sm btn-primary" ng-click="save()">Get rates</button>-->
-                        <button class="btn btn-sm btn-info" ng-click="save()">Send</button>
+                        <button class="btn btn-sm btn-info" ng-click="saveAndSendRateToUsers(todayRates)">Send to users</button>
                     </div>
                 </div>
             </div><!-- panel-footer -->

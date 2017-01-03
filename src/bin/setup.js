@@ -15,6 +15,7 @@ var app = require(path.resolve(__dirname, '../server/server'));
 var ds = app.datasources.CSwapDB;
 
 var userService = require('../server/services/user-service');
+var exchangeRateService = require('../server/services/exchange-rate-service');
 var permissionService = require('../server/services/permission-service');
 var groupService = require('../server/services/group-service');
 
@@ -217,7 +218,7 @@ var migrate = function () {
             function (next) {
               console.log('create first exchange record');
 
-              userService.createMultiExchange(exchangeObjs.exchanges, function (err, exchangeRecords) {
+                exchangeRateService.createMultiExchange(exchangeObjs.exchanges, function (err, exchangeRecords) {
                   if (err) {
                       return next (err);
                   } else {
@@ -229,7 +230,7 @@ var migrate = function () {
         ],
         function (err) {
             if (err) {
-                console.error('ERROR : %s', err.message);
+                console.error('ERROR : %s', err);
             }
             process.exit(0);
         });

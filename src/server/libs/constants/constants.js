@@ -18,7 +18,9 @@ module.exports = {
         CONFIRM_ORDER_CONTENT : "Confirmed Order",
         CLEAR_ORDER_CONTENT : "Cleared Order",
         CANCEL_ORDER_CONTENT : "Cancel Order",
-        PENDING_ORDER_CONTENT: "Pending Order"
+        PENDING_ORDER_CONTENT: "Pending Order",
+        NAIRA_EX_RATE_TITLE: 'Updated Naira exchange rate',
+        NAIRA_EX_RATE_CONTENT: 'Naira exchange rate content'
     },
     PASSWORD_FIELD: 'password',
     STATUS_FIELD: 'status',

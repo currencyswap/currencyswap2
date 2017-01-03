@@ -1,5 +1,13 @@
-.rate-management-content .inputRate{
+.table-responsive.tableExRate .inputRate{
     width: 100%;
     border: 1px solid;
+    text-align: center;
+}
+
+.table-responsive.tableExRate .table thead th {
+    text-align: center;
+}
+
+.table-responsive.tableExRate .table thead tbody td input {
     text-align: center;
 }

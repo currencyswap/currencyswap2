@@ -86,4 +86,4 @@ module.exports = {
         'status' : 'Activated',
         'groups' : ['{ADMIN}']
     }
-}
+};
