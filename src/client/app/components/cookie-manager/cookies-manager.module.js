@@ -11,7 +11,7 @@ angular.module('cookieManager', ['ngCookies'])
                 var obj = getInfoFormToken(token);
 
                 if ( !obj.avatarUrl ) {
-                    obj.avatarUrl = global.DEF_AVATAR_URL + obj.username;2
+                    obj.avatarUrl = global.DEF_AVATAR_URL + obj.username;
                 }
 
                 $cookies.put(global.TOKEN, token, options);
