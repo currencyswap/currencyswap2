@@ -11,6 +11,18 @@
     margin-bottom: 5px;
 }
 
+.createOrderPanel .rate-row .alert.suggestion-rate p{
+	font-size: small;
+}
+
+.createOrderPanel .rate-row .alert.suggestion-rate{
+	width: 612px !important;
+	border-radius: 0px;
+	padding: 5px;
+	margin-bottom: 5px;
+	margin-top: 5px;
+}
+
 .createOrderPanel .rate-row input.form-control{
 	width: 612px !important;
     margin-right: 10px;
@@ -22,8 +34,17 @@
   }
 
 @media screen and (max-width: 767px) {
-	.createOrderPanel .rate-row input.form-control{
+	.createOrderPanel .rate-row .alert.suggestion-rate p{
+		font-size: small;
+	}
+
+	.createOrderPanel .rate-row input.form-control,
+	.createOrderPanel .rate-row .alert.suggestion-rate{
 		width: 300px !important;
+		border-radius: 0px;
+		padding: 5px;
+		margin-bottom: 5px;
+		margin-top: 5px;
 	}
 }
 

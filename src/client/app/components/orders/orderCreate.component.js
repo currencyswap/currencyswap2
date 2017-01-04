@@ -46,8 +46,20 @@ angular.module('orders')
         				console.log("getCurrenciesList err: " + JSON.stringify(err));
         			});
         		}
-        		
+
+        		var getLatestExchangeRate = function () {
+        			OrdersService.getExchangeRate()
+						.then(function (response) {
+                            $scope.$apply(function () {
+                                $scope.latestExRate = response;
+							})
+						}, function (error) {
+							console.log('error when fetching latest exchange rate data: ', JSON.stringify(error));
+						})
+				};
+
         		getCurrenciesList();
+        		getLatestExchangeRate();
         		
         		var getSuggestionOrders = function(){
         			var data = {
@@ -75,6 +87,7 @@ angular.module('orders')
         						$scope.newOrder.get = data.order.get;
         						$scope.newOrder.giveCurrencyCode = data.order.giveCurrency.code;
         						$scope.newOrder.getCurrencyCode = data.order.getCurrency.code;
+                                suggestExRate();
         					}
         				});
         			},function(err){
@@ -176,11 +189,6 @@ angular.module('orders')
         			$scope.newOrder.dayLive = dayLive;
         			$scope.newOrder.expiredDate = expiredDate;
         			
-//        			$scope.newOrder.give = reFormatValue($scope.newOrder.give);
-//        			$scope.newOrder.get = reFormatValue($scope.newOrder.get);
-//        			$scope.newOrder.rate = reFormatValue($scope.newOrder.rate);
-        			
-        			
         			for(var i in  $scope.currencies){
         				if($scope.newOrder.getCurrencyCode == $scope.currencies[i].code){
         					$scope.newOrder.getCurrencyId = $scope.currencies[i].id;
@@ -269,6 +277,53 @@ angular.module('orders')
 	                    });
             	    }
         		};
-        		
+
+        		var suggestExRate = function () {
+                    if ($scope.newOrder.giveCurrencyCode === 'NGN') {
+                        if ($scope.newOrder.getCurrencyCode === 'USD') {
+                            $scope.suggested = true;
+                            $scope.suggestedUSD = true;
+                            $scope.suggestedEUR = false;
+                            $scope.suggestedGBP = false;
+                        } else if ($scope.newOrder.getCurrencyCode === 'EUR') {
+                            $scope.suggested = true;
+                            $scope.suggestedUSD = false;
+                            $scope.suggestedEUR = true;
+                            $scope.suggestedGBP = false;
+                        } else if ($scope.newOrder.getCurrencyCode === 'GBP') {
+                            $scope.suggested = true;
+                            $scope.suggestedUSD = false;
+                            $scope.suggestedEUR = false;
+                            $scope.suggestedGBP = true;
+                        } else {
+                            $scope.suggested = false;
+                        }
+                    } else if ($scope.newOrder.getCurrencyCode === 'NGN') {
+                        if ($scope.newOrder.giveCurrencyCode === 'USD') {
+                            $scope.suggested = true;
+                            $scope.suggestedUSD = true;
+                            $scope.suggestedEUR = false;
+                            $scope.suggestedGBP = false;
+                        } else if ($scope.newOrder.giveCurrencyCode === 'EUR') {
+                            $scope.suggested = true;
+                            $scope.suggestedUSD = false;
+                            $scope.suggestedEUR = true;
+                            $scope.suggestedGBP = false;
+                        } else if ($scope.newOrder.giveCurrencyCode === 'GBP') {
+                            $scope.suggested = true;
+                            $scope.suggestedUSD = false;
+                            $scope.suggestedEUR = false;
+                            $scope.suggestedGBP = true;
+                        } else {
+                            $scope.suggested = false;
+                        }
+                    } else {
+                        $scope.suggested = false;
+                    }
+				};
+
+        		$scope.currencyChange = function () {
+                    suggestExRate();
+				}
             }]
     });
