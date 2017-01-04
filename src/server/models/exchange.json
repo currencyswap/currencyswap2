@@ -16,25 +16,47 @@
       "type": "date",
       "required": true
     },
-    "fromCode": {
-      "type": "string",
-      "length": 3,
-      "required": true
-    },
-    "toCode": {
-      "type": "string",
-      "length": 3,
-      "required": true
-    },
-    "buy": {
+    "usDollarSell": {
       "type": "number",
       "dataType": "decimal",
-      "scale": 0
+      "precision": 10,
+      "scale": 2,
+      "required": true
     },
-    "sell": {
+    "usDollarBuy": {
       "type": "number",
       "dataType": "decimal",
-      "scale": 0
+      "precision": 10,
+      "scale": 2,
+      "required": true
+    },
+    "poundSell": {
+      "type": "number",
+      "dataType": "decimal",
+      "precision": 10,
+      "scale": 2,
+      "required": true
+    },
+    "poundBuy": {
+      "type": "number",
+      "dataType": "decimal",
+      "precision": 10,
+      "scale": 2,
+      "required": true
+    },
+    "euroSell": {
+      "type": "number",
+      "dataType": "decimal",
+      "precision": 10,
+      "scale": 2,
+      "required": true
+    },
+    "euroBuy": {
+      "type": "number",
+      "dataType": "decimal",
+      "precision": 10,
+      "scale": 2,
+      "required": true
     }
   },
   "validations": [],
