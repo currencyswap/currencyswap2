@@ -20,7 +20,7 @@
 									<input type="text" name="give" class="form-control" ng-model="newOrder.give" format-currency ng-change="onChangeValue(FIXED_VALUE.GIVE);"  focus-me="focusGive" required>
 								</div>
 								<div class="input-group">
-									<select name="giveCurrency" ng-model="newOrder.giveCurrencyCode" class="form-control" required>
+									<select name="giveCurrency" ng-model="newOrder.giveCurrencyCode" class="form-control" ng-change="currencyChange()" required>
 										<option ng-repeat="currency in currencies" value="{{currency.code}}">{{currency.code}} - {{currency.name}}</option>
 									</select>
 								</div>
@@ -44,7 +44,7 @@
 										<input type="text" name="get" class="form-control" ng-model="newOrder.get" format-currency ng-change="onChangeValue(FIXED_VALUE.GET);" focus-me="focusGet" required>
 									</div>
 									<div class="input-group">
-										<select name="getCurrency" ng-model="newOrder.getCurrencyCode" class="form-control" required>
+										<select name="getCurrency" ng-model="newOrder.getCurrencyCode" class="form-control" ng-change="currencyChange()" required>
 											<option ng-repeat="currency in currencies" value="{{currency.code}}">{{currency.code}} - {{currency.name}}</option>
 										</select>
 									</div>
@@ -75,6 +75,16 @@
 											<label class="radio-inline"> <input type="radio" name="fixed" ng-model="newOrder.fixed" value="{{FIXED_VALUE.RATE}}">
 												Fixed
 											</label>
+										</div>
+									</div>
+									<div class="input-group" ng-if="suggested">
+										<div class="form-group">
+											<div class="alert alert-info suggestion-rate">
+												<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+												<p ng-if="suggestedUSD">NGN to USD (Buy/Median/Sell): <strong>{{latestExRate.usDollarBuy}}/{{latestExRate.usDollarMedian}}/{{latestExRate.usDollarSell}}</strong></p>
+												<p ng-if="suggestedEUR">NGN to EUR (Buy/Median/Sell): <strong>{{latestExRate.euroBuy}}/{{latestExRate.euroMedian}}/{{latestExRate.euroSell}}</strong></p>
+												<p ng-if="suggestedGBP">NGN to GBP (Buy/Median/Sell): <strong>{{latestExRate.poundBuy}}/{{latestExRate.poundMedian}}/{{latestExRate.poundSell}}</strong></p>
+											</div>
 										</div>
 									</div>
 								</div>

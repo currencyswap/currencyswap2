@@ -67,7 +67,9 @@ angular.module('orders').factory('OrdersService', ['ConnectorService', function 
         },
         swapSubmittedOrder:function(orderId){
             return this.get(apiRoutes.API_ORDERS_SUBMITTED_SWAP.replace(":id",orderId));
+        },
+        getExchangeRate: function () {
+            return this.get(apiRoutes.API_EXRATE);
         }
-                
     });
 }]);
