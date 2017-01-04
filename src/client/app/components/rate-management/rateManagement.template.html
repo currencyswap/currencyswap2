@@ -10,7 +10,7 @@
                         <table class="table table-success mb30">
                             <thead>
                             <tr>
-                                <th>#</th>
+                                <th></th>
                                 <th>Buy</th>
                                 <th>Median</th>
                                 <th>Sell</th>
@@ -64,7 +64,11 @@
                     <div class="col">
                         <button class="btn btn-sm btn-danger" ng-click="undo()">Undo</button>
                         <!--<button class="btn btn-sm btn-primary" ng-click="save()">Get rates</button>-->
-                        <button class="btn btn-sm btn-info" ng-click="saveAndSendRateToUsers(todayRates)">Send to users</button>
+                        <button ng-disabled="gifLoading" class="btn btn-sm btn-primary" ng-click="saveAndSendRateToUsers(todayRates)">Send to users
+                            <div class="loaders" align="center" ng-show="gifLoading">
+                                <img src="../../../assets/images/loaders/loader7.gif" alt="">
+                            </div>
+                        </button>
                     </div>
                 </div>
             </div><!-- panel-footer -->

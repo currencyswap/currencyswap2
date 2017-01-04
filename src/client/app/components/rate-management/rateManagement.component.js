@@ -16,11 +16,13 @@ angular.module('rateManagement')
                 };
 
                 $scope.saveAndSendRateToUsers = function (rate) {
-                    console.log('rate obj: ', rate);
                     delete rate.id;
+                    $scope.gifLoading = true;
                     RateManagementService.saveAndSendRateToUsers(rate)
                         .then(function (response) {
-                            console.log('response from server: ', response);
+                            $scope.$apply(function () {
+                                $scope.gifLoading = false;
+                            })
                         }, function (err) {
                             console.log('err from server: ', err);
                         })

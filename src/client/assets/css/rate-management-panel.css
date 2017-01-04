@@ -11,3 +11,13 @@
 .table-responsive.tableExRate .table thead tbody td input {
     text-align: center;
 }
+
+.panel-footer .row .col .btn.btn-sm.btn-primary .loaders{
+    width: 15px;
+    float: right;
+    margin-left: 10px;
+}
+
+.panel-footer .btn.btn-sm.btn-primary img{
+    width: 100%;
+}
