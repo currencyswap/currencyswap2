@@ -294,5 +294,9 @@
     "ACCOUNT_IS_BLOCKED": {
         "code": 114,
         "message": "{ACCOUNT_IS_BLOCKED}"
+    },
+    "BANK_ACC_NUM_EXISTED": {
+        "code": 115,
+        "message": "{BANK_ACC_NUM_EXISTED}"
     }
 }

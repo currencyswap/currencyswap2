@@ -411,69 +411,11 @@ exports.createUserTransaction = function (callback) {
             })
         },
         function (newUser, options, next) {
-            exports.getUserByUsername(newUser.username, function (err, user) {
+            exports.checkExistedInfo(newUser, function (err) {
                 if (err) {
-                    if (err.code === errorUtil.createAppError(errors.MEMBER_INVALID_USERNAME).code) {
-                        return next(null, newUser, options);
-                    } else {
-                        return next(err);
-                    }
+                    return next (err)
                 } else {
-                    if (user.status === constant.USER_STATUSES.NEW) {
-                        exports.deleteUserAndRelatedAddresses(user, function (err) {
-                            if (err) return next (err);
-                            else return next (null, newUser, options);
-                        })
-                    } else {
-                        return next(errorUtil.createAppError(errors.USER_NAME_EXISTED));
-                    }
-                }
-            });
-        },
-        function (newUser, options, next) {
-            if (!newUser.nationalId) {
-                return next (null, newUser, options);
-            } else {
-                exports.getUserByNationalId(newUser, function (err, foundUser) {
-                    if (err) {
-                        if (err.code === errorUtil.createAppError(errors.NO_USER_FOUND_IN_DB).code) {
-                            return next(null, newUser, options);
-                        } else {
-                            return next(err);
-                        }
-                    } else {
-                        return next (errorUtil.createAppError(errors.NATIONAL_ID_EXISTED));
-                    }
-                });
-            }
-        },
-        function (newUser, options, next) {
-            if (!newUser.cellphone) {
-                return next(null, newUser, options);
-            } else {
-                exports.getUserByCellphone(newUser, function (err, foundUser) {
-                    if (err) {
-                        if (err.code === errorUtil.createAppError(errors.NO_USER_FOUND_IN_DB).code) {
-                            return next(null, newUser, options);
-                        } else {
-                            return next(err);
-                        }
-                    } else {
-                        return next (errorUtil.createAppError(errors.CELLPHONE_EXISTED))
-                    }
-                })
-            }
-        },
-        function (newUser, options, next) {
-            app.models.Member.findByEmail(newUser.email, function (err, foundUser) {
-                if (err) {
-                    if (err.code === errorUtil.createAppError(errors.MEMBER_EMAIL_NOT_FOUND).code) {
-                        return next(null, newUser, options);
-                    } else {
-                        return next (err);
-                    }
-                } else {
-                    return next(errorUtil.createAppError(errors.EMAIL_EXISTED));
+                    return next (null, newUser, options);
                 }
             })
         },
@@ -512,6 +454,24 @@ exports.createUserTransaction = function (callback) {
                 return next (null, savedUser, options);
             }
         },
+        function (savedUser, options, next) {
+            if (!newUser.banksInfo) {
+                return next (null, savedUser, options);
+            }
+
+            newUser.banksInfo.forEach(function (bankInfo) {
+                bankInfo.memberId = savedUser.id;
+            });
+
+            app.models.BankInfo.create(newUser.banksInfo, function (err, savedBankInfo) {
+                if (err) {
+                    console.error('Error on saving bank info of user');
+                    return next (errorUtil.createAppError(errors.SERVER_GET_PROBLEM));
+                } else {
+                    return next (null, savedUser, options);
+                }
+            });
+        },
         function createMessage(savedUser, options, next) {
             supportService.messageToGroup({'title': constant.MSG.NEW_MEMBER_TITLE,
                 'message': constant.MSG.NEW_MEMBER_CONTENT, 
@@ -520,7 +480,6 @@ exports.createUserTransaction = function (callback) {
             return next(null, savedUser.username, savedUser.email, options);
         },
         function (username, email, options, next) {
-            // generate reset password code
             exports.generateRandomString(function (err, randomString) {
                 if (err) return next(err);
                 else {
@@ -966,6 +925,47 @@ exports.sendInvitationMail = function (invitationLink, inviter, inviteeEmail, ca
     });
 };
 
-exports.createInvitation = function () {
+exports.checkExistedInfo = function (requestUser, callback) {
+    var orOptions = [];
+    if (requestUser.username) {
+        orOptions.push({'username': requestUser.username});
+    }
+    if (requestUser.nationalId) {
+        orOptions.push({'nationalId': requestUser.nationalId})
+    }
+    if (requestUser.cellphone) {
+        orOptions.push({'cellphone': requestUser.cellphone})
+    }
+    if (requestUser.email) {
+        orOptions.push({'email': requestUser.email})
+    }
+    app.models.Member.findOne({
+        where: {
+            or: orOptions
+        }
+    }, function (err, user) {
+        if (err) {
+            return callback(errorUtil.createAppError(errors.SERVER_GET_PROBLEM));
+        } else {
+            if (!user) {
+                return callback(null);
+            } else {
+                if (user.username === requestUser.username) {
+                    return callback(errorUtil.createAppError(errors.USER_NAME_EXISTED))
+                }
 
+                if (user.email === requestUser.email) {
+                    return callback(errorUtil.createAppError(errors.EMAIL_EXISTED))
+                }
+
+                if (user.nationalId && user.nationalId === requestUser.nationalId) {
+                    return callback(errorUtil.createAppError(errors.NATIONAL_ID_EXISTED))
+                }
+
+                if (user.cellphone && user.cellphone === requestUser.cellphone) {
+                    return callback(errorUtil.createAppError(errors.CELLPHONE_EXISTED))
+                }
+            }
+        }
+    })
 };

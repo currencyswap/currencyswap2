@@ -1,3 +1,3 @@
 'use-strict';
 
-angular.module('orders', ['ngRoute', 'cookieManager', 'permission', 'navigation', 'ui.bootstrap']);
+angular.module('orders', ['ngRoute', 'cookieManager', 'permission', 'navigation', 'angularCountryState', 'ui.bootstrap'])

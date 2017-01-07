@@ -15,6 +15,7 @@ var app = require(path.resolve(__dirname, '../server/server'));
 var ds = app.datasources.CSwapDB;
 
 var userService = require('../server/services/user-service');
+var exchangeRateService = require('../server/services/exchange-rate-service');
 var permissionService = require('../server/services/permission-service');
 var groupService = require('../server/services/group-service');
 
@@ -22,12 +23,18 @@ var persGroups = require('../server/security/permissions-groups');
 
 var appConfig = require('../server/libs/app-config');
 
+var exchangeObjs = require('./data/exchanges');
+var orderBankInfo = require('./data/order-bank-info').orderBankInfo;
+var bankInfo = require('./data/bank-info').bankInfo;
+
 var mapDataModels = [
     {'model': 'Currency', 'values': currencyData.currencies},
     {'model': 'StatusType', 'values': statusData.statuses},
     {'model': 'Order', 'values': ordersData.orders},
     {'model': 'OrderActivity', 'values': ordersData.orderActis},
-    {'model': 'Message', 'values': ordersData.messages}
+    {'model': 'Message', 'values': ordersData.messages},
+    {'model' : 'OrderBankInfo', 'values': orderBankInfo},
+    {'model' : 'BankInfo', 'values': bankInfo},
 ];
 
 function _insertData(arrayData, modelType, next) {
@@ -212,11 +219,22 @@ var migrate = function () {
             function ( users, next) {
                 cleanUpCache(next);
             },
+            function (next) {
+              console.log('create first exchange record');
+
+                exchangeRateService.createMultiExchange(exchangeObjs.exchanges, function (err, exchangeRecords) {
+                  if (err) {
+                      return next (err);
+                  } else {
+                      return next (null);
+                  }
+              })
+            },
             otherInSeries
         ],
         function (err) {
             if (err) {
-                console.error('ERROR : %s', err.message);
+                console.error('ERROR : %s', err);
             }
             process.exit(0);
         });

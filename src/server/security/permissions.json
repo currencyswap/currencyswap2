@@ -316,6 +316,37 @@
                     "isAlive": true
                 }
             ]
+        },
+        {
+            "route": "{API_EXRATE}",
+            "rules" : [
+                {
+                    "methods" : ["POST"],
+                    "requiredPermissions": [
+                        "{USER_MANAGEMENT}"
+                    ],
+                    "isAlive": true
+                },
+                {
+                    "methods" : ["GET"],
+                    "requiredPermissions": [
+                        "{USER_MANAGEMENT}", "{MAINTAIN_OWN_ORDERS}"
+                    ],
+                    "isAlive": true
+                }
+            ]
+        },
+        {
+            "route": "{API_BANK_INFO_ACCOUNT}",
+            "rules" : [
+                {
+                    "methods" : ["GET"],
+                    "requiredPermissions": [
+                        "{MAINTAIN_OWN_ORDERS}"
+                    ],
+                    "isAlive": true
+                }
+            ]
         }
     ]
 }

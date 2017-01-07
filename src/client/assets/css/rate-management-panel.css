@@ -1,0 +1,27 @@
+.table-responsive.tableExRate .inputRate{
+    width: 100%;
+    border: 1px solid;
+    text-align: center;
+}
+
+.table-responsive.tableExRate .table thead th {
+    text-align: center;
+}
+
+.table-responsive.tableExRate .table thead tbody td input {
+    text-align: center;
+}
+
+.table-responsive.tableExRate .table thead tbody td {
+    font-size: small;
+}
+
+.panel-footer .row .col .btn.btn-sm.btn-primary .loaders{
+    width: 15px;
+    float: right;
+    margin-left: 10px;
+}
+
+.panel-footer .btn.btn-sm.btn-primary img{
+    width: 100%;
+}

@@ -8,4 +8,4 @@ module.exports = {
     {"id": 6, "name": "Cancelled", "description":"Order is cancelled by owner"},
     {"id": 7, "name": "Expired", "description":"Order gets expired date"}
     ]
-}
+};

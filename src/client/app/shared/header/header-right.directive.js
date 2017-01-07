@@ -48,14 +48,7 @@ angular.module('appHeader').directive('headerRight', function () {
                       });
                   }
               }
-
-//            if (msg.orderCode) {
-//                $timeout(function(){
-//                    $location.path( routes.ORDERS + msg.orderCode );
-//                });
-//            } else {
                 $rootScope.openMessageModel(msg);
-//            }
           };
 
           var getNotiInst = function(){

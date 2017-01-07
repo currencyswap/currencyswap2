@@ -51,9 +51,13 @@ module.exports = function (Member) {
             relation: 'inviters'
         };
 
+        var includeBankInfo = {
+            relation: 'bankInfo'
+        };
+
         var filter = {
             where: where,
-            include: [includeGroups, includeAddresses, includeInvitees, includeInviters]
+            include: [includeGroups, includeAddresses, includeInvitees, includeInviters, includeBankInfo]
         };
 
         Member.findOne(filter, function (err, user) {

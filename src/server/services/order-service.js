@@ -39,6 +39,19 @@ var activitiesRelation = {
                         'include' : [creatorRelation]
                 }
 };
+
+var orderBankInfoRelation = {
+    'relation' : 'bankInfoOfOrder'
+};
+
+var initializerBankInfo = {
+    'relation' : 'initializerBankInfo'
+};
+
+var accepterBankInfo = {
+    'relation' : 'accepterBankInfo'
+}
+
 exports.filterOrders = function (filter) {
     return dbUtil.executeModelFn(app.models.Order, 'find', filter);
 };
@@ -46,14 +59,14 @@ exports.filterOrders = function (filter) {
 exports.getOrderById = function (id) {
     var filter = {
             'where': { 'id': id },
-            'include' : [ ownerRelation, accepterRelation, giveCurrencyRelation, getCurrencyRelation]
+            'include' : [ ownerRelation, accepterRelation, giveCurrencyRelation, getCurrencyRelation, orderBankInfoRelation, initializerBankInfo, accepterBankInfo]
     };
     return dbUtil.executeModelFn(app.models.Order, 'findOne', filter);
 };
 exports.getOrderByCode = function (orderCode, userId, isCheckExpired) {
     var filter = {
             'where': { and : [{'code': orderCode}]},
-            'include' : [ ownerRelation, accepterRelation, giveCurrencyRelation, getCurrencyRelation, statusRelation, activitiesRelation]
+            'include' : [ ownerRelation, accepterRelation, giveCurrencyRelation, getCurrencyRelation, statusRelation, activitiesRelation, orderBankInfoRelation, initializerBankInfo, accepterBankInfo]
     };
     if(userId){
     	filter.where.and.push({or : [{'ownerId' : userId}, {'accepterId' : userId}]});

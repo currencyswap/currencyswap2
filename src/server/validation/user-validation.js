@@ -277,3 +277,27 @@ exports.validateInviter = function (inviter) {
         }
     }
 };
+
+exports.validateExRateObj = function (exRateObj) {
+    if (!exRateObj) {
+        throw errorUtils.createAppError(errors.INVALID_INPUT_DATA);
+    }
+
+    if (!exRateObj.usDollarBuy
+        || !exRateObj.usDollarSell
+        || !exRateObj.poundBuy
+        || !exRateObj.poundSell
+        || !exRateObj.euroBuy
+        || !exRateObj.euroSell) {
+        throw errorUtils.createAppError(errors.INVALID_INPUT_DATA);
+    }
+
+    if (typeof exRateObj.usDollarBuy !== 'string'
+        || typeof exRateObj.usDollarSell !== 'string'
+        || typeof exRateObj.poundBuy !== 'string'
+        || typeof exRateObj.poundSell !== 'string'
+        || typeof exRateObj.euroBuy !== 'string'
+        || typeof exRateObj.euroSell !== 'string') {
+        throw errorUtils.createAppError(errors.INVALID_INPUT_DATA);
+    }
+};

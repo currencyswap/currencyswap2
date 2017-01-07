@@ -8,6 +8,11 @@ var dbUtil = require('../libs/utilities/db-util');
 var app = require('../server');
 
 var MAX_QUICK_NUM = 5;
+
+var bankInfoRelation = {
+    'relation': 'bankInfo'
+};
+
 var creatorRelation = {
         'relation' : 'creator',
         'scope' : {
@@ -24,7 +29,7 @@ exports.getCreator = function(username) {
     return dbUtil.executeModelFn(app.models.Member, 'findOne', {'where': {"username": username}, 'include': [groupRelation]});
 };
 exports.getCreatorById = function(id) {
-    return dbUtil.executeModelFn(app.models.Member, 'findOne', {'where': {"id": id}, 'include': [groupRelation]});
+    return dbUtil.executeModelFn(app.models.Member, 'findOne', {'where': {"id": id}, 'include': [groupRelation, bankInfoRelation]});
 };
 
 exports.getGroups = function() {

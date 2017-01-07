@@ -1,20 +1,75 @@
-    <!-- Modal content-->
+<!-- Modal content-->
 <div class="modal-content">
-      <div class="modal-header">
+    <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" data-ng-click="cancel()">&times;</button>
         <h4 class="modal-title">{{item.title}}</h4>
-      </div>
-      <div class="modal-body">
-      
-    <p class="msg-content" data-ng-bind-html="item.message2" data-ng-if="item.orderCode" data-ng-click="closeDetail($event)"></p>
-    <p class="msg-content" data-ng-if="!item.orderCode">{{item.message}}</p>
-    <div class="msg-issue">
-    <small class="text-muted">Sender: <strong>{{item.creator.username}}</strong></small>
-    <small class="text-muted"> - {{item.created | date : 'MMM dd, yyyy hh:mm a'}}</small><br>
     </div>
- 
-      <div class="modal-footer" style="clear:both;">
-              <button class="btn btn-primary" type="button" data-ng-click="cancel()">OK</button>
-      </div>
-</div>
+    <div class="modal-body">
+
+        <p class="msg-content" data-ng-bind-html="item.message2" data-ng-if="item.orderCode"
+           data-ng-click="closeDetail($event)"></p>
+        <p class="msg-content" data-ng-if="!item.orderCode && !item.exrateMsg">{{item.message}}</p>
+
+        <div class="msg-content" data-ng-if="item.exrateMsg">
+            <div class="table-responsive tableExRate">
+                <table class="table table-success mb30">
+                    <thead>
+                    <tr>
+                        <th></th>
+                        <th>Buy</th>
+                        <th>Median</th>
+                        <th>Sell</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>US Dollar</td>
+                        <td>
+                            <input class="inputRate" type="text" value="{{item.exrateMsg.usDollarBuy}}" disabled>
+                        </td>
+                        <td>
+                            <input class="inputRate" type="text" value="{{item.exrateMsg.usDollarMedian}}" disabled>
+                        </td>
+                        <td>
+                            <input class="inputRate" type="text" value="{{item.exrateMsg.usDollarSell}}" disabled>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Pound</td>
+                        <td>
+                            <input class="inputRate" type="text" value="{{item.exrateMsg.poundBuy}}" disabled>
+                        </td>
+                        <td>
+                            <input class="inputRate" type="text" value="{{item.exrateMsg.poundMedian}}" disabled>
+                        </td>
+                        <td>
+                            <input class="inputRate" type="text" value="{{item.exrateMsg.poundSell}}" disabled>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Euro</td>
+                        <td>
+                            <input class="inputRate" type="text" value="{{item.exrateMsg.euroBuy}}" disabled>
+                        </td>
+                        <td>
+                            <input class="inputRate" type="text" value="{{item.exrateMsg.euroMedian}}" disabled>
+                        </td>
+                        <td>
+                            <input class="inputRate" type="text" value="{{item.exrateMsg.euroSell}}" disabled>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div><!-- table-responsive -->
+        </div>
+        <div class="msg-issue">
+            <small class="text-muted">Sender: <strong>{{item.creator.username}}</strong></small>
+            <small class="text-muted"> - {{item.created | date : 'MMM dd, yyyy hh:mm a'}}</small>
+            <br>
+        </div>
+
+        <div class="modal-footer" style="clear:both;">
+            <button class="btn btn-primary" type="button" data-ng-click="cancel()">OK</button>
+        </div>
+    </div>
 </div>

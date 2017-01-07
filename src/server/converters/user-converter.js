@@ -71,6 +71,8 @@ exports.convertUserData = function (requestUser) {
     resultUser.expiredDate = new Date(Date.now()).toISOString();
     resultUser.registeredDate = new Date(Date.now()).toISOString();
 
+    resultUser.banksInfo = [];
+
     if (requestUser.fullName) resultUser.fullName = requestUser.fullName;
 
     if (requestUser.birthday) resultUser.birthday = new Date(requestUser.birthday).toISOString();
@@ -85,15 +87,43 @@ exports.convertUserData = function (requestUser) {
 
     if (requestUser.profession) resultUser.profession = requestUser.profession;
 
-    if (requestUser.bankAccountName) resultUser.bankAccountName = requestUser.bankAccountName;
+    if (requestUser.bankAccountName
+        || requestUser.bankAccountNumber
+        || requestUser.bankName
+        || requestUser.bankCountry) {
+        resultUser.banksInfo.push({
+            bankAccountName: requestUser.bankAccountName,
+            bankAccountNumber: requestUser.bankAccountNumber,
+            bankName: requestUser.bankName,
+            bankCountry: requestUser.bankCountry
+        })
+    }
 
-    if (requestUser.bankAccountNumber) resultUser.bankAccountNumber = requestUser.bankAccountNumber;
+    /*if (requestUser.bankAccountNumber) resultUser.bankInfo.bankAccountNumber = requestUser.bankAccountNumber;
 
-    if (requestUser.bankName) resultUser.bankName = requestUser.bankName;
+    if (requestUser.bankName) resultUser.bankInfo.bankName = requestUser.bankName;
 
-    if (requestUser.bankCountry) resultUser.bankCountry = requestUser.bankCountry;
+    if (requestUser.bankCountry) resultUser.bankInfo.bankCountry = requestUser.bankCountry;*/
 
     if (requestUser.inviter) resultUser.inviter = requestUser.inviter;
 
     return resultUser;
+};
+
+exports.convertExRateValueToNumber = function (exRateObj) {
+    try {
+        exRateObj.usDollarBuy = parseInt(exRateObj.usDollarBuy);
+        exRateObj.usDollarSell = parseInt(exRateObj.usDollarSell);
+        exRateObj.poundBuy = parseInt(exRateObj.poundBuy);
+        exRateObj.poundSell = parseInt(exRateObj.poundSell);
+        exRateObj.euroBuy = parseInt(exRateObj.euroBuy);
+        exRateObj.euroSell = parseInt(exRateObj.euroSell);
+    } catch (err) {
+        throw errorUtils.createAppError(errors.INVALID_INPUT_DATA);
+    }
+};
+
+exports.changeCreatedDateToNow = function (exRateObj) {
+    exRateObj.createdDate = new Date(Date.now());
+    return exRateObj;
 };
