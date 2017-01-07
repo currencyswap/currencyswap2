@@ -69,5 +69,6 @@
     "USER_ACCOUNT_EXPIRED": "Your account gets expired. Please contact Administrator for farther information!",
     "USER_ACCOUNT_BLOCKED": "Your account gets blocked. Please contact Administrator for farther information!",
     "NO_INVITER": "Request has no inviter",
-    "ACCOUNT_IS_BLOCKED": "Account is blocked"
+    "ACCOUNT_IS_BLOCKED": "Account is blocked",
+    "BANK_ACC_NUM_EXISTED": "Bank account number already existed"
 }

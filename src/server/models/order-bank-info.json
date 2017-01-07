@@ -12,18 +12,8 @@
     "validateUpsert": true
   },
   "properties": {
-    "name": {
-      "type": "string",
-      "length": 128,
-      "required": true
-    },
-    "description": {
-      "type": "string",
-      "length": 256
-    },
     "orderId": {
-      "type": "string",
-      "length": 256
+      "type": "number"
     },
     "initializerBankInfoId": {
       "type": "number"
@@ -33,18 +23,7 @@
     }
   },
   "validations": [],
-  "relations": {
-    "accepterBankInfo": {
-      "type": "hasOne",
-      "model": "BankInfo",
-      "foreignKey": "accepterBankInfoId"
-    },
-    "initializerBankInfo": {
-      "type": "hasOne",
-      "model": "BankInfo",
-      "foreignKey": "initializerBankInfoId"
-    }
-  },
+  "relations": {},
   "acls": [],
   "methods": {}
 }

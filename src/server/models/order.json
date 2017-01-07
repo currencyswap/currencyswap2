@@ -126,6 +126,18 @@
       "type": "hasOne",
       "model": "OrderBankInfo",
       "foreignKey": "orderId"
+    },
+    "initializerBankInfo": {
+      "type": "hasMany",
+      "model": "BankInfo",
+      "through": "OrderBankInfo",
+      "keyThrough": "initializerBankInfoId"
+    },
+    "accepterBankInfo": {
+      "type": "hasMany",
+      "model": "BankInfo",
+      "through": "OrderBankInfo",
+      "keyThrough": "accepterBankInfoId"
     }
   },
   "acls": [],

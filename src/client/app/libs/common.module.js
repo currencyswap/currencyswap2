@@ -78,14 +78,16 @@ angular.module('common', ['ngRoute', 'cookieManager', 'permission', 'navigation'
             var orderLink = '<a href="/#!{LINK}{CODE}">{CODE}</a>';
             var orderCode = $scope.item.orderCode;
             var re = new RegExp(orderCode, 'ig');
+
+            $scope.item.exrateMsg = false;
+
             if (orderCode) {
                 $scope.item.message2 = $scope.item.message.replace(re, orderLink.replace(/\{LINK\}/g, routes.ORDERS).replace(/\{CODE\}/g, orderCode));
             }
 
-            var exRateObj = SupportService.parseToExRateObj(inputData);
+            var exRateObj = SupportService.parseToExRateObj(inputData.message);
 
             if (SupportService.isExRateObj(exRateObj)) {
-                console.log('$scope.item.orderCode: ', $scope.item.orderCode);
                 $scope.item.exrateMsg = exRateObj;
             }
 
@@ -267,6 +269,7 @@ angular.module('common').factory('ConnectorService', ['$rootScope', '$q', 'Cooki
                 window._csDismisses[msg] = false;
             }, 600);
           }).always(function(){
+              console.log('request to url: ', url);
               if (debug) {
                   console.log('Request GET done');
               }

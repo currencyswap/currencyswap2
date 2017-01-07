@@ -335,6 +335,18 @@
                     "isAlive": true
                 }
             ]
+        },
+        {
+            "route": "{API_BANK_INFO_ACCOUNT}",
+            "rules" : [
+                {
+                    "methods" : ["GET"],
+                    "requiredPermissions": [
+                        "{MAINTAIN_OWN_ORDERS}"
+                    ],
+                    "isAlive": true
+                }
+            ]
         }
     ]
 }

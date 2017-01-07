@@ -82,8 +82,8 @@ angular.module('orders')
         	        			var expired = new Date($scope.order.expired);
         	        			$scope.updateOrder.expired = setExpired(created, expired);
         	        			$scope.updateOrder.created = $scope.order.created;
-        						
-        					}else{
+                                suggestExRate();
+                            }else{
         						$scope.orderNotExisted = true;
         					}
         				});
@@ -92,6 +92,51 @@ angular.module('orders')
         				console.log("getOrderDetail err: " + JSON.stringify(err));
         			});
         		}
+
+                var suggestExRate = function () {
+                    if ($scope.updateOrder.giveCurrencyCode === 'NGN') {
+                        if ($scope.updateOrder.getCurrencyCode === 'USD') {
+                            $scope.suggested = true;
+                            $scope.suggestedUSD = true;
+                            $scope.suggestedEUR = false;
+                            $scope.suggestedGBP = false;
+                        } else if ($scope.updateOrder.getCurrencyCode === 'EUR') {
+                            $scope.suggested = true;
+                            $scope.suggestedUSD = false;
+                            $scope.suggestedEUR = true;
+                            $scope.suggestedGBP = false;
+                        } else if ($scope.updateOrder.getCurrencyCode === 'GBP') {
+                            $scope.suggested = true;
+                            $scope.suggestedUSD = false;
+                            $scope.suggestedEUR = false;
+                            $scope.suggestedGBP = true;
+                        } else {
+                            $scope.suggested = false;
+                        }
+                    } else if ($scope.updateOrder.getCurrencyCode === 'NGN') {
+                        if ($scope.updateOrder.giveCurrencyCode === 'USD') {
+                            $scope.suggested = true;
+                            $scope.suggestedUSD = true;
+                            $scope.suggestedEUR = false;
+                            $scope.suggestedGBP = false;
+                        } else if ($scope.updateOrder.giveCurrencyCode === 'EUR') {
+                            $scope.suggested = true;
+                            $scope.suggestedUSD = false;
+                            $scope.suggestedEUR = true;
+                            $scope.suggestedGBP = false;
+                        } else if ($scope.updateOrder.giveCurrencyCode === 'GBP') {
+                            $scope.suggested = true;
+                            $scope.suggestedUSD = false;
+                            $scope.suggestedEUR = false;
+                            $scope.suggestedGBP = true;
+                        } else {
+                            $scope.suggested = false;
+                        }
+                    } else {
+                        $scope.suggested = false;
+                    }
+                };
+
         		if($scope.orderCode){
         			getOrderDetail($scope.orderCode);
         		}
@@ -232,50 +277,6 @@ angular.module('orders')
                     	return false;
                     }
         		}
-
-                var suggestExRate = function () {
-                    if ($scope.updateOrder.giveCurrencyCode === 'NGN') {
-                        if ($scope.updateOrder.getCurrencyCode === 'USD') {
-                            $scope.suggested = true;
-                            $scope.suggestedUSD = true;
-                            $scope.suggestedEUR = false;
-                            $scope.suggestedGBP = false;
-                        } else if ($scope.updateOrder.getCurrencyCode === 'EUR') {
-                            $scope.suggested = true;
-                            $scope.suggestedUSD = false;
-                            $scope.suggestedEUR = true;
-                            $scope.suggestedGBP = false;
-                        } else if ($scope.updateOrder.getCurrencyCode === 'GBP') {
-                            $scope.suggested = true;
-                            $scope.suggestedUSD = false;
-                            $scope.suggestedEUR = false;
-                            $scope.suggestedGBP = true;
-                        } else {
-                            $scope.suggested = false;
-                        }
-                    } else if ($scope.updateOrder.getCurrencyCode === 'NGN') {
-                        if ($scope.updateOrder.giveCurrencyCode === 'USD') {
-                            $scope.suggested = true;
-                            $scope.suggestedUSD = true;
-                            $scope.suggestedEUR = false;
-                            $scope.suggestedGBP = false;
-                        } else if ($scope.updateOrder.giveCurrencyCode === 'EUR') {
-                            $scope.suggested = true;
-                            $scope.suggestedUSD = false;
-                            $scope.suggestedEUR = true;
-                            $scope.suggestedGBP = false;
-                        } else if ($scope.updateOrder.giveCurrencyCode === 'GBP') {
-                            $scope.suggested = true;
-                            $scope.suggestedUSD = false;
-                            $scope.suggestedEUR = false;
-                            $scope.suggestedGBP = true;
-                        } else {
-                            $scope.suggested = false;
-                        }
-                    } else {
-                        $scope.suggested = false;
-                    }
-                };
 
                 $scope.currencyChange = function () {
                     suggestExRate();

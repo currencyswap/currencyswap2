@@ -50,8 +50,8 @@ angular.module('orders').factory('OrdersService', ['ConnectorService', function 
         cancelSwappingOrder:function(orderId){
         	return this.get(apiRoutes.API_ORDERS_SWAPPING_CANCEL.replace(":id",orderId));
         },
-        confirmSwappingOrder:function(orderId){
-            return this.get(apiRoutes.API_ORDERS_SWAPPING_CONFIRM.replace(":id",orderId));
+        confirmSwappingOrder:function(orderId, data){
+            return this.get(apiRoutes.API_ORDERS_SWAPPING_CONFIRM.replace(":id",orderId), data);
         },
         cancelConfirmedOrder: function(orderId){
             return this.get(apiRoutes.API_ORDERS_CONFIRMED_CANCEL.replace(":id",orderId));
@@ -65,11 +65,14 @@ angular.module('orders').factory('OrdersService', ['ConnectorService', function 
         editSubmittedOrder: function(orderId){
             return this.get(apiRoutes.API_ORDERS_SUBMITTED_EDIT.replace(":id",orderId));
         },
-        swapSubmittedOrder:function(orderId){
-            return this.get(apiRoutes.API_ORDERS_SUBMITTED_SWAP.replace(":id",orderId));
+        swapSubmittedOrder:function(orderId, data){
+            return this.get(apiRoutes.API_ORDERS_SUBMITTED_SWAP.replace(":id",orderId), data);
         },
         getExchangeRate: function () {
             return this.get(apiRoutes.API_EXRATE);
+        },
+        checkBankInfoExisted: function (bankAccountNumber) {
+            return this.get(apiRoutes.API_BANK_INFO_ACCOUNT.replace(":accountNumber", bankAccountNumber));
         }
     });
 }]);

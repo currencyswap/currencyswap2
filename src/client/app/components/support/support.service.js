@@ -18,8 +18,12 @@ angular.module('support').factory('SupportService', ['ConnectorService', functio
             return false;
         },
 
-        parseToExRateObj: function (msgObj) {
-            var exRateObj = JSON.parse(msgObj.message);
+        parseToExRateObj: function (message) {
+            try {
+                var exRateObj = JSON.parse(message);
+            } catch (err) {
+                return false;
+            }
             return exRateObj;
         }
    });

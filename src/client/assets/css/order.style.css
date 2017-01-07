@@ -300,6 +300,21 @@
 	color: #fea340;
 }
 
+.detailOrderPanel .row-initialized .row-bank-info .row-bank-info-title label{
+	font-weight: bold;
+	color: #2a5bd2;
+}
+
+.detailOrderPanel .row-initialized .row-bank-info .row-bank-info-detail label{
+	font-weight: bold;
+	color: #1caf9a;
+}
+
+.detailOrderPanel .row-initialized .row-bank-info .row-bank-info-detail span{
+	font-style: italic;
+	color: #000000;
+}
+
 .detailOrderPanel .row-activities .row-activities-title{
 	font-weight: bold;
 }

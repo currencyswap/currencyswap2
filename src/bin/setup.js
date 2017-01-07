@@ -24,13 +24,17 @@ var persGroups = require('../server/security/permissions-groups');
 var appConfig = require('../server/libs/app-config');
 
 var exchangeObjs = require('./data/exchanges');
+var orderBankInfo = require('./data/order-bank-info').orderBankInfo;
+var bankInfo = require('./data/bank-info').bankInfo;
 
 var mapDataModels = [
     {'model': 'Currency', 'values': currencyData.currencies},
     {'model': 'StatusType', 'values': statusData.statuses},
     {'model': 'Order', 'values': ordersData.orders},
     {'model': 'OrderActivity', 'values': ordersData.orderActis},
-    {'model': 'Message', 'values': ordersData.messages}
+    {'model': 'Message', 'values': ordersData.messages},
+    {'model' : 'OrderBankInfo', 'values': orderBankInfo},
+    {'model' : 'BankInfo', 'values': bankInfo},
 ];
 
 function _insertData(arrayData, modelType, next) {
