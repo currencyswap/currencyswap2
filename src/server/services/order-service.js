@@ -334,3 +334,8 @@ exports.removeOrderActivity = function (orderId) {
     var where = { 'orderId': orderId };
     return dbUtil.executeModelFn(app.models.OrderActivity, 'destroyAll', where);
 };
+
+exports.removeOrderBankInfo = function (orderId) {
+    var where = { 'orderId': orderId };
+    return dbUtil.executeModelFn(app.models.OrderBankInfo, 'destroyAll', where);
+};

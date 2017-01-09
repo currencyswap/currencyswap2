@@ -91,6 +91,17 @@ module.exports = function (app) {
                     }
                 }
 
+                if (order.statusId === constant.STATUS_TYPE.SWAPPING_ID && statusId === constant.STATUS_TYPE.SUBMITTED_ID) {
+                    //remove order bank info record
+
+
+
+
+
+
+                    service.removeOrderBankInfo(orderId);
+                }
+
                 if (order.statusId === constant.STATUS_TYPE.SWAPPING_ID && statusId === constant.STATUS_TYPE.CONFIRMED_ID) {
                     // save new bank info of order
                     if (!initializerBankInfoData.bankAccountName

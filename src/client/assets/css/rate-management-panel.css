@@ -1,11 +1,15 @@
 .table-responsive.tableExRate .inputRate{
     width: 100%;
-    border: 1px solid;
     text-align: center;
+    border: 1px solid;
 }
 
 .table-responsive.tableExRate .table thead th {
     text-align: center;
+}
+
+.table-responsive.tableExRate .table tbody .currencyTitle {
+
 }
 
 .table-responsive.tableExRate .table thead tbody td input {
@@ -20,6 +24,7 @@
     width: 15px;
     float: right;
     margin-left: 10px;
+    display: inline-block;
 }
 
 .panel-footer .btn.btn-sm.btn-primary img{

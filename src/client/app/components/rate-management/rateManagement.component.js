@@ -30,7 +30,6 @@ angular.module('rateManagement')
 
                 $scope.changeDollarBuy = function (editedDollarBuyValue) {
                     $scope.todayRates.usDollarMedian =  RateManagementService.recalculateMedian(editedDollarBuyValue, $scope.todayRates.usDollarSell);
-                    console.log('$scope.todayRates.usDollarMedian: ', $scope.todayRates.usDollarMedian);
                 };
 
                 $scope.changeDollarSell = function (editedSellValue) {
@@ -60,7 +59,7 @@ angular.module('rateManagement')
                         backupData = angular.copy(response);
                         $scope.$apply();
                     }, function (error) {
-                        console.log('response from server: ', error);
+                        console.log('error from server: ', error);
                     })
             }]
     });
