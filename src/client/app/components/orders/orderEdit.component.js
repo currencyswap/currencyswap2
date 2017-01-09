@@ -82,7 +82,7 @@ angular.module('orders')
         	        			var expired = new Date($scope.order.expired);
         	        			$scope.updateOrder.expired = setExpired(created, expired);
         	        			$scope.updateOrder.created = $scope.order.created;
-                                suggestExRate();
+                                $scope.$apply(suggestExRate());
                             }else{
         						$scope.orderNotExisted = true;
         					}
@@ -279,7 +279,7 @@ angular.module('orders')
         		}
 
                 $scope.currencyChange = function () {
-                    suggestExRate();
+                    $scope.$apply(suggestExRate());
                 }
             }]
     });

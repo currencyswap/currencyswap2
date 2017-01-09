@@ -89,9 +89,9 @@ angular.module('orders')
         						$scope.newOrder.get = data.order.get;
         						$scope.newOrder.giveCurrencyCode = data.order.giveCurrency.code;
         						$scope.newOrder.getCurrencyCode = data.order.getCurrency.code;
-                                suggestExRate();
+        						$scope.$apply(suggestExRate());
         					} else {
-                                suggestExRate();
+                                $scope.$apply(suggestExRate());
 							}
         				});
         			},function(err){
@@ -310,7 +310,7 @@ angular.module('orders')
 				};
 
         		$scope.currencyChange = function () {
-                    suggestExRate();
+        			$scope.$apply(suggestExRate());
 				};
 
                 $scope.openMessageModel = function (orderId) {

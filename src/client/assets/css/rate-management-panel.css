@@ -20,10 +20,8 @@
     font-size: small;
 }
 
-.panel-footer .row .col .btn.btn-sm.btn-primary .loaders{
-    width: 15px;
-    float: right;
-    margin-left: 10px;
+.panel-footer .row .col .loaders{
+    width: 30px;
     display: inline-block;
 }
 
