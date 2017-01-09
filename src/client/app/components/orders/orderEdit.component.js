@@ -65,34 +65,6 @@ angular.module('orders')
         		getCurrenciesList();
                 getLatestExchangeRate();
 
-        		var getOrderDetail = function(orderCode){
-        			OrdersService.getOrderForEdit(orderCode).then(function(data){
-        				$scope.$apply(function(){
-        					if(data){
-        						$scope.orderNotExisted = false;
-        						$scope.order = data;
-        						
-        						$scope.updateOrder.give = $scope.order.give;
-        						$scope.updateOrder.rate = $scope.order.rate;
-        						$scope.updateOrder.get = $scope.order.get;
-        						$scope.updateOrder.giveCurrencyCode = $scope.order.giveCurrency.code;
-        						$scope.updateOrder.getCurrencyCode = $scope.order.getCurrency.code;
-        						
-        						var created = new Date($scope.order.created);
-        	        			var expired = new Date($scope.order.expired);
-        	        			$scope.updateOrder.expired = setExpired(created, expired);
-        	        			$scope.updateOrder.created = $scope.order.created;
-                                $scope.$apply(suggestExRate());
-                            }else{
-        						$scope.orderNotExisted = true;
-        					}
-        				});
-        			},function(err){
-        				$scope.orderNotExisted = true;
-        				console.log("getOrderDetail err: " + JSON.stringify(err));
-        			});
-        		}
-
                 var suggestExRate = function () {
                     if ($scope.updateOrder.giveCurrencyCode === 'NGN') {
                         if ($scope.updateOrder.getCurrencyCode === 'USD') {
@@ -136,6 +108,34 @@ angular.module('orders')
                         $scope.suggested = false;
                     }
                 };
+
+        		var getOrderDetail = function(orderCode){
+        			OrdersService.getOrderForEdit(orderCode).then(function(data){
+        				$scope.$apply(function(){
+        					if(data){
+        						$scope.orderNotExisted = false;
+        						$scope.order = data;
+        						
+        						$scope.updateOrder.give = $scope.order.give;
+        						$scope.updateOrder.rate = $scope.order.rate;
+        						$scope.updateOrder.get = $scope.order.get;
+        						$scope.updateOrder.giveCurrencyCode = $scope.order.giveCurrency.code;
+        						$scope.updateOrder.getCurrencyCode = $scope.order.getCurrency.code;
+        						
+        						var created = new Date($scope.order.created);
+        	        			var expired = new Date($scope.order.expired);
+        	        			$scope.updateOrder.expired = setExpired(created, expired);
+        	        			$scope.updateOrder.created = $scope.order.created;
+                                $scope.$apply(suggestExRate());
+                            }else{
+        						$scope.orderNotExisted = true;
+        					}
+        				});
+        			},function(err){
+        				$scope.orderNotExisted = true;
+        				console.log("getOrderDetail err: " + JSON.stringify(err));
+        			});
+        		}
 
         		if($scope.orderCode){
         			getOrderDetail($scope.orderCode);

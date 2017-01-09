@@ -2,17 +2,17 @@ module.exports = {
     bankInfo: [
         {
             id: 1,
-            bankAccountName: 'test_bankAccountName1',
-            bankAccountNumber: 'test_bankAccountNumber1',
-            bankName: 'test_bankName1',
-            bankCountry: 'test_bankCountry1',
+            bankAccountName: 'bankAccountName1',
+            bankAccountNumber: 'bankAccountNumber1',
+            bankName: 'bankName1',
+            bankCountry: 'bankCountry1',
             memberId: 2
         },
         {
             id:2,
-            bankAccountName: 'test_bankAccountName2',
-            bankAccountNumber: 'test_bankAccountNumber2',
-            bankName: 'test_bankName2',
+            bankAccountName: 'bankAccountName2',
+            bankAccountNumber: 'bankAccountNumber2',
+            bankName: 'bankName2',
             bankCountry: 'test_bankCountry2',
             memberId: 4
         },
