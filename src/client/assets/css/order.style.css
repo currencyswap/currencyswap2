@@ -306,11 +306,13 @@
 }
 
 .detailOrderPanel .row-initialized .row-bank-info .row-bank-info-detail label{
+	display: inline-block;
 	font-weight: bold;
 	color: #1caf9a;
 }
 
 .detailOrderPanel .row-initialized .row-bank-info .row-bank-info-detail span{
+	display: inline-block;
 	font-style: italic;
 	color: #000000;
 }

@@ -93,14 +93,11 @@ module.exports = function (app) {
 
                 if (order.statusId === constant.STATUS_TYPE.SWAPPING_ID && statusId === constant.STATUS_TYPE.SUBMITTED_ID) {
                     //remove order bank info record
-
-
-
-
-
-
                     service.removeOrderBankInfo(orderId);
                 }
+
+                console.log('order.statusId: ', order.statusId);
+                console.log('statusId: ', statusId);
 
                 if (order.statusId === constant.STATUS_TYPE.SWAPPING_ID && statusId === constant.STATUS_TYPE.CONFIRMED_ID) {
                     // save new bank info of order
@@ -325,10 +322,10 @@ module.exports = function (app) {
         });
     });
     router.get('/confirmed', function (req, res) {
-        service.getUserConfirmedOrders(req.currentUser.id).then(function(resp){
-                //console.log(JSON.stringify(resp));
+        service.getUserConfirmedOrders(req.currentUser.id).then(function (resp) {
+            //console.log(JSON.stringify(resp));
             return res.send(resp);
-        }, function(err){
+        }, function (err) {
             return res.status(500).send(errorUtil.createAppError(errors.SERVER_GET_PROBLEM));
         });
     });
@@ -344,7 +341,6 @@ module.exports = function (app) {
         return updateOrderStatus(req, res, constant.STATUS_TYPE.SUBMITTED_ID, constant.MSG.CANCEL_ORDER_CONTENT);
     });
     router.get('/swapping/confirm/:id', function (req, res) {
-        console.log('bank info received: ', req.query);
         return updateOrderStatus(req, res, constant.STATUS_TYPE.CONFIRMED_ID, constant.MSG.CONFIRM_ORDER_CONTENT);
     });
 

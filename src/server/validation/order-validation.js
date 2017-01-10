@@ -3,7 +3,7 @@ var errorUtils = require('../libs/errors/error-util');
 var errors = require('../libs/errors/errors');
 
 exports.validateBankInfoObj = function (bankInfoObj) {
-    if (!bankInfoObj || !bankInfoObj.bankAccountNumber || !bankInfoObj.bankAccountName || !bankInfoObj.bankName || bankInfoObj.bankCountry) {
+    if (!bankInfoObj || !bankInfoObj.bankAccountNumber || !bankInfoObj.bankAccountName || !bankInfoObj.bankName || !bankInfoObj.bankCountry) {
         throw errorUtils.createAppError(errors.INVALID_INPUT_DATA);
     }
 
