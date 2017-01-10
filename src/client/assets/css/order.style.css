@@ -300,6 +300,10 @@
 	color: #fea340;
 }
 
+.detailOrderPanel .row-initialized .row-bank-info .row-bank-info-title{
+	vertical-align: top;
+}
+
 .detailOrderPanel .row-initialized .row-bank-info .row-bank-info-title label{
 	font-weight: bold;
 	color: #2a5bd2;
@@ -327,6 +331,13 @@
 
 .detailOrderPanel .row-activities .activity-creator.other-user-action{
 	color: #6299e8;
+}
+
+@media screen and (min-width: 768px) {
+	.detailOrderPanel .row-initialized .row-bank-info .control-label.col-md-3.row-bank-info-title{
+		margin-bottom: 0;
+		vertical-align: top;
+	}
 }
 
 /*Order detail end*/
