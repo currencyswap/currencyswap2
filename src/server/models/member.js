@@ -99,9 +99,13 @@ module.exports = function (Member) {
             relation: 'addresses'
         };
 
+        var includeBankInfo = {
+            relation: 'bankInfo'
+        };
+
         var filter = {
             where: where,
-            include: [includeGroups, includeAddresses]
+            include: [includeGroups, includeAddresses, includeBankInfo]
         };
 
         Member.findOne(filter, function (err, user) {

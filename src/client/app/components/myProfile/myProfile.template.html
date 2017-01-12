@@ -102,20 +102,31 @@
                         <div class="mb30"></div>
                         <hr>
                         <div class="mb30"></div>
-                        <h4 class="nomargin">Bank Account</h4>
+                        <h4 class="nomargin">Bank Accounts List</h4>
                         <form id="msgFormBankInfo" name="msgForm" novalidate="novalidate">
+                            <div class="form-group">
+                                <label class="control-label">Bank Accounts</label>
+                                <!--<input class="form-control" type="text" ng-model="model.bankAccountName" minlength="{{GLOBAL_CONSTANT.LIMIT_FIELDS_INFO.ACC_NAME_MIN}}" maxlength="{{GLOBAL_CONSTANT.LIMIT_FIELDS_INFO.ACC_NAME_MAX}}">-->
+                                <select id="bankInfoSelect" class="form-control" ng-change="onBankInfoChange(model.choosenExistedBankInfoIndex)" ng-model="model.choosenExistedBankInfoIndex">
+                                    <option ng-repeat="bankInfo in bankInfos" value="{{$index}}">{{bankInfo.bankAccountName}} - {{bankInfo.bankAccountNumber}}</option>
+                                </select>
+                            </div>
+
                             <div class="form-group">
                                 <label class="control-label">Account Name</label>
                                 <input class="form-control" type="text" ng-model="model.bankAccountName" minlength="{{GLOBAL_CONSTANT.LIMIT_FIELDS_INFO.ACC_NAME_MIN}}" maxlength="{{GLOBAL_CONSTANT.LIMIT_FIELDS_INFO.ACC_NAME_MAX}}">
                             </div>
+
                             <div class="form-group">
                                 <label class="control-label">Account Number</label>
                                 <input class="form-control" type="text" ng-model="model.bankAccountNumber" minlength="{{GLOBAL_CONSTANT.LIMIT_FIELDS_INFO.ACC_NUM_MIN}}" maxlength="{{GLOBAL_CONSTANT.LIMIT_FIELDS_INFO.ACC_NUM_MAX}}">
                             </div>
+
                             <div class="form-group">
                                 <label class="control-label">Bank Name</label>
                                 <input class="form-control" type="text" ng-model="model.bankName"  minlength="{{GLOBAL_CONSTANT.LIMIT_FIELDS_INFO.BANK_NAME_MIN}}" maxlength="{{GLOBAL_CONSTANT.LIMIT_FIELDS_INFO.BANK_NAME_MAX}}">
                             </div>
+
                             <div class="form-group">
                                 <country-select country="model.bankCountry"></country-select>
                             </div>

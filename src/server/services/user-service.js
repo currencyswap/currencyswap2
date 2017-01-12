@@ -411,13 +411,14 @@ exports.createUserTransaction = function (callback) {
             })
         },
         function (newUser, options, next) {
-            exports.checkExistedInfo(newUser, function (err) {
+        var checkingFields = [constant.MEMBER_DB_FIELD.USERNAME, constant.MEMBER_DB_FIELD.EMAIL, constant.MEMBER_DB_FIELD.NATIONALID, constant.MEMBER_DB_FIELD.CELLPHONE];
+            exports.checkExistedUserInfo(newUser, function (err) {
                 if (err) {
                     return next (err)
                 } else {
                     return next (null, newUser, options);
                 }
-            })
+            }, ...checkingFields);
         },
         function (user, options, next) {
             exports.createUser(user, function (err, savedUser) {
@@ -651,7 +652,7 @@ exports.getUserDetail = function (userId, callback) {
 };
 
 exports.getUserByUsernameWithoutRelationModel = function (user, callback) {
-    app.models.Member.findUserByUserName(user.username, function (err, userObj) {
+    app.models.Member.findByUsername(user.username, function (err, userObj) {
         
         if (err) return errorUtil.createAppError(errors.SERVER_GET_PROBLEM);
 
@@ -924,8 +925,8 @@ exports.sendInvitationMail = function (invitationLink, inviter, inviteeEmail, ca
         callback(err);
     });
 };
-
-exports.checkExistedInfo = function (requestUser, callback) {
+/*
+exports.checkExistedUserInfo = function (requestUser, callback) {
     var orOptions = [];
     if (requestUser.username) {
         orOptions.push({'username': requestUser.username});
@@ -968,4 +969,77 @@ exports.checkExistedInfo = function (requestUser, callback) {
             }
         }
     })
+};*/
+
+exports.checkExistedUserInfo = function (requestUser, callback, ...checkingFields) {
+    var orOptions = [];
+
+    if (checkingFields.indexOf(constant.MEMBER_DB_FIELD.USERNAME) > 0) {
+        orOptions.push({'username': requestUser.username});
+    }
+    if (checkingFields.indexOf(constant.MEMBER_DB_FIELD.NATIONALID) > 0) {
+        orOptions.push({'nationalId': requestUser.nationalId})
+    }
+    if (checkingFields.indexOf(constant.MEMBER_DB_FIELD.CELLPHONE) > 0) {
+        orOptions.push({'cellphone': requestUser.cellphone})
+    }
+    if (checkingFields.indexOf(constant.MEMBER_DB_FIELD.EMAIL) > 0) {
+        orOptions.push({'email': requestUser.email})
+    }
+    if (orOptions.length === 0) {
+        return callback(null);
+    } else {
+        app.models.Member.findOne({
+            where: {
+                or: orOptions
+            }
+        }, function (err, user) {
+            if (err) {
+                return callback(errorUtil.createAppError(errors.SERVER_GET_PROBLEM));
+            } else {
+                if (!user) {
+                    return callback(null);
+                } else {
+                    console.log('returned user: ', user);
+                    if (user.username === requestUser.username) {
+                        return callback(errorUtil.createAppError(errors.USER_NAME_EXISTED))
+                    }
+
+                    if (user.email === requestUser.email) {
+                        return callback(errorUtil.createAppError(errors.EMAIL_EXISTED))
+                    }
+
+                    if (user.nationalId && user.nationalId === requestUser.nationalId) {
+                        return callback(errorUtil.createAppError(errors.NATIONAL_ID_EXISTED))
+                    }
+
+                    if (user.cellphone && user.cellphone === requestUser.cellphone) {
+                        return callback(errorUtil.createAppError(errors.CELLPHONE_EXISTED))
+                    }
+
+                    if (user.cellphone && user.cellphone === requestUser.cellphone) {
+                        return callback(errorUtil.createAppError(errors.CELLPHONE_EXISTED))
+                    }
+                }
+            }
+        })
+    }
+};
+
+exports.checkExistedBankAccountNumber = function (bankAccountNumber, callback) {
+    app.models.BankInfo.findOne({
+        where: {
+            bankAccountNumber: bankAccountNumber
+        }
+    }, function (err, bankInfo) {
+       if (err) {
+           return callback(err);
+       } else {
+           if (!bankInfo) {
+               return callback(null);
+           } else {
+               return callback(errorUtil.createAppError(errors.BANK_ACC_NUM_EXISTED));
+           }
+       }
+    });
 };

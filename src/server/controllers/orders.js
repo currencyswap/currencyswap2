@@ -96,9 +96,6 @@ module.exports = function (app) {
                     service.removeOrderBankInfo(orderId);
                 }
 
-                console.log('order.statusId: ', order.statusId);
-                console.log('statusId: ', statusId);
-
                 if (order.statusId === constant.STATUS_TYPE.SWAPPING_ID && statusId === constant.STATUS_TYPE.CONFIRMED_ID) {
                     // save new bank info of order
                     if (!initializerBankInfoData.bankAccountName

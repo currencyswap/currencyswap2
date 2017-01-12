@@ -13,21 +13,66 @@ angular.module('orders')
             '$http',
             '$window',
 			'$uibModal',
+			'$timeout',
+			'Upload',
             'GLOBAL_CONSTANT',
-            function orderDetailController($scope, $rootScope, $route,$routeParams, OrdersService, CookieService, $location, $http, $window, $uibModal, GLOBAL_CONSTANT) {
+            function orderDetailController($scope, $rootScope, $route,$routeParams, OrdersService, CookieService, $location, $http, $window, $uibModal, $timeout, Upload, GLOBAL_CONSTANT) {
         		window.scrollTo(0, 0);
         		$scope.submitLoading = false;
         		
         		$scope.orderNotExisted = false;
         		
         		$scope.orderCode = $routeParams.orderCode;
-        		//orderCode = $route.current.params.orderCode;
         		$scope.currentUser = CookieService.getCurrentUser();
         		
         		$scope.statusType = GLOBAL_CONSTANT.STATUS_TYPE;
         		$scope.orderStatus = "";
         		$scope.isOwnerOrder = false;
-        		
+        		$scope.noAccepterEvidence = true;
+                $scope.noOwnerEvidence = true;
+
+                var token = CookieService.getToken();
+                var headers = {};
+                headers[httpHeader.CONTENT_TYPE] = contentTypes.JSON;
+                headers[httpHeader.AUTHORIZARION] = autheticateType.BEARER + token;
+
+                $scope.uploadFiles = function(file, errFiles) {
+                    $scope.f = file;
+                    $scope.errFile = errFiles && errFiles[0];
+                    var imageOwner;
+                    if($scope.order.owner.username == $scope.currentUser.username){
+                        imageOwner = "Initializer";
+                    } else {
+                    	imageOwner = 'Accepter';
+					}
+                    if (file) {
+                        file.upload = Upload.upload({
+                            method: 'POST',
+                            url: apiRoutes.API_PAYMENT_EVIDENCE,
+                            data: {
+                            	imageOwner: imageOwner,
+                            	orderCode: $scope.orderCode,
+                                file: file
+                            },
+                            headers: headers
+                        });
+
+                        file.upload.then(function (response) {
+                            $scope.randomNumImg = Math.round(Math.floor(Number.MAX_SAFE_INTEGER * Math.random()));
+                            $.publish('/cs/user/update', [$rootScope.user]);
+                            $timeout(function () {
+                                file.result = response.data;
+                            });
+                        }, function (response) {
+                            if (response.status > 0)
+                                $scope.errorMsg = response.status + ': ' + response.data;
+                        }, function (evt) {
+                            file.progress = Math.min(100, Math.round(100.0 *
+                                evt.loaded / evt.total));
+                        });
+                    }
+                };
+
         		var getOrderDetail = function(orderCode){
         			OrdersService.getOrderByCode(orderCode).then(function(data){
         				$scope.$apply(function(){
@@ -181,18 +226,6 @@ angular.module('orders')
         		// Confirm swapping order
         		$scope.onConfirm = function(orderId){
                     $scope.openMessageModel(orderId);
-        			/*var msg = 'State of this order will be changed to Confirmed. Do you want continue?';
-            		var confirmOrder = $window.confirm(msg);
-            	    if(confirmOrder){
-            	    	$scope.submitLoading = true;
-		                OrdersService.confirmSwappingOrder(orderId).then(function(resp){
-		                	$scope.submitLoading = false;
-		                	getOrderDetail($scope.orderCode);
-	                    }, function(err){
-	                    	$scope.submitLoading = false;
-	                    	$window.alert('Failure to confirm action!');
-	                    });
-            	    }*/
         		};
         		
         		// Clear confirmed order
@@ -213,12 +246,9 @@ angular.module('orders')
         		};
         		
         		// Clear edit order
-        		$scope.onEdit = function(orderCode){
-            		//var editOrder = $window.confirm('Are you sure you want to edit the Order?');
-            	    //if(editOrder){
-            	    	goToEdit(orderCode);
-            	    //}
-        		};
+                $scope.onEdit = function (orderCode) {
+                    goToEdit(orderCode);
+                };
         		
         		$scope.checkStatusCurrentUserInActivity = function(activities){
         			var isCleared = false;

@@ -29,6 +29,7 @@ module.exports = function (app) {
     app.use(routes.API_SUPPORTS, require('./controllers/supports')(app));
     app.use(routes.API_EXRATE, require('./controllers/exrates')(app));
     app.use(routes.API_BANK_INFO, require('./controllers/bankInfo')(app));
+    app.use(routes.API_PAYMENT_EVIDENCE, require('./controllers/paymentEvidence')(app));
 
 //  catching for any unknown error
 //    process.on('uncaughtException', function(err) {

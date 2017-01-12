@@ -27,7 +27,7 @@ module.exports = function (app) {
         return filename;
     };
     var _sendAvatar = function(res, filePath) {
-        console.log('_sendAvatar', filePath)
+        console.log('_sendAvatar', filePath);
         fs.stat(filePath, function(err, stats) {
           if (err) {
               var not_found =  path.join(__dirname, '../../client/assets/images', 'default-user.png');

@@ -91,6 +91,15 @@
 							<label>Account Name : </label><span> {{order.initializerBankInfo[0].bankAccountName}}</span><br>
 							<label>Bank Name : </label><span> {{order.initializerBankInfo[0].bankName}}</span><br>
 							<label>Bank Country : </label><span> {{order.initializerBankInfo[0].bankCountry}}</span><br>
+							<label ng-if="isOwnerOrder">Payment Evidence : </label>
+							<span ng-if="isOwnerOrder && noOwnerEvidence">
+								<a class="avatar-align hand-over" type="file" ngf-select="uploadFiles($file, $invalidFiles)"
+								   accept="image/*">
+                                    Upload Evidence
+                                </a>
+								<a href="" ng-if="!noOwnerEvidence">Show Evidence</a>
+							</span>
+							<br>
 						</label>
 					</div>
 
@@ -101,9 +110,17 @@
 							<label>Account Name : </label><span> {{order.accepterBankInfo[0].bankAccountName}}</span><br>
 							<label>Bank Name : </label><span> {{order.accepterBankInfo[0].bankName}}</span><br>
 							<label>Bank Country : </label><span> {{order.accepterBankInfo[0].bankCountry}}</span><br>
+							<label ng-if="!isOwnerOrder">Payment Evidence : </label>
+							<span ng-if="!isOwnerOrder && noAccepterEvidence">
+								<a class="avatar-align hand-over" type="file" ngf-max-size="1MB" ngf-select="uploadFiles($file, $invalidFiles)"
+								   accept="image/*">
+                                    Upload Evidence
+                                </a>
+								<a href="" ng-if="!noAccepterEvidence">Show Evidence</a>
+							</span>
+							<br>
 						</label>
 					</div>
-
 				</div>
 
 			</div>
