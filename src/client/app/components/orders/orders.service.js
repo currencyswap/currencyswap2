@@ -73,6 +73,9 @@ angular.module('orders').factory('OrdersService', ['ConnectorService', function 
         },
         checkBankInfoExisted: function (bankAccountNumber) {
             return this.get(apiRoutes.API_BANK_INFO_ACCOUNT.replace(":accountNumber", bankAccountNumber));
+        },
+        getPaymentEvidence: function (orderCode, username) {
+            return this.get('/config/evidence?orderCode=' + orderCode + '&username=' + username);
         }
     });
 }]);

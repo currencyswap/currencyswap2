@@ -17,7 +17,7 @@ angular.module('orders')
 			'Upload',
             'GLOBAL_CONSTANT',
             function orderDetailController($scope, $rootScope, $route,$routeParams, OrdersService, CookieService, $location, $http, $window, $uibModal, $timeout, Upload, GLOBAL_CONSTANT) {
-        		window.scrollTo(0, 0);
+        		$window.scrollTo(0, 0);
         		$scope.submitLoading = false;
         		
         		$scope.orderNotExisted = false;
@@ -31,26 +31,60 @@ angular.module('orders')
         		$scope.noAccepterEvidence = true;
                 $scope.noOwnerEvidence = true;
 
+                $scope.openEvidenceImageModal = function (orderCode) {
+                    var createModel = function(templateUrl, controller, callbackOk, callbackCancel, size) {
+                        var modalForm = $uibModal.open({
+                            animation: true,
+                            templateUrl: templateUrl,
+                            controller: controller,
+                            size: size,
+                            scope: $scope
+                        });
+
+                        modalForm.result.then(callbackOk||function(newData){
+                                console.log('Modal output with: ', newData);
+                            }, callbackCancel||function () {
+                                console.log('Modal dismissed at: ', new Date());
+                            });
+                        return modalForm;
+                    };
+
+                    createModel('app/components/orders/paymentEvidenceImage.template.html', function ($scope, $timeout, $sce, $uibModalInstance) {
+                        $scope.onOK = function () {
+                            $uibModalInstance.dismiss();
+						}
+                    });
+                };
+
                 var token = CookieService.getToken();
                 var headers = {};
                 headers[httpHeader.CONTENT_TYPE] = contentTypes.JSON;
                 headers[httpHeader.AUTHORIZARION] = autheticateType.BEARER + token;
 
+                $scope.showEvidence = function () {
+                    $scope.randomNumImg = Math.round(Math.floor(Number.MAX_SAFE_INTEGER * Math.random()));
+                    $scope.openEvidenceImageModal($scope.orderCode);
+				};
+
                 $scope.uploadFiles = function(file, errFiles) {
                     $scope.f = file;
+                    console.log('what is that data type: ', $scope.f);
                     $scope.errFile = errFiles && errFiles[0];
-                    var imageOwner;
-                    if($scope.order.owner.username == $scope.currentUser.username){
-                        imageOwner = "Initializer";
-                    } else {
-                    	imageOwner = 'Accepter';
+                    if ($scope.errFile && $scope.errFile.$error === 'maxSize') {
+                        $window.alert('uploading file exceeds maximum size (5MB)');
+                        return;
 					}
+
+					if ($scope.f.type !== 'image/*' && $scope.f.type !== 'image/png' && $scope.f.type !== 'image/jpeg') {
+                    	$window.alert('uploading file is not image file (support .jpg, .jpeg, .png)');
+                    	return;
+					}
+
                     if (file) {
                         file.upload = Upload.upload({
                             method: 'POST',
                             url: apiRoutes.API_PAYMENT_EVIDENCE,
                             data: {
-                            	imageOwner: imageOwner,
                             	orderCode: $scope.orderCode,
                                 file: file
                             },
@@ -79,6 +113,7 @@ angular.module('orders')
         					if(data){
         						$scope.orderNotExisted = false;
         						$scope.order = data;
+        						console.log('order data: ', $scope.order);
             					if($scope.order.owner.username == $scope.currentUser.username){
             						$scope.isOwnerOrder = true;
             					}
@@ -262,6 +297,18 @@ angular.module('orders')
             			}
         			}
         			return isCleared;
-        		}
+        		};
+
+                $scope.showInitializerEvidence = function () {
+                	$scope.requestedUsername = $scope.order.owner.username;
+                    $scope.randomNumImg = Math.round(Math.floor(Number.MAX_SAFE_INTEGER * Math.random()));
+                    $scope.openEvidenceImageModal($scope.orderCode);
+                };
+
+                $scope.showAccepterEvidence = function () {
+                    $scope.requestedUsername = $scope.order.accepter.username;
+                    $scope.randomNumImg = Math.round(Math.floor(Number.MAX_SAFE_INTEGER * Math.random()));
+                    $scope.openEvidenceImageModal($scope.orderCode);
+                };
             }]
     });

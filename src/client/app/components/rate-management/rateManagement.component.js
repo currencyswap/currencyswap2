@@ -30,6 +30,7 @@ angular.module('rateManagement')
 
                 $scope.changeDollarBuy = function (editedDollarBuyValue) {
                     $scope.todayRates.usDollarMedian =  RateManagementService.recalculateMedian(editedDollarBuyValue, $scope.todayRates.usDollarSell);
+
                 };
 
                 $scope.changeDollarSell = function (editedSellValue) {

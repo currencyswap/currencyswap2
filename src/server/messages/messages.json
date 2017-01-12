@@ -70,5 +70,7 @@
     "USER_ACCOUNT_BLOCKED": "Your account gets blocked. Please contact Administrator for farther information!",
     "NO_INVITER": "Request has no inviter",
     "ACCOUNT_IS_BLOCKED": "Account is blocked",
-    "BANK_ACC_NUM_EXISTED": "Bank account number already existed"
+    "BANK_ACC_NUM_EXISTED": "Bank account number already existed",
+    "IMAGE_EXCEEDS_MAX_SIZE": "Image exceeds max size",
+    "PAYMENT_EVIDENCE_NOT_FOUND": "Payment evidence not found"
 }

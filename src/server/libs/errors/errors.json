@@ -298,5 +298,13 @@
     "BANK_ACC_NUM_EXISTED": {
         "code": 115,
         "message": "{BANK_ACC_NUM_EXISTED}"
+    },
+    "IMAGE_EXCEEDS_MAX_SIZE": {
+        "code": 116,
+        "message": "{IMAGE_EXCEEDS_MAX_SIZE}"
+    },
+    "PAYMENT_EVIDENCE_NOT_FOUND": {
+        "code": 117,
+        "message": "{PAYMENT_EVIDENCE_NOT_FOUND}"
     }
 }
