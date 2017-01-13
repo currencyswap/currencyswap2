@@ -42,7 +42,8 @@ const Routes = {
     API_FORGOT_PASSWORD_RESET: '/api/forgotpassword/reset',
     API_REGISTER: '/api/register',
     API_BANK_INFO: '/api/bankinfo',
-    API_BANK_INFO_ACCOUNT: '/api/bankinfo/:accountNumber'
+    API_BANK_INFO_ACCOUNT: '/api/bankinfo/:accountNumber',
+    API_PAYMENT_EVIDENCE: '/api/payment/evidence'
 };
 
 exports.getRoute = function ( val ) {

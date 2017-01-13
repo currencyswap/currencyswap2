@@ -40,6 +40,14 @@ angular.module('myProfile')
 
                 var headers = {};
 
+                $scope.onBankInfoChange = function (index) {
+                    $scope.model.bankInfoId = $scope.bankInfos[index].id;
+                    $scope.model.bankAccountName = $scope.bankInfos[index].bankAccountName;
+                    $scope.model.bankAccountNumber = $scope.bankInfos[index].bankAccountNumber;
+                    $scope.model.bankName = $scope.bankInfos[index].bankName;
+                    $scope.model.bankCountry = $scope.bankInfos[index].bankCountry;
+                };
+
                 headers[httpHeader.CONTENT_TYPE] = contentTypes.JSON;
                 headers[httpHeader.AUTHORIZARION] = autheticateType.BEARER + token;
                 $scope.getUserInfo = function () {
@@ -60,10 +68,13 @@ angular.module('myProfile')
                         $scope.model.cellphone = userDetail.cellphone;
                         $scope.model.nationalId = userDetail.nationalId;
                         $scope.model.profession = userDetail.profession;
-                        $scope.model.bankAccountName = userDetail.bankAccountName;
-                        $scope.model.bankAccountNumber = userDetail.bankAccountNumber;
-                        $scope.model.bankName = userDetail.bankName;
-                        $scope.model.bankCountry = userDetail.bankCountry;
+                        $scope.model.choosenExistedBankInfoIndex = 0 + "";
+                        $scope.bankInfos = userDetail.bankInfo;
+                        $scope.model.bankInfoId = $scope.bankInfos[0].id;
+                        $scope.model.bankAccountName = $scope.bankInfos[0].bankAccountName;
+                        $scope.model.bankAccountNumber = $scope.bankInfos[0].bankAccountNumber;
+                        $scope.model.bankName = $scope.bankInfos[0].bankName;
+                        $scope.model.bankCountry = $scope.bankInfos[0].bankCountry;
                         $scope.$evalAsync();
                     }, function(err){
                         console.log('Failure in saving your message',err);
@@ -155,7 +166,7 @@ angular.module('myProfile')
                 $scope.saveUserInfo = function () {
                     $scope.message = '';
                     $scope.gifLoading = true;
-
+                    console.log('user obj after editing: ', $scope.model);
                     var updatingUser = {
                         username: $scope.model.username,
                         birthday: $scope.model.birthday,
@@ -163,6 +174,7 @@ angular.module('myProfile')
                         expiredDate: $scope.model.expiredDate,
                         fullName: $scope.model.fullName,
                         registeredDate: $scope.model.registeredDate,
+                        bankInfoId: $scope.model.bankInfoId,
                         bankAccountName: $scope.model.bankAccountName,
                         bankAccountNumber: $scope.model.bankAccountNumber,
                         bankName: $scope.model.bankName,
@@ -194,6 +206,7 @@ angular.module('myProfile')
 
                     MyProfileService.saveUserInfo(updatingUser, headersSave)
                         .then(function (response) {
+                            console.log('response from server: ', response);
                             $scope.isEditting = false;
                             $scope.validation = {};
                             if (response.status === GLOBAL_CONSTANT.HTTP_ERROR_STATUS_CODE) {
@@ -228,6 +241,7 @@ angular.module('myProfile')
                                 $scope.message = 'Successful: Your info has been updated';
                             }
                         }, function (err) {
+                            console.log('error from server: ', err);
                             $scope.isEditting = false;
                             $scope.gifLoading = false;
                             $rootScope.error = GLOBAL_CONSTANT.UNKNOWN_ERROR;

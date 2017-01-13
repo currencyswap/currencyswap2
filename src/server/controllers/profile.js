@@ -1,6 +1,5 @@
 'use strict';
 
-
 var errors = require('../libs/errors/errors');
 var errorUtil = require('../libs/errors/error-util');
 var userService = require('../services/user-service');
@@ -83,7 +82,7 @@ module.exports = function (app) {
                         return next(null, user);
                     }
                 });
-            },
+            }/*,
             function (user, next) {
                 if (!updatingUser.nationalId) {
                     return next (null, user);
@@ -119,8 +118,46 @@ module.exports = function (app) {
                         }
                     })
                 }
-            }
-            ,function createMessage(user, next) {
+            }*/,
+            function (user, next) {
+                var checkingFields = [];
+
+                if (user.cellphone !== updatingUser.cellphone) {
+                    checkingFields.push(constant.MEMBER_DB_FIELD.CELLPHONE);
+                }
+
+                if (user.nationalId !== updatingUser.nationalId) {
+                    checkingFields.push(constant.MEMBER_DB_FIELD.NATIONALID);
+                }
+
+                userService.checkExistedUserInfo(updatingUser, function (err) {
+                    if (err) {
+                        return next (err)
+                    } else {
+                        return next (null, user);
+                    }
+                }, ...checkingFields);
+            },
+            function (user, next) {
+                var doesNeedVerifyBankAccountNum = false;
+                user.bankInfo().forEach(function (bank) {
+                    if (bank.id === updatingUser.bankInfoId) {
+                        if (bank.bankAccountNumber !== updatingUser.bankAccountNumber) {
+                            doesNeedVerifyBankAccountNum = true;
+                        }
+                    }
+                });
+
+                if (doesNeedVerifyBankAccountNum) {
+                    userService.checkExistedBankAccountNumber(updatingUser.bankAccountNumber, function (err) {
+                        if (err) return next (err);
+                        else return next (null, user);
+                    })
+                } else {
+                    return next (null, user);
+                }
+            },
+            function createMessage(user, next) {
                 if(JSON.stringify(updatingUser) !== JSON.stringify(currentUser)) {
                     var message = {'title': updatingUser.username + constant.MSG.USER_EDITED_PROFILE_TITLE,
                         'message': updatingUser.username + constant.MSG.USER_EDITED_PROFILE_CONTENT,

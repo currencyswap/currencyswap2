@@ -347,6 +347,18 @@
                     "isAlive": true
                 }
             ]
+        },
+        {
+            "route": "{API_PAYMENT_EVIDENCE}",
+            "rules" : [
+                {
+                    "methods" : ["POST"],
+                    "requiredPermissions": [
+                        "{MAINTAIN_OWN_ORDERS}"
+                    ],
+                    "isAlive": true
+                }
+            ]
         }
     ]
 }

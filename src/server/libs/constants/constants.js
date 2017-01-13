@@ -22,6 +22,13 @@ module.exports = {
         NAIRA_EX_RATE_TITLE: 'Updated Naira exchange rate',
         NAIRA_EX_RATE_CONTENT: 'Naira exchange rate content'
     },
+    MEMBER_DB_FIELD: {
+        USERNAME: 'username',
+        EMAIL: 'email',
+        CELLPHONE: 'cellphone',
+        NATIONALID: 'nationalId',
+        BANKACCOUNTNUM: 'bankAccountNumber'
+    },
     PASSWORD_FIELD: 'password',
     STATUS_FIELD: 'status',
     RESET_PWD_REDIS_VALUE: 'resetPassword',

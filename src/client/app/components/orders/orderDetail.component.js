@@ -13,27 +13,107 @@ angular.module('orders')
             '$http',
             '$window',
 			'$uibModal',
+			'$timeout',
+			'Upload',
             'GLOBAL_CONSTANT',
-            function orderDetailController($scope, $rootScope, $route,$routeParams, OrdersService, CookieService, $location, $http, $window, $uibModal, GLOBAL_CONSTANT) {
-        		window.scrollTo(0, 0);
+            function orderDetailController($scope, $rootScope, $route,$routeParams, OrdersService, CookieService, $location, $http, $window, $uibModal, $timeout, Upload, GLOBAL_CONSTANT) {
+        		$window.scrollTo(0, 0);
         		$scope.submitLoading = false;
         		
         		$scope.orderNotExisted = false;
         		
         		$scope.orderCode = $routeParams.orderCode;
-        		//orderCode = $route.current.params.orderCode;
         		$scope.currentUser = CookieService.getCurrentUser();
         		
         		$scope.statusType = GLOBAL_CONSTANT.STATUS_TYPE;
         		$scope.orderStatus = "";
         		$scope.isOwnerOrder = false;
-        		
+        		$scope.noAccepterEvidence = true;
+                $scope.noOwnerEvidence = true;
+
+                $scope.openEvidenceImageModal = function (orderCode) {
+                    var createModel = function(templateUrl, controller, callbackOk, callbackCancel, size) {
+                        var modalForm = $uibModal.open({
+                            animation: true,
+                            templateUrl: templateUrl,
+                            controller: controller,
+                            size: size,
+                            scope: $scope
+                        });
+
+                        modalForm.result.then(callbackOk||function(newData){
+                                console.log('Modal output with: ', newData);
+                            }, callbackCancel||function () {
+                                console.log('Modal dismissed at: ', new Date());
+                            });
+                        return modalForm;
+                    };
+
+                    createModel('app/components/orders/paymentEvidenceImage.template.html', function ($scope, $timeout, $sce, $uibModalInstance) {
+                        $scope.onOK = function () {
+                            $uibModalInstance.dismiss();
+						}
+                    });
+                };
+
+                var token = CookieService.getToken();
+                var headers = {};
+                headers[httpHeader.CONTENT_TYPE] = contentTypes.JSON;
+                headers[httpHeader.AUTHORIZARION] = autheticateType.BEARER + token;
+
+                $scope.showEvidence = function () {
+                    $scope.randomNumImg = Math.round(Math.floor(Number.MAX_SAFE_INTEGER * Math.random()));
+                    $scope.openEvidenceImageModal($scope.orderCode);
+				};
+
+                $scope.uploadFiles = function(file, errFiles) {
+                    $scope.f = file;
+                    console.log('what is that data type: ', $scope.f);
+                    $scope.errFile = errFiles && errFiles[0];
+                    if ($scope.errFile && $scope.errFile.$error === 'maxSize') {
+                        $window.alert('uploading file exceeds maximum size (5MB)');
+                        return;
+					}
+
+					if ($scope.f.type !== 'image/*' && $scope.f.type !== 'image/png' && $scope.f.type !== 'image/jpeg') {
+                    	$window.alert('uploading file is not image file (support .jpg, .jpeg, .png)');
+                    	return;
+					}
+
+                    if (file) {
+                        file.upload = Upload.upload({
+                            method: 'POST',
+                            url: apiRoutes.API_PAYMENT_EVIDENCE,
+                            data: {
+                            	orderCode: $scope.orderCode,
+                                file: file
+                            },
+                            headers: headers
+                        });
+
+                        file.upload.then(function (response) {
+                            $scope.randomNumImg = Math.round(Math.floor(Number.MAX_SAFE_INTEGER * Math.random()));
+                            $.publish('/cs/user/update', [$rootScope.user]);
+                            $timeout(function () {
+                                file.result = response.data;
+                            });
+                        }, function (response) {
+                            if (response.status > 0)
+                                $scope.errorMsg = response.status + ': ' + response.data;
+                        }, function (evt) {
+                            file.progress = Math.min(100, Math.round(100.0 *
+                                evt.loaded / evt.total));
+                        });
+                    }
+                };
+
         		var getOrderDetail = function(orderCode){
         			OrdersService.getOrderByCode(orderCode).then(function(data){
         				$scope.$apply(function(){
         					if(data){
         						$scope.orderNotExisted = false;
         						$scope.order = data;
+        						console.log('order data: ', $scope.order);
             					if($scope.order.owner.username == $scope.currentUser.username){
             						$scope.isOwnerOrder = true;
             					}
@@ -181,18 +261,6 @@ angular.module('orders')
         		// Confirm swapping order
         		$scope.onConfirm = function(orderId){
                     $scope.openMessageModel(orderId);
-        			/*var msg = 'State of this order will be changed to Confirmed. Do you want continue?';
-            		var confirmOrder = $window.confirm(msg);
-            	    if(confirmOrder){
-            	    	$scope.submitLoading = true;
-		                OrdersService.confirmSwappingOrder(orderId).then(function(resp){
-		                	$scope.submitLoading = false;
-		                	getOrderDetail($scope.orderCode);
-	                    }, function(err){
-	                    	$scope.submitLoading = false;
-	                    	$window.alert('Failure to confirm action!');
-	                    });
-            	    }*/
         		};
         		
         		// Clear confirmed order
@@ -213,12 +281,9 @@ angular.module('orders')
         		};
         		
         		// Clear edit order
-        		$scope.onEdit = function(orderCode){
-            		//var editOrder = $window.confirm('Are you sure you want to edit the Order?');
-            	    //if(editOrder){
-            	    	goToEdit(orderCode);
-            	    //}
-        		};
+                $scope.onEdit = function (orderCode) {
+                    goToEdit(orderCode);
+                };
         		
         		$scope.checkStatusCurrentUserInActivity = function(activities){
         			var isCleared = false;
@@ -232,6 +297,18 @@ angular.module('orders')
             			}
         			}
         			return isCleared;
-        		}
+        		};
+
+                $scope.showInitializerEvidence = function () {
+                	$scope.requestedUsername = $scope.order.owner.username;
+                    $scope.randomNumImg = Math.round(Math.floor(Number.MAX_SAFE_INTEGER * Math.random()));
+                    $scope.openEvidenceImageModal($scope.orderCode);
+                };
+
+                $scope.showAccepterEvidence = function () {
+                    $scope.requestedUsername = $scope.order.accepter.username;
+                    $scope.randomNumImg = Math.round(Math.floor(Number.MAX_SAFE_INTEGER * Math.random()));
+                    $scope.openEvidenceImageModal($scope.orderCode);
+                };
             }]
     });

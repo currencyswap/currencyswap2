@@ -12,6 +12,7 @@
     "app-root-path": "^2.0.1",
     "body-parser": "^1.15.2",
     "compression": "^1.0.3",
+    "connect-multiparty": "^2.0.0",
     "cors": "^2.5.2",
     "cron": "1.1.1",
     "currency-codes": "1.1.2",

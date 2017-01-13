@@ -41,6 +41,7 @@ module.exports = {
             'time': 'HH:MM:ss'
         },
         'mediaFolder': process.env.SYSTEM_DIR_MEDIA || './media',
+        'paymentEvidence': process.env.SYSTEM_DIR_PAYMENT_EVIDENCE || './paymentEvidence',
         'logs' : process.env.SYSTEM_DIR_LOGS || './logs',
         'tokenExpired' : '1 d'
 };
