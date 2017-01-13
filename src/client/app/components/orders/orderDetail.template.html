@@ -91,7 +91,7 @@
 							<label>Account Name : </label><span> {{order.initializerBankInfo[0].bankAccountName}}</span><br>
 							<label>Bank Name : </label><span> {{order.initializerBankInfo[0].bankName}}</span><br>
 							<label>Bank Country : </label><span> {{order.initializerBankInfo[0].bankCountry}}</span><br>
-							<label>Payment Evidence : </label>
+							<label>Evidence : </label>
 							<span>
 								&nbsp;
 								<a ng-if="isOwnerOrder" class="avatar-align hand-over" type="file" ngf-max-size="5MB" ngf-select="uploadFiles($file, $invalidFiles)"
@@ -99,8 +99,7 @@
                                     Upload Evidence
                                 </a>
 								&nbsp;
-								&nbsp;
-								<a ng-click="showInitializerEvidence(currentUser.username)">Show Initializer Evidence</a>
+								<a ng-click="showInitializerEvidence(currentUser.username)">Show Evidence</a>
 							</span>
 							<br>
 						</label>
@@ -113,7 +112,7 @@
 							<label>Account Name : </label><span> {{order.accepterBankInfo[0].bankAccountName}}</span><br>
 							<label>Bank Name : </label><span> {{order.accepterBankInfo[0].bankName}}</span><br>
 							<label>Bank Country : </label><span> {{order.accepterBankInfo[0].bankCountry}}</span><br>
-							<label>Payment Evidence : </label>
+							<label>Evidence : </label>
 							<span>
 								&nbsp;
 								<a ng-if="!isOwnerOrder" type="file" ngf-max-size="5MB" ngf-select="uploadFiles($file, $invalidFiles)"
@@ -121,8 +120,7 @@
                                     Upload Evidence
                                 </a>
 								&nbsp;
-								&nbsp;
-								<a ng-click="showAccepterEvidence(currentUser.username)">Show Accepter Evidence</a>
+								<a ng-click="showAccepterEvidence(currentUser.username)">Show Evidence</a>
 							</span>
 							<br>
 						</label>

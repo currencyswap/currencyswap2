@@ -10,10 +10,10 @@
                         <table class="table table-success mb30">
                             <thead>
                             <tr>
-                                <th></th>
-                                <th>Buy</th>
-                                <th>Median</th>
-                                <th>Sell</th>
+                                <th scope="col"></th>
+                                <th scope="col">Buy</th>
+                                <th scope="col" >Median</th>
+                                <th scope="col">Sell</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -23,7 +23,7 @@
                                     <input class="inputRate" ng-change="changeDollarBuy(todayRates.usDollarBuy)" type="number" ng-model="todayRates.usDollarBuy">
                                 </td>
                                 <td>
-                                    <input class="inputRate" type="text" ng-model="todayRates.usDollarMedian" disabled>
+                                    <input class="inputRate" type="number" ng-model="todayRates.usDollarMedian" readonly>
                                 </td>
                                 <td>
                                     <input class="inputRate" ng-change="changeDollarSell(todayRates.usDollarSell)" type="number" ng-model="todayRates.usDollarSell">
@@ -35,7 +35,7 @@
                                     <input class="inputRate" ng-change="changePoundBuy(todayRates.poundBuy)" type="number" ng-model="todayRates.poundBuy">
                                 </td>
                                 <td>
-                                    <input class="inputRate" type="number" ng-model="todayRates.poundMedian" disabled>
+                                    <input class="inputRate" type="number" ng-model="todayRates.poundMedian" readonly>
                                 </td>
                                 <td>
                                     <input class="inputRate" ng-change="changePoundSell(todayRates.poundSell)" type="number" ng-model="todayRates.poundSell">
@@ -47,7 +47,7 @@
                                     <input class="inputRate" ng-change="changeEuroBuy(todayRates.euroBuy)" type="number" ng-model="todayRates.euroBuy">
                                 </td>
                                 <td>
-                                    <input class="inputRate" type="number" ng-model="todayRates.euroMedian" disabled>
+                                    <input class="inputRate" type="number" ng-model="todayRates.euroMedian" readonly>
                                 </td>
                                 <td>
                                     <input class="inputRate" ng-change="changeEuroSell(todayRates.euroSell)" type="number" ng-model="todayRates.euroSell">
