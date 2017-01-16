@@ -8,7 +8,7 @@ var async = require('async');
 var constant = require('../libs/constants/constants');
 var appConfig = require('../libs/app-config');
 var stringUtil = require('../libs/utilities/string-util');
-var gm = require('gm').subClass({imageMagick: true});
+var gm = require(' src').subClass({imageMagick: true});
 var fs = require("fs"); //Load the filesystem module
 var multipart = require('connect-multiparty');
 var multipartMiddleware = multipart();
@@ -45,7 +45,7 @@ module.exports = function (app) {
                     // step 4: resize image
                     if (size.width <= size.height) {
                         gm(file.path)
-                            .resizeExact(300, 450)
+                            .resize(300, 450)
                             .write(appConfig.getPaymentEvidenceFolder() + '/' + encryptedFilePath + '.png', function (err) {
                                 if (!err) {
                                     // step 5: remove temp file in /tmp folder
@@ -62,7 +62,7 @@ module.exports = function (app) {
                             });
                     } else {
                         gm(file.path)
-                            .resizeExact(450, 300)
+                            .resize(450, 300)
                             .write(appConfig.getPaymentEvidenceFolder() + '/' + encryptedFilePath + '.png', function (err) {
                                 if (!err) {
                                     // step 5: remove temp file in /tmp folder
