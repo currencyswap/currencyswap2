@@ -7,6 +7,7 @@ var errorUtil = require('../libs/errors/error-util');
 var async = require('async');
 var constant = require('../libs/constants/constants');
 var appConfig = require('../libs/app-config');
+console.log("getPaymentEvidenceFolder : " + appConfig.getPaymentEvidenceFolder());
 var stringUtil = require('../libs/utilities/string-util');
 var gm = require('gm').subClass({imageMagick: true});
 var fs = require("fs"); //Load the filesystem module
@@ -45,7 +46,7 @@ module.exports = function (app) {
                     // step 4: resize image
                     if (size.width <= size.height) {
                         gm(file.path)
-                            .resize(300, 450)
+                            .resizeExact(300, 450)
                             .write(appConfig.getPaymentEvidenceFolder() + '/' + encryptedFilePath + '.png', function (err) {
                                 if (!err) {
                                     // step 5: remove temp file in /tmp folder
@@ -62,7 +63,7 @@ module.exports = function (app) {
                             });
                     } else {
                         gm(file.path)
-                            .resize(450, 300)
+                            .resizeExact(450, 300)
                             .write(appConfig.getPaymentEvidenceFolder() + '/' + encryptedFilePath + '.png', function (err) {
                                 if (!err) {
                                     // step 5: remove temp file in /tmp folder
