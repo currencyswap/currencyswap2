@@ -7,7 +7,6 @@ var errorUtil = require('../libs/errors/error-util');
 var async = require('async');
 var constant = require('../libs/constants/constants');
 var appConfig = require('../libs/app-config');
-console.log("getPaymentEvidenceFolder : " + appConfig.getPaymentEvidenceFolder());
 var stringUtil = require('../libs/utilities/string-util');
 var gm = require('gm').subClass({imageMagick: true});
 var fs = require("fs"); //Load the filesystem module
@@ -40,6 +39,7 @@ module.exports = function (app) {
         }
 
         // step 3: check image size
+
         gm(file.path)
             .size(function (err, size) {
                 if (!err) {
