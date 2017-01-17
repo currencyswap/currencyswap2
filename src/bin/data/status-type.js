@@ -5,7 +5,7 @@ module.exports = {
     {"id": 3, "name": "Confirmed", "description": "Order has been confirmed"},
     {"id": 4, "name": "Pending", "description": "Order is pending for processing exchange money between two people"},
     {"id": 5, "name": "Cleared", "description": "Order is cleared"},
-    {"id": 6, "name": "Canceled", "description":"Order is canceled by owner"},
+    {"id": 6, "name": "Cancelled", "description":"Order is cancelled by owner"},
     {"id": 7, "name": "Expired", "description":"Order gets expired date"}
     ]
-}
+};

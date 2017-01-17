@@ -25,6 +25,7 @@ exports.validateRegisterRequestObject = function (clientUserObj) {
     exports.validateNationalId(clientUserObj.nationalId);
     exports.validateAddresses(clientUserObj.addresses);
     exports.validateBankInfo(bankInfo);
+    exports.validateInviter(clientUserObj.inviter);
 };
 
 exports.validateEditedProfileRequestObject = function (clientUserObj) {
@@ -42,6 +43,7 @@ exports.validateEditedProfileRequestObject = function (clientUserObj) {
     if (clientUserObj.newPwd && clientUserObj.passwordCompare && clientUserObj.currentPwd) {
         exports.validateEditedPassword(clientUserObj.currentPwd, clientUserObj.newPwd, clientUserObj.passwordCompare);
     }
+
     exports.validateEmail(clientUserObj.email);
     exports.validateFullName(clientUserObj.fullName);
     exports.validateBirthDay(clientUserObj.birthday);
@@ -81,10 +83,22 @@ exports.validatePassword = function (password) {
 };
 
 exports.validateEditedPassword = function (currentPassword, newPassword, confirmationPassword) {
-    if (typeof currentPassword !== 'string') throw errorUtils.createAppError(errors.INVALID_INPUT_DATA);
-    if ((md5(currentPassword)).length > 64) throw errorUtils.createAppError(errors.INVALID_INPUT_DATA);
-    if (newPassword !== confirmationPassword) throw errorUtils.createAppError(errors.INVALID_INPUT_DATA);
-    if (typeof newPassword !== 'string') throw errorUtils.createAppError(errors.INVALID_INPUT_DATA);
+    if (currentPassword.length < 8) {
+        throw errorUtils.createAppError(errors.INVALID_PASSWORD);
+    }
+
+    if (typeof currentPassword !== 'string') {
+        throw errorUtils.createAppError(errors.INVALID_INPUT_DATA);
+    }
+    if ((md5(currentPassword)).length > 64) {
+        throw errorUtils.createAppError(errors.INVALID_INPUT_DATA);
+    }
+    if (newPassword !== confirmationPassword) {
+        throw errorUtils.createAppError(errors.INVALID_INPUT_DATA);
+    }
+    if (typeof newPassword !== 'string') {
+        throw errorUtils.createAppError(errors.INVALID_INPUT_DATA);
+    }
     if (newPassword.length < 8 || (md5(newPassword)).length > 64) {
         throw errorUtils.createAppError(errors.INVALID_INPUT_DATA);
     }
@@ -232,4 +246,59 @@ exports.validateUserPass = function (user, callback) {
 
     callback(null);
 
+};
+
+exports.validateInviteRequest = function (inviter, inviteeEmail) {
+    if (!inviter) {
+        throw errorUtils.createAppError(errors.NO_INVITER);
+    }
+
+    if (typeof inviter !== 'string' || inviter.length > 64) {
+        throw errorUtils.createAppError(errors.INVALID_INPUT_DATA);
+    }
+
+    if (!inviteeEmail) {
+        throw errorUtils.createAppError(errors.REQUEST_NO_EMAIL);
+    }
+
+    if (typeof inviteeEmail !== 'string' || inviteeEmail.length > 64) {
+        throw errorUtils.createAppError(errors.INVALID_INPUT_DATA);
+    }
+
+};
+
+exports.validateInviter = function (inviter) {
+    if (inviter) {
+        if (typeof inviter !== 'string') {
+            throw errorUtils.createAppError(errors.INVALID_INPUT_DATA);
+        }
+
+        if (inviter.length > 64) {
+            throw errorUtils.createAppError(errors.INVALID_INPUT_DATA);
+        }
+    }
+};
+
+exports.validateExRateObj = function (exRateObj) {
+    if (!exRateObj) {
+        throw errorUtils.createAppError(errors.INVALID_INPUT_DATA);
+    }
+
+    if (!exRateObj.usDollarBuy
+        || !exRateObj.usDollarSell
+        || !exRateObj.poundBuy
+        || !exRateObj.poundSell
+        || !exRateObj.euroBuy
+        || !exRateObj.euroSell) {
+        throw errorUtils.createAppError(errors.INVALID_INPUT_DATA);
+    }
+
+    if (typeof exRateObj.usDollarBuy !== 'string'
+        || typeof exRateObj.usDollarSell !== 'string'
+        || typeof exRateObj.poundBuy !== 'string'
+        || typeof exRateObj.poundSell !== 'string'
+        || typeof exRateObj.euroBuy !== 'string'
+        || typeof exRateObj.euroSell !== 'string') {
+        throw errorUtils.createAppError(errors.INVALID_INPUT_DATA);
+    }
 };

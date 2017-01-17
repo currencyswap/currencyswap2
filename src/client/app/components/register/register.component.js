@@ -10,12 +10,14 @@ angular.module('register')
             '$location',
             '$http',
             '$window',
+            '$base64',
             'GLOBAL_CONSTANT',
-            function registerController($scope, $rootScope, RegisterService, CookieService, $location, $http, $window, GLOBAL_CONSTANT) {
+            function registerController($scope, $rootScope, RegisterService, CookieService, $location, $http, $window, $base64, GLOBAL_CONSTANT) {
                 $scope.showPopover = function () {
                     $('[data-toggle="popover"]').popover();
                 };
                 $scope.GLOBAL_CONSTANT = GLOBAL_CONSTANT;
+                $scope.user = {};
                 $scope.init = function() {
                     $scope.showPopover();
                 };
@@ -65,10 +67,42 @@ angular.module('register')
                         });
                 }
 
+                if ($location.search().inviCode) {
+                    var inviCode = $location.search().inviCode;
+                    if (!validator.isBase64(inviCode)) {
+                        $location.url(routes.REGISTER);
+                    } else {
+                        var decodedInviCode = $base64.decode(inviCode);
+                        if (!decodedInviCode.indexOf(GLOBAL_CONSTANT.INVITATION_CODE_DELIMETER)) {
+                            $location.url(routes.REGISTER);
+                        } else {
+                            var inviterAndEmail = decodedInviCode.split(GLOBAL_CONSTANT.INVITATION_CODE_DELIMETER);
+                            if (!inviterAndEmail[0] || !inviterAndEmail[1]) {
+                                $location.url(routes.REGISTER);
+                            } else {
+                                var inviter = inviterAndEmail[0];
+                                var inviteeEmail = inviterAndEmail[1];
+                                RegisterService.validateInviterAndInviteeEmail(inviter, inviteeEmail);
+                                RegisterService.checkEmailInInvitationLink(inviteeEmail)
+                                    .then(function (response) {
+                                        if (response.status === GLOBAL_CONSTANT.HTTP_SUCCESS_STATUS_CODE) {
+                                            $scope.user.email = inviteeEmail;
+                                            $scope.user.inviteeEmail = inviteeEmail;
+                                            $scope.user.inviter = inviter;
+                                        } else {
+                                            $rootScope.isLoading = false;
+                                            $rootScope.error = GLOBAL_CONSTANT.INVITATION_CODE_USED_ERROR;
+                                            $location.url(routes.ERROR_PAGE);
+                                        }
+                                    });
+                            }
+                        }
+                    }
+                }
+
                 $scope.formats = ['dd-MMMM-yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate'];
                 $scope.format = $scope.formats[0];
                 $scope.altInputFormats = ['M!/d!/yyyy'];
-                $scope.user = {};
                 $scope.registerSuccess = false;
                 $scope.startRegister = true;
                 $scope.activeSuccess = false;
@@ -85,55 +119,56 @@ angular.module('register')
                 $scope.onUsernameChange = function () {
                     $scope.userExisted = false;
                     $scope.emailExisted = false;
+                    $scope.fieldError = 0;
+                    $scope.messageErrorValidate  = '';
                 };
                 $scope.onEmailChange = function () {
                     $scope.userExisted = false;
                     $scope.emailExisted = false;
+                    $scope.fieldError = 0;
+                    $scope.messageErrorValidate  = '';
                 };
-                $scope.user.birthday = new Date();
+                $scope.user.birthday;
                 $scope.serverErrors = serverErrors;
                 $scope.fieldError = 0;
+                $scope.messageErrorValidate  = '';
                 $scope.getMessageError = function (errorCode) {
                     $scope.gifLoading = false;
                     if (errorCode === serverErrors.USERNAME_EXCEED_MAX_LENGTH){
                         return "Username too long.";
-                    }
-                    if (errorCode === serverErrors.PASSWORD_EXCEED_MAX_LENGTH){
-
+                    }else if (errorCode === serverErrors.PASSWORD_EXCEED_MAX_LENGTH){
                         return "Password too long.";
-                    }
-                    if (errorCode === serverErrors.EMAIL_EXCEED_MAX_LENGTH){
+                    }else if (errorCode === serverErrors.EMAIL_EXCEED_MAX_LENGTH){
                         return "Email too long.";
-                    }
-                    if (errorCode === serverErrors.REQUEST_NO_USERNAME){
+                    }else if (errorCode === serverErrors.REQUEST_NO_USERNAME){
                         return "Username is empty.";
-                    }
-                    if (errorCode === serverErrors.USERNAME_IS_NOT_STRING){
+                    }else if (errorCode === serverErrors.USERNAME_IS_NOT_STRING){
                         return "Username is invalid.";
-                    }
-                    if (errorCode === serverErrors.REQUEST_NO_PASSWORD){
+                    }else if (errorCode === serverErrors.REQUEST_NO_PASSWORD){
                         return "Password is empty.";
-                    }
-                    if (errorCode === serverErrors.PASSWORD_IS_NOT_STRING){
+                    }else if (errorCode === serverErrors.PASSWORD_IS_NOT_STRING){
                         return "Password is invalid.";
-                    }
-                    if (errorCode === serverErrors.EMAIL_IS_NOT_STRING || errorCode === serverErrors.EMAIL_IS_INVALID){
+                    }else  if (errorCode === serverErrors.EMAIL_IS_NOT_STRING || errorCode === serverErrors.EMAIL_IS_INVALID){
                         return "Email is invalid.";
-                    }
-                    if (errorCode === serverErrors.FULLNAME_IS_NOT_STRING){
+                    }else  if (errorCode === serverErrors.FULLNAME_IS_NOT_STRING){
                         return "Full name is invalid.";
-                    }
-                    if (errorCode === serverErrors.FULLNAME_EXCEED_MAX_LENGTH){
+                    }else  if (errorCode === serverErrors.FULLNAME_EXCEED_MAX_LENGTH){
                         return "Full name too long.";
-                    }
-                    if (errorCode === serverErrors.CELLPHONE_EXCEED_MAX_LENGTH){
+                    }else  if (errorCode === serverErrors.CELLPHONE_EXCEED_MAX_LENGTH){
                         return "Cellphone too long.";
-                    }
-                    if (errorCode === serverErrors.PROFESSION_EXCEED_MAX_LENGTH){
+                    }else  if (errorCode === serverErrors.PROFESSION_EXCEED_MAX_LENGTH){
                         return "Profession too long.";
+                    }else {
+                        return "";
                     }
                 }
                 $scope.onSubmit = function () {
+                    $scope.fieldError = 0;
+                    $scope.messageErrorValidate  = '';
+                    $scope.userExisted = false;
+                    $scope.nationalIdExisted = false;
+                    $scope.cellphoneExisted = false;
+                    $scope.emailExisted = false;
                     $scope.gifLoading = true;
                     var newUser = RegisterService.compressUserDataToObj($scope.user);
                     RegisterService.submitRequest(newUser)
@@ -145,66 +180,36 @@ angular.module('register')
                                     || response.data.code === serverErrors.COULD_NOT_SAVE_USER_ADDR_TO_DB
                                     || response.data.code === serverErrors.COULD_NOT_SAVE_USER_GR_TO_DB
                                     || response.data.code === serverErrors.ERROR_TX_ROLLBACK
-                                    || response.data.code === serverErrors.ERROR_TX_COMMIT
-                                    || response.data.code === serverErrors.ERR_COULD_NOT_SEND_MAIL) {
+                                    || response.data.code === serverErrors.ERROR_TX_COMMIT) {
 
                                     $rootScope.isLoading = false;
                                     $rootScope.error = GLOBAL_CONSTANT.SERVER_GOT_PROBLEM_ERROR;
 
                                     return $location.url(routes.ERROR_PAGE);
-                                }
-
-
-
-                                // if (response.data.code === serverErrors.USERNAME_EXCEED_MAX_LENGTH
-                                //     || response.data.code === serverErrors.PASSWORD_EXCEED_MAX_LENGTH
-                                //     || response.data.code === serverErrors.EMAIL_EXCEED_MAX_LENGTH
-                                //     || response.data.code === serverErrors.REQUEST_NO_USERNAME
-                                //     || response.data.code === serverErrors.USERNAME_IS_NOT_STRING
-                                //     || response.data.code === serverErrors.REQUEST_NO_PASSWORD
-                                //     || response.data.code === serverErrors.PASSWORD_IS_NOT_STRING
-                                //     || response.data.code === serverErrors.EMAIL_IS_NOT_STRING
-                                //     // || response.data.code === serverErrors.EMAIL_IS_INVALID
-                                //     || response.data.code === serverErrors.FULLNAME_IS_NOT_STRING
-                                //     || response.data.code === serverErrors.FULLNAME_EXCEED_MAX_LENGTH
-                                //     || response.data.code === serverErrors.CELLPHONE_EXCEED_MAX_LENGTH
-                                //     || response.data.code === serverErrors.PROFESSION_EXCEED_MAX_LENGTH) {
-                                //
-                                //     $rootScope.isLoading = false;
-                                //     $rootScope.error = GLOBAL_CONSTANT.BAD_REQUEST_ERROR;
-                                //
-                                //     return $location.url(routes.ERROR_PAGE);
-                                // }
-
-                                if (response.data.code === serverErrors.USER_NAME_EXISTED) {
+                                }else if (response.data.code === serverErrors.USER_NAME_EXISTED) {
                                     $scope.userExisted = true;
                                     $scope.gifLoading = false;
                                     $scope.focusUsername = true;
-                                }
-
-                                if (response.data.code === serverErrors.EMAIL_EXISTED) {
+                                }else if (response.data.code === serverErrors.EMAIL_EXISTED) {
                                     $scope.emailExisted = true;
                                     $scope.gifLoading = false;
                                     $scope.focusEmail = true;
-                                }
-
-                                if (response.data.code === serverErrors.NATIONAL_ID_EXISTED) {
+                                }else if (response.data.code === serverErrors.NATIONAL_ID_EXISTED) {
                                     $scope.nationalIdExisted = true;
                                     $scope.gifLoading = false;
                                     $scope.focusNationalId = true;
-                                }
-
-                                if (response.data.code === serverErrors.CELLPHONE_EXISTED) {
+                                }else if (response.data.code === serverErrors.CELLPHONE_EXISTED) {
                                     $scope.cellphoneExisted = true;
                                     $scope.gifLoading = false;
                                     $scope.focusCellphone = true;
+                                }else {
+                                    $scope.gifLoading = false;
+                                    $scope.messageErrorValidate = $scope.getMessageError(response.data.code);
                                 }
-                                $scope.fieldError = 0;
                             } else { //handle success response
                                 $scope.gifLoading = false;
                                 $scope.registerSuccess = true;
                                 $scope.startRegister = false;
-                                $scope.fieldError = 0;
                                 $window.scrollTo(0, 0);
                             }
                         }, function (error) {
@@ -212,11 +217,20 @@ angular.module('register')
                             $window.scrollTo(0, 0);
                         });
                 };
-
+                $scope.inputChanging = function () {
+                    $scope.messageErrorValidate = '';
+                    $scope.fieldError = 0;
+                    $scope.userExisted = false;
+                    $scope.nationalIdExisted = false;
+                    $scope.cellphoneExisted = false;
+                    $scope.emailExisted = false;
+                }
                 $scope.changeEmail = function () {
                     console.log("EMAIL===",$scope.user.email);
                 }
                 $scope.backToLogin = function () {
+                    $scope.fieldError = 0;
+                    $scope.messageErrorValidate  = '';
                     $location.url(routes.LOGIN);
                 };
                 

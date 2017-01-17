@@ -146,6 +146,7 @@ angular.module('userDetails').component('userDetails', {
 
                         } else {
                             $scope.user = response.data;
+                            console.log('user detail information: ', $scope.user);
                             $scope.user.currentCellPhone = $scope.user.cellphone;
                             $scope.user.currentNationalId = $scope.user.nationalId;
                             $scope.user.currentUserGroup = $scope.user.group;
@@ -162,6 +163,18 @@ angular.module('userDetails').component('userDetails', {
 
                             if ($scope.user.groups[0].name && $scope.user.groups[0].name === 'Admin') {
                                 $scope.groupMember = 'Admin';
+                            }
+
+                            if ($scope.user.inviters && $scope.user.inviters[0]) {
+                                $scope.user.inviter = $scope.user.inviters[0].username;
+                            }
+
+                            if ($scope.user.invitees || $scope.user.invitees.length > 0) {
+                                var inviteeUserNames = [];
+                                $scope.user.invitees.forEach(function (invitee) {
+                                    inviteeUserNames.push(invitee.username);
+                                });
+                                $scope.user.inviteesInString = inviteeUserNames.join('; ');
                             }
                         }
                     }, function ( err ) {

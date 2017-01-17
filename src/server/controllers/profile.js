@@ -1,6 +1,5 @@
 'use strict';
 
-
 var errors = require('../libs/errors/errors');
 var errorUtil = require('../libs/errors/error-util');
 var userService = require('../services/user-service');
@@ -67,14 +66,23 @@ module.exports = function (app) {
                     if (err) return next(err);
                     else {
                         if (updatingUser.currentPwd){
+                            if (!updatingUser.newPassword || !updatingUser.passwordCompare || updatingUser.newPassword !== updatingUser.passwordCompare) {
+                                return next (errorUtil.createAppError(errors.INVALID_INPUT_DATA))
+                            }
+
                             if (md5(updatingUser.currentPwd) !== user.password) {
                                 return next(errorUtil.createAppError(errors.INVALID_PASSWORD));
                             }
+                        } else {
+                            if (updatingUser.newPassword || updatingUser.passwordCompare) {
+                                return next (errorUtil.createAppError(errors.INVALID_INPUT_DATA));
+                            }
+                            //return next(errorUtil.createAppError(errors.INVALID_PASSWORD));
                         }
                         return next(null, user);
                     }
                 });
-            },
+            }/*,
             function (user, next) {
                 if (!updatingUser.nationalId) {
                     return next (null, user);
@@ -110,8 +118,46 @@ module.exports = function (app) {
                         }
                     })
                 }
-            }
-            ,function createMessage(user, next) {
+            }*/,
+            function (user, next) {
+                var checkingFields = [];
+
+                if (user.cellphone !== updatingUser.cellphone) {
+                    checkingFields.push(constant.MEMBER_DB_FIELD.CELLPHONE);
+                }
+
+                if (user.nationalId !== updatingUser.nationalId) {
+                    checkingFields.push(constant.MEMBER_DB_FIELD.NATIONALID);
+                }
+
+                userService.checkExistedUserInfo(updatingUser, function (err) {
+                    if (err) {
+                        return next (err)
+                    } else {
+                        return next (null, user);
+                    }
+                }, ...checkingFields);
+            },
+            function (user, next) {
+                var doesNeedVerifyBankAccountNum = false;
+                user.bankInfo().forEach(function (bank) {
+                    if (bank.id === updatingUser.bankInfoId) {
+                        if (bank.bankAccountNumber !== updatingUser.bankAccountNumber) {
+                            doesNeedVerifyBankAccountNum = true;
+                        }
+                    }
+                });
+
+                if (doesNeedVerifyBankAccountNum) {
+                    userService.checkExistedBankAccountNumber(updatingUser.bankAccountNumber, function (err) {
+                        if (err) return next (err);
+                        else return next (null, user);
+                    })
+                } else {
+                    return next (null, user);
+                }
+            },
+            function createMessage(user, next) {
                 if(JSON.stringify(updatingUser) !== JSON.stringify(currentUser)) {
                     var message = {'title': updatingUser.username + constant.MSG.USER_EDITED_PROFILE_TITLE,
                         'message': updatingUser.username + constant.MSG.USER_EDITED_PROFILE_CONTENT,
@@ -152,10 +198,9 @@ module.exports = function (app) {
                                                     var filter = {};
                                                     for (var prop in updatingUser) {
                                                         if (prop === 'username' || prop === 'id' || prop === 'email' || prop === 'addresses') continue;
-                                                        if (prop === 'newPwd') filter.password = md5(updatingUser[prop]);
+                                                        if (prop === 'newPassword') filter.password = md5(updatingUser[prop]);
                                                         filter[prop] = updatingUser[prop];
                                                     }
-
                                                     user.updateAttributes(filter, function (err, updatedUser) {
                                                         if (err) return next (err);
                                                         else {
@@ -174,10 +219,9 @@ module.exports = function (app) {
                     var filter = {};
                     for (var prop in updatingUser) {
                         if (prop === 'username' || prop === 'id' || prop === 'email' || prop === 'addresses') continue;
-                        if (prop === 'newPwd') filter.password = md5(updatingUser[prop]);
+                        if (prop === 'newPassword') filter.password = md5(updatingUser[prop]);
                         filter[prop] = updatingUser[prop];
                     }
-
                     user.updateAttributes(filter, function (err, updatedUser) {
                         if (err) return next (err);
                         else {

@@ -20,7 +20,9 @@ var routes = {
     FORGOT_PASSWORD_VERIFY: '/forgotpassword/verify',
     FORGOT_PASSWORD_RESET: '/forgotpassword/reset/',
     ERROR_PAGE: '/error',
-    API_ORDERS_TOTAL: '/orders/total'
+    API_ORDERS_TOTAL: '/orders/total',
+    INVITE: '/invitation',
+    EX_RATE: '/exrate'
 };
 
 var navigation = [
@@ -75,6 +77,14 @@ var navigation = [
         id: 'toolbar-create-order'
     },
     {
+        route: routes.EX_RATE,
+        name: 'Rate management',
+        requiredPermissions: [permissions.USER_MANAGEMENT],
+        position: global.TOOLSBAR,
+        icon : 'fa fa-dollar',
+        id: 'toolbar-rate-mamangement'
+    },
+    {
         route: routes.SUPPORT,
         name: 'Support',
         requiredPermissions: [permissions.VIEW_OWN_ORDERS, permissions.USER_MANAGEMENT],
@@ -89,6 +99,14 @@ var navigation = [
         position: global.TOOLSBAR,
         icon : 'fa fa-question-circle',
         id: 'toolbar-help'
+    },
+    {
+        route: routes.INVITE,
+        name: 'Invite',
+        requiredPermissions: [permissions.VIEW_OWN_ORDERS, permissions.USER_MANAGEMENT],
+        position: global.TOOLSBAR,
+        icon : 'fa fa-user-plus',
+        id: 'toolbar-invite'
     },
     {
         route: routes.NOTIFICATIONS,

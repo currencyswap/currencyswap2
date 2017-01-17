@@ -1,0 +1,30 @@
+.table-responsive.tableExRate .inputRate{
+    width: 100%;
+    text-align: center;
+    border: 1px solid;
+}
+
+.table-responsive.tableExRate .table thead th {
+    text-align: center;
+}
+
+.table-responsive.tableExRate .table tbody .currencyTitle {
+
+}
+
+.table-responsive.tableExRate .table thead tbody td input {
+    text-align: center;
+}
+
+.table-responsive.tableExRate .table thead tbody td {
+    font-size: small;
+}
+
+.panel-footer .row .col .loaders{
+    width: 30px;
+    display: inline-block;
+}
+
+.panel-footer .btn.btn-sm.btn-primary img{
+    width: 100%;
+}

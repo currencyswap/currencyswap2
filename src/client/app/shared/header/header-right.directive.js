@@ -48,14 +48,7 @@ angular.module('appHeader').directive('headerRight', function () {
                       });
                   }
               }
-
-            if (msg.orderCode) {
-                $timeout(function(){
-                    $location.path( routes.ORDERS + msg.orderCode );
-                });
-            } else {
                 $rootScope.openMessageModel(msg);
-            }
           };
 
           var getNotiInst = function(){
@@ -94,7 +87,11 @@ angular.module('appHeader').directive('headerRight', function () {
               $scope.onLogout();
           });
           $.subscribe('/cs/read/notiMessage', function(msg) {
-              $scope.updateNotification();
+              if (msg && msg.isRead > 0) {
+                  console.log('ignore update the read message already');
+              } else {
+                  $scope.updateNotification();
+              }
           });
           $.subscribe('/cs/user/update', function(user) {
               $timeout(function(){

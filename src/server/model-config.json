@@ -60,5 +60,21 @@
   "MessageRead": {
     "dataSource": "CSwapDB",
     "public": false
+  },
+  "Invitations": {
+    "dataSource": "CSwapDB",
+    "public": false
+  },
+  "BankInfo": {
+    "dataSource": "CSwapDB",
+    "public": false
+  },
+  "Exchanges": {
+    "dataSource": "CSwapDB",
+    "public": false
+  },
+  "OrderBankInfo": {
+    "dataSource": "CSwapDB",
+    "public": false
   }
 }

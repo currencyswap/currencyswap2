@@ -7,6 +7,10 @@ Deploy to server 27.
     cd app/cs/Thanh-CurrencySwap/src
     ../buildscripts/deploy-ubuntu/deploy.sh
     git pass: vsii123
+    
+Migrate database
+    
+    node ./bin/setup.js
 
 References
 ----------

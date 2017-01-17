@@ -43,7 +43,6 @@ exports.createUser = function (user, callback) {
                 } else {
                     return next(null, txObject, instance)
                 }
-                //next(err, txObject, instance);
             });
         },
         function (txObject, instance, next) {
@@ -66,7 +65,7 @@ exports.createUser = function (user, callback) {
             });
         },
         function (txObject, instance, next) {
-            if (!user.groups || user.groups.lengh <= 0) {
+            if (!user.groups || user.groups.length <= 0) {
                 return next(null, txObject, instance);
             }
 
@@ -170,9 +169,16 @@ exports.login = function (user, callback) {
                         return next(errorUtil.createAppError(errors.MEMBER_INVALID_PASSWORD));
                     }
 
-                    // check user status
-                    if (userObj.status !== constant.USER_STATUSES.ACTIVATED) {
+                    if (userObj.status === constant.USER_STATUSES.NEW || userObj.status === constant.USER_STATUSES.PENDING_APPROVAL) {
                         return next(errorUtil.createAppError(errors.ACCOUNT_IS_NOT_ACTIVATED));
+                    }
+
+                    if (userObj.status === constant.USER_STATUSES.EXPIRED) {
+                        return next(errorUtil.createAppError(errors.ACCOUNT_IS_EXPIRED));
+                    }
+
+                    if (userObj.status === constant.USER_STATUSES.BLOCKED) {
+                        return next(errorUtil.createAppError(errors.ACCOUNT_IS_BLOCKED));
                     }
 
                     return next (null, userObj);
@@ -405,71 +411,14 @@ exports.createUserTransaction = function (callback) {
             })
         },
         function (newUser, options, next) {
-            exports.getUserByUsername(newUser.username, function (err, user) {
+        var checkingFields = [constant.MEMBER_DB_FIELD.USERNAME, constant.MEMBER_DB_FIELD.EMAIL, constant.MEMBER_DB_FIELD.NATIONALID, constant.MEMBER_DB_FIELD.CELLPHONE];
+            exports.checkExistedUserInfo(newUser, function (err) {
                 if (err) {
-                    if (err.code === errorUtil.createAppError(errors.MEMBER_INVALID_USERNAME).code) {
-                        return next(null, newUser, options);
-                    } else {
-                        return next(err);
-                    }
+                    return next (err)
                 } else {
-                    if (user.status === constant.USER_STATUSES.NEW) {
-                        exports.deleteUserAndRelatedAddresses(user, function (err) {
-                            if (err) return next (err);
-                            else return next (null, newUser, options);
-                        })
-                    } else {
-                        return next(errorUtil.createAppError(errors.USER_NAME_EXISTED));
-                    }
+                    return next (null, newUser, options);
                 }
-            });
-        },
-        function (newUser, options, next) {
-            if (!newUser.nationalId) {
-                return next (null, newUser, options);
-            } else {
-                exports.getUserByNationalId(newUser, function (err, foundUser) {
-                    if (err) {
-                        if (err.code === errorUtil.createAppError(errors.NO_USER_FOUND_IN_DB).code) {
-                            return next(null, newUser, options);
-                        } else {
-                            return next(err);
-                        }
-                    } else {
-                        return next (errorUtil.createAppError(errors.NATIONAL_ID_EXISTED));
-                    }
-                });
-            }
-        },
-        function (newUser, options, next) {
-            if (!newUser.cellphone) {
-                return next(null, newUser, options);
-            } else {
-                exports.getUserByCellphone(newUser, function (err, foundUser) {
-                    if (err) {
-                        if (err.code === errorUtil.createAppError(errors.NO_USER_FOUND_IN_DB).code) {
-                            return next(null, newUser, options);
-                        } else {
-                            return next(err);
-                        }
-                    } else {
-                        return next (errorUtil.createAppError(errors.CELLPHONE_EXISTED))
-                    }
-                })
-            }
-        },
-        function (newUser, options, next) {
-            app.models.Member.findByEmail(newUser.email, function (err, foundUser) {
-                if (err) {
-                    if (err.code === errorUtil.createAppError(errors.MEMBER_EMAIL_NOT_FOUND).code) {
-                        return next(null, newUser, options);
-                    } else {
-                        return next (err);
-                    }
-                } else {
-                    return next(errorUtil.createAppError(errors.EMAIL_EXISTED));
-                }
-            })
+            }, ...checkingFields);
         },
         function (user, options, next) {
             exports.createUser(user, function (err, savedUser) {
@@ -479,15 +428,59 @@ exports.createUserTransaction = function (callback) {
                 else return next(null, savedUser, options);
             })
         },
+        function (savedUser, options, next) {
+            if (newUser.inviter) {
+                var inviter = newUser.inviter;
+                app.models.Member.findByUsername(inviter, function (err, inviterObj) {
+                    if (err) {
+                        return next(errorUtil.createAppError(errors.SERVER_GET_PROBLEM));
+                    } else {
+                        var invitations = [
+                            {
+                                inviterId: inviterObj.id,
+                                inviteeId: savedUser.id
+                            }
+                        ];
+                        app.models.Invitations.create(invitations, function (err, invitationObj) {
+                            if (err) {
+                                console.error('Error on saving invitations !!!');
+                                return next(errorUtil.createAppError(errors.SERVER_GET_PROBLEM));
+                            } else {
+                                return next(null, savedUser, options);
+                            }
+                        })
+                    }
+                });
+            } else {
+                return next (null, savedUser, options);
+            }
+        },
+        function (savedUser, options, next) {
+            if (!newUser.banksInfo) {
+                return next (null, savedUser, options);
+            }
+
+            newUser.banksInfo.forEach(function (bankInfo) {
+                bankInfo.memberId = savedUser.id;
+            });
+
+            app.models.BankInfo.create(newUser.banksInfo, function (err, savedBankInfo) {
+                if (err) {
+                    console.error('Error on saving bank info of user');
+                    return next (errorUtil.createAppError(errors.SERVER_GET_PROBLEM));
+                } else {
+                    return next (null, savedUser, options);
+                }
+            });
+        },
         function createMessage(savedUser, options, next) {
-            supportService.messageToGroup({'title': constant.MSG.NEW_MEMBER_TITLE, 
+            supportService.messageToGroup({'title': constant.MSG.NEW_MEMBER_TITLE,
                 'message': constant.MSG.NEW_MEMBER_CONTENT, 
                 'groupName': 'Admin', 
                 'creatorId': savedUser.id});
             return next(null, savedUser.username, savedUser.email, options);
         },
         function (username, email, options, next) {
-            // generate reset password code
             exports.generateRandomString(function (err, randomString) {
                 if (err) return next(err);
                 else {
@@ -542,6 +535,7 @@ exports.createUserTransaction = function (callback) {
             return next(null, mailOptions, options);
         },
         function (mailOptions, options, next) {
+            console.log('registerUser 11');
             // send notification email to client
             mailSender.sendMail(mailOptions, function (err, info) {
                 if (err) return next(errorUtil.createAppError(errors.ERR_COULD_NOT_SEND_MAIL));
@@ -658,7 +652,7 @@ exports.getUserDetail = function (userId, callback) {
 };
 
 exports.getUserByUsernameWithoutRelationModel = function (user, callback) {
-    app.models.Member.findUserByUserName(user.username, function (err, userObj) {
+    app.models.Member.findByUsername(user.username, function (err, userObj) {
         
         if (err) return errorUtil.createAppError(errors.SERVER_GET_PROBLEM);
 
@@ -858,4 +852,194 @@ exports.setUserExpired = function (userId, time) {
     var item = { 'status': constant.USER_STATUSES.EXPIRED };
     var where = { and: [{ 'id': userId }, {'expiredDate': {'lt': time}}, { 'status': constant.USER_STATUSES.ACTIVATED }] };
     return dbUtil.executeModelFn(app.models.Member, 'updateAll', where, item);
+};
+
+exports.checkUserExistWithEmail = function (email, callback) {
+    app.models.Member.findByEmail(email, function (err, user) {
+        if (err) {
+            if (err.code === (errorUtil.createAppError(errors.MEMBER_EMAIL_NOT_FOUND)).code) {
+                return callback(null, false);
+            }
+            return callback (errorUtil.createAppError(errors.SERVER_GET_PROBLEM));
+        } else {
+            return callback(null, true);
+        }
+    });
+};
+
+exports.generateInvitationLink = function (inviter, inviteeEmail, protocolHostAndPort) {
+
+    var base64InviterAndEmail = new Buffer(inviter + constant.INVITATION_CODE_DELIMITER + inviteeEmail).toString('base64');
+
+    return protocolHostAndPort
+        + constant.SLASH
+        + constant.HASHTAG_AND_EXCLAMATION
+        + constant.CLIENT_INVITATION_PATH
+        + constant.QUESTION_MARK + constant.INVITAION_PARAM
+        + '='
+        + base64InviterAndEmail;
+};
+
+exports.sendInvitationMail = function (invitationLink, inviter, inviteeEmail, callback) {
+    var senderInfo = appConfig.getMailSenderInfo();
+
+    async.waterfall([
+        function (next) {
+            var mailOptions = {
+                from: senderInfo.sender,
+                to: inviteeEmail,
+                subject: 'Currency Swap Invitation',
+                html: '<!DOCTYPE html>'
+                + '<html lang="en">'
+                + '<head>'
+                + '<meta charset="UTF-8">'
+                + '<title></title>'
+                + '</head>'
+                + '<body>'
+                + '<p>You has received an invitation from Currency Swap user: <b>' + inviter + '</b>, to join Currency Swap system</p>'
+                + '<p><a href="' + invitationLink + '">Invitation URL</a></p>'
+                + '<p>If you can not click on the link above, please help to copy below URL to your browser</p>'
+                + '<p><a href="' +invitationLink+'">' +invitationLink+ '</a></p>'
+                + '<p>If you have not register to Currency Swap recently, please feel free to ignore it.</p>'
+                + '<p>If you have any comments or questions, please do not hesitate to reach us at <b><u>' + senderInfo.sender + '</u></b></p>'
+                + '<p><br></p>'
+                + '<p>Thanks and best regards</p>'
+                + '<p>Currency Swap</p>'
+                + '</body>'
+                + '</html>'
+            };
+
+            return next (null, mailOptions);
+        },
+        function (mailOptions, next) {
+            mailSender.sendMail(mailOptions, function (err) {
+                if (err) {
+                    return next(errorUtil.createAppError(errors.SERVER_GET_PROBLEM));
+                }
+                else {
+                    return next(null);
+                }
+            });
+        }
+    ], function (err) {
+        callback(err);
+    });
+};
+/*
+exports.checkExistedUserInfo = function (requestUser, callback) {
+    var orOptions = [];
+    if (requestUser.username) {
+        orOptions.push({'username': requestUser.username});
+    }
+    if (requestUser.nationalId) {
+        orOptions.push({'nationalId': requestUser.nationalId})
+    }
+    if (requestUser.cellphone) {
+        orOptions.push({'cellphone': requestUser.cellphone})
+    }
+    if (requestUser.email) {
+        orOptions.push({'email': requestUser.email})
+    }
+    app.models.Member.findOne({
+        where: {
+            or: orOptions
+        }
+    }, function (err, user) {
+        if (err) {
+            return callback(errorUtil.createAppError(errors.SERVER_GET_PROBLEM));
+        } else {
+            if (!user) {
+                return callback(null);
+            } else {
+                if (user.username === requestUser.username) {
+                    return callback(errorUtil.createAppError(errors.USER_NAME_EXISTED))
+                }
+
+                if (user.email === requestUser.email) {
+                    return callback(errorUtil.createAppError(errors.EMAIL_EXISTED))
+                }
+
+                if (user.nationalId && user.nationalId === requestUser.nationalId) {
+                    return callback(errorUtil.createAppError(errors.NATIONAL_ID_EXISTED))
+                }
+
+                if (user.cellphone && user.cellphone === requestUser.cellphone) {
+                    return callback(errorUtil.createAppError(errors.CELLPHONE_EXISTED))
+                }
+            }
+        }
+    })
+};*/
+
+exports.checkExistedUserInfo = function (requestUser, callback, ...checkingFields) {
+    var orOptions = [];
+
+    if (checkingFields.indexOf(constant.MEMBER_DB_FIELD.USERNAME) > 0) {
+        orOptions.push({'username': requestUser.username});
+    }
+    if (checkingFields.indexOf(constant.MEMBER_DB_FIELD.NATIONALID) > 0) {
+        orOptions.push({'nationalId': requestUser.nationalId})
+    }
+    if (checkingFields.indexOf(constant.MEMBER_DB_FIELD.CELLPHONE) > 0) {
+        orOptions.push({'cellphone': requestUser.cellphone})
+    }
+    if (checkingFields.indexOf(constant.MEMBER_DB_FIELD.EMAIL) > 0) {
+        orOptions.push({'email': requestUser.email})
+    }
+    if (orOptions.length === 0) {
+        return callback(null);
+    } else {
+        app.models.Member.findOne({
+            where: {
+                or: orOptions
+            }
+        }, function (err, user) {
+            if (err) {
+                return callback(errorUtil.createAppError(errors.SERVER_GET_PROBLEM));
+            } else {
+                if (!user) {
+                    return callback(null);
+                } else {
+                    console.log('returned user: ', user);
+                    if (user.username === requestUser.username) {
+                        return callback(errorUtil.createAppError(errors.USER_NAME_EXISTED))
+                    }
+
+                    if (user.email === requestUser.email) {
+                        return callback(errorUtil.createAppError(errors.EMAIL_EXISTED))
+                    }
+
+                    if (user.nationalId && user.nationalId === requestUser.nationalId) {
+                        return callback(errorUtil.createAppError(errors.NATIONAL_ID_EXISTED))
+                    }
+
+                    if (user.cellphone && user.cellphone === requestUser.cellphone) {
+                        return callback(errorUtil.createAppError(errors.CELLPHONE_EXISTED))
+                    }
+
+                    if (user.cellphone && user.cellphone === requestUser.cellphone) {
+                        return callback(errorUtil.createAppError(errors.CELLPHONE_EXISTED))
+                    }
+                }
+            }
+        })
+    }
+};
+
+exports.checkExistedBankAccountNumber = function (bankAccountNumber, callback) {
+    app.models.BankInfo.findOne({
+        where: {
+            bankAccountNumber: bankAccountNumber
+        }
+    }, function (err, bankInfo) {
+       if (err) {
+           return callback(err);
+       } else {
+           if (!bankInfo) {
+               return callback(null);
+           } else {
+               return callback(errorUtil.createAppError(errors.BANK_ACC_NUM_EXISTED));
+           }
+       }
+    });
 };

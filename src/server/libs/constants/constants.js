@@ -17,7 +17,17 @@ module.exports = {
         SWAPPING_ORDER_CONTENT : "Swapping Order",
         CONFIRM_ORDER_CONTENT : "Confirmed Order",
         CLEAR_ORDER_CONTENT : "Cleared Order",
-        CANCEL_ORDER_CONTENT : "Cancel Order"
+        CANCEL_ORDER_CONTENT : "Cancel Order",
+        PENDING_ORDER_CONTENT: "Pending Order",
+        NAIRA_EX_RATE_TITLE: 'Updated Naira exchange rate',
+        NAIRA_EX_RATE_CONTENT: 'Naira exchange rate content'
+    },
+    MEMBER_DB_FIELD: {
+        USERNAME: 'username',
+        EMAIL: 'email',
+        CELLPHONE: 'cellphone',
+        NATIONALID: 'nationalId',
+        BANKACCOUNTNUM: 'bankAccountNumber'
     },
     PASSWORD_FIELD: 'password',
     STATUS_FIELD: 'status',
@@ -26,11 +36,14 @@ module.exports = {
     ONE_DAY_IN_SECONDS: 24 * 60 * 60,
     HASHTAG_AND_EXCLAMATION: '#!',
     RESET_CODE_DELIMITER: '|',
+    INVITATION_CODE_DELIMITER: '|',
     SLASH: '/',
     CLIENT_RESET_PWD_PATH: '/forgotpassword/reset',
     CLIENT_ACTIVE_ACC_PATH: '/register',
+    CLIENT_INVITATION_PATH: '/register',
     RESET_CODE_PARAM: 'resetCode',
     ACTIVE_REGISTER_PARAM: 'activeCode',
+    INVITAION_PARAM: 'inviCode',
     QUESTION_MARK: '?',
     ENCRYPTION_PWD: 'CS-Encryption-Pwd',
     ENCRYPTION_ALGORITHM: 'aes192',

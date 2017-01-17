@@ -9,6 +9,22 @@ angular.module('support').factory('SupportService', ['ConnectorService', functio
         },
         getCreator: function(username) {
             return this.get(apiRoutes.API_SUPPORTS_CREATOR, {'username': username});
+        },
+
+        isExRateObj: function (exRateObj) {
+            if (exRateObj.usDollarBuy && exRateObj.usDollarSell && exRateObj.euroBuy && exRateObj.euroSell && exRateObj.poundBuy && exRateObj.poundSell) {
+                return true;
+            }
+            return false;
+        },
+
+        parseToExRateObj: function (message) {
+            try {
+                var exRateObj = JSON.parse(message);
+            } catch (err) {
+                return false;
+            }
+            return exRateObj;
         }
    });
 }]);

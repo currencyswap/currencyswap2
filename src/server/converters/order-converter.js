@@ -11,9 +11,9 @@ exports.convertOrderData = function (requestOrder) {
     resultOrder.updated = new Date();
     
     if(requestOrder.rate) resultOrder.rate = parseFloat(requestOrder.rate);
-    if(requestOrder.give) resultOrder.give = parseFloat(requestOrder.give);
+    if(requestOrder.give) resultOrder.give = parseInt(requestOrder.give);
     if(requestOrder.giveCurrencyId) resultOrder.giveCurrencyId = parseInt(requestOrder.giveCurrencyId);
-    if(requestOrder.get) resultOrder.get = parseFloat(requestOrder.get);
+    if(requestOrder.get) resultOrder.get = parseInt(requestOrder.get);
     if(requestOrder.getCurrencyId) resultOrder.getCurrencyId = parseInt(requestOrder.getCurrencyId);
     
     resultOrder.ownerId = 0;

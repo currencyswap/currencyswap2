@@ -6,12 +6,14 @@ var stringUtil = require('../libs/utilities/string-util');
 var messages = require('../messages/messages');
 var constant = require('../libs/constants/constants');
 var service = require('../services/order-service');
+var bankService = require('../services/bankInfo-service');
 var statusTypeService = require('../services/status-type-service');
 var orderConverter = require('../converters/order-converter');
 var appConfig = require('../libs/app-config');
 var util = require('util');
 var cryptoUtil = require('../libs/utilities/crypto_util'); 
 var supportService = require('../services/support-service');
+var orderValidation = require('../validation/order-validation');
 var CODE_LENGTH = 10;
 module.exports = function (app) {
     var router = app.loopback.Router();
@@ -23,6 +25,7 @@ module.exports = function (app) {
 
     
     var saveMessage = function(title, content, creatorId, receiverId, orderCode){
+        //console.log('saveMessage', title, content)
 //      Send 1 message to 1 user
         var message = {'title': title, 
             'message': content, 
@@ -48,37 +51,118 @@ module.exports = function (app) {
             return constant.STATUS_TYPE.EXPIRED;
         }
     };
-    var updateOrderStatus = function (req, res, statusId, activityMessage){
+    var getOrderMsg = function(order) {
+        var msg = 'Order: ' + order.code + ', Give: ' + order.give + ' ' + order.giveCurrency.code+ '-' + order.giveCurrency.name
+        + ', Get: ' + order.get + ' ' + order.getCurrency.code+ '-' + order.getCurrency.name +', Rate: ' + order.rate;
+        return msg;
+    };
+    var updateOrderStatus = function (req, res, statusId, activityMessage) {
+        var initializerBankInfoData = req.query;
+        var userId = req.currentUser.id;
         var orderId = req.params.id;
-        var creatorId = req.currentUser.id
-        service.getOrderById(orderId).then(function(order){
+        var updatingOrderBankInfoData = {orderId: orderId};
+        var creatorId = req.currentUser.id;
+        service.getOrderById(orderId).then(function (order) {
+            if (order) {
+                order = order.toJSON();
+            }
             var ownerId = order.ownerId;
             var accepterId = order.accepterId;
-            var msgReceiverUserId = (creatorId == ownerId ? accepterId: ownerId);
+            var msgReceiverUserId = (creatorId == ownerId ? accepterId : ownerId);
             var title = null;
             var msg = null;
-            if(statusId == constant.STATUS_TYPE.SUBMITTED_ID){
-                title = msg = "Order " + order.code + " has been cancelled";;
+            if (statusId == constant.STATUS_TYPE.SUBMITTED_ID) {
+                title = 'Order ' + order.code + ' has been cancelled';
+                msg = getOrderMsg(order) + ' has been cancelled';
             } else {
-                title = "Order " + order.code + " has updated";
-                msg = "Order " + order.code + " has been changed from " + getStatusName(statusId - 2) + " to " +getStatusName(statusId - 1);
+                title = 'Order ' + order.code + ' has updated';
+                msg = getOrderMsg(order) + ' has been changed from ' + getStatusName(order.statusId) + ' to ' + getStatusName(statusId);
             }
-            service.updateOrderStatus(orderId, statusId, creatorId).then(function(resp){
-                if(statusId == constant.STATUS_TYPE.SUBMITTED_ID){
-                     service.removeOrderActivity(orderId);
-                } else {
-                     createOrderActivity(orderId, creatorId, statusId, activityMessage);
+            if (order.statusId == statusId) {
+                return res.send({isError: true, message: msg});
+            } else {
+                if (statusId > constant.STATUS_TYPE.SUBMITTED_ID) {
+                    if (order.statusId == constant.STATUS_TYPE.SUBMITTED_ID) {
+                        msg = getOrderMsg(order) + ' has been cancelled';
+                        return res.send({isError: true, message: msg});
+                    } else if (order.statusId >= statusId) {
+                        msg = getOrderMsg(order) + ' has been changed from ' + getStatusName(order.statusId) + ' to ' + getStatusName(statusId);
+                        return res.send({isError: true, message: msg})
+                    }
                 }
-                if (msgReceiverUserId) {
-                    saveMessage(title, msg, creatorId, msgReceiverUserId, order.code);
-                } else {
-                    console.log('No message was sent due to unknown receiver')
+
+                if (order.statusId === constant.STATUS_TYPE.SWAPPING_ID && statusId === constant.STATUS_TYPE.SUBMITTED_ID) {
+                    //remove order bank info record
+                    service.removeOrderBankInfo(orderId);
                 }
-                return res.send(resp);
-             }, function(err){
-                   return res.status(500).send(errorUtil.createAppError(errors.SERVER_GET_PROBLEM));
-               });
-        },function(err){
+
+                if (order.statusId === constant.STATUS_TYPE.SWAPPING_ID && statusId === constant.STATUS_TYPE.CONFIRMED_ID) {
+                    // save new bank info of order
+                    if (!initializerBankInfoData.bankAccountName
+                        || !initializerBankInfoData.bankAccountNumber
+                        || !initializerBankInfoData.bankName
+                        || !initializerBankInfoData.bankCountry) {
+                        updatingOrderBankInfoData.initializerBankInfoId = initializerBankInfoData.choosenExistedBankInfoId;
+                        try {
+                            orderValidation.validateOrderBankInfoObj(updatingOrderBankInfoData);
+                        } catch (err) {
+                            return res.status(400).send(err);
+                        }
+                        bankService.updateOrderBankInfo(updatingOrderBankInfoData)
+                            .then(function (resp) {
+                                console.log('resp: ', resp);
+                                return res.status(200).send({});
+                            }, function (err) {
+                                console.error(err);
+                                return res.status(500).send(errorUtil.createAppError(errors.SERVER_GET_PROBLEM));
+                            })
+                    } else {
+
+                        initializerBankInfoData.memberId = userId;
+                        delete initializerBankInfoData.choosenExistedBankInfoId;
+                        try {
+                            orderValidation.validateBankInfoObj(initializerBankInfoData);
+                            orderValidation.validateOrderBankInfoObj(updatingOrderBankInfoData);
+                        } catch (err) {
+                            return res.status(400).send(err);
+                        }
+                        // save order bank info data
+                        bankService.createNewBankInfo(initializerBankInfoData)
+                            .then(function (resp) {
+                                updatingOrderBankInfoData.initializerBankInfoId = resp.id;
+                                bankService.updateOrderBankInfo(updatingOrderBankInfoData)
+                                    .then(function (resp) {
+                                        return res.status(200).send({});
+                                    }, function (err) {
+                                        console.error(err);
+                                        return res.status(500).send(errorUtil.createAppError(errors.SERVER_GET_PROBLEM));
+                                    });
+                            }, function (err) {
+                                console.error(err);
+                                return res.status(500).send(errorUtil.createAppError(errors.SERVER_GET_PROBLEM));
+                            });
+                    }
+                }
+
+                service.updateOrderStatus(orderId, statusId, creatorId).then(function (resp) {
+                    if (statusId == constant.STATUS_TYPE.SUBMITTED_ID) {
+                        service.removeOrderActivity(orderId);
+                    } else {
+                        createOrderActivity(orderId, creatorId, statusId, activityMessage);
+                    }
+                    if (msgReceiverUserId) {
+                        saveMessage(title, msg, creatorId, msgReceiverUserId, order.code);
+                    } else {
+                        console.log('No message was sent due to unknown receiver')
+                    }
+                    return res.send(resp);
+                }, function (err) {
+                    return res.status(500).send(errorUtil.createAppError(errors.SERVER_GET_PROBLEM));
+                });
+            }
+
+
+        }, function (err) {
             return res.status(500).send(errorUtil.createAppError(errors.SERVER_GET_PROBLEM));
         });
     };
@@ -99,25 +183,75 @@ module.exports = function (app) {
           });
         
     };
-    var swapSubmittedOrder = function(req, res){
+    var swapSubmittedOrder = function (req, res) {
+        var accepterBankInfoData = req.query;
         var orderId = req.params.id;
-        var userId = req.currentUser.id
-        service.getOrderById(orderId).then(function(respOrder){
-                if(respOrder.statusId != constant.STATUS_TYPE.SUBMITTED_ID){
-                      return res.send({isError : true, message : "Order was swapped by other user!"});
-                }
-                if(respOrder.ownerId == userId){
-                    return res.send({isError : true, message : "Could not swap for the order that belong to you"});
-                }
+        var userId = req.currentUser.id;
+        var updatingOrderBankInfoData = {orderId: orderId};
+        service.getOrderById(orderId).then(function (order) {
+            if (order) {
+                order = order.toJSON();
+            }
+            if (order.statusId != constant.STATUS_TYPE.SUBMITTED_ID) {
+                return res.send({isError: true, message: 'Order was swapped by other user!'});
+            }
+            if (order.ownerId == userId) {
+                return res.send({isError: true, message: 'Could not swap for the order that belong to you'});
+            }
 
-                service.swapOrder(orderId, userId).then(function(resp){
-                    saveMessage('Swapping request', 'Order ' + respOrder.code, userId, respOrder.ownerId, respOrder.code);
-                    createOrderActivity(orderId, userId, constant.STATUS_TYPE.SWAPPING_ID, 'Swapping request');
+            // save new bank info of order
+            if (!accepterBankInfoData.bankAccountName
+                || !accepterBankInfoData.bankAccountNumber
+                || !accepterBankInfoData.bankName
+                || !accepterBankInfoData.bankCountry) {
+                updatingOrderBankInfoData.accepterBankInfoId = accepterBankInfoData.choosenExistedBankInfoId;
+                try {
+                    orderValidation.validateOrderBankInfoObj(updatingOrderBankInfoData);
+                } catch (err) {
+                    return res.status(400).send(err);
+                }
+                bankService.saveOrderBankInfo(updatingOrderBankInfoData)
+                    .then(function (resp) {
+                        console.log('resp: ', resp);
+                        return res.status(200).send({});
+                    }, function (err) {
+                        console.error(err);
+                        return res.status(500).send(errorUtil.createAppError(errors.SERVER_GET_PROBLEM));
+                    })
+            } else {
+                accepterBankInfoData.memberId = userId;
+                delete accepterBankInfoData.choosenExistedBankInfoId;
+                try {
+                    orderValidation.validateBankInfoObj(accepterBankInfoData);
+                    orderValidation.validateOrderBankInfoObj(updatingOrderBankInfoData);
+                } catch (err) {
+                    return res.status(400).send(err);
+                }
+                bankService.createNewBankInfo(accepterBankInfoData)
+                    .then(function (resp) {
+                        updatingOrderBankInfoData.accepterBankInfoId = resp.id;
+                        bankService.saveOrderBankInfo(updatingOrderBankInfoData)
+                            .then(function (resp) {
+                                return res.status(200).send({});
+                            }, function (err) {
+                                console.error(err);
+                                return res.status(500).send(errorUtil.createAppError(errors.SERVER_GET_PROBLEM));
+                            });
+                    }, function (err) {
+                        console.error(err);
+                        return res.status(500).send(errorUtil.createAppError(errors.SERVER_GET_PROBLEM));
+                    });
+            }
+
+            service.swapOrder(orderId, userId).then(function (resp) {
+                var msg = 'Order ' + order.code + ' has been received the swapping request from ' + (req.currentUser.fullName || req.currentUser.username);
+                saveMessage('Swapping request', msg, userId, order.ownerId, order.code);
+                createOrderActivity(orderId, userId, constant.STATUS_TYPE.SWAPPING_ID, 'Swapping request');
                 return res.send(resp);
-              }, function(err){
-                  return res.status(500).send(errorUtil.createAppError(errors.SERVER_GET_PROBLEM));
-              });
-        }, function(err){
+            }, function (err) {
+                return res.status(500).send(errorUtil.createAppError(errors.SERVER_GET_PROBLEM));
+            });
+        }, function (err) {
             return res.status(500).send(errorUtil.createAppError(errors.SERVER_GET_PROBLEM));
         });
     };
@@ -185,10 +319,10 @@ module.exports = function (app) {
         });
     });
     router.get('/confirmed', function (req, res) {
-        service.getUserConfirmedOrders(req.currentUser.id).then(function(resp){
-                //console.log(JSON.stringify(resp));
+        service.getUserConfirmedOrders(req.currentUser.id).then(function (resp) {
+            //console.log(JSON.stringify(resp));
             return res.send(resp);
-        }, function(err){
+        }, function (err) {
             return res.status(500).send(errorUtil.createAppError(errors.SERVER_GET_PROBLEM));
         });
     });
@@ -255,7 +389,7 @@ module.exports = function (app) {
         var listOutput = [];
         value = parseFloat(value);
         
-        //console.log("getListResult value" + value);
+        //console.log('getListResult value' + value);
         
         if(value <= 0){
                 return listOutput;
@@ -264,7 +398,7 @@ module.exports = function (app) {
         var j = 0;
         var index = 0;
         while((i < lessList.length || j < greatList.length) && index < constant.SUGGETION_LIST_CONFIG.LIMIT_NUMBER){
-                //console.log("getListResult index" + index);
+                //console.log('getListResult index' + index);
                 if(i == lessList.length){
                         listOutput.push(greatList[j]);
                         j++;
@@ -275,12 +409,12 @@ module.exports = function (app) {
                         var itemGreat = greatList[j];
                         var itemLess = lessList[i];
                         
-                        //console.log("getListResult get" + itemGreat.get + "-" + itemLess.get);
+                        //console.log('getListResult get' + itemGreat.get + '-' + itemLess.get);
                         
                         var absGreat = itemGreat.get - value;
                         var absLess = value - itemLess.get;
                         
-                        //console.log("getListResult " + absGreat + "-" + absLess);
+                        //console.log('getListResult ' + absGreat + '-' + absLess);
                         
                         if(absGreat <= absLess){
                                 listOutput.push(itemGreat);
@@ -305,17 +439,17 @@ module.exports = function (app) {
         var lessList = [];
         var greatList = [];
         service.getSuggestOrdersGreat(req.currentUser.id, value, giveCurrencyId, getCurrencyId).then(function(respGreat){
-                //console.log("out out respGreat: " + JSON.stringify(respGreat.length));
+                //console.log('out out respGreat: ' + JSON.stringify(respGreat.length));
                 if(respGreat){
                         greatList = respGreat;
                 }
                 service.getSuggestOrdersLess(req.currentUser.id, value, giveCurrencyId, getCurrencyId).then(function(respLess){
-                        //console.log("out out respLess: " + JSON.stringify(respLess.length));
+                        //console.log('out out respLess: ' + JSON.stringify(respLess.length));
                         if(respLess){
                                 lessList = respLess;
                 }
                         var output = getListResult(value,lessList, greatList);
-                        //console.log("out out : " + JSON.stringify(output.length));
+                        //console.log('out out : ' + JSON.stringify(output.length));
                 return res.send(output);
             }, function(err){
                 return res.status(500).send(errorUtil.createAppError(errors.SERVER_GET_PROBLEM));
@@ -340,20 +474,35 @@ module.exports = function (app) {
         });
     });
     
-    router.get('/:code', function (req, res) {
+    router.get('/edit/:code', function (req, res) {
         var userId = req.currentUser.id;
-        var orderCode = req.params.code;
-        var isCheckExpired = true;
-        service.getOrderByCode(orderCode, userId, isCheckExpired).then(function(resp){
+        var code = req.params.code;
+        service.getOrderForEdit(code, userId, constant.STATUS_TYPE.SUBMITTED_ID).then(function(resp){
                 return res.send(resp);
         }, function(err){
             return res.status(500).send(errorUtil.createAppError(errors.SERVER_GET_PROBLEM));
         });
     });
-    router.get('/edit/:code', function (req, res) {
+    
+    router.get('/lastcreated', function (req, res) {
         var userId = req.currentUser.id;
-        var code = req.params.code;
-        service.getOrderForEdit(code, userId, constant.STATUS_TYPE.SUBMITTED_ID).then(function(resp){
+        service.getLastOrderCreated(userId).then(function(resp){
+                if(resp && resp.length > 0){
+                        return res.send({isSuccessfull:true, order : resp[0]});
+                }else{
+                        return res.send({isSuccessfull:true, isNoData : true});
+                }
+        }, function(err){
+            return res.status(500).send(errorUtil.createAppError(errors.SERVER_GET_PROBLEM));
+        });
+    });
+    
+    router.get('/:code', function (req, res) {
+        var userId = req.currentUser.id;
+        var orderCode = req.params.code;
+        var isCheckExpired = true;
+        service.getOrderByCode(orderCode, userId, isCheckExpired).then(function(resp){
+            console.log('bank info relation: ', resp);
                 return res.send(resp);
         }, function(err){
             return res.status(500).send(errorUtil.createAppError(errors.SERVER_GET_PROBLEM));

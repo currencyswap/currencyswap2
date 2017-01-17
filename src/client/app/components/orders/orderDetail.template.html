@@ -9,7 +9,7 @@
 		<div class="panel-heading" ng-if="!orderNotExisted">
 			<h4 class="panel-title">Order {{order.code}}</h4>
 		</div>
-		<div class="panel-body panel-body-nopadding" ng-if="!orderNotExisted">
+		<div class="panel-body" ng-if="!orderNotExisted">
 			<div class="row row-initialized nomargin row-order-status">
 				<div class="col col-order-status order-status-1" ng-class="{'order-status-current' : orderStatus == statusType.SUBMITTED}">
 					<div class="order-status-item"></div>
@@ -58,9 +58,10 @@
 			<div class="row row-initialized nomargin">
 				<div class="col form-inline">
 					<div class="row mb10 row-order-time">
-						<label class="control-label col-md-3"><span>Created date </span> {{order.created | filterDate}}</label> 
-						<label class="control-label col-md-3 row-order-time-update" ng-if="order.statusId!=1"><span>Updated date </span> {{order.updated | filterDate}}</label>
-						<label class="control-label col-md-3 row-order-time-update" ng-if="order.statusId==1"><span>Expired date </span> {{order.expired | filterDate}}</label> 
+						<label class="control-label col-md-3"><span>Created Date </span> {{order.created | filterDate}}</label> 
+						<label class="control-label col-md-3 row-order-time-update" ng-if="order.statusId>=5"><span>Closed Date </span> {{order.updated | filterDate}}</label>
+						<label class="control-label col-md-3 row-order-time-update" ng-if="order.statusId==1"><span>Expired Date </span> {{order.expired | filterDate}}</label>
+						<label class="control-label col-md-3 row-order-time-update" ng-if="order.statusId>1 && order.statusId < 5"><span>Updated Date </span> {{order.expired | filterDate}}</label> 
 					</div>
 					<div class="row mb10 row-order-actor">
 						<label class="control-label col-md-3"><span>Initializer </span> {{order.owner.fullName||order.owner.username}}</label> 
@@ -78,9 +79,52 @@
 
 					<div class="row mb10 row-rate">
 						<label class="control-label col-md-2 row-title-rate">Rate</label> 
-						<label class="control-label">{{order.rate}} </label>
+						<label class="control-label">{{order.rate | filterRate}} </label>
 					</div>
 
+					<!--ng-if="fulfillBankInfo"-->
+
+					<div class="row mb10 row-bank-info" ng-if="fulfillBankInfo">
+						<label class="control-label col-md-3 row-bank-info-title"><label>Initializer Bank Information</label></label>
+						<label class="control-label col-md-5 row-order-time-update row-bank-info-detail">
+							<label>Account Number :</label><span> {{order.initializerBankInfo[0].bankAccountNumber}}</span><br>
+							<label>Account Name : </label><span> {{order.initializerBankInfo[0].bankAccountName}}</span><br>
+							<label>Bank Name : </label><span> {{order.initializerBankInfo[0].bankName}}</span><br>
+							<label>Bank Country : </label><span> {{order.initializerBankInfo[0].bankCountry}}</span><br>
+							<label>Evidence : </label>
+							<span>
+								&nbsp;
+								<a ng-if="isOwnerOrder" class="avatar-align hand-over" type="file" ngf-max-size="5MB" ngf-select="uploadFiles($file, $invalidFiles)"
+								   accept="image/*">
+                                    Upload Evidence
+                                </a>
+								&nbsp;
+								<a ng-click="showInitializerEvidence(currentUser.username)">Show Evidence</a>
+							</span>
+							<br>
+						</label>
+					</div>
+
+					<div class="row mb10 row-bank-info" ng-if="fulfillBankInfo">
+						<label class="control-label col-md-3 row-bank-info-title"><label>Accepter Bank Information </label></label>
+						<label class="control-label col-md-5 row-order-time-update row-bank-info-detail">
+							<label>Account Number :</label><span> {{order.accepterBankInfo[0].bankAccountNumber}}</span><br>
+							<label>Account Name : </label><span> {{order.accepterBankInfo[0].bankAccountName}}</span><br>
+							<label>Bank Name : </label><span> {{order.accepterBankInfo[0].bankName}}</span><br>
+							<label>Bank Country : </label><span> {{order.accepterBankInfo[0].bankCountry}}</span><br>
+							<label>Evidence : </label>
+							<span>
+								&nbsp;
+								<a ng-if="!isOwnerOrder" type="file" ngf-max-size="5MB" ngf-select="uploadFiles($file, $invalidFiles)"
+								   accept="image/*">
+                                    Upload Evidence
+                                </a>
+								&nbsp;
+								<a ng-click="showAccepterEvidence(currentUser.username)">Show Evidence</a>
+							</span>
+							<br>
+						</label>
+					</div>
 				</div>
 
 			</div>

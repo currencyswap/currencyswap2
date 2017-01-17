@@ -22,7 +22,6 @@ angular.module('cookieManager', ['ngCookies'])
                 }), options);
             },
             cleanUpCookies: function () {
-                console.log('clear cookie ???');
                 $cookies.remove(global.TOKEN);
                 $cookies.remove(global.CURRENT_USER);
             },

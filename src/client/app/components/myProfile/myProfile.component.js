@@ -28,17 +28,25 @@ angular.module('myProfile')
                 $scope.GLOBAL_CONSTANT = GLOBAL_CONSTANT;
                 var profilePicReq = {
                     method: httpMethods.GET,
-                    url: '/config/' + currentUser.username
+                    url: '/config/media/' + currentUser.username
                 };
 
-                $http(profilePicReq)
-                    .then(function (response) {
-                        return;
-                    });
+//                $http(profilePicReq)
+//                    .then(function (response) {
+//                        return;
+//                    });
 
                 var token = CookieService.getToken();
 
                 var headers = {};
+
+                $scope.onBankInfoChange = function (index) {
+                    $scope.model.bankInfoId = $scope.bankInfos[index].id;
+                    $scope.model.bankAccountName = $scope.bankInfos[index].bankAccountName;
+                    $scope.model.bankAccountNumber = $scope.bankInfos[index].bankAccountNumber;
+                    $scope.model.bankName = $scope.bankInfos[index].bankName;
+                    $scope.model.bankCountry = $scope.bankInfos[index].bankCountry;
+                };
 
                 headers[httpHeader.CONTENT_TYPE] = contentTypes.JSON;
                 headers[httpHeader.AUTHORIZARION] = autheticateType.BEARER + token;
@@ -52,18 +60,21 @@ angular.module('myProfile')
                         $scope.model.registeredDate = new Date(userDetail.registeredDate);
                         $scope.model.fullName = userDetail.fullName;
                         $scope.fullName = $scope.model.fullName;
-                        if (userDetail.addresses[0] && userDetail.addresses[0].hasOwnProperty('address')) $scope.model.address = userDetail.addresses[0].address;
-                        if (userDetail.addresses[0] && userDetail.addresses[0].hasOwnProperty('city')) $scope.model.city = userDetail.addresses[0].city;
-                        if (userDetail.addresses[0] && userDetail.addresses[0].hasOwnProperty('state')) $scope.model.state = userDetail.addresses[0].state;
-                        if (userDetail.addresses[0] && userDetail.addresses[0].hasOwnProperty('country')) $scope.model.country = userDetail.addresses[0].country;
-                        if (userDetail.addresses[0] && userDetail.addresses[0].hasOwnProperty('postcode')) $scope.model.postcode = userDetail.addresses[0].postcode;
+                        if (userDetail.addresses && userDetail.addresses[0] && userDetail.addresses[0].hasOwnProperty('address')) $scope.model.address = userDetail.addresses[0].address;
+                        if (userDetail.addresses && userDetail.addresses[0] && userDetail.addresses[0].hasOwnProperty('city')) $scope.model.city = userDetail.addresses[0].city;
+                        if (userDetail.addresses && userDetail.addresses[0] && userDetail.addresses[0].hasOwnProperty('state')) $scope.model.state = userDetail.addresses[0].state;
+                        if (userDetail.addresses && userDetail.addresses[0] && userDetail.addresses[0].hasOwnProperty('country')) $scope.model.country = userDetail.addresses[0].country;
+                        if (userDetail.addresses && userDetail.addresses[0] && userDetail.addresses[0].hasOwnProperty('postcode')) $scope.model.postcode = userDetail.addresses[0].postcode;
                         $scope.model.cellphone = userDetail.cellphone;
                         $scope.model.nationalId = userDetail.nationalId;
                         $scope.model.profession = userDetail.profession;
-                        $scope.model.bankAccountName = userDetail.bankAccountName;
-                        $scope.model.bankAccountNumber = userDetail.bankAccountNumber;
-                        $scope.model.bankName = userDetail.bankName;
-                        $scope.model.bankCountry = userDetail.bankCountry;
+                        $scope.model.choosenExistedBankInfoIndex = 0 + "";
+                        $scope.bankInfos = userDetail.bankInfo;
+                        $scope.model.bankInfoId = $scope.bankInfos[0].id;
+                        $scope.model.bankAccountName = $scope.bankInfos[0].bankAccountName;
+                        $scope.model.bankAccountNumber = $scope.bankInfos[0].bankAccountNumber;
+                        $scope.model.bankName = $scope.bankInfos[0].bankName;
+                        $scope.model.bankCountry = $scope.bankInfos[0].bankCountry;
                         $scope.$evalAsync();
                     }, function(err){
                         console.log('Failure in saving your message',err);
@@ -128,12 +139,26 @@ angular.module('myProfile')
 
                 $scope.onChangeCurrentPwd = function () {
                     $scope.invalidPassword = false;
+                    $scope.currentPasswordChanged = true;
                 };
 
                 $scope.onNationalIdChange = function () {
                     $scope.errorNationalIdExisted = false;
                 };
-
+                $scope.isMatched = false;
+                $scope.changeNewPass = function () {
+                    if($scope.model.newPwd === $scope.model.passwordCompare) {
+                        $scope.isMatched = true;
+                    }else {
+                        $scope.isMatched = false;
+                    }
+                };
+                $scope.checkMatchReInput = function () {
+                    if($scope.model.passwordCompare != $scope.model.newPwd){
+                        return false;
+                    }
+                    return true;
+                };
                 $scope.onCellphoneChange = function () {
                     $scope.errorCellphoneExisted = false;
                 };
@@ -141,7 +166,7 @@ angular.module('myProfile')
                 $scope.saveUserInfo = function () {
                     $scope.message = '';
                     $scope.gifLoading = true;
-
+                    console.log('user obj after editing: ', $scope.model);
                     var updatingUser = {
                         username: $scope.model.username,
                         birthday: $scope.model.birthday,
@@ -149,6 +174,7 @@ angular.module('myProfile')
                         expiredDate: $scope.model.expiredDate,
                         fullName: $scope.model.fullName,
                         registeredDate: $scope.model.registeredDate,
+                        bankInfoId: $scope.model.bankInfoId,
                         bankAccountName: $scope.model.bankAccountName,
                         bankAccountNumber: $scope.model.bankAccountNumber,
                         bankName: $scope.model.bankName,
@@ -180,27 +206,32 @@ angular.module('myProfile')
 
                     MyProfileService.saveUserInfo(updatingUser, headersSave)
                         .then(function (response) {
+                            console.log('response from server: ', response);
                             $scope.isEditting = false;
                             $scope.validation = {};
                             if (response.status === GLOBAL_CONSTANT.HTTP_ERROR_STATUS_CODE) {
                                 if (response.data.code === serverErrors.BIRTHDAY_GREATER_THAN_CURRENT_DATE) {
                                     $scope.gifLoading = false;
                                     $scope.greaterThanCurrentDate = true;
-                                }
-
-                                if (response.data.code === serverErrors.INVALID_PASSWORD) {
+                                }else if (response.data.code === serverErrors.INVALID_PASSWORD) {
+                                    $scope.isEditting = true;
                                     $scope.gifLoading = false;
                                     $scope.invalidPassword = true;
-                                }
-
-                                if (response.data.code === serverErrors.NATIONAL_ID_EXISTED) {
+                                } else if (response.data.code === serverErrors.NATIONAL_ID_EXISTED) {
+                                    $scope.isEditting = true;
                                     $scope.gifLoading = false;
                                     $scope.errorNationalIdExisted = true;
-                                }
-
-                                if (response.data.code === serverErrors.CELLPHONE_EXISTED) {
+                                }else if (response.data.code === serverErrors.CELLPHONE_EXISTED) {
+                                    $scope.isEditting = true;
                                     $scope.gifLoading = false;
                                     $scope.errorCellphoneExisted = true;
+                                }else if (response.data.code === serverErrors.INVALID_INPUT_DATA){
+                                    $scope.isEditting = true;
+                                    $scope.gifLoading = false;
+                                    $scope.message = 'Failed: ' + response.data.message;
+                                }else {
+                                    $scope.gifLoading = false;
+                                    $scope.message = 'Failed: ' + response.data.message;
                                 }
                             } else {
                                 var userInst = {username:updatingUser.username, fullName:updatingUser.fullName};
@@ -210,6 +241,7 @@ angular.module('myProfile')
                                 $scope.message = 'Successful: Your info has been updated';
                             }
                         }, function (err) {
+                            console.log('error from server: ', err);
                             $scope.isEditting = false;
                             $scope.gifLoading = false;
                             $rootScope.error = GLOBAL_CONSTANT.UNKNOWN_ERROR;

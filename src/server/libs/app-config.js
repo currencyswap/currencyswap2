@@ -79,6 +79,13 @@ exports.getMediaFolder = function () {
     return config.mediaFolder;
 };
 
+exports.getPaymentEvidenceFolder = function () {
+    if (config.paymentEvidence.slice(-1) != SLASH_CHAR) {
+        return config.paymentEvidence + SLASH_CHAR;
+    }
+    return config.paymentEvidence;
+};
+
 
 exports.getSMTPOptions = function () {
 

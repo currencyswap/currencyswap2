@@ -39,20 +39,34 @@ var activitiesRelation = {
                         'include' : [creatorRelation]
                 }
 };
+
+var orderBankInfoRelation = {
+    'relation' : 'bankInfoOfOrder'
+};
+
+var initializerBankInfo = {
+    'relation' : 'initializerBankInfo'
+};
+
+var accepterBankInfo = {
+    'relation' : 'accepterBankInfo'
+}
+
 exports.filterOrders = function (filter) {
     return dbUtil.executeModelFn(app.models.Order, 'find', filter);
 };
 
 exports.getOrderById = function (id) {
     var filter = {
-            'where': { 'id': id }
+            'where': { 'id': id },
+            'include' : [ ownerRelation, accepterRelation, giveCurrencyRelation, getCurrencyRelation, orderBankInfoRelation, initializerBankInfo, accepterBankInfo]
     };
     return dbUtil.executeModelFn(app.models.Order, 'findOne', filter);
 };
 exports.getOrderByCode = function (orderCode, userId, isCheckExpired) {
     var filter = {
             'where': { and : [{'code': orderCode}]},
-            'include' : [ ownerRelation, accepterRelation, giveCurrencyRelation, getCurrencyRelation, statusRelation, activitiesRelation]
+            'include' : [ ownerRelation, accepterRelation, giveCurrencyRelation, getCurrencyRelation, statusRelation, activitiesRelation, orderBankInfoRelation, initializerBankInfo, accepterBankInfo]
     };
     if(userId){
     	filter.where.and.push({or : [{'ownerId' : userId}, {'accepterId' : userId}]});
@@ -63,6 +77,16 @@ exports.getOrderByCode = function (orderCode, userId, isCheckExpired) {
     }
     return dbUtil.executeModelFn(app.models.Order, 'findOne', filter);
 };
+
+exports.getLastOrderCreated = function (userId) {
+    var filter = {
+            'where': { and : [{'ownerId': userId}]},
+            'order': 'created DESC',
+            'include' : [ ownerRelation, accepterRelation, giveCurrencyRelation, getCurrencyRelation, statusRelation, activitiesRelation]
+    };
+    return dbUtil.executeModelFn(app.models.Order, 'find', filter);
+};
+
 exports.getOrderForEdit = function (orderCode, userId, statusId) {
     var filter = {
             'where': { and : [{'code': orderCode} , {'ownerId' : userId}, {'statusId' : statusId}]},
@@ -83,8 +107,11 @@ exports.updateOrderByCode = function (code, updateOrder) {
     updateOrder.updated = new Date();
     return dbUtil.executeModelFn(app.models.Order, 'updateAll', where, updateOrder);
 };
-exports.updateOrderStatus = function (orderId, statusId, userId) {
+exports.updateOrderStatus = function (orderId, statusId, userId, isResetAccepter) {
     var order = { 'statusId': statusId, 'updated': new Date() };
+    if(statusId == constant.STATUS_TYPE.SUBMITTED_ID){
+    	order.accepterId = 0;
+    }
     var where = { 'and': [{ 'id': orderId }, {'statusId': {'neq': statusId}}, {or: [{'accepterId' : userId}, {'ownerId': userId}]}] };
     // reset item
 //    if(statusId == constant.STATUS_TYPE.SUBMITTED_ID){
@@ -125,8 +152,7 @@ exports.getUserConfirmedOrders = function (userId) {
                                  		}
                                  	}
                                 ],
-                     'order': 'created DESC',
-                     'limit' : 1
+                     'order': 'created DESC'
             }
         };
         activitiesRelation.scope['where'] =  {'creatorId': userId}
@@ -307,4 +333,9 @@ exports.getTotalOrderOfUser = function(userId){
 exports.removeOrderActivity = function (orderId) {
     var where = { 'orderId': orderId };
     return dbUtil.executeModelFn(app.models.OrderActivity, 'destroyAll', where);
+};
+
+exports.removeOrderBankInfo = function (orderId) {
+    var where = { 'orderId': orderId };
+    return dbUtil.executeModelFn(app.models.OrderBankInfo, 'destroyAll', where);
 };

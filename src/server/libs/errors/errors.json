@@ -282,5 +282,29 @@
      "USER_ACCOUNT_BLOCKED": {
          "code": 111,
          "message": "{USER_ACCOUNT_BLOCKED}"
-     }
+     },
+    "SAVING_PASSWORD_ERROR": {
+        "code": 112,
+        "message": "{SAVING_PASSWORD_ERROR}"
+    },
+    "NO_INVITER": {
+        "code": 113,
+        "message": "{NO_INVITER}"
+    },
+    "ACCOUNT_IS_BLOCKED": {
+        "code": 114,
+        "message": "{ACCOUNT_IS_BLOCKED}"
+    },
+    "BANK_ACC_NUM_EXISTED": {
+        "code": 115,
+        "message": "{BANK_ACC_NUM_EXISTED}"
+    },
+    "IMAGE_EXCEEDS_MAX_SIZE": {
+        "code": 116,
+        "message": "{IMAGE_EXCEEDS_MAX_SIZE}"
+    },
+    "PAYMENT_EVIDENCE_NOT_FOUND": {
+        "code": 117,
+        "message": "{PAYMENT_EVIDENCE_NOT_FOUND}"
+    }
 }

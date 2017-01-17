@@ -23,6 +23,7 @@ const Routes = {
     API_ORDERS_SUGGEST : '/api/orders/suggest',
     API_ORDERS_HISTORY : '/api/orders/history',
     API_ORDERS_TOTAL : '/api/orders/total',
+    API_ORDERS_LAST_CREATED : '/api/orders/lastcreated',
     API_ORDERS_CONFIRMED_CANCEL : '/api/orders/confirmed/cancel/:id',
     API_ORDERS_CONFIRMED_CLEAR : '/api/orders/confirmed/clear/:id',
     API_ORDERS_SWAPPING_CANCEL : '/api/orders/swapping/cancel/:id',
@@ -33,11 +34,16 @@ const Routes = {
     API_MY_PROFILE: '/api/profile',
     API_PERMISSIONS: '/api/permissions',
     API_SUPPORTS : '/api/supports',
+    API_INVITE: '/api/invite',
+    API_EXRATE: '/api/exrates',
     API_SUPPORTS_CREATOR: '/api/supports/creator',
     API_SUPPORTS_MARKREAD: '/api/supports/markRead',
     API_FORGOT_PASSWORD_VERIFY: '/api/forgotpassword/verify',
     API_FORGOT_PASSWORD_RESET: '/api/forgotpassword/reset',
-    API_REGISTER: '/api/register'
+    API_REGISTER: '/api/register',
+    API_BANK_INFO: '/api/bankinfo',
+    API_BANK_INFO_ACCOUNT: '/api/bankinfo/:accountNumber',
+    API_PAYMENT_EVIDENCE: '/api/payment/evidence'
 };
 
 exports.getRoute = function ( val ) {
