@@ -30,13 +30,13 @@ module.exports = function (app) {
 
     router.get('/', function (req, res) {
         if (!req.currentUser || !req.currentUser.username) {
-            let err = errorUtil.createAppError( errors.MEMBER_NO_USERNAME );
+            var err = errorUtil.createAppError( errors.MEMBER_NO_USERNAME );
             return res.status(403).send( errorUtil.getResponseError( err ) );
         }
 
         userService.getUserByUsername(req.currentUser.username, function (err, userObj) {
             if (err) {
-                let code = err.code == errors.SERVER_GET_PROBLEM ? 500 : 406;
+                var code = err.code == errors.SERVER_GET_PROBLEM ? 500 : 406;
                 return res.status(code).send( errorUtil.getResponseError( err ) );
             }
 
@@ -136,7 +136,7 @@ module.exports = function (app) {
                     } else {
                         return next (null, user);
                     }
-                }, ...checkingFields);
+                }, checkingFields);
             },
             function (user, next) {
                 var doesNeedVerifyBankAccountNum = false;

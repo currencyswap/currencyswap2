@@ -39,6 +39,7 @@ module.exports = function (app) {
         }
 
         // step 3: check image size
+
         gm(file.path)
             .size(function (err, size) {
                 if (!err) {

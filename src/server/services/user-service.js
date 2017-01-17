@@ -411,14 +411,14 @@ exports.createUserTransaction = function (callback) {
             })
         },
         function (newUser, options, next) {
-        var checkingFields = [constant.MEMBER_DB_FIELD.USERNAME, constant.MEMBER_DB_FIELD.EMAIL, constant.MEMBER_DB_FIELD.NATIONALID, constant.MEMBER_DB_FIELD.CELLPHONE];
+            var checkingFields = [constant.MEMBER_DB_FIELD.USERNAME, constant.MEMBER_DB_FIELD.EMAIL, constant.MEMBER_DB_FIELD.NATIONALID, constant.MEMBER_DB_FIELD.CELLPHONE];
             exports.checkExistedUserInfo(newUser, function (err) {
                 if (err) {
                     return next (err)
                 } else {
                     return next (null, newUser, options);
                 }
-            }, ...checkingFields);
+            }, checkingFields);
         },
         function (user, options, next) {
             exports.createUser(user, function (err, savedUser) {
@@ -971,19 +971,19 @@ exports.checkExistedUserInfo = function (requestUser, callback) {
     })
 };*/
 
-exports.checkExistedUserInfo = function (requestUser, callback, ...checkingFields) {
+exports.checkExistedUserInfo = function (requestUser, callback, checkingFields) {
     var orOptions = [];
 
-    if (checkingFields.indexOf(constant.MEMBER_DB_FIELD.USERNAME) > 0) {
+    if (checkingFields.indexOf(constant.MEMBER_DB_FIELD.USERNAME) > -1) {
         orOptions.push({'username': requestUser.username});
     }
-    if (checkingFields.indexOf(constant.MEMBER_DB_FIELD.NATIONALID) > 0) {
+    if (checkingFields.indexOf(constant.MEMBER_DB_FIELD.NATIONALID) > -1) {
         orOptions.push({'nationalId': requestUser.nationalId})
     }
-    if (checkingFields.indexOf(constant.MEMBER_DB_FIELD.CELLPHONE) > 0) {
+    if (checkingFields.indexOf(constant.MEMBER_DB_FIELD.CELLPHONE) > -1) {
         orOptions.push({'cellphone': requestUser.cellphone})
     }
-    if (checkingFields.indexOf(constant.MEMBER_DB_FIELD.EMAIL) > 0) {
+    if (checkingFields.indexOf(constant.MEMBER_DB_FIELD.EMAIL) > -1) {
         orOptions.push({'email': requestUser.email})
     }
     if (orOptions.length === 0) {
