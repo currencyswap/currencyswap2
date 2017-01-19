@@ -810,7 +810,7 @@ exports.checkResetPwdCode = function (resetCode, callback) {
 exports.updateRoleForUser = function (user, updatingRole, callback) {
     user.groups(function (err, groupsOfMember) {
         app.models.Group.findById(groupsOfMember[0].groupId, function (err, currentGroup) {
-            if (updatingRole === currentGroup.name) {
+            if (currentGroup && updatingRole === currentGroup.name) {
                 return callback(null);
             } else {
                 groupService.findGroupByName(updatingRole, function (err, group) {

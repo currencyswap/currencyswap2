@@ -9,7 +9,7 @@
 <div class="media">
   <div class="media-body hand-over" data-ng-click="readMessage(item)">
     <h4 class="filename text-primary">{{item.title}}</h4>
-    <p class="msg-content msg-quick">{{item.message}}</p>
+    <p class="msg-content msg-quick" ng-if="item.title.indexOf(constant.MSG.NAIRA_EX_RATE_TITLE) > -1">{{item.message}}</p>
     <div class="msg-issue">
     <small class="text-muted">Sender: <strong>{{item.creator.username}}</strong></small>
     <small class="text-muted"> - {{item.created | date : 'MMM dd, yyyy hh:mm a'}}</small><br>
