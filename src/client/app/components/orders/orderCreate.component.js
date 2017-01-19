@@ -311,7 +311,7 @@ angular.module('orders')
 
         		$scope.currencyChange = function () {
         			suggestExRate();
-				};
+						};
 
                 $scope.openMessageModel = function (orderId) {
                     var createModel = function(templateUrl, controller, callbackOk, callbackCancel, size) {
@@ -379,5 +379,36 @@ angular.module('orders')
                         };
                     });
                 };
+
+							$scope.applyRateBuy = function() {
+								if($scope.suggestedUSD) {
+									$scope.newOrder.rate = $scope.latestExRate.usDollarBuy;
+								}else if($scope.suggestedEUR) {
+									$scope.newOrder.rate = $scope.latestExRate.euroBuy;
+								}else {
+									$scope.newOrder.rate = $scope.latestExRate.poundBuy;
+								}
+							}
+							$scope.applyRateMedian = function() {
+								if($scope.suggestedUSD) {
+									$scope.newOrder.rate = $scope.latestExRate.usDollarMedian;
+								}else if($scope.suggestedEUR) {
+									$scope.newOrder.rate = $scope.latestExRate.euroMedian;
+								}else {
+									$scope.newOrder.rate = $scope.latestExRate.poundMedian;
+								}
+							}
+							$scope.applyRateSell = function() {
+								if($scope.suggestedUSD) {
+									$scope.newOrder.rate = $scope.latestExRate.usDollarSell;
+								}else if($scope.suggestedEUR) {
+									$scope.newOrder.rate = $scope.latestExRate.euroSell;
+								}else {
+									$scope.newOrder.rate = $scope.latestExRate.poundSell;
+								}
+							}
+
             }]
+
+
     });
