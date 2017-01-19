@@ -26,6 +26,7 @@ module.exports = function (app) {
 
     router.post('/', function (req, res) {
         var exRateObj = req.body;
+        console.log("exRateObj  ",exRateObj);
         console.log(req.currentUser);
         var currentUser = req.currentUser;
         try {
@@ -50,6 +51,7 @@ module.exports = function (app) {
             function createMessage(exchangeRecord, next) {
                 try {
                     var stringifiedExchangeRecord = JSON.stringify(exchangeRecord);
+                    console.log("stringifiedExchangeRecord", stringifiedExchangeRecord);
                 } catch (err) {
                     return next (err);
                 }

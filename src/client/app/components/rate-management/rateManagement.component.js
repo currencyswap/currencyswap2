@@ -14,6 +14,9 @@ angular.module('rateManagement')
                 $scope.undo = function () {
                     $scope.todayRates = angular.copy(backupData);
                 };
+							  $scope.mideUsRateChange = 0;
+							  $scope.midePoRateChange = 0;
+							  $scope.mideEuRateChange = 0;
 
                 $scope.saveAndSendRateToUsers = function (rate) {
                     delete rate.id;
@@ -47,39 +50,74 @@ angular.module('rateManagement')
 
                 $scope.changeDollarBuy = function (editedDollarBuyValue) {
                     $scope.todayRates.usDollarMedian =  RateManagementService.recalculateMedian(editedDollarBuyValue, $scope.todayRates.usDollarSell);
-                    $scope.todayRates.usdVariant = $scope.todayRates.usDollarMedian - actualUSDMedian;
+                    $scope.todayRates.usdVariant = actualUSDMedian - $scope.todayRates.usDollarMedian;
                     $scope.todayRates.usdVariantAbs = Math.abs($scope.todayRates.usdVariant);
-
+									  if($scope.todayRates.usDollarMedian) {
+											$scope.mideUsRateChange = backupData.usDollarMedian - $scope.todayRates.usDollarMedian;
+											$scope.todayRates.mideUsRateChange = $scope.mideUsRateChange;
+                    }else {
+											$scope.mideUsRateChange = 0;
+                    }
                 };
 
                 $scope.changeDollarSell = function (editedSellValue) {
                     $scope.todayRates.usDollarMedian =  RateManagementService.recalculateMedian(editedSellValue, $scope.todayRates.usDollarBuy);
-                    $scope.todayRates.usdVariant = $scope.todayRates.usDollarMedian - actualUSDMedian;
+                    $scope.todayRates.usdVariant = actualUSDMedian - $scope.todayRates.usDollarMedian;
                     $scope.todayRates.usdVariantAbs = Math.abs($scope.todayRates.usdVariant);
+									  if($scope.todayRates.usDollarMedian) {
+										    $scope.mideUsRateChange = backupData.usDollarMedian - $scope.todayRates.usDollarMedian;
+											  $scope.todayRates.mideUsRateChange = $scope.mideUsRateChange;
+									  }else {
+										    $scope.mideUsRateChange = 0;
+									  }
                 };
 
                 $scope.changePoundBuy = function (editedPoundBuyValue) {
                     $scope.todayRates.poundMedian =  RateManagementService.recalculateMedian(editedPoundBuyValue, $scope.todayRates.poundSell);
-                    $scope.todayRates.poundVariant = $scope.todayRates.poundMedian - actualPoundMedian;
+                    $scope.todayRates.poundVariant = actualPoundMedian - $scope.todayRates.poundMedian;
                     $scope.todayRates.poundVariantAbs = Math.abs($scope.todayRates.poundVariant);
+									  if($scope.todayRates.poundMedian) {
+										    $scope.midePoRateChange = backupData.poundMedian - $scope.todayRates.poundMedian;
+											  $scope.todayRates.midePoRateChange = $scope.midePoRateChange;
+									  }else {
+										    $scope.midePoRateChange = 0;
+									  }
                 };
 
                 $scope.changePoundSell = function (editedPoundSellValue) {
                     $scope.todayRates.poundMedian =  RateManagementService.recalculateMedian(editedPoundSellValue, $scope.todayRates.poundBuy);
-                    $scope.todayRates.poundVariant = $scope.todayRates.poundMedian - actualPoundMedian;
+                    $scope.todayRates.poundVariant = actualPoundMedian - $scope.todayRates.poundMedian;
                     $scope.todayRates.poundVariantAbs = Math.abs($scope.todayRates.poundVariant);
+									  if($scope.todayRates.poundMedian) {
+										    $scope.midePoRateChange = backupData.poundMedian - $scope.todayRates.poundMedian;
+											  $scope.todayRates.midePoRateChange = $scope.midePoRateChange;
+									  }else {
+										    $scope.midePoRateChange = 0;
+									  }
                 };
 
                 $scope.changeEuroBuy = function (editedEuroBuyValue) {
                     $scope.todayRates.euroMedian =  RateManagementService.recalculateMedian(editedEuroBuyValue, $scope.todayRates.euroSell);
-                    $scope.todayRates.euroVariant = $scope.todayRates.euroMedian - actualEuroMedian;
+                    $scope.todayRates.euroVariant = actualEuroMedian - $scope.todayRates.euroMedian;
                     $scope.todayRates.euroVariantAbs = Math.abs($scope.todayRates.euroVariant);
+									  if($scope.todayRates.euroMedian) {
+										    $scope.mideEuRateChange = backupData.euroMedian - $scope.todayRates.euroMedian;
+											  $scope.todayRates.mideEuRateChange = $scope.mideEuRateChange;
+									  }else {
+										    $scope.mideEuRateChange = 0;
+									  }
                 };
 
                 $scope.changeEuroSell = function (editedEuroSellValue) {
                     $scope.todayRates.euroMedian =  RateManagementService.recalculateMedian(editedEuroSellValue, $scope.todayRates.euroBuy);
-                    $scope.todayRates.euroVariant = $scope.todayRates.euroMedian - actualEuroMedian;
+                    $scope.todayRates.euroVariant = actualEuroMedian - $scope.todayRates.euroMedian;
                     $scope.todayRates.euroVariantAbs = Math.abs($scope.todayRates.euroVariant);
+									  if($scope.todayRates.euroMedian) {
+										    $scope.mideEuRateChange = backupData.euroMedian - $scope.todayRates.euroMedian;
+											  $scope.todayRates.mideEuRateChange = $scope.mideEuRateChange;
+									  }else {
+										    $scope.mideEuRateChange = 0;
+									  }
                 };
             }]
     });

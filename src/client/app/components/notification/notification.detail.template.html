@@ -28,7 +28,8 @@
                             <input class="inputRate" type="text" value="{{item.exrateMsg.usDollarBuy}}" readonly>
                         </td>
                         <td>
-                            <input class="inputRate" type="text" value="{{item.exrateMsg.usDollarMedian}}" readonly>
+                            <input class="inputRate medianRate" type="text" value="{{item.exrateMsg.usDollarMedian}}" readonly>
+                            <label class="mideUsRateChange" style="color: {{item.exrateMsg.mideUsRateChange >= 0 ? 'blue' : 'red'}}">{{item.exrateMsg.mideUsRateChange}}</label>
                         </td>
                         <td>
                             <input class="inputRate" type="text" value="{{item.exrateMsg.usDollarSell}}" readonly>
@@ -40,7 +41,8 @@
                             <input class="inputRate" type="text" value="{{item.exrateMsg.poundBuy}}" readonly>
                         </td>
                         <td>
-                            <input class="inputRate" type="text" value="{{item.exrateMsg.poundMedian}}" readonly>
+                            <input class="inputRate medianRate" type="text" value="{{item.exrateMsg.poundMedian}}" readonly>
+                            <label class="mideUsRateChange" style="color: {{item.exrateMsg.midePoRateChange >= 0 ? 'blue' : 'red'}}" >{{item.exrateMsg.midePoRateChange}}</label>
                         </td>
                         <td>
                             <input class="inputRate" type="text" value="{{item.exrateMsg.poundSell}}" readonly>
@@ -52,7 +54,8 @@
                             <input class="inputRate" type="text" value="{{item.exrateMsg.euroBuy}}" readonly>
                         </td>
                         <td>
-                            <input class="inputRate" type="text" value="{{item.exrateMsg.euroMedian}}" readonly>
+                            <input class="inputRate medianRate" type="text" value="{{item.exrateMsg.euroMedian}}" readonly>
+                            <label class="mideUsRateChange" style="color: {{item.exrateMsg.mideEuRateChange >= 0 ? 'blue' : 'red'}}">{{item.exrateMsg.mideEuRateChange}}</label>
                         </td>
                         <td>
                             <input class="inputRate" type="text" value="{{item.exrateMsg.euroSell}}" readonly>
