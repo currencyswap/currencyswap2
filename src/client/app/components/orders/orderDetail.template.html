@@ -68,12 +68,12 @@
 						<label class="control-label col-md-3 row-order-actor-accepter" ng-if="order.accepterId && order.statusId!=1"><span>Accepter </span> <span class="row-order-actor-accepter-value">{{order.accepter.fullName||order.accepter.username}}</span></label> 
 					</div>
 					<div class="row mb10 row-give">
-						<label class="control-label col-md-2 row-title-give">Give</label> 
+						<label class="control-label col-md-2 row-title-give">Buy</label>
 						<label class="control-label">{{order.give | filterCurrency}} {{order.giveCurrency.code}} </label>
 					</div>
 
 					<div class="row mb10 row-get">
-						<label class="control-label col-md-2 row-title-get">Get</label> 
+						<label class="control-label col-md-2 row-title-get">Sell</label>
 						<label class="control-label">{{order.get | filterCurrency}} {{order.getCurrency.code}} </label>
 					</div>
 
