@@ -52,8 +52,8 @@ module.exports = function (app) {
         }
     };
     var getOrderMsg = function(order) {
-        var msg = 'Order: ' + order.code + ', Give: ' + order.give + ' ' + order.giveCurrency.code+ '-' + order.giveCurrency.name
-        + ', Get: ' + order.get + ' ' + order.getCurrency.code+ '-' + order.getCurrency.name +', Rate: ' + order.rate;
+        var msg = 'Order: ' + order.code + ', Buy: ' + order.give + ' ' + order.giveCurrency.code+ '-' + order.giveCurrency.name
+        + ', Sell: ' + order.get + ' ' + order.getCurrency.code+ '-' + order.getCurrency.name +', Rate: ' + order.rate;
         return msg;
     };
     var updateOrderStatus = function (req, res, statusId, activityMessage) {
