@@ -82,9 +82,9 @@
 										<div class="form-group">
 											<div class="alert alert-info suggestion-rate">
 												<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-												<p ng-if="suggestedUSD">NGN to USD (Buy/Median/Sell): <strong>{{latestExRate.usDollarBuy}}/{{latestExRate.usDollarMedian}}/{{latestExRate.usDollarSell}}</strong></p>
-												<p ng-if="suggestedEUR">NGN to EUR (Buy/Median/Sell): <strong>{{latestExRate.euroBuy}}/{{latestExRate.euroMedian}}/{{latestExRate.euroSell}}</strong></p>
-												<p ng-if="suggestedGBP">NGN to GBP (Buy/Median/Sell): <strong>{{latestExRate.poundBuy}}/{{latestExRate.poundMedian}}/{{latestExRate.poundSell}}</strong></p>
+												<p ng-if="suggestedUSD">NGN to USD (Buy/Median/Sell): <strong><span class="order-cursor" ng-click="applyRateBuy()">{{latestExRate.usDollarBuy}}</span>/<span class="order-cursor" ng-click="applyRateMedian()">{{latestExRate.usDollarMedian}}</span>/<span class="order-cursor" ng-click="applyRateSell()">{{latestExRate.usDollarSell}}</span></strong></p>
+												<p ng-if="suggestedEUR">NGN to EUR (Buy/Median/Sell): <strong><span class="order-cursor" ng-click="applyRateBuy()">{{latestExRate.euroBuy}}</span>/<span class="order-cursor" ng-click="applyRateMedian()">{{latestExRate.euroMedian}}</span>/<span class="order-cursor" ng-click="applyRateSell()">{{latestExRate.euroSell}}</span></strong></p>
+												<p ng-if="suggestedGBP">NGN to GBP (Buy/Median/Sell): <strong><span class="order-cursor" ng-click="applyRateBuy()">{{latestExRate.poundBuy}}</span>/<span class="order-cursor" ng-click="applyRateMedian()">{{latestExRate.poundMedian}}</span>/<span class="order-cursor" ng-click="applyRateSell()">{{latestExRate.poundSell}}</span></strong></p>
 											</div>
 										</div>
 									</div>

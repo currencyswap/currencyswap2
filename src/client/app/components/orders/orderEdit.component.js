@@ -281,5 +281,36 @@ angular.module('orders')
                 $scope.currencyChange = function () {
                     $scope.$apply(suggestExRate());
                 }
+
+							$scope.applyRateBuy = function() {
+								if($scope.suggestedUSD) {
+									$scope.updateOrder.rate = $scope.latestExRate.usDollarBuy;
+								}else if($scope.suggestedEUR) {
+									$scope.updateOrder.rate = $scope.latestExRate.euroBuy;
+								}else {
+									$scope.updateOrder.rate = $scope.latestExRate.poundBuy;
+								}
+								$scope.onChangeValue();
+							}
+							$scope.applyRateMedian = function() {
+								if($scope.suggestedUSD) {
+									$scope.updateOrder.rate = $scope.latestExRate.usDollarMedian;
+								}else if($scope.suggestedEUR) {
+									$scope.updateOrder.rate = $scope.latestExRate.euroMedian;
+								}else {
+									$scope.updateOrder.rate = $scope.latestExRate.poundMedian;
+								}
+								$scope.onChangeValue();
+							}
+							$scope.applyRateSell = function() {
+								if($scope.suggestedUSD) {
+									$scope.updateOrder.rate = $scope.latestExRate.usDollarSell;
+								}else if($scope.suggestedEUR) {
+									$scope.updateOrder.rate = $scope.latestExRate.euroSell;
+								}else {
+									$scope.updateOrder.rate = $scope.latestExRate.poundSell;
+								}
+								$scope.onChangeValue();
+							}
             }]
     });
