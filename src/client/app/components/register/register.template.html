@@ -140,6 +140,16 @@
                     </div>
 
                     <div class="mb10">
+                        <label class="control-label">Bank Sort Code</label>
+                        <input class="form-control" type="text" ng-model="user.sortCode" placeholder="Your bank sort code here" minlength="{{GLOBAL_CONSTANT.LIMIT_FIELDS_INFO.BANK_NAME_MIN}}" maxlength="{{GLOBAL_CONSTANT.LIMIT_FIELDS_INFO.BANK_NAME_MAX}}">
+                    </div>
+
+                    <div class="mb10">
+                        <label class="control-label">Bank International SWIFT Or IBAN Code</label>
+                        <input class="form-control" type="text" ng-model="user.swiftIbanCode" placeholder="Your bank international SWIFT or IBAN sort code here" minlength="{{GLOBAL_CONSTANT.LIMIT_FIELDS_INFO.BANK_NAME_MIN}}" maxlength="{{GLOBAL_CONSTANT.LIMIT_FIELDS_INFO.BANK_NAME_MAX}}">
+                    </div>
+
+                    <div class="mb10">
                         <country-bank-register country="user.bankCountry"></country-bank-register>
                     </div>
 

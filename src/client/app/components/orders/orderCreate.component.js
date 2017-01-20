@@ -364,7 +364,9 @@ angular.module('orders')
                             if (!$scope.submittedBankInfoObj.bankAccountName
                                 || !$scope.submittedBankInfoObj.bankAccountNumber
                                 || !$scope.submittedBankInfoObj.bankName
-                                || !$scope.submittedBankInfoObj.bankCountry) {
+                                || !$scope.submittedBankInfoObj.bankCountry
+																|| !$scope.submittedBankInfoObj.bankSortCode
+																|| !$scope.submittedBankInfoObj.bankSwiftIbanCode) {
                                 $uibModalInstance.close($scope.submittedBankInfoObj);
 							} else {
                                 OrdersService.checkBankInfoExisted($scope.submittedBankInfoObj.bankAccountNumber)
@@ -374,6 +376,8 @@ angular.module('orders')
                                         $scope.submittedBankInfoObj.bankAccountName = null;
                                         $scope.submittedBankInfoObj.bankAccountNumber = null;
                                         $scope.submittedBankInfoObj.bankName = null;
+																				$scope.submittedBankInfoObj.bankSortCode = null;
+																				$scope.submittedBankInfoObj.bankSwiftIbanCode = null;
                                     });
 							}
                         };
@@ -388,6 +392,7 @@ angular.module('orders')
 								}else {
 									$scope.newOrder.rate = $scope.latestExRate.poundBuy;
 								}
+								$scope.onChangeValue();
 							}
 							$scope.applyRateMedian = function() {
 								if($scope.suggestedUSD) {
@@ -397,6 +402,7 @@ angular.module('orders')
 								}else {
 									$scope.newOrder.rate = $scope.latestExRate.poundMedian;
 								}
+								$scope.onChangeValue();
 							}
 							$scope.applyRateSell = function() {
 								if($scope.suggestedUSD) {
@@ -406,6 +412,7 @@ angular.module('orders')
 								}else {
 									$scope.newOrder.rate = $scope.latestExRate.poundSell;
 								}
+								$scope.onChangeValue();
 							}
 
             }]

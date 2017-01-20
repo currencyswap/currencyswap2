@@ -90,12 +90,16 @@ exports.convertUserData = function (requestUser) {
     if (requestUser.bankAccountName
         || requestUser.bankAccountNumber
         || requestUser.bankName
-        || requestUser.bankCountry) {
+        || requestUser.bankCountry
+			  || requestUser.bankSortCode
+			  || requestUser.bankSwiftIbanCode) {
         resultUser.banksInfo.push({
             bankAccountName: requestUser.bankAccountName,
             bankAccountNumber: requestUser.bankAccountNumber,
             bankName: requestUser.bankName,
-            bankCountry: requestUser.bankCountry
+            bankCountry: requestUser.bankCountry,
+					  bankSortCode: requestUser.bankSortCode,
+					  bankSwiftIbanCode: requestUser.bankSwiftIbanCode
         })
     }
 

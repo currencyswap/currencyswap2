@@ -27,6 +27,14 @@
     "bankCountry": {
       "type": "string",
       "length": 128
+    },
+    "bankSortCode": {
+      "type": "string",
+      "length": 128
+    },
+    "bankSwiftIbanCode": {
+      "type": "string",
+      "length": 128
     }
   },
   "validations": [],

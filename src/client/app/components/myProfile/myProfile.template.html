@@ -119,12 +119,22 @@
 
                             <div class="form-group">
                                 <label class="control-label">Account Number</label>
-                                <input class="form-control" type="text" ng-model="model.bankAccountNumber" minlength="{{GLOBAL_CONSTANT.LIMIT_FIELDS_INFO.ACC_NUM_MIN}}" maxlength="{{GLOBAL_CONSTANT.LIMIT_FIELDS_INFO.ACC_NUM_MAX}}">
+                                <input class="form-control" type="text" ng-disabled="true" value={{model.bankAccountNumber}} minlength="{{GLOBAL_CONSTANT.LIMIT_FIELDS_INFO.ACC_NUM_MIN}}" maxlength="{{GLOBAL_CONSTANT.LIMIT_FIELDS_INFO.ACC_NUM_MAX}}">
                             </div>
 
                             <div class="form-group">
                                 <label class="control-label">Bank Name</label>
                                 <input class="form-control" type="text" ng-model="model.bankName"  minlength="{{GLOBAL_CONSTANT.LIMIT_FIELDS_INFO.BANK_NAME_MIN}}" maxlength="{{GLOBAL_CONSTANT.LIMIT_FIELDS_INFO.BANK_NAME_MAX}}">
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label">Bank Sort Code</label>
+                                <input class="form-control" type="text" ng-model="model.bankSortCode"  minlength="{{GLOBAL_CONSTANT.LIMIT_FIELDS_INFO.BANK_NAME_MIN}}" maxlength="{{GLOBAL_CONSTANT.LIMIT_FIELDS_INFO.BANK_NAME_MAX}}">
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label">Bank International SWIFT Or IBAN Code</label>
+                                <input class="form-control" type="text" ng-model="model.bankSwiftIbanCode"  minlength="{{GLOBAL_CONSTANT.LIMIT_FIELDS_INFO.BANK_NAME_MIN}}" maxlength="{{GLOBAL_CONSTANT.LIMIT_FIELDS_INFO.BANK_NAME_MAX}}">
                             </div>
 
                             <div class="form-group">

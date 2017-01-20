@@ -46,6 +46,8 @@ angular.module('myProfile')
                     $scope.model.bankAccountNumber = $scope.bankInfos[index].bankAccountNumber;
                     $scope.model.bankName = $scope.bankInfos[index].bankName;
                     $scope.model.bankCountry = $scope.bankInfos[index].bankCountry;
+									  $scope.model.bankSortCode = $scope.bankInfos[index].bankSortCode;
+									  $scope.model.bankSwiftIbanCode = $scope.bankInfos[index].bankSwiftIbanCode;
                 };
 
                 headers[httpHeader.CONTENT_TYPE] = contentTypes.JSON;
@@ -75,6 +77,8 @@ angular.module('myProfile')
                         $scope.model.bankAccountNumber = $scope.bankInfos[0].bankAccountNumber;
                         $scope.model.bankName = $scope.bankInfos[0].bankName;
                         $scope.model.bankCountry = $scope.bankInfos[0].bankCountry;
+											  $scope.model.bankSortCode = $scope.bankInfos[0].bankSortCode;
+											  $scope.model.bankSwiftIbanCode = $scope.bankInfos[0].bankSwiftIbanCode;
                         $scope.$evalAsync();
                     }, function(err){
                         console.log('Failure in saving your message',err);
@@ -166,7 +170,6 @@ angular.module('myProfile')
                 $scope.saveUserInfo = function () {
                     $scope.message = '';
                     $scope.gifLoading = true;
-                    console.log('user obj after editing: ', $scope.model);
                     var updatingUser = {
                         username: $scope.model.username,
                         birthday: $scope.model.birthday,
@@ -179,6 +182,8 @@ angular.module('myProfile')
                         bankAccountNumber: $scope.model.bankAccountNumber,
                         bankName: $scope.model.bankName,
                         bankCountry: $scope.model.bankCountry,
+											  bankSortCode: $scope.model.bankSortCode,
+											  bankSwiftIbanCode: $scope.model.bankSwiftIbanCode,
                         addresses: [
                             {
                                 address: $scope.model.address,

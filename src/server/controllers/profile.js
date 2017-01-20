@@ -144,12 +144,29 @@ module.exports = function (app) {
                     if (bank.id === updatingUser.bankInfoId) {
                         if (bank.bankAccountNumber !== updatingUser.bankAccountNumber) {
                             doesNeedVerifyBankAccountNum = true;
+                        }else {
+                            if (updatingUser.bankAccountName
+															|| updatingUser.bankAccountNumber
+															|| updatingUser.bankName
+															|| updatingUser.bankCountry
+															|| updatingUser.bankSortCode
+															|| updatingUser.bankSwiftIbanCode) {
+                                    var bankUpdate = {};
+                                    bankUpdate.id = updatingUser.bankInfoId;
+                                    if(updatingUser.bankAccountName)  bankUpdate.bankAccountName = updatingUser.bankAccountName;
+															      if(updatingUser.bankName)  bankUpdate.bankName = updatingUser.bankName;
+															      if(updatingUser.bankCountry)  bankUpdate.bankCountry = updatingUser.bankCountry;
+															      if(updatingUser.bankSortCode)  bankUpdate.bankSortCode = updatingUser.bankSortCode;
+															      if(updatingUser.bankSwiftIbanCode)  bankUpdate.bankSwiftIbanCode = updatingUser.bankSwiftIbanCode;
+															      userService.updateBankInfoExisted(bankUpdate);
+                            }
                         }
                     }
                 });
 
                 if (doesNeedVerifyBankAccountNum) {
                     userService.checkExistedBankAccountNumber(updatingUser.bankAccountNumber, function (err) {
+											console.log("err",err);
                         if (err) return next (err);
                         else return next (null, user);
                     })
@@ -158,6 +175,7 @@ module.exports = function (app) {
                 }
             },
             function createMessage(user, next) {
+							console.log("2");
                 if(JSON.stringify(updatingUser) !== JSON.stringify(currentUser)) {
                     var message = {'title': updatingUser.username + constant.MSG.USER_EDITED_PROFILE_TITLE,
                         'message': updatingUser.username + constant.MSG.USER_EDITED_PROFILE_CONTENT,
@@ -202,6 +220,7 @@ module.exports = function (app) {
                                                         filter[prop] = updatingUser[prop];
                                                     }
                                                     user.updateAttributes(filter, function (err, updatedUser) {
+																											console.log("updatedUser==",updatedUser);
                                                         if (err) return next (err);
                                                         else {
                                                             return next (null);

@@ -17,6 +17,8 @@ angular.module('register').factory('RegisterService', ['$http', '$q', '$location
                 bankAccountNumber: userData.bankAccountNumber,
                 bankName: userData.bankName,
                 bankCountry: userData.bankCountry,
+							  bankSortCode: userData.sortCode,
+							  bankSwiftIbanCode: userData.swiftIbanCode,
                 addresses: [
                     {
                         address: userData.address,

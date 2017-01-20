@@ -12,7 +12,9 @@ exports.validateRegisterRequestObject = function (clientUserObj) {
         accountName: clientUserObj.bankAccountName,
         accountNumber: clientUserObj.bankAccountNumber,
         bankName: clientUserObj.bankName,
-        bankCountry: clientUserObj.bankCountry
+        bankCountry: clientUserObj.bankCountry,
+			  bankSortCode: clientUserObj.bankSortCode,
+			  bankSwiftIbanCode: clientUserObj.bankSwiftIbanCode
     };
 
     exports.validateUsername(clientUserObj.username);
@@ -34,7 +36,9 @@ exports.validateEditedProfileRequestObject = function (clientUserObj) {
         accountName: clientUserObj.bankAccountName,
         accountNumber: clientUserObj.bankAccountNumber,
         bankName: clientUserObj.bankName,
-        bankCountry: clientUserObj.bankCountry
+        bankCountry: clientUserObj.bankCountry,
+			  bankSortCode: clientUserObj.bankSortCode,
+			  bankSwiftIbanCode: clientUserObj.bankSwiftIbanCode
     };
 
     exports.validateUsername(clientUserObj.username);

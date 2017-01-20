@@ -678,6 +678,7 @@ var _cleanExpiredOrBlockedUserSession = function(user) {
 };
 exports.updateUserInfo = function (user, filter, callback) {
     var oldUserStatus = user.status;
+    console.log("==============updatedUser",updatedUser)
     user.updateAttributes(filter, function (err, updatedUser) {
         if (err) {
             return callback(errorUtil.createAppError(errors.SERVER_GET_PROBLEM));
@@ -1042,4 +1043,22 @@ exports.checkExistedBankAccountNumber = function (bankAccountNumber, callback) {
            }
        }
     });
+};
+
+exports.updateBankInfoExisted = function (bankInfoUpdate) {
+		var where = {
+			'where' : {'id' : bankInfoUpdate.id}
+		};
+	  app.models.BankInfo.updateAll({
+				where: {
+					id: bankInfoUpdate.id
+				}
+		},bankInfoUpdate, function (err, bankInfo) {
+				if (err) {
+						console.log("err==",err);
+				} else {
+						console.log("bankInfo==",bankInfo);
+				}
+		});
+		// return dbUtil.executeModelFn(app.models.BankInfo, 'updateAll', where, bankInfoUpdate);
 };
