@@ -15,7 +15,7 @@
 				<div class="col">
 					<form id="orderCreateFormId" name="orderCreateForm" novalidate="novalidate">
 						<div class="form-group mb10" ng-class="{ 'has-error' : (orderCreateForm.give.$invalid && !orderCreateForm.give.$pristine) || (orderCreateForm.giveCurrency.$invalid && !orderCreateForm.giveCurrency.$pristine)}">
-							<label class="control-label">Give</label> <span class="asterisk">*</span>
+							<label class="control-label">Buy</label> <span class="asterisk">*</span>
 							<div class="form-inline give-row">
 								<div class="input-group">
 									<input type="text" name="give" class="form-control" ng-model="updateOrder.give" format-currency ng-change="onChangeValue(FIXED_VALUE.GIVE);"  focus-me="focusGive" required>
@@ -39,7 +39,7 @@
 
 						<div class="form-group" ng-class="{ 'has-error' : (orderCreateForm.get.$invalid && !orderCreateForm.get.$pristine) || (orderCreateForm.getCurrency.$invalid && !orderCreateForm.getCurrency.$pristine)}">
 							<div class="mb10">
-								<label class="control-label">Get</label> <span class="asterisk">*</span>
+								<label class="control-label">Sell</label> <span class="asterisk">*</span>
 								<div class="form-inline get-row">
 									<div class="input-group">
 										<input type="text" name="get" class="form-control" ng-model="updateOrder.get" format-currency ng-change="onChangeValue(FIXED_VALUE.GET);" focus-me="focusGet" required>
