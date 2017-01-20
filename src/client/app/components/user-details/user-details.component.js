@@ -231,12 +231,13 @@ angular.module('userDetails').component('userDetails', {
 
                 headers[httpHeader.CONTENT_TYPE] = contentTypes.JSON;
                 headers[httpHeader.AUTHORIZARION] = autheticateType.BEARER + token;
-
+                console.log("resultUser",resultUser);
                 UserDetailsServive.saveUserDetail(resultUser, headers)
                     .then(function (response) {
                         $scope.isEditting = false;
                         if (response.status === GLOBAL_CONSTANT.HTTP_ERROR_STATUS_CODE) {
                             $scope.gifLoading = false;
+													  console.log("response.data.code",response.data.code);
                             if (response.data.code === serverErrors.CANNOT_SET_YOUR_OWN_ROLE) {
                                 $scope.errorSetOwnRole = true;
                             }
@@ -266,6 +267,7 @@ angular.module('userDetails').component('userDetails', {
                             $scope.message = 'Successful: '+ $scope.user.username  + '\'s info has been updated';
                         }
                     }, function (error) {
+											  console.log("error",error);
                         $scope.isEditting = false;
                         $scope.gifLoading = false;
                         $rootScope.error = GLOBAL_CONSTANT.UNKNOWN_ERROR;
