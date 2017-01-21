@@ -13,6 +13,9 @@ angular.module('rateManagement')
                 var backupData = {};
                 $scope.undo = function () {
                     $scope.todayRates = angular.copy(backupData);
+										$scope.mideUsRateChange = 0;
+										$scope.midePoRateChange = 0;
+										$scope.mideEuRateChange = 0;
                 };
 							  $scope.mideUsRateChange = 0;
 							  $scope.midePoRateChange = 0;
