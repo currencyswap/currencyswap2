@@ -46,44 +46,5 @@ module.exports = {
             'postcode': '130634'
         }],
         'groups' : ['{USER}']
-    },
-    'demouser3': {
-        'username': 'siemdt',
-        'fullName': 'siemdam',
-        'birthday' : '2016-10-01',
-        'registeredDate' : '2016-11-29',
-        'expiredDate': exp,
-        'email': 'siemdt@vsii.com',
-        'password': 'qwerty12',
-        'status' : 'Activated',
-        'addresses' : [{
-            'address' : '6th Floor, Building 15 Pham Hung Road, Tu Liem Dist',
-            'city' : 'Hanoi',
-            'country' : 'Vietnam',
-            'postcode': '130634'
-        }],
-        'groups' : ['{USER}']
-    },
-    'superadmin2': {
-        'username': 'admin2',
-        'fullName': 'Administrator2',
-        'email': 'admin2@vsii.com',
-        'birthday' : '2016-10-13',
-        'registeredDate' : '2016-11-29',
-        'expiredDate' : '2056-12-31',
-        'password': 'p@55word',
-        'status' : 'Activated',
-        'groups' : ['{ADMIN}']
-    },
-    'superadmin3': {
-        'username': 'admin3',
-        'fullName': 'Administrator3',
-        'email': 'admin3@vsii.com',
-        'birthday' : '2016-10-13',
-        'registeredDate' : '2016-11-29',
-        'expiredDate' : '2056-12-31',
-        'password': 'p@55word',
-        'status' : 'Activated',
-        'groups' : ['{ADMIN}']
     }
 };
