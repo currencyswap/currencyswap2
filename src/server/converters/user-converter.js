@@ -20,6 +20,7 @@ exports.convertUserToUserJSON = function (user) {
         expiredDate: userJSON.expiredDate ? dateFormat(userJSON.expiredDate, appConfig.DATE_FORMAT) : null,
         isBlocked: userJSON.isBlocked,
         isActivated: userJSON.isActivated,
+        isSupperAdmin : userJSON.isSupperAdmin,
         addresses: []
     };
 

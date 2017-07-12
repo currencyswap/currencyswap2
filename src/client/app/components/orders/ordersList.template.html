@@ -31,8 +31,8 @@
 									<td class="col-sm-1 order-item-content"><a href="/#!/orders/{{swappingOrder.code}}">{{swappingOrder.code}}</a></td>
 									<td class="col-sm-1 order-item-content order-date">{{swappingOrder.created | filterDate}}</td>
 									<td class="col-sm-1 order-item-content order-date">{{swappingOrder.updated | filterDate}}</td>
-									<td class="col-sm-1 order-item-content">{{swappingOrder.get | filterCurrency}} {{swappingOrder.getCurrency.code}}</td>
-									<td class="col-sm-1 order-item-content">{{swappingOrder.give | filterCurrency}} {{swappingOrder.giveCurrency.code}}</td>
+									<td class="col-sm-1 order-item-content">{{swappingOrder.get }} {{swappingOrder.getCurrency.code}}</td>
+									<td class="col-sm-1 order-item-content">{{swappingOrder.give }} {{swappingOrder.giveCurrency.code}}</td>
 									<td class="col-sm-1 order-item-content">{{swappingOrder.rate | filterRate}}</td>
 									
 									<td class="col-sm-1 order-item-content">{{swappingOrder.owner.username}}</td>
@@ -72,8 +72,8 @@
 									<td class="col-sm-1 order-item-content"><a href="/#!/orders/{{confirmOrder.code}}/">{{confirmOrder.code}}</a></td>
 									<td class="col-sm-1 order-item-content order-date">{{confirmOrder.created | filterDate}}</td>
 									<td class="col-sm-1 order-item-content order-date" >{{confirmOrder.updated | filterDate}}</td>
-									<td class="col-sm-1 order-item-content">{{confirmOrder.get | filterCurrency}} {{confirmOrder.getCurrency.code}}</td>
-									<td class="col-sm-1 order-item-content">{{confirmOrder.give | filterCurrency}} {{confirmOrder.giveCurrency.code}}</td>
+									<td class="col-sm-1 order-item-content">{{confirmOrder.get }} {{confirmOrder.getCurrency.code}}</td>
+									<td class="col-sm-1 order-item-content">{{confirmOrder.give }} {{confirmOrder.giveCurrency.code}}</td>
 									<td class="col-sm-1 order-item-content">{{confirmOrder.rate | filterRate}}</td>
 									
 									<td class="col-sm-1 order-item-content">{{confirmOrder.owner.username}}</td>
@@ -120,8 +120,8 @@
 									<td class="col-sm-1 order-item-content"><a href="/#!/orders/{{submittedOrder.code}}">{{submittedOrder.code}}</a></td>
 									<td class="col-sm-1 order-item-content order-date">{{submittedOrder.created | filterDate}}</td>
 									<td class="col-sm-1 order-item-content order-date">{{submittedOrder.expired | filterDate}}</td>
-									<td class="col-sm-1 order-item-content">{{submittedOrder.get | filterCurrency}} {{submittedOrder.getCurrency.code}}</td>
-									<td class="col-sm-1 order-item-content">{{submittedOrder.give | filterCurrency}} {{submittedOrder.giveCurrency.code}}</td>
+									<td class="col-sm-1 order-item-content">{{submittedOrder.get }} {{submittedOrder.getCurrency.code}}</td>
+									<td class="col-sm-1 order-item-content">{{submittedOrder.give }} {{submittedOrder.giveCurrency.code}}</td>
 									<td class="col-sm-1 order-item-content">{{submittedOrder.rate | filterRate}}</td>
 									<td class="col-sm-1 order-item-content order-status-{{submittedOrder.statusId}}">{{submittedOrder.status.name}}</td>
 									<td class="col-sm-2">

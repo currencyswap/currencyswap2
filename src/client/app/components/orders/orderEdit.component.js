@@ -156,8 +156,8 @@ angular.module('orders')
         		$scope.onChangeValue = function(fieldChange){
         			var NUMBER_FOR_CONVERT = 10000000;
         			
-        			var get = parseInt($scope.updateOrder.get);
-        			var give = parseInt($scope.updateOrder.give);
+        			var get = parseFloat($scope.updateOrder.get);
+        			var give = parseFloat($scope.updateOrder.give);
         			var rate = parseFloat($scope.updateOrder.rate);
         			
         			if(rate > 0){

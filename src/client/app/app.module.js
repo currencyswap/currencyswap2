@@ -392,24 +392,18 @@ angular.module('currencySwapApp', [
                     elem.val(viewValue);
                 }
 
-                //console.log("viewValue : " + viewValue);
-
-                //var plainNumber = viewValue.replace(/[^\d|\-+|\.+]/g, '');
                 var plainNumber = viewValue.replace(/[^\d|\.+]/g, '');
+                if ( plainNumber.indexOf('.') == 0) {
+                    plainNumber = '0' + plainNumber;
+                }
 
-                var isNumber = isNaN(plainNumber);
-
-                //check isNumber
-                if (isNumber || parseInt(plainNumber) <= 0 || plainNumber.indexOf("-") > -1 || plainNumber.indexOf(".") > -1) {
+                if ( validator.isEmpty( plainNumber ) || !validator.isDecimal( plainNumber ) ) {
                     ctrl.$setValidity('numberValied', false);
                 } else {
                     ctrl.$setValidity('numberValied', true);
+                    elem.val(plainNumber);
+                    return plainNumber;
 
-                    var value = $filter(format)(plainNumber, symbol, fractionSize);
-                    elem.val(value);
-
-                    var result = value.replace(/[^\d|\.+]/g, '');
-                    return result;
                 }
             });
         }

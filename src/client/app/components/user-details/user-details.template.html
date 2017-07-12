@@ -102,7 +102,7 @@
 
                             <div class="form-group" ng-class="{ 'has-error' : errorSetOwnRole }">
                                 <label class="control-label">Set Role</label>
-                                <select name="singleSelect" ng-model="groupMember" class="form-control" ng-change="changeRole()">
+                                <select name="singleSelect" ng-model="groupMember" class="form-control" ng-change="changeRole()" ng-disabled="user.isSuperAdmin">
                                     <option value="Standard Member">Standard Member</option>
                                     <option value="Admin">Admin</option>
                                 </select>

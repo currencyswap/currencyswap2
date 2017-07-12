@@ -1,5 +1,4 @@
-<link rel="stylesheet"
-	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
 <div class="createOrderPanel">
 	<div class="panel panel-default">
@@ -16,60 +15,61 @@
 					<form id="orderCreateFormId" name="orderCreateForm" novalidate="novalidate">
 						<div class="form-group mb10" ng-class="{ 'has-error' : (orderCreateForm.give.$invalid && !orderCreateForm.give.$pristine) || (orderCreateForm.giveCurrency.$invalid && !orderCreateForm.giveCurrency.$pristine)}">
 							<label class="control-label">Buy</label> <span class="asterisk">*</span>
-							<div class="form-inline give-row">
+							<div class="form-inline get-row">
 								<div class="input-group">
-									<input type="text" name="give" class="form-control" ng-model="updateOrder.give" format-currency ng-change="onChangeValue(FIXED_VALUE.GIVE);"  focus-me="focusGive" required>
+									<input type="text" name="get" class="form-control" ng-model="updateOrder.get" format-currency ng-change="onChangeValue(FIXED_VALUE.GET);"
+									 focus-me="focusGet" required>
 								</div>
 								<div class="input-group">
-									<select name="giveCurrency" ng-model="updateOrder.giveCurrencyCode" class="form-control" ng-change="currencyChange()" required>
-										<option ng-repeat="currency in currencies" value="{{currency.code}}">{{currency.code}} - {{currency.name}}</option>
-									</select>
+									<select name="getCurrency" ng-model="updateOrder.getCurrencyCode" class="form-control" ng-change="currencyChange()" required>
+											<option ng-repeat="currency in currencies" value="{{currency.code}}">{{currency.code}} - {{currency.name}}</option>
+										</select>
 								</div>
 								<div class="input-group">
 									<div class="form-group">
-										<label class="radio-inline"> <input type="radio" name="fixed" ng-model="updateOrder.fixed" value="{{FIXED_VALUE.GIVE}}">
-											Fixed
-										</label>
+										<label class="radio-inline"> <input type="radio" name="fixed" ng-model="updateOrder.fixed" value="{{FIXED_VALUE.GET}}">
+												Fixed
+											</label>
 									</div>
 								</div>
-								<p ng-show="orderCreateForm.give.$invalid && !orderCreateForm.give.$pristine" class="help-block ">Give is invalid integer number.</p>
-								<p ng-show="orderCreateForm.giveCurrency.$invalid && !orderCreateForm.giveCurrency.$pristine" class="help-block ">Give currency is invalid.</p>
 							</div>
 						</div>
 
 						<div class="form-group" ng-class="{ 'has-error' : (orderCreateForm.get.$invalid && !orderCreateForm.get.$pristine) || (orderCreateForm.getCurrency.$invalid && !orderCreateForm.getCurrency.$pristine)}">
 							<div class="mb10">
 								<label class="control-label">Sell</label> <span class="asterisk">*</span>
-								<div class="form-inline get-row">
+								<div class="form-inline give-row">
 									<div class="input-group">
-										<input type="text" name="get" class="form-control" ng-model="updateOrder.get" format-currency ng-change="onChangeValue(FIXED_VALUE.GET);" focus-me="focusGet" required>
+										<input type="text" name="give" class="form-control" ng-model="updateOrder.give" format-currency ng-change="onChangeValue(FIXED_VALUE.GIVE);"
+										 focus-me="focusGive" required>
 									</div>
 									<div class="input-group">
-										<select name="getCurrency" ng-model="updateOrder.getCurrencyCode" class="form-control" ng-change="currencyChange()" required>
-											<option ng-repeat="currency in currencies" value="{{currency.code}}">{{currency.code}} - {{currency.name}}</option>
-										</select>
+										<select name="giveCurrency" ng-model="updateOrder.giveCurrencyCode" class="form-control" ng-change="currencyChange()" required>
+										<option ng-repeat="currency in currencies" value="{{currency.code}}">{{currency.code}} - {{currency.name}}</option>
+									</select>
 									</div>
 									<div class="input-group">
 										<div class="form-group">
-											<label class="radio-inline"> <input type="radio" name="fixed" ng-model="updateOrder.fixed" value="{{FIXED_VALUE.GET}}">
-												Fixed
-											</label>
+											<label class="radio-inline"> <input type="radio" name="fixed" ng-model="updateOrder.fixed" value="{{FIXED_VALUE.GIVE}}">
+											Fixed
+										</label>
 										</div>
 									</div>
+									<p ng-show="orderCreateForm.give.$invalid && !orderCreateForm.give.$pristine" class="help-block ">Give is invalid integer number.</p>
+									<p ng-show="orderCreateForm.giveCurrency.$invalid && !orderCreateForm.giveCurrency.$pristine" class="help-block ">Give currency is invalid.</p>
 								</div>
 								<p ng-show="orderCreateForm.get.$invalid && !orderCreateForm.get.$pristine" class="help-block ">Get is invalid integer number.</p>
 								<p ng-show="orderCreateForm.getCurrency.$invalid && !orderCreateForm.getCurrency.$pristine" class="help-block ">Get currency is invalid.</p>
 							</div>
 						</div>
 
-						<div class="form-group"
-							ng-class="{ 'has-error' : (orderCreateForm.rate.$invalid && !orderCreateForm.rate.$pristine) || (orderCreateForm.rateCurrency.$invalid && !orderCreateForm.rateCurrency.$pristine)}">
+						<div class="form-group" ng-class="{ 'has-error' : (orderCreateForm.rate.$invalid && !orderCreateForm.rate.$pristine) || (orderCreateForm.rateCurrency.$invalid && !orderCreateForm.rateCurrency.$pristine)}">
 							<div class="mb10">
-								<label class="control-label">Rate</label> <span
-									class="asterisk">*</span>
+								<label class="control-label">Rate</label> <span class="asterisk">*</span>
 								<div class="form-inline rate-row">
 									<div class="input-group">
-										<input type="number" name="rate" class="form-control" ng-model="updateOrder.rate" format-rate ng-change="onChangeValue(FIXED_VALUE.RATE);" focus-me="focusRate" required>
+										<input type="number" name="rate" class="form-control" ng-model="updateOrder.rate" format-rate ng-change="onChangeValue(FIXED_VALUE.RATE);"
+										 focus-me="focusRate" required>
 									</div>
 									<div class="input-group">
 										<div class="form-group">
@@ -107,7 +107,7 @@
 						<div class="form-group has-error" ng-show="checkEqualCurrency() && (!orderCreateForm.giveCurrency.$pristine || !orderCreateForm.getCurrency.$pristine)">
 							<p class="help-block">Give currency can not equal get currency.</p>
 						</div>
-						
+
 						<div class="form-group has-error" ng-show="!checkValiedValue() && (!orderCreateForm.give.$pristine || !orderCreateForm.get.$pristine || !orderCreateForm.rate.$pristine)">
 							<p class="help-block">Value number can not less than or equal 0</p>
 						</div>
@@ -121,11 +121,11 @@
 				<div class="row">
 					<div class="row mb10">
 						<div class="col">
-							<button class="btn btn-primary btn-md nomagin" ng-disabled="orderCreateForm.$invalid || checkEqualCurrency() || !checkValiedValue()" 
-								ng-click="onSubmit();" ng-disabled="submitLoading">Save</button>
+							<button class="btn btn-primary btn-md nomagin" ng-disabled="orderCreateForm.$invalid || checkEqualCurrency() || !checkValiedValue()"
+							 ng-click="onSubmit();" ng-disabled="submitLoading">Save</button>
 						</div>
 					</div>
-					
+
 					<div class="row submit-error" align="center" ng-show="hasError">
 						{{errorMessage}}
 					</div>

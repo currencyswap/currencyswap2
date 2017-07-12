@@ -65,6 +65,11 @@
       "type": "string",
       "length": 128,
       "required": true
+    },
+    "isSuperAdmin" : {
+      "type": "boolean",
+      "required": true,
+      "default": false
     }
   },
   "validations": [],
